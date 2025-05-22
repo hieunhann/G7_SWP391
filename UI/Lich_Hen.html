@@ -106,11 +106,11 @@
   <button onclick="submitBooking()">Đặt lịch</button>
 
   <script>
-    // Danh sách nhân viên mẫu
+    // Danh sách nhân viên mẫu (thêm trường specialty)
     const staffData = [
-      { id: 1, name: "Nguyễn Văn A", img: "https://randomuser.me/api/portraits/men/32.jpg" },
-      { id: 2, name: "Trần Thị B", img: "https://randomuser.me/api/portraits/women/44.jpg" },
-      { id: 3, name: "Lê Văn C", img: "https://randomuser.me/api/portraits/men/65.jpg" }
+      { id: 1, name: "Nguyễn Văn A", img: "https://randomuser.me/api/portraits/men/32.jpg", specialty: "Tư vấn tâm lý, cai nghiện" },
+      { id: 2, name: "Trần Thị B", img: "https://randomuser.me/api/portraits/women/44.jpg", specialty: "Tư vấn gia đình, hỗ trợ pháp lý" },
+      { id: 3, name: "Lê Văn C", img: "https://randomuser.me/api/portraits/men/65.jpg", specialty: "Tư vấn sức khỏe, phục hồi chức năng" }
     ];
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -146,14 +146,15 @@
           staffDiv.style.cursor = "pointer";
           staffDiv.style.textAlign = "center";
           staffDiv.innerHTML = `
-            <img src="${staff.img}" alt="${staff.name}" style="width:60px;height:60px;border-radius:50%;border:2px solid #007bff;">
+            <img src="${staff.img}" alt="${staff.name}" 
+                 style="width:60px;height:60px;border-radius:50%;border:2px solid #007bff;"
+                 title="${staff.specialty}">
             <div style="margin-top:5px;">${staff.name}</div>
           `;
           staffDiv.addEventListener("click", () => {
             document.querySelectorAll('.staff').forEach(s => s.style.border = "none");
             staffDiv.style.border = "2px solid #28a745";
             staffDiv.setAttribute("data-selected", "true");
-            // Đánh dấu đã chọn
             document.querySelectorAll('.staff').forEach(s => s.classList.remove('selected'));
             staffDiv.classList.add('selected');
           });
