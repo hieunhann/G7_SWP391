@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đặt lịch hẹn</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 20px;
+    }
+
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .slot {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+
+    .slot:hover {
+      background-color: #f0f8ff;
+    }
+
+    .slot.selected {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+    <!-- HEADER -->
+<header style="background-color: #004080; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
+  <div style="font-size: 24px; font-weight: bold;">
+    Phòng Chống Ma Túy
+  </div>
+  <nav style="display: flex; gap: 20px; font-size: 16px;">
+    <a href="index.html" style="color: white; text-decoration: none;">Trang chủ</a>
+    <a href="about.html" style="color: white; text-decoration: none;">Giới thiệu</a>
+    <a href="courses.html" style="color: white; text-decoration: none;">Khóa học</a>
+    <a href="survey.html" style="color: white; text-decoration: none;">Khảo sát</a>
+    <a href="blog.html" style="color: white; text-decoration: none;">Blog</a>
+    <a href="appointments.html" style="color: white; text-decoration: none;">Lịch hẹn</a>
+  </nav>
+</header>
+
+
+  <h1>Đặt lịch hẹn với chuyên viên tư vấn</h1>
+
+  <label for="date"  >Chọn ngày:</label>
+  <input type="date" id="date" name="date" />
+
+  <label>Chọn khung giờ (30 phút/lượt):</label>
+  <div class="time-slots" id="slots">
+    <!-- Các khung giờ sẽ được thêm bằng JavaScript -->
+  </div>
+
+  <button onclick="submitBooking()">Đặt lịch</button>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const slotsContainer = document.getElementById("slots");
+      const startHour = 8;
+      const endHour = 17;
+      const timeSlots = [];
+
+      for (let hour = startHour; hour < endHour; hour++) {
+        timeSlots.push(`${String(hour).padStart(2, '0')}:00`);
+        timeSlots.push(`${String(hour).padStart(2, '0')}:30`);
+      }
+
+      timeSlots.forEach(time => {
+        const div = document.createElement("div");
+        div.className = "slot";
+        div.textContent = time;
+        div.addEventListener("click", () => {
+          document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+          div.classList.add('selected');
+        });
+        slotsContainer.appendChild(div);
+      });
+    });
+
+    function submitBooking() {
+      const selectedDate = document.getElementById("date").value;
+      const selectedSlot = document.querySelector(".slot.selected");
+      if (!selectedDate || !selectedSlot) {
+        alert("Vui lòng chọn ngày và giờ hẹn.");
+        return;
+      }
+
+      const selectedTime = selectedSlot.textContent;
+      alert(`📅 Bạn đã đặt lịch vào lúc ${selectedTime} ngày ${selectedDate}`);
+
+      // TODO: Gửi dữ liệu về server
+    }
+  </script>
+
+</body>
+</html>
