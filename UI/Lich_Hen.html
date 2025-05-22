@@ -57,6 +57,15 @@
       border: none;
       border-radius: 6px;
     }
+
+    .staff {
+      border: 2px solid transparent;
+      transition: border 0.3s;
+    }
+
+    .staff.selected {
+      border-color: #28a745;
+    }
   </style>
 </head>
 <body>
@@ -72,14 +81,22 @@
     <a href="survey.html" style="color: white; text-decoration: none;">Khảo sát</a>
     <a href="blog.html" style="color: white; text-decoration: none;">Blog</a>
     <a href="appointments.html" style="color: white; text-decoration: none;">Lịch hẹn</a>
+    
   </nav>
 </header>
 
 
   <h1>Đặt lịch hẹn với chuyên viên tư vấn</h1>
 
-  <label for="date"  >Chọn ngày:</label>
+  <label for="date">Chọn ngày:</label>
   <input type="date" id="date" name="date" />
+
+  <div id="staff-section" style="display:none;">
+    <label>Chọn nhân viên tư vấn:</label>
+    <div id="staff-list" style="display: flex; gap: 20px; margin-top: 10px;">
+      <!-- Nhân viên sẽ được thêm bằng JavaScript -->
+    </div>
+  </div>
 
   <label>Chọn khung giờ (30 phút/lượt):</label>
   <div class="time-slots" id="slots">
@@ -89,6 +106,13 @@
   <button onclick="submitBooking()">Đặt lịch</button>
 
   <script>
+    // Danh sách nhân viên mẫu
+    const staffData = [
+      { id: 1, name: "Nguyễn Văn A", img: "https://randomuser.me/api/portraits/men/32.jpg" },
+      { id: 2, name: "Trần Thị B", img: "https://randomuser.me/api/portraits/women/44.jpg" },
+      { id: 3, name: "Lê Văn C", img: "https://randomuser.me/api/portraits/men/65.jpg" }
+    ];
+
     document.addEventListener("DOMContentLoaded", () => {
       const slotsContainer = document.getElementById("slots");
       const startHour = 8;
@@ -110,18 +134,47 @@
         });
         slotsContainer.appendChild(div);
       });
+
+      // Hiển thị nhân viên khi chọn ngày
+      document.getElementById("date").addEventListener("change", () => {
+        const staffSection = document.getElementById("staff-section");
+        const staffList = document.getElementById("staff-list");
+        staffList.innerHTML = "";
+        staffData.forEach(staff => {
+          const staffDiv = document.createElement("div");
+          staffDiv.className = "staff";
+          staffDiv.style.cursor = "pointer";
+          staffDiv.style.textAlign = "center";
+          staffDiv.innerHTML = `
+            <img src="${staff.img}" alt="${staff.name}" style="width:60px;height:60px;border-radius:50%;border:2px solid #007bff;">
+            <div style="margin-top:5px;">${staff.name}</div>
+          `;
+          staffDiv.addEventListener("click", () => {
+            document.querySelectorAll('.staff').forEach(s => s.style.border = "none");
+            staffDiv.style.border = "2px solid #28a745";
+            staffDiv.setAttribute("data-selected", "true");
+            // Đánh dấu đã chọn
+            document.querySelectorAll('.staff').forEach(s => s.classList.remove('selected'));
+            staffDiv.classList.add('selected');
+          });
+          staffList.appendChild(staffDiv);
+        });
+        staffSection.style.display = "block";
+      });
     });
 
     function submitBooking() {
       const selectedDate = document.getElementById("date").value;
       const selectedSlot = document.querySelector(".slot.selected");
-      if (!selectedDate || !selectedSlot) {
-        alert("Vui lòng chọn ngày và giờ hẹn.");
+      const selectedStaff = document.querySelector(".staff.selected");
+      if (!selectedDate || !selectedSlot || !selectedStaff) {
+        alert("Vui lòng chọn ngày, giờ và nhân viên tư vấn.");
         return;
       }
 
       const selectedTime = selectedSlot.textContent;
-      alert(`📅 Bạn đã đặt lịch vào lúc ${selectedTime} ngày ${selectedDate}`);
+      const staffName = selectedStaff.querySelector("div").textContent;
+      alert(`📅 Bạn đã đặt lịch với ${staffName} vào lúc ${selectedTime} ngày ${selectedDate}`);
 
       // TODO: Gửi dữ liệu về server
     }
