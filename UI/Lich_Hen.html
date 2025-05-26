@@ -39,6 +39,7 @@
 
     .slot:hover {
       background-color: #f0f8ff;
+      
     }
 
     .slot.selected {
@@ -106,12 +107,20 @@
   <button onclick="submitBooking()">Đặt lịch</button>
 
   <script>
-    // Danh sách nhân viên mẫu (thêm trường specialty)
+    // Danh sách 5 nhân viên mẫu
     const staffData = [
-      { id: 1, name: "Nguyễn Văn A", img: "https://randomuser.me/api/portraits/men/32.jpg", specialty: "Tư vấn tâm lý, cai nghiện" },
-      { id: 2, name: "Trần Thị B", img: "https://randomuser.me/api/portraits/women/44.jpg", specialty: "Tư vấn gia đình, hỗ trợ pháp lý" },
-      { id: 3, name: "Lê Văn C", img: "https://randomuser.me/api/portraits/men/65.jpg", specialty: "Tư vấn sức khỏe, phục hồi chức năng" }
+      { id: 1, name: "Tạ Hiểu Nhân", img: "https://randomuser.me/api/portraits/men/32.jpg", specialty: "Tư vấn tâm lý, cai nghiện" },
+      { id: 2, name: "Trần Tiến Hùng", img: "https://randomuser.me/api/portraits/men/44.jpg", specialty: "Tư vấn gia đình, hỗ trợ pháp lý" },
+      { id: 3, name: "Nguyễn Hữu Đạt", img: "https://randomuser.me/api/portraits/men/65.jpg", specialty: "Tư vấn sức khỏe, phục hồi chức năng" },
+      { id: 4, name: "Nguyễn Minh Nguyên", img: "https://randomuser.me/api/portraits/men/68.jpg", specialty: "Tư vấn học đường, trẻ vị thành niên" },
+      { id: 5, name: "Huỳnh Tấn Dương", img: "https://randomuser.me/api/portraits/men/77.jpg", specialty: "Tư vấn pháp luật, xã hội" }
     ];
+
+    // Hàm chọn ngẫu nhiên n phần tử từ mảng
+    function getRandomStaff(arr, n) {
+      const shuffled = arr.slice().sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, n);
+    }
 
     document.addEventListener("DOMContentLoaded", () => {
       const slotsContainer = document.getElementById("slots");
@@ -140,7 +149,11 @@
         const staffSection = document.getElementById("staff-section");
         const staffList = document.getElementById("staff-list");
         staffList.innerHTML = "";
-        staffData.forEach(staff => {
+
+        // Lấy ngẫu nhiên 4 nhân viên cho ngày đã chọn
+        const availableStaff = getRandomStaff(staffData, 4);
+
+        availableStaff.forEach(staff => {
           const staffDiv = document.createElement("div");
           staffDiv.className = "staff";
           staffDiv.style.cursor = "pointer";
