@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: #f7f9fa;
+    .table-row { 
+    
+    color: black;
+}
+
+
+.table {
+  width: 600px;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.table th, .table td {
+  padding: 12px 52px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+   white-space: nowrap; 
+   /* không cho xuống hàng */
+}
+
+.table th {
+  background: #1976d2;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+}
