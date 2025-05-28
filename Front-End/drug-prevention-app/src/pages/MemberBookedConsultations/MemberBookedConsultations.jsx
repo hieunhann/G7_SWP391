@@ -1,55 +1,70 @@
 import "./MemberBookedConsultations.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ButonMemberBooked from "../../components/ButonMemberBooked/ButonMemberBooked.jsx";
+import dataJson from "../../data/data.json";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 const MemberBookedConsultations = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(dataJson.booked);
+  }, []);
+
+  // Hàm lấy thông tin consultant theo tên
+  const getConsultantInfo = (name) => {
+    return dataJson.consultants.find((c) => c.name === name) || {};
+  };
+
+  const handleCancel = (id) => {
+    setData((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
-    <div className="container">
+    <div className="member-book-container">
+      <p className="page-title">My Booking</p>
+
       <table className="table">
         <thead>
           <tr className="table-header">
             <th>STT</th>
-            <th>Chuyên Viên Tư Vấn</th>
-            <th>Tên tư vấn</th>
-            <th>Thời gian</th>
-            <th>Trạng thái</th>
-            <th>Hành động</th>
-
+            <th>Consultant</th>
+            <th>Consultation Name</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr className="table-row">
-            <td >1</td>
-            <td>Tạ Hiểu Nhân</td>
-            <td>Tư vấn tâm lý</td>
-            <td>10:00 01/06/2025</td>
-            <td>Đã đặt</td>
-            <td><ButonMemberBooked /></td>
-
-          </tr>
-          <tr className="table-row">
-            <td>2</td>
-            <td>Tạ Hiểu Nhân</td>
-            <td>Tư vấn sức khỏe</td>
-            <td>14:00 03/06/2025</td>
-            <td>Đã xác nhận</td>
-            <td><ButonMemberBooked /></td>
-    
-          </tr>
-          <tr className="table-row">
-            <td>3</td>
-            <td>Tạ Hiểu Nhân</td>
-            <td>Tư vấn pháp lý</td>
-            <td>09:00 05/06/2025</td>
-            <td>Chờ xác nhận</td>
-            <td><ButonMemberBooked /></td>
-
-          </tr>
+          {data.map((item, idx) => {
+            const consultantInfo = getConsultantInfo(item.consultant);
+            return (
+              <tr className="table-row" key={item.id}>
+                <td>{idx + 1}</td>
+                <td>{item.consultant}</td>
+                <td>{item.consultationName}</td>
+                <td>{item.time}</td>
+                <td>{item.status}</td>
+                <td>
+                  <ButonMemberBooked
+                    onCancel={() => handleCancel(item.id)}
+                    consultant={item.consultant}
+                    consultationName={item.consultationName}
+                    time={item.time}
+                    status={item.status}
+                    name={consultantInfo.name}
+                    email={consultantInfo.email}
+                    phone_number={consultantInfo.phone_number}
+                    expertise={consultantInfo.expertise}
+                  />
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
-    
   );
 };
 
