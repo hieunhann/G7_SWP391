@@ -1,0 +1,33 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0px;
+  width: 100vw;
+  background-color: #015db9;
+  color: white;
+
+  .title {
+    font-size: 1.75em;
+    font-weight: bold;
+    flex: 2;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 47px;
+    flex: 3;
+    padding: 0px 20px;
+    justify-content: flex-end;
+    .nav-items {
+      text-decoration: none;
+      color: white;
+    }
+
+    .active-item {
+      font-weight: bold;
+      color: red;
+     
+    }
+  }
+}
