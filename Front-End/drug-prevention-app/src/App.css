@@ -2,6 +2,10 @@
   margin: 0 auto;
   text-align: center;
 }
+.content-container {
+  height: 93vh !important;
+  overflow: auto;
+} 
 .app-container {
   display: flex;
   flex-direction: column;

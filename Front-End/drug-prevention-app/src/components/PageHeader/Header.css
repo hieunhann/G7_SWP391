@@ -1,4 +1,4 @@
-/* Tổng thể header */
+/* Header.css */
 .header-container {
   display: flex;
   align-items: center;
@@ -9,6 +9,21 @@
   color: #fff;
   box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+ height: 7vh !important;
+
+}
+.header-container {
+    display: flex
+;
+    height: 7vh;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    width: 100vw;
+    background-color: #0056a3;
+    color: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Tiêu đề hệ thống */
@@ -52,8 +67,8 @@
 
 /* Mục đang active (trang hiện tại) */
 .active-item {
-  background-color: antiquewhite;
-  color: #3bb5e5;
+  background-color: #223890;
+  color: white;
   font-weight: 700;
   transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);

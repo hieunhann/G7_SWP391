@@ -29,12 +29,29 @@ const Header = () => {
     <div className="header-container">
       <div className="title">Drug Use Prevention Support System</div>
       <div className="nav-links">
-        <NavLink className="nav-items" to="/">Home</NavLink>
-        <NavLink className="nav-items" to="/courses">Courses</NavLink>
-        <NavLink className="nav-items" to="/surveys">Surveys</NavLink>
-        <NavLink className="nav-items" to="/booking">Book Appointment</NavLink>
+        <NavLink className="nav-items" to="/">
+          Home
+        </NavLink>
+        <NavLink className="nav-items" to="/courses">
+          Courses
+        </NavLink>
+
         <NavLink
-          className={({ isActive }) => `nav-items ${isActive ? "active-item" : ""}`}
+          className={({ isActive }) =>
+            `nav-items ${isActive ? "active-item" : ""}`
+          }
+          to="/Surveys"
+        >
+          Surveys
+        </NavLink>
+
+        <NavLink className="nav-items" to="/booking">
+          Book Appointment
+        </NavLink>
+        <NavLink
+          className={({ isActive }) =>
+            `nav-items ${isActive ? "active-item" : ""}`
+          }
           to="/booked-consultations"
         >
           My Schedule
@@ -52,13 +69,17 @@ const Header = () => {
         ) : (
           <>
             <NavLink
-              className={({ isActive }) => `nav-items ${isActive ? "active-item" : ""}`}
+              className={({ isActive }) =>
+                `nav-items ${isActive ? "active-item" : ""}`
+              }
               to="/login"
             >
               Sign In
             </NavLink>
             <NavLink
-              className={({ isActive }) => `nav-items ${isActive ? "active-item" : ""}`}
+              className={({ isActive }) =>
+                `nav-items ${isActive ? "active-item" : ""}`
+              }
               to="/register"
             >
               Sign Up

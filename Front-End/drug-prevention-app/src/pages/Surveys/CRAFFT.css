@@ -1,0 +1,50 @@
+.crafft-page-title {
+  padding: 5vh 0vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background: #faf7f8; */
+  flex-flow: column;
+  justify-content: start;
+  color: #2751ef;
+}
+
+.crafft-page-title h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.crafft-card {
+  border: 2px solid #007bff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: #1e588f;
+  color: white;
+}
+
+.crafft-card-body {
+  padding: 2rem;
+}
+
+.mt-4 {
+  margin-top: -0.5rem !important;
+}
+.crafft-btn {
+  background: #007bff;
+  border: none;
+  font-weight: bold;
+  padding: 0.5rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.crafft-btn:hover {
+  background: #0056b3;
+}
+
+.crafft-form-check-input:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}

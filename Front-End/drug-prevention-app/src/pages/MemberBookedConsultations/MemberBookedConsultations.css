@@ -1,10 +1,12 @@
 .member-book-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  /* background: #faf7f8; */
-  flex-flow: column;
+    padding: 2vh 4vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    /* background: #faf7f8; */
+    flex-flow: column;
+    justify-content: start;
 }
 .page-title {
   font-size: 24px;
