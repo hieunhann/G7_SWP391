@@ -168,5 +168,34 @@
 
     { "ID": 11, "Question_id": 6, "Choice_text": "Yes", "Score": 1 },
     { "ID": 12, "Question_id": 6, "Choice_text": "No", "Score": 0 }
+  ],
+  "booking_schedule": [
+    {
+      "id": 1,
+      "booking_id": 1,
+      "schedule_id": 101,
+      "status": "Pending",
+      "description": "First booking for psychological counseling.",
+      "created_at": "2025-06-01T08:00:00",
+      "updated_at": "2025-06-01T08:00:00"
+    },
+    {
+      "id": 2,
+      "booking_id": 2,
+      "schedule_id": 102,
+      "status": "Confirmed",
+      "description": "Health counseling session confirmed.",
+      "created_at": "2025-06-03T10:00:00",
+      "updated_at": "2025-06-03T12:00:00"
+    },
+    {
+      "id": 3,
+      "booking_id": 3,
+      "schedule_id": 103,
+      "status": "Completed",
+      "description": "Legal counseling session completed.",
+      "created_at": "2025-06-05T09:00:00",
+      "updated_at": "2025-06-05T10:00:00"
+    }
   ]
 }

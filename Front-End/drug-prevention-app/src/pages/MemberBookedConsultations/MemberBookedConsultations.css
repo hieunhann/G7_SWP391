@@ -31,14 +31,22 @@
   padding: 12px 52px;
   border-bottom: 2px solid #e0e0e0;
   white-space: nowrap; /* không cho xuống hàng */
+  vertical-align: middle !important;
+  text-align: center;
 }
 
 .table th {
-  background: #1976d2 !important;
-  color: #fff !important;
+  /* background: #1976d2 !important; */
+  /* color: #fff !important; */
   text-align: center;
+  font-weight: bold;
 }
 
 .table tr:last-child td {
   border-bottom: none;
+}
+
+.table-primary {
+  background-color: #eaf1fb !important;
+  color: #1a237e;
 }

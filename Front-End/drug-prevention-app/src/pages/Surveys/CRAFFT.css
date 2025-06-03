@@ -16,7 +16,7 @@
 }
 
 .crafft-card {
-  border: 2px solid #007bff;
+  border: 2px solid #1e588f;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   background: #1e588f;
@@ -25,6 +25,7 @@
 
 .crafft-card-body {
   padding: 2rem;
+  background-color: #68a5ff;
 }
 
 .mt-4 {
@@ -40,11 +41,3 @@
   color: #fff;
 }
 
-.crafft-btn:hover {
-  background: #0056b3;
-}
-
-.crafft-form-check-input:checked {
-  background-color: #007bff;
-  border-color: #007bff;
-}

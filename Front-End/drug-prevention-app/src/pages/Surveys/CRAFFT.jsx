@@ -36,11 +36,11 @@ const CRAFFT = () => {
       
       <div className="container mt-4 crafft-container">
         <form onSubmit={handleSubmit}>
-          <div className="crafft-card" style={{ maxWidth: "600px", margin: "0 auto" }}>
+          <div className="crafft-card" style={{ maxWidth: "1500px", margin: "0 auto" }}>
             <div className="crafft-card-body">
               {questions.map((q) => (
                 <div key={q.ID} style={{ marginBottom: 24 }}>
-                  <div style={{ marginBottom: 8, fontWeight: "bold" }}>
+                  <div style={{ marginBottom: 8, fontWeight: "bold" , textAlign: "left" }}>
                     {q.Question_text}
                   </div>
                   <ButtonChecks
@@ -50,6 +50,7 @@ const CRAFFT = () => {
                     onChange={(val) => handleChange(q.ID, val)}
                     inputClass="crafft-form-check-input"
                     labelClass="crafft-form-check-label"
+
                   />
                 </div>
               ))}

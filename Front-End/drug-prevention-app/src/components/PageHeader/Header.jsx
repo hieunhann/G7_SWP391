@@ -11,7 +11,6 @@ const Header = () => {
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
-        console.log("Loaded user:", parsedUser);
         setUser(parsedUser);
       } catch (error) {
         console.error("Invalid user data in localStorage");
@@ -27,7 +26,12 @@ const Header = () => {
 
   return (
     <div className="header-container">
-      <div className="title">Drug Use Prevention Support System</div>
+      <div className="title">
+        <div>Drug Use Prevention</div>
+        <div style={{ fontSize: "1rem", fontWeight: "400" }}>
+          Support System
+        </div>
+      </div>
       <div className="nav-links">
         <NavLink className="nav-items" to="/">
           Home
@@ -35,28 +39,15 @@ const Header = () => {
         <NavLink className="nav-items" to="/courses">
           Courses
         </NavLink>
-
-        <NavLink
-          className={({ isActive }) =>
-            `nav-items ${isActive ? "active-item" : ""}`
-          }
-          to="/Surveys"
-        >
+        <NavLink className="nav-items" to="/surveys">
           Surveys
         </NavLink>
-
         <NavLink className="nav-items" to="/booking">
           Book Appointment
         </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            `nav-items ${isActive ? "active-item" : ""}`
-          }
-          to="/booked-consultations"
-        >
+        <NavLink className="nav-items" to="/booked-consultations">
           My Schedule
         </NavLink>
-
         {user ? (
           <>
             <span className="nav-items user-name">
@@ -68,20 +59,10 @@ const Header = () => {
           </>
         ) : (
           <>
-            <NavLink
-              className={({ isActive }) =>
-                `nav-items ${isActive ? "active-item" : ""}`
-              }
-              to="/login"
-            >
+            <NavLink className="nav-items" to="/login">
               Sign In
             </NavLink>
-            <NavLink
-              className={({ isActive }) =>
-                `nav-items ${isActive ? "active-item" : ""}`
-              }
-              to="/register"
-            >
+            <NavLink className="nav-items" to="/register">
               Sign Up
             </NavLink>
           </>
