@@ -1,0 +1,201 @@
+{
+  "consultants": [
+    {
+      "id": 1,
+      "name": "Ta Hieu Nhan",
+      "email": "hieunhan.ta@example.com",
+      "phone_number": "+84 912345678",
+      "username": "hieunhan",
+      "password": "hashed_password_1",
+      "date_of_birth": "1985-05-10",
+      "role": "Consultant",
+      "expertise": "Psychological Counseling",
+      "created_at": "2024-01-01T09:00:00",
+      "updated_at": "2024-05-01T10:00:00"
+    },
+    {
+      "id": 2,
+      "name": "Trần Tiến Hùng",
+      "email": "tienhung.tran@example.com",
+      "phone_number": "+84 934567890",
+      "username": "tienhung",
+      "password": "hashed_password_2",
+      "date_of_birth": "1980-08-22",
+      "role": "Consultant",
+      "expertise": "Health Counseling",
+      "created_at": "2024-01-05T09:00:00",
+      "updated_at": "2024-05-02T10:00:00"
+    },
+    {
+      "id": 3,
+      "name": "Võ Tuấn Khôi",
+      "email": "tuankhoi.vo@example.com",
+      "phone_number": "+84 976543210",
+      "username": "tuankhoi",
+      "password": "hashed_password_3",
+      "date_of_birth": "1978-12-15",
+      "role": "Consultant",
+      "expertise": "Legal Counseling",
+      "created_at": "2024-01-10T09:00:00",
+      "updated_at": "2024-05-03T10:00:00"
+    }
+  ],
+  "booked": [
+    {
+      "id": 1,
+      "consultant": "Ta Hieu Nhan",
+      "consultationName": "Psychological Counseling",
+      "time": "10:00 01/06/2025",
+      "status": "Booked"
+    },
+    {
+      "id": 2,
+      "consultant": "Trần Tiến Hùng",
+      "consultationName": "Health Counseling",
+      "time": "14:00 03/06/2025",
+      "status": "Confirmed"
+    },
+    {
+      "id": 3,
+      "consultant": "Võ Tuấn Khôi",
+      "consultationName": "Legal Counseling",
+      "time": "09:00 05/06/2025",
+      "status": "Pending Confirmation"
+    },
+    {
+      "id": 4,
+      "consultant": "Ta Hieu Nhan",
+      "consultationName": "Psychological Counseling",
+      "time": "16:00 06/06/2025",
+      "status": "Booked"
+    },
+    {
+      "id": 5,
+      "consultant": "Trần Tiến Hùng",
+      "consultationName": "Health Counseling",
+      "time": "11:00 07/06/2025",
+      "status": "Confirmed"
+    },
+    {
+      "id": 6,
+      "consultant": "Võ Tuấn Khôi",
+      "consultationName": "Legal Counseling",
+      "time": "15:00 08/06/2025",
+      "status": "Booked"
+    },
+    {
+      "id": 7,
+      "consultant": "Ta Hieu Nhan",
+      "consultationName": "Psychological Counseling",
+      "time": "09:00 09/06/2025",
+      "status": "Pending Confirmation"
+    },
+    {
+      "id": 8,
+      "consultant": "Trần Tiến Hùng",
+      "consultationName": "Health Counseling",
+      "time": "13:00 10/06/2025",
+      "status": "Booked"
+    },
+    {
+      "id": 9,
+      "consultant": "Võ Tuấn Khôi",
+      "consultationName": "Legal Counseling",
+      "time": "10:00 11/06/2025",
+      "status": "Confirmed"
+    },
+    {
+      "id": 10,
+      "consultant": "Ta Hieu Nhan",
+      "consultationName": "Psychological Counseling",
+      "time": "14:00 12/06/2025",
+      "status": "Booked"
+    }
+  ],
+  "test_questions": [
+    {
+      "ID": 1,
+      "Category_id": 1,
+      "Question_text": "Have you ever ridden in a car driven by someone (including yourself) who was \"high\" or had been using alcohol or drugs?",
+      "Question_order": 1
+    },
+    {
+      "ID": 2,
+      "Category_id": 1,
+      "Question_text": "Do you ever use alcohol or drugs to relax, feel better about yourself, or fit in?",
+      "Question_order": 2
+    },
+    {
+      "ID": 3,
+      "Category_id": 1,
+      "Question_text": "Do you ever use alcohol or drugs while you are alone?",
+      "Question_order": 3
+    },
+    {
+      "ID": 4,
+      "Category_id": 1,
+      "Question_text": "Do you ever forget things you did while using alcohol or drugs?",
+      "Question_order": 4
+    },
+    {
+      "ID": 5,
+      "Category_id": 1,
+      "Question_text": "Do your family or friends ever tell you that you should cut down on your drinking or drug use?",
+      "Question_order": 5
+    },
+    {
+      "ID": 6,
+      "Category_id": 1,
+      "Question_text": "Have you ever gotten into trouble while you were using alcohol or drugs?",
+      "Question_order": 6
+    }
+  ],
+  "test_choices": [
+    { "ID": 1, "Question_id": 1, "Choice_text": "Yes", "Score": 1 },
+    { "ID": 2, "Question_id": 1, "Choice_text": "No", "Score": 0 },
+
+    { "ID": 3, "Question_id": 2, "Choice_text": "Yes", "Score": 1 },
+    { "ID": 4, "Question_id": 2, "Choice_text": "No", "Score": 0 },
+
+    { "ID": 5, "Question_id": 3, "Choice_text": "Yes", "Score": 1 },
+    { "ID": 6, "Question_id": 3, "Choice_text": "No", "Score": 0 },
+
+    { "ID": 7, "Question_id": 4, "Choice_text": "Yes", "Score": 1 },
+    { "ID": 8, "Question_id": 4, "Choice_text": "No", "Score": 0 },
+
+    { "ID": 9, "Question_id": 5, "Choice_text": "Yes", "Score": 1 },
+    { "ID": 10, "Question_id": 5, "Choice_text": "No", "Score": 0 },
+
+    { "ID": 11, "Question_id": 6, "Choice_text": "Yes", "Score": 1 },
+    { "ID": 12, "Question_id": 6, "Choice_text": "No", "Score": 0 }
+  ],
+  "booking_schedule": [
+    {
+      "id": 1,
+      "booking_id": 1,
+      "schedule_id": 101,
+      "status": "Pending",
+      "description": "First booking for psychological counseling.",
+      "created_at": "2025-06-01T08:00:00",
+      "updated_at": "2025-06-01T08:00:00"
+    },
+    {
+      "id": 2,
+      "booking_id": 2,
+      "schedule_id": 102,
+      "status": "Confirmed",
+      "description": "Health counseling session confirmed.",
+      "created_at": "2025-06-03T10:00:00",
+      "updated_at": "2025-06-03T12:00:00"
+    },
+    {
+      "id": 3,
+      "booking_id": 3,
+      "schedule_id": 103,
+      "status": "Completed",
+      "description": "Legal counseling session completed.",
+      "created_at": "2025-06-05T09:00:00",
+      "updated_at": "2025-06-05T10:00:00"
+    }
+  ]
+}

@@ -1,55 +1,87 @@
 import "./MemberBookedConsultations.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ButonMemberBooked from "../../components/ButonMemberBooked/ButonMemberBooked.jsx";
+import dataJson from "../../data/data.json";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const MemberBookedConsultations = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(dataJson.booked);
+  }, []);
+
+  //    fetch("http://localhost:5002/api/data") // Đổi URL này thành API thật của bạn
+  //     .then((res) => res.json())
+  //     .then((json) => {
+  //       setData(json.booked);
+  //       setConsultants(json.consultants);
+  //     });
+  // }, []);
+  // Lấy thông tin consultant theo tên
+  const getConsultantInfo = (name) => {
+    return dataJson.consultants.find((c) => c.name === name) || {};
+  };
+
+  const handleCancel = (id) => {
+    setData((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
-    <div className="container">
-      <table className="table">
-        <thead>
-          <tr className="table-header">
-            <th>STT</th>
-            <th>Chuyên Viên Tư Vấn</th>
-            <th>Tên tư vấn</th>
-            <th>Thời gian</th>
-            <th>Trạng thái</th>
-            <th>Hành động</th>
+    <div className="member-book-container">
+      <p className="page-title">My Booking</p>
+      <div className="table-responsive">
+        <table className="table table-bordered table-hover">
+          <thead className="table-primary text-center align-middle">
+            <tr>
+              <th>#</th>
+              <th>Consultant Name</th>
+              <th>Consultant Email</th>
+              <th>Consultant Phone</th>
+              <th>Booking Time</th>
+              <th>Consultation Status</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody className="align-middle">
+            {data.map((item, idx) => {
+              const consultantInfo = getConsultantInfo(item.consultant);
+              // Tìm booking_schedule theo booking_id
+              const bookingSchedule = (dataJson.booking_schedule || []).find(
+                (b) => b.booking_id === item.id
+              );
+              const status = bookingSchedule
+                ? bookingSchedule.status
+                : item.status;
 
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="table-row">
-            <td >1</td>
-            <td>Tạ Hiểu Nhân</td>
-            <td>Tư vấn tâm lý</td>
-            <td>10:00 01/06/2025</td>
-            <td>Đã đặt</td>
-            <td><ButonMemberBooked /></td>
-
-          </tr>
-          <tr className="table-row">
-            <td>2</td>
-            <td>Tạ Hiểu Nhân</td>
-            <td>Tư vấn sức khỏe</td>
-            <td>14:00 03/06/2025</td>
-            <td>Đã xác nhận</td>
-            <td><ButonMemberBooked /></td>
-    
-          </tr>
-          <tr className="table-row">
-            <td>3</td>
-            <td>Tạ Hiểu Nhân</td>
-            <td>Tư vấn pháp lý</td>
-            <td>09:00 05/06/2025</td>
-            <td>Chờ xác nhận</td>
-            <td><ButonMemberBooked /></td>
-
-          </tr>
-        </tbody>
-      </table>
+              return (
+                <tr key={item.id}>
+                  <td>{idx + 1}</td>
+                  <td style={{ textAlign: "left" }}>{consultantInfo.name}</td>
+                  <td style={{ textAlign: "left" }}>{consultantInfo.email}</td>
+                  <td style={{ textAlign: "left" }}>{consultantInfo.phone_number}</td>
+                  <td style={{ textAlign: "right" }}>{item.time}</td>
+                  <td style={{ textAlign: "left" }}>{status}</td>
+                  <td>
+                    <ButonMemberBooked
+                      onCancel={() => handleCancel(item.id)}
+                      consultant={item.consultant}
+                      consultationName={item.consultationName}
+                      time={item.time}
+                      status={status}
+                      name={consultantInfo.name}
+                      email={consultantInfo.email}
+                      phone_number={consultantInfo.phone_number}
+                      expertise={consultantInfo.expertise}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
-    
   );
 };
 

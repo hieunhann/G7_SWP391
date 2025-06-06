@@ -1,33 +1,155 @@
+/* Header.css */
 .header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0px;
-  width: 100vw;
-  background-color: #015db9;
+  padding: 16px 32px;
+  width: 100vw ;         
+    height: 15vh;
+  
+  background: linear-gradient(90deg, #004b8d, #0070cc);
+  color: #ffffff;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+/* .header-container {
+  
+    height: 10vh;
+    .header-container {
+      width: 100vw;
+      left: 0;
+      right: 0;
+      position: relative;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+    }    .header-container {
+      width: 100vw;
+      left: 0;
+      right: 0;
+      position: relative;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+    }    width: 100vw;
+    background-color: #0056a3;
+} */
+.title {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Segoe UI", sans-serif;
   color: white;
+  margin-left: 2rem;
+  line-height: 1.2;
+}
 
-  .title {
-    font-size: 1.75em;
-    font-weight: bold;
-    flex: 2;
-  }
+.title > div:first-child {
+  font-size: 1.6rem; /* Tiêu đề chính */
+  font-weight: 700;
+}
 
-  .nav-links {
-    display: flex;
-    gap: 47px;
-    flex: 3;
-    padding: 0px 20px;
-    justify-content: flex-end;
-    .nav-items {
-      text-decoration: none;
-      color: white;
-    }
+.title > div:last-child {
+  font-size: 1rem; /* Phụ đề */
+  font-weight: 400;
+  opacity: 0.9;
+}
 
-    .active-item {
-      font-weight: bold;
-      color: red;
-     
-    }
-  }
+/* Tiêu đề hệ thống */
+.header-container .title {
+  font-size: 1.8em;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+
+/* Điều hướng */
+.header-container .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 2;
+  justify-content: flex-end;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Mục điều hướng chung */
+.nav-items {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-items::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 16px;
+  width: 0%;
+  height: 2px;
+  background-color: #ffda77;
+  transition: width 0.3s ease;
+}
+
+.nav-items:hover::after {
+  width: calc(100% - 32px);
+}
+
+.nav-items:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+  color: #ffebc6;
+}
+
+/* Mục đang active (trang hiện tại) */
+.active-item {
+  background-color: #ffffff;
+  color: #0070cc;
+  font-weight: 700;
+  transform: scale(1.05);
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+}
+
+/* Tên người dùng */
+.user-name {
+  color: #f9f9f9;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-left: 20px;
+}
+
+/* Nút logout */
+.logout-button {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 12px;
+}
+
+.logout-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #004b8d;
+  transform: translateY(-1px);
 }

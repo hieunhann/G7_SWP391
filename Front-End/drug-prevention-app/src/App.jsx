@@ -15,6 +15,8 @@ import "./App.css";
 import Header from "./components/PageHeader/Header";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MemberBookedConsultations from "./pages/MemberBookedConsultations/MemberBookedConsultations";
+import Surveys from "./pages/Surveys/Surveys";
+import CRAFFT from "./pages/Surveys/CRAFFT";
 
 function App() {
   return (
@@ -24,10 +26,9 @@ function App() {
         <div className="content-container">
           <Routes>
             {/* <Route path="/" element={<h1>Home Page</h1>} /> */}
-            <Route
-              path="/booked-consultations"
-              element={<MemberBookedConsultations />}
-            />
+            <Route path="/booked-consultations" element={<MemberBookedConsultations />} />
+            <Route path="/Surveys" element={<Surveys />} />
+            <Route path="/CRAFFT" element={<CRAFFT />} />
           </Routes>
         </div>
       </div>
