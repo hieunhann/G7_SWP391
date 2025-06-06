@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Surveys = () => {
   return (
-    <div className="container mt-4">
+    <div className="container ">
 
       <div className="card card_ASSIST" style={{ width: "18rem" }}>
         <img src="https://iris.who.int/bitstream/handle/10665/44320/9789241599382_eng.pdf.jpg?sequence=40" className="card-img-top" alt="..." />

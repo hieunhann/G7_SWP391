@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import "./ButonMemberBooked.css";
 
-const ButonMemberBooked = ({
+const ButtonMemberBooked = ({
   onCancel,
   consultant,
   status,
@@ -12,12 +12,15 @@ const ButonMemberBooked = ({
 }) => {
   const [showInfo, setShowInfo] = useState(false);
 
-  const handleShow = () => setShowInfo(true);
-  const handleClose = () => setShowInfo(false);
+  
+  const handleCancelAppointment = () => {
+    onCancel();
+    setShowInfo(false);
+  };
 
   return (
     <>
-      <button type="button" className="btn btn-primary" onClick={handleShow}>
+      <button type="button" className="btn btn-primary" onClick={() => setShowInfo(true)}>
         View Details
       </button>
       {showInfo && (
@@ -65,19 +68,16 @@ const ButonMemberBooked = ({
                 <b>Status:</b> {status}
               </li>
             </ul>
-            <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+            <div style={{ display: "flex", gap: 15, marginTop: 16, justifyContent: "centera" }}>
               {status === "Pending" && (
                 <button
                   className="btn btn-danger"
-                  onClick={() => {
-                    onCancel();
-                    handleClose();
-                  }}
+                  onClick={() => handleCancelAppointment()}
                 >
                   Cancel Appointment
                 </button>
               )}
-              <button className="btn btn-secondary" onClick={handleClose}>
+              <button className="btn btn-secondary" onClick={(event) => setShowInfo(false)}>
                 Close
               </button>
             </div>
@@ -88,4 +88,4 @@ const ButonMemberBooked = ({
   );
 };
 
-export default ButonMemberBooked;
+export default ButtonMemberBooked;
