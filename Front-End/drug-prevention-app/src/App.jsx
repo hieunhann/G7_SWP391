@@ -1,10 +1,12 @@
-import { useState } from "react";
 import "./App.css";
-import Header from "./components/Header/Header";
+// package imports
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+// compoment imports
+import Header from "./components/Header/Header";
 import MemberBookedConsultations from "./pages/MemberBookedConsultations/MemberBookedConsultations";
 import Surveys from "./pages/Surveys/Surveys";
 import CRAFFT from "./pages/Surveys/CRAFFT";
+import HomePage from "./pages/HomePage/HomePage";
 
 function App() {
   return (
@@ -13,13 +15,14 @@ function App() {
         <Header />
         <div className="content-container">
           <Routes>
-            {/* <Route path="/" element={<h1>Home Page</h1>} /> */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/Surveys" element={<Surveys />} />
+            <Route path="/CRAFFT" element={<CRAFFT />} />
             <Route
               path="/booked-consultations"
               element={<MemberBookedConsultations />}
             />
-            <Route path="/Surveys" element={<Surveys />} />
-            <Route path="/CRAFFT" element={<CRAFFT />} />
+            <Route path="*" element={<div>404 - Không tìm thấy trang</div>} />
           </Routes>
         </div>
       </div>
