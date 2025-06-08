@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import Header from "./components/PageHeader/Header";
+import Header from "./components/Header/Header";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MemberBookedConsultations from "./pages/MemberBookedConsultations/MemberBookedConsultations";
 import Surveys from "./pages/Surveys/Surveys";
@@ -14,7 +14,10 @@ function App() {
         <div className="content-container">
           <Routes>
             {/* <Route path="/" element={<h1>Home Page</h1>} /> */}
-            <Route path="/booked-consultations" element={<MemberBookedConsultations />} />
+            <Route
+              path="/booked-consultations"
+              element={<MemberBookedConsultations />}
+            />
             <Route path="/Surveys" element={<Surveys />} />
             <Route path="/CRAFFT" element={<CRAFFT />} />
           </Routes>

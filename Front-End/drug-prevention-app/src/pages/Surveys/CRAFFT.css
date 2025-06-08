@@ -1,43 +1,349 @@
-.crafft-page-title {
-  padding: 5vh 0vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* background: #faf7f8; */
-  flex-flow: column;
-  justify-content: start;
-  color: #2751ef;
+/* CRAFFT.css */
+
+/* --- Wrapper cho toàn bộ nội dung test để căn giữa và giới hạn chiều rộng --- */
+.test-wrapper {
+  max-width: 800px; /* Chiều rộng tối đa của toàn bộ bài test */
+  margin: 30px auto; /* Căn giữa và có khoảng cách trên/dưới */
+  padding: 15px; /* Khoảng đệm bên trong wrapper */
+  box-sizing: border-box; /* Đảm bảo padding không làm tràn ra ngoài */
+  font-family: Arial, sans-serif; /* Thêm font chữ cơ bản */
 }
 
-.crafft-page-title h2 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  letter-spacing: 1px;
+/* Định dạng cho box bao tất cả câu hỏi */
+.questions-container {
+  border: 1px solid #d3d3d3; /* Viền màu xám nhạt */
+  border-radius: 8px; /* Bo góc nhẹ */
+  padding: 20px; /* Khoảng đệm bên trong box */
+  margin-bottom: 20px; /* Khoảng cách dưới box */
+  background-color: #f9f9f9; /* Màu nền nhẹ cho box */
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
 }
 
-.crafft-card {
-  border: 2px solid #1e588f;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  background: #1e588f;
+/* Định dạng cho tiêu đề của test */
+.test-title {
+  text-align: center; /* Căn giữa tiêu đề */
+  font-size: 2em; /* Kích thước chữ lớn hơn */
+  color: #333; /* Màu chữ đậm */
+  margin-top: 0; /* Bỏ margin mặc định phía trên */
+  margin-bottom: 30px; /* Khoảng cách dưới tiêu đề */
+  padding-bottom: 15px; /* Padding dưới để tạo khoảng trống với viền */
+  border-bottom: 2px solid #007bff; /* Đường kẻ dưới tiêu đề */
+}
+
+
+/* Định dạng cho các phần A/B */
+.part-section {
+    margin-bottom: 40px; /* Khoảng cách giữa Part A và Part B */
+    padding: 15px;
+    border: 1px dashed #ddd; /* Đường viền mờ cho từng phần */
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.part-title {
+    font-size: 1.4em;
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: left; /* Đảm bảo tiêu đề phần căn trái */
+}
+
+.instruction-text {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+    display: block; /* Đảm bảo chiếm một dòng riêng */
+}
+.instruction-text-inline { /* Dùng cho text trong p như (Put "0" if none.) */
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+    margin-left: 5px; /* Khoảng cách nhỏ với text chính */
+}
+
+.instruction-heading {
+    font-weight: bold;
+    color: #333;
+}
+.instructions-partA {
+    background-color: #eaf6ff;
+    border-left: 5px solid #007bff;
+    padding: 15px;
+    margin-top: 25px;
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #333;
+}
+
+
+/* Định dạng cho khối mỗi câu hỏi riêng lẻ */
+.question-text {
+  margin-bottom: 25px; /* Khoảng cách dưới mỗi câu hỏi để tách biệt */
+  padding-bottom: 15px; /* Thêm padding dưới nếu muốn có khoảng trống bên trong khối câu hỏi */
+  border-bottom: 1px solid #eee; /* Thêm đường kẻ mờ để phân biệt rõ ràng hơn */
+  text-align: left; /* Căn lề trái cho toàn bộ nội dung câu hỏi */
+}
+/* Loại bỏ border-bottom cho câu hỏi cuối cùng của mỗi section */
+.part-section .question-text:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+/* Nếu có các câu hỏi của Part B, chỉ bỏ border-bottom cho câu cuối cùng của Part B */
+.part-section .question-partB:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+
+/* Input cho Part A (số ngày) */
+.input-days-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Căn giữa nội dung trong container này */
+    margin-top: 10px;
+}
+.days-input {
+    width: 80px; /* Kích thước cố định cho ô input số ngày */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    text-align: center; /* Căn giữa số trong ô input */
+}
+.days-label {
+    margin-left: 10px;
+    color: #555;
+}
+
+
+/* Header cho lựa chọn Yes/No ở Part B */
+.choices-header {
+    display: flex;
+    justify-content: flex-end; /* Căn phải để align với các nút */
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #444;
+}
+.choices-header .header-label {
+    width: 60px; /* Căn chỉnh với chiều rộng của nút */
+    text-align: center;
+    margin-left: 4px; /* Phù hợp với margin của button-base */
+}
+
+
+/* Căn giữa các nút đáp án (cho cả Part A và Part B) */
+/* Selector này nhắm vào div trực tiếp chứa các nút trong question-text */
+.question-text > div:not(.input-days-container) { /* Chọn div không phải là input-days-container */
+    display: flex; /* Sử dụng flexbox để căn giữa các nút */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    flex-wrap: wrap; /* Cho phép xuống dòng */
+    margin-top: 15px;
+}
+
+
+/* Định dạng chung cho nút lựa chọn (Yes/No) */
+.button-base {
+  padding: 8px 16px;
+  margin: 4px; /* Giữ khoảng cách giữa các nút lựa chọn */
+  cursor: pointer;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: black;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; /* Thêm hiệu ứng chuyển động mượt mà */
+  min-width: 60px; /* Đảm bảo các nút có chiều rộng đồng nhất */
+}
+.button-base:hover {
+    background-color: #f0f0f0; /* Hiệu ứng hover nhẹ */
+}
+
+
+/* Định dạng cho nút khi được chọn (selected) */
+.button-selected {
+  background-color: #007bff;
   color: white;
+  border-color: #007bff;
+}
+.button-selected:hover {
+    background-color: #0056b3; /* Đậm hơn khi hover */
+    border-color: #0056b3;
 }
 
-.crafft-card-body {
-  padding: 2rem;
-  background-color: #68a5ff;
+/* Container cho các nút hành động (Clear, Submit) */
+.action-buttons-container {
+    display: flex;
+    justify-content: center; /* Căn giữa các nút */
+    gap: 20px; /* Khoảng cách giữa các nút */
+    margin-top: 30px;
+    margin-bottom: 20px; /* Khoảng cách dưới container nút */
 }
 
-.mt-4 {
-  margin-top: -0.5rem !important;
-}
-.crafft-btn {
-  background: #007bff;
+/* Định dạng cho nút Gửi bài làm */
+.submit-button {
+  padding: 12px 25px; /* Tăng padding để nút lớn hơn */
+  font-size: 1.1em; /* Tăng kích thước chữ */
+  background-color: #28a745; /* Màu xanh lá cho nút gửi */
+  color: white;
   border: none;
-  font-weight: bold;
-  padding: 0.5rem 2rem;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease; /* Thêm hiệu ứng chuyển động mượt mà */
+}
+.submit-button:hover {
+  background-color: #218838; /* Đậm hơn khi hover */
 }
 
+/* Định dạng cho nút Clear */
+.clear-button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    background-color: #dc3545; /* Màu đỏ cho nút clear */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+.clear-button:hover {
+    background-color: #c82333;
+}
+
+
+/* Định dạng cho thông báo lỗi */
+.error-message {
+  color: red;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* Định dạng cho đường kẻ ngang */
+.divider {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 30px 0; /* Khoảng cách trên và dưới đường kẻ */
+}
+
+/* --- POPUP STYLES --- */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Nền mờ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Đảm bảo popup nằm trên cùng */
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 400px; /* Giới hạn chiều rộng của popup */
+    width: 90%; /* Chiều rộng tương đối */
+    position: relative;
+    animation: fadeInScale 0.3s ease-out; /* Thêm animation */
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.popup-title {
+    color: #007bff;
+    font-size: 1.8em;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.popup-text {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.popup-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Khoảng cách giữa các nút trong popup */
+}
+
+.popup-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.close-button {
+    background-color: #6c757d; /* Màu xám */
+    color: white;
+}
+.close-button:hover {
+    background-color: #5a6268;
+}
+
+.restart-button {
+    background-color: #007bff; /* Màu xanh dương */
+    color: white;
+}
+.restart-button:hover {
+    background-color: #0056b3;
+}
+
+/* Định dạng cho vùng hiển thị kết quả (trong popup) */
+.risk-level {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block; /* Để padding và background hoạt động tốt */
+  margin-left: 5px;
+}
+
+.risk-level.low {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.risk-level.medium {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.risk-level.high {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.days-input {
+    width: 77px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    text-align: center;
+    background: #3181F0;
+    font-weight: bold;
+    font-size: 15px;
+}
