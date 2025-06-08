@@ -1,100 +1,67 @@
-/* Header.css */
+/* Header Container */
 .header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 32px;
-  width: 100vw ;         
-    height: 15vh;
-  
-  background: linear-gradient(90deg, #004b8d, #0070cc);
-  color: #ffffff;
-  box-sizing: border-box;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 12px 24px;
+  background: linear-gradient(90deg, #003973, #0070cc);
+  color: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Roboto, sans-serif;
   position: sticky;
   top: 0;
   z-index: 999;
 }
 
-/* .header-container {
-  
-    height: 10vh;
-    .header-container {
-      width: 100vw;
-      left: 0;
-      right: 0;
-      position: relative;
-      margin-left: calc(50% - 50vw);
-      margin-right: calc(50% - 50vw);
-    }    .header-container {
-      width: 100vw;
-      left: 0;
-      right: 0;
-      position: relative;
-      margin-left: calc(50% - 50vw);
-      margin-right: calc(50% - 50vw);
-    }    width: 100vw;
-    background-color: #0056a3;
-} */
-.title {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
+/* Title section */
 .title {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-family: "Segoe UI", sans-serif;
-  color: white;
-  margin-left: 2rem;
-  line-height: 1.2;
+  line-height: 1.3;
+  white-space: nowrap;
 }
-
 .title > div:first-child {
-  font-size: 1.6rem; /* Tiêu đề chính */
-  font-weight: 700;
+  font-size: 1.8rem;
+  font-weight: bold;
 }
-
 .title > div:last-child {
-  font-size: 1rem; /* Phụ đề */
+  font-size: 1rem;
+  opacity: 0.85;
   font-weight: 400;
-  opacity: 0.9;
 }
 
-/* Tiêu đề hệ thống */
-.header-container .title {
-  font-size: 1.8em;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  flex: 1;
-}
-
-/* Điều hướng */
-.header-container .nav-links {
+/* Navigation */
+.nav-links {
   display: flex;
   align-items: center;
-  gap: 24px;
-  flex: 2;
-  justify-content: flex-end;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  gap: 16px;
+  white-space: nowrap;
+  overflow-x: auto;
+  padding: 4px 0;
+  scrollbar-width: none; /* Firefox */
+  transition: max-height 0.3s ease;
+}
+.nav-links::-webkit-scrollbar {
+  display: none; /* Chrome */
 }
 
-/* Mục điều hướng chung */
+/* Link style */
 .nav-items {
-  color: #ffffff;
+  color: #fff;
   text-decoration: none;
   font-size: 1rem;
-  padding: 10px 16px;
-  border-radius: 10px;
   font-weight: 500;
-  position: relative;
+  padding: 10px 16px;
+  border-radius: 8px;
   transition: all 0.3s ease;
+  position: relative;
 }
-
+.nav-items:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffebc6;
+  transform: translateY(-1px);
+}
 .nav-items::after {
   content: "";
   position: absolute;
@@ -105,51 +72,180 @@
   background-color: #ffda77;
   transition: width 0.3s ease;
 }
-
 .nav-items:hover::after {
   width: calc(100% - 32px);
 }
 
-.nav-items:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-  transform: translateY(-2px);
-  color: #ffebc6;
-}
-
-/* Mục đang active (trang hiện tại) */
+/* Active nav item */
 .active-item {
   background-color: #ffffff;
   color: #0070cc;
   font-weight: 700;
   transform: scale(1.05);
-  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
 }
 
-/* Tên người dùng */
+/* User name */
 .user-name {
-  color: #f9f9f9;
   font-weight: 600;
-  padding: 8px 14px;
+  background-color: rgba(255, 255, 255, 0.12);
+  padding: 8px 12px;
   border-radius: 6px;
-  background-color: rgba(255, 255, 255, 0.1);
-  margin-left: 20px;
+  color: #f0f0f0;
+  margin-left: 10px;
 }
 
-/* Nút logout */
+/* Logout button */
 .logout-button {
-  background: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.15);
   border: none;
-  color: white;
+  color: #ffffff;
+  padding: 8px 12px;
   font-weight: 600;
-  padding: 8px 14px;
   border-radius: 6px;
+  margin-left: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-left: 12px;
 }
-
 .logout-button:hover {
   background-color: rgba(255, 255, 255, 0.3);
   color: #004b8d;
   transform: translateY(-1px);
+}
+
+/* Hamburger button - hidden by default */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 28px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1000; /* Đảm bảo nổi trên nav */
+}
+
+.hamburger span {
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  display: block;
+  position: relative;
+}
+
+/* Hamburger active animation */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg);
+  top: 6px;
+  position: relative;
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg);
+  top: -6px;
+  position: relative;
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+  .header-container {
+    flex-wrap: wrap;
+    padding: 10px 16px;
+  }
+
+  /* Title thu nhỏ font size */
+  .title > div:first-child {
+    font-size: 1.4rem;
+  }
+  .title > div:last-child {
+    font-size: 0.85rem;
+  }
+
+  /* Show hamburger */
+  .hamburger {
+    display: flex;
+  }
+
+  /* Nav mặc định ẩn trên mobile */
+  .nav-links {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    margin-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    transition: max-height 0.3s ease;
+  }
+
+  /* Khi menu mở - hiện nav */
+  .nav-links.show {
+    max-height: 500px; /* đủ để hiển thị tất cả các items */
+    padding: 8px 0;
+  }
+
+  /* Nav items đứng thành cột */
+  .nav-items {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+  }
+  .nav-items:last-child {
+    border-bottom: none;
+  }
+
+  /* User name và logout button đặt xuống dòng, căn giữa */
+  .user-name,
+  .logout-button {
+    margin-left: 0;
+    margin-top: 8px;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    text-align: center;
+  }
+  .logout-button {
+    border-bottom: none;
+  }
+
+  /* Đưa user-name và logout xuống cuối, căn giữa */
+  .header-container > .user-name,
+  .header-container > .logout-button {
+    flex-basis: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Thu nhỏ hơn nữa cho điện thoại nhỏ */
+  .title > div:first-child {
+    font-size: 1.1rem;
+  }
+  .title > div:last-child {
+    font-size: 0.75rem;
+  }
+
+  .nav-items {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+
+  /* Nếu muốn, có thể ẩn chữ user name, chỉ giữ logout button */
+  .user-name {
+    display: none;
+  }
+}
+.nav-links {
+  transition: max-height 0.3s ease, padding 0.3s ease;
 }

@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
-import "./Header.css";
 import { NavLink, useNavigate } from "react-router-dom";
+import "./Header.css";
 
 const Header = () => {
   const [user, setUser] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false); // trạng thái mở menu
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Invalid user data in localStorage");
-      }
+    try {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (storedUser) setUser(storedUser);
+    } catch {
+      console.error("Invalid user data in localStorage");
+      setUser(null);
     }
   }, []);
 
@@ -24,50 +23,97 @@ const Header = () => {
     navigate("/");
   };
 
+  const renderUserName = () => {
+    if (!user) return null;
+    return user.fullname || user.name || user.username || "User";
+  };
+
+  const navItems = [
+    { to: "/", label: "Trang Chủ" },
+    { to: "/courses", label: "Khóa Học" },
+    { to: "/surveys", label: "Khảo Sát" },
+    { to: "/booking", label: "Đặt Lịch" },
+    { to: "/booked-consultations", label: "Lịch Của Tôi" },
+    { to: "/view-booked-members", label: "Xem Thành Viên Đặt Lịch" },
+    { to: "/Schedule-Manager", label: "Quản Lý Lịch" },
+  ];
+
+  // Toggle hamburger menu
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
   return (
     <div className="header-container">
       <div className="title">
         <div>Drug Use Prevention</div>
-        <div style={{ fontSize: "1rem", fontWeight: "400" }}>
-          Support System
-        </div>
+        <div className="subtitle">Support System</div>
       </div>
-      <div className="nav-links">
-        <NavLink className="nav-items" to="/">
-          Home
-        </NavLink>
-        <NavLink className="nav-items" to="/courses">
-          Courses
-        </NavLink>
-        <NavLink className="nav-items" to="/surveys">
-          Surveys
-        </NavLink>
-        <NavLink className="nav-items" to="/booking">
-          Book Appointment
-        </NavLink>
-        <NavLink className="nav-items" to="/booked-consultations">
-          My Schedule
-        </NavLink>
+
+      {/* Hamburger button */}
+      <button
+        className={`hamburger${menuOpen ? " active" : ""}`}
+        aria-label="Toggle menu"
+        aria-expanded={menuOpen}
+        onClick={toggleMenu}
+        type="button"
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      {/* Navigation */}
+      <nav className={`nav-links${menuOpen ? " show" : ""}`}>
+        {navItems.map(({ to, label }) => (
+          <NavLink
+            key={to}
+            to={to}
+            className={({ isActive }) =>
+              `nav-items${isActive ? " active-item" : ""}`
+            }
+            onClick={() => setMenuOpen(false)} // đóng menu khi click nav link
+          >
+            {label}
+          </NavLink>
+        ))}
+
         {user ? (
           <>
-            <span className="nav-items user-name">
-              Welcome, {user.fullname || user.name || user.username || "User"}
-            </span>
-            <button className="nav-items logout-button" onClick={handleLogout}>
-              Log Out
+            <span className="nav-items user-name">Xin chào, {renderUserName()}</span>
+            <button
+              className="nav-items logout-button"
+              onClick={() => {
+                handleLogout();
+                setMenuOpen(false); // đóng menu khi logout
+              }}
+            >
+              Đăng Xuất
             </button>
           </>
         ) : (
           <>
-            <NavLink className="nav-items" to="/login">
-              Sign In
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                `nav-items${isActive ? " active-item" : ""}`
+              }
+              onClick={() => setMenuOpen(false)}
+            >
+              Đăng Nhập
             </NavLink>
-            <NavLink className="nav-items" to="/register">
-              Sign Up
+            <NavLink
+              to="/register"
+              className={({ isActive }) =>
+                `nav-items${isActive ? " active-item" : ""}`
+              }
+              onClick={() => setMenuOpen(false)}
+            >
+              Đăng Ký
             </NavLink>
           </>
         )}
-      </div>
+      </nav>
     </div>
   );
 };
