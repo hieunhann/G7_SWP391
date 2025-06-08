@@ -115,7 +115,7 @@ export default function HomePage() {
             className="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-full transition shadow-lg"
             whileHover={{ scale: 1.05 }}
           >
-                Bắt đầu hành trình <FaArrowRight className="ml-3" />
+            Bắt đầu hành trình <FaArrowRight className="ml-3" />
           </motion.button>
         </div>
       </section>
@@ -176,14 +176,14 @@ export default function HomePage() {
 
           {/* Tìm kiếm */}
           <div className="relative w-full max-w-md mx-auto mt-4">
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
             <input
               type="text"
-              placeholder=" Tìm khóa học..."
+              placeholder="Tìm khóa học..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full p-3 pl-10 rounded-lg bg-gray-800 text-white placeholder-gray-400 shadow-inner focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full pl-10 pr-3 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 shadow-inner focus:outline-none focus:ring-2 focus:ring-green-500"
             />
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
         </div>
       </section>
