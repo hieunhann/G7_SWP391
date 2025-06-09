@@ -33,7 +33,7 @@ const Header = () => {
     { to: "/courses", label: "Khóa Học" },
     { to: "/surveys", label: "Khảo Sát" },
     { to: "/booking", label: "Đặt Lịch" },
-    { to: "/booked-consultations", label: "Lịch Của Tôi" },
+    { to: "/MyBooking", label: "Lịch Của Tôi" },
     { to: "/view-booked-members", label: "Xem Thành Viên Đặt Lịch" },
     { to: "/Schedule-Manager", label: "Quản Lý Lịch" },
   ];
@@ -80,7 +80,14 @@ const Header = () => {
 
         {user ? (
           <>
-            <span className="nav-items user-name">Xin chào, {renderUserName()}</span>
+            <NavLink
+              to="/UserProfile"
+              className="nav-items user-name"
+              onClick={() => setMenuOpen(false)}
+              style={{ cursor: "pointer", textDecoration: "none" }}
+            >
+              Xin chào, {renderUserName()}
+            </NavLink>
             <button
               className="nav-items logout-button"
               onClick={() => {
