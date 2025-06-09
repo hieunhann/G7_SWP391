@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
+import Header from "../../components/PageHeader/Header";
 
 const DetailsCourse = () => {
   const { id } = useParams();
@@ -12,9 +14,18 @@ const DetailsCourse = () => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
   const navigate = useNavigate();
 
-  
+  // Kiểm tra đăng nhập
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    if (!user || !user.id) {
+      setShowLoginPopup(true);
+    }
+  }, []);
+
+  // Lấy thông tin khóa học
   useEffect(() => {
     fetch("http://localhost:5002/Course")
       .then((res) => res.json())
@@ -61,7 +72,6 @@ const DetailsCourse = () => {
 
   const handleAnswer = (option) => {
     setSelectedOption(option);
-    // option là "A. ..." => lấy ký tự đầu
     const answerKey = option[0];
     const correct = answerKey === questions[currentQuestionIndex].correctAnswer;
     setIsCorrect(correct);
@@ -76,10 +86,26 @@ const DetailsCourse = () => {
         setShowQuiz(false);
         setTimeout(() => {
           setShowResult(true);
-        }, 500); // slight delay after quiz ends
+        }, 500);
       }
     }, 3000);
   };
+
+  if (showLoginPopup) {
+    return (
+      <NotifyLogin
+        show={showLoginPopup}
+        onCancel={() => navigate("/courses")}
+        message="Hãy đăng nhập để có thể học khóa học nhé!!!"
+        cancelText="Hủy"
+        confirmText="Tiếp tục"
+        redirectTo="/login"
+      />
+    );
+  }
+
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+  if (!user || !user.id) return null;
 
   if (!course) {
     return (
@@ -90,189 +116,189 @@ const DetailsCourse = () => {
   }
 
   return (
-    <div style={{ background: "#f8fafc", minHeight: "100vh" }}>
-      <div className="container py-4">
-        {/* Breadcrumb */}
-        <nav style={{ "--bs-breadcrumb-divider": "'>'" }} aria-label="breadcrumb">
-          <ol className="breadcrumb bg-transparent px-0 mb-2">
-            <li className="breadcrumb-item">
-              <Link to="/Courses" style={{ color: "#00838f", textDecoration: "none" }}>
-                COURSES
-              </Link>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page" style={{ color: "#222", fontWeight: 600 }}>
-              {course.title?.toUpperCase()}
-            </li>
-          </ol>
-        </nav>
+    <>
+      <Header />
+      <div style={{ background: "#f8fafc", minHeight: "100vh" }}>
+        <div className="container py-4">
+          {/* Đường dẫn điều hướng */}
+          <nav style={{ "--bs-breadcrumb-divider": "'>'" }} aria-label="breadcrumb">
+            <ol className="breadcrumb bg-transparent px-0 mb-2">
+              <li className="breadcrumb-item">
+                <Link to="/Courses" style={{ color: "#00838f", textDecoration: "none" }}>
+                  KHÓA HỌC
+                </Link>
+              </li>
+              <li className="breadcrumb-item active" aria-current="page" style={{ color: "#222", fontWeight: 600 }}>
+                {course.title?.toUpperCase()}
+              </li>
+            </ol>
+          </nav>
 
-        {/* Title */}
-        <div className="text-center mb-4">
-          <div style={{ fontSize: "2rem", fontWeight: 700, color: "#00838f", fontStyle: "italic" }}>
-            {course.title}
+          {/* Tiêu đề khóa học */}
+          <div className="text-center mb-4">
+            <div style={{ fontSize: "2rem", fontWeight: 700, color: "#00838f", fontStyle: "italic" }}>
+              {course.title}
+            </div>
           </div>
-        </div>
 
-        {/* Video */}
-        <div className="d-flex justify-content-center mb-4">
-          {course.videoUrl ? (
-            <div style={{ maxWidth: 700, width: "100%" }}>
-              <div className="ratio ratio-16x9">
-                <iframe
-                  src={getEmbedUrl(course.videoUrl)}
-                  title={course.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  style={{ borderRadius: "8px", border: "2px solid #b2dfdb" }}
-                ></iframe>
+          {/* Video khóa học */}
+          <div className="d-flex justify-content-center mb-4">
+            {course.videoUrl ? (
+              <div style={{ maxWidth: 700, width: "100%" }}>
+                <div className="ratio ratio-16x9">
+                  <iframe
+                    src={getEmbedUrl(course.videoUrl)}
+                    title={course.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    style={{ borderRadius: "8px", border: "2px solid #b2dfdb" }}
+                  ></iframe>
+                </div>
+              </div>
+            ) : (
+              <div
+                style={{
+                  width: 700,
+                  height: 394,
+                  background: "#e0e0e0",
+                  borderRadius: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#888",
+                  fontSize: "1.2rem",
+                  border: "2px solid #b2dfdb",
+                }}
+              >
+                Video đang được cập nhật...
+              </div>
+            )}
+          </div>
+
+          {/* Nút làm bài kiểm tra */}
+          {!showQuiz && !showResult && (
+            <div className="d-flex justify-content-center mb-5">
+              <button
+                className="btn"
+                style={{
+                  border: "2px solid #00838f",
+                  color: "#00838f",
+                  fontWeight: 600,
+                  borderRadius: "4px",
+                  background: "#fff",
+                  padding: "10px 48px",
+                  fontSize: "1.25rem",
+                  letterSpacing: "1px",
+                }}
+                onClick={fetchQuestions}
+              >
+                Tiếp tục <i className="bi bi-arrow-right-circle-fill ms-2"></i>
+              </button>
+            </div>
+          )}
+
+          {/* Phần làm bài kiểm tra */}
+          {showQuiz && questions.length > 0 && (
+            <div className="text-center mb-4">
+              <h4 className="mb-3">
+                Câu {currentQuestionIndex + 1} / {questions.length}
+              </h4>
+              <div className="mb-3" style={{ fontSize: "1.2rem" }}>
+                {questions[currentQuestionIndex].question}
+              </div>
+              <div className="d-grid gap-2 col-6 mx-auto">
+                {questions[currentQuestionIndex].options.map((opt, i) => (
+                  <button
+                    key={i}
+                    className="btn btn-outline-secondary"
+                    onClick={() => handleAnswer(opt)}
+                    disabled={showFeedback}
+                  >
+                    {opt}
+                  </button>
+                ))}
               </div>
             </div>
-          ) : (
+          )}
+
+          {/* Phản hồi đúng/sai */}
+          {showFeedback && (
             <div
+              className="position-fixed top-0 start-50 translate-middle-x mt-5 alert"
               style={{
-                width: 700,
-                height: 394,
-                background: "#e0e0e0",
+                zIndex: 9999,
+                background: isCorrect ? "#d0f0c0" : "#ffcdd2",
+                color: "#222",
+                padding: "20px",
                 borderRadius: "8px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#888",
-                fontSize: "1.2rem",
-                border: "2px solid #b2dfdb",
+                border: "1px solid #888",
+                minWidth: "300px",
+                textAlign: "center",
               }}
             >
-              Video is being updated...
+              {isCorrect ? "Chính xác! 🎉" : "Sai ❌"}
+              <div className="mt-2">
+                Đáp án đúng:&nbsp;
+                <b>
+                  {questions[currentQuestionIndex]?.options.find(
+                    (opt) => opt[0] === questions[currentQuestionIndex]?.correctAnswer
+                  )}
+                </b>
+              </div>
+            </div>
+          )}
+
+          {/* Kết quả kiểm tra */}
+          {showResult && (
+            <div
+              className="position-fixed top-50 start-50 translate-middle alert"
+              style={{
+                zIndex: 9999,
+                background: "#ffffff",
+                color: "#333",
+                padding: "30px",
+                borderRadius: "10px",
+                border: "2px solid #00838f",
+                textAlign: "center",
+                width: "400px",
+              }}
+            >
+              <h4 className="mb-3">Hoàn thành bài kiểm tra</h4>
+              <p style={{ fontSize: "1.25rem" }}>
+                Điểm của bạn: {score} / {questions.length}
+              </p>
+              {score < 4 ? (
+                <>
+                  <div className="mb-3 text-danger fw-bold">
+                    Điểm dưới 4. Vui lòng làm lại bài kiểm tra!
+                  </div>
+                  <button
+                    className="btn btn-warning me-2"
+                    onClick={() => {
+                      setShowResult(false);
+                      setScore(0);
+                      setCurrentQuestionIndex(0);
+                      setSelectedOption(null);
+                      setIsCorrect(false);
+                      fetchQuestions();
+                    }}
+                  >
+                    Làm lại
+                  </button>
+                  <button className="btn btn-secondary" onClick={() => setShowResult(false)}>
+                    Hủy
+                  </button>
+                </>
+              ) : (
+                <Link to="/Courses" className="btn btn-info mt-3">
+                  Học khóa khác
+                </Link>
+              )}
             </div>
           )}
         </div>
-
-        {/* Quiz Button */}
-        {!showQuiz && !showResult && (
-          <div className="d-flex justify-content-center mb-5">
-            <button
-              className="btn"
-              style={{
-                border: "2px solid #00838f",
-                color: "#00838f",
-                fontWeight: 600,
-                borderRadius: "4px",
-                background: "#fff",
-                padding: "10px 48px",
-                fontSize: "1.25rem",
-                letterSpacing: "1px",
-              }}
-              onClick={fetchQuestions}
-            >
-              Continue <i className="bi bi-arrow-right-circle-fill ms-2"></i>
-            </button>
-          </div>
-        )}
-
-        {/* Quiz Section */}
-        {showQuiz && questions.length > 0 && (
-          <div className="text-center mb-4">
-            <h4 className="mb-3">
-              Question {currentQuestionIndex + 1} of {questions.length}
-            </h4>
-            <div className="mb-3" style={{ fontSize: "1.2rem" }}>
-              {questions[currentQuestionIndex].question}
-            </div>
-            <div className="d-grid gap-2 col-6 mx-auto">
-              {questions[currentQuestionIndex].options.map((opt, i) => (
-                <button
-                  key={i}
-                  className="btn btn-outline-secondary"
-                  onClick={() => handleAnswer(opt[0])} // opt[0] là ký tự đáp án (A/B/C/D)
-                  disabled={showFeedback}
-                >
-                  {opt}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Feedback Popup */}
-        {showFeedback && (
-          <div
-            className="position-fixed top-0 start-50 translate-middle-x mt-5 alert"
-            style={{
-              zIndex: 9999,
-              background: isCorrect ? "#d0f0c0" : "#ffcdd2",
-              color: "#222",
-              padding: "20px",
-              borderRadius: "8px",
-              border: "1px solid #888",
-              minWidth: "300px",
-              textAlign: "center",
-            }}
-          >
-            {isCorrect ? "Correct! 🎉" : "Incorrect ❌"}
-            <div className="mt-2">
-              Correct answer:&nbsp;
-              <b>
-                {questions[currentQuestionIndex]?.options.find(
-                  (opt) => opt[0] === questions[currentQuestionIndex]?.correctAnswer
-                )}
-              </b>
-            </div>
-          </div>
-        )}
-
-        {/* Result Popup */}
-        {showResult && (
-          <div
-            className="position-fixed top-50 start-50 translate-middle alert"
-            style={{
-              zIndex: 9999,
-              background: "#ffffff",
-              color: "#333",
-              padding: "30px",
-              borderRadius: "10px",
-              border: "2px solid #00838f",
-              textAlign: "center",
-              width: "400px",
-            }}
-          >
-            <h4 className="mb-3">Quiz Completed</h4>
-            <p style={{ fontSize: "1.25rem" }}>
-              Your Score: {score} / {questions.length}
-            </p>
-            {score < 4 ? (
-              <>
-                <div className="mb-3 text-danger fw-bold">
-                  Your score is below 4. Please try again!
-                </div>
-                <button
-                  className="btn btn-warning me-2"
-                  onClick={() => {
-                    setShowResult(false);
-                    setScore(0);
-                    setCurrentQuestionIndex(0);
-                    setSelectedOption(null);
-                    setIsCorrect(false);
-                    fetchQuestions();
-                  }}
-                >
-                  Retry Quiz
-                </button>
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => setShowResult(false)}
-                >
-                  Cancel
-                </button>
-              </>
-            ) : (
-              <Link to="/Courses" className="btn btn-info mt-3">
-                Learn Another Course
-              </Link>
-            )}
-          </div>
-        )}
       </div>
-    </div>
+    </>
   );
 };
 

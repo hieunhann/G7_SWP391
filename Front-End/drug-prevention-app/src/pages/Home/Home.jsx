@@ -12,7 +12,7 @@ import {
   FaYoutube,
   FaSearch,
 } from "react-icons/fa";
-
+import Header from "../../components/PageHeader/Header";
 export default function HomePage() {
   const [search, setSearch] = useState("");
 
@@ -88,6 +88,8 @@ export default function HomePage() {
   );
 
   return (
+    <>
+      <Header />
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-black to-gray-900 text-white">
       {/* Hero Section */}
       <section className="relative text-center py-32 px-4 max-w-6xl mx-auto">
@@ -385,5 +387,6 @@ export default function HomePage() {
         </div>
       </footer>
     </div>
+        </>
   );
 }

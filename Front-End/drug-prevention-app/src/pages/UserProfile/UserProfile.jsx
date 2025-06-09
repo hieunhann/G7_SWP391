@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import Header from "../../components/PageHeader/Header";
 const iconColor = "#004b8d";
 
 const UserProfile = () => {
@@ -29,7 +29,7 @@ const UserProfile = () => {
         setFormData(parsedUser);
       }
     } catch (error) {
-      console.error("Failed to load user from localStorage", error);
+      console.error("Không thể tải người dùng từ localStorage", error);
     }
   }, []);
 
@@ -44,11 +44,11 @@ const UserProfile = () => {
 
       try {
         const res = await fetch(`http://localhost:5002/Certificates?consultantId=${user.id}`);
-        if (!res.ok) throw new Error("Failed to fetch certificates");
+        if (!res.ok) throw new Error("Không thể lấy chứng nhận");
         const data = await res.json();
         setCertificates(data);
       } catch (error) {
-        setCertificatesError(error.message || "Error loading certificates");
+        setCertificatesError(error.message || "Lỗi khi tải chứng nhận");
       } finally {
         setCertificatesLoading(false);
       }
@@ -72,7 +72,7 @@ const UserProfile = () => {
     localStorage.setItem("user", JSON.stringify(updatedUser));
     setUser(updatedUser);
     setEditing(false);
-    showToast("Information has been updated.");
+    showToast("Thông tin đã được cập nhật.");
   };
 
   const openPasswordModal = () => {
@@ -90,15 +90,15 @@ const UserProfile = () => {
 
   const handlePasswordSubmit = () => {
     if (oldPassword !== user?.password) {
-      setPasswordError("Incorrect current password.");
+      setPasswordError("Mật khẩu hiện tại không đúng.");
       return;
     }
     if (newPassword.length < 6) {
-      setPasswordError("New password must be at least 6 characters.");
+      setPasswordError("Mật khẩu mới phải có ít nhất 6 ký tự.");
       return;
     }
     if (newPassword !== confirmPassword) {
-      setPasswordError("New passwords do not match.");
+      setPasswordError("Mật khẩu mới không khớp.");
       return;
     }
 
@@ -107,22 +107,23 @@ const UserProfile = () => {
     setUser(updatedUser);
     setFormData((prev) => ({ ...prev, password: newPassword }));
     closePasswordModal();
-    showToast("Password has been changed successfully.");
+    showToast("Mật khẩu đã được thay đổi thành công.");
   };
 
   if (!user) {
-    return <p className="text-center my-5">Loading user information...</p>;
+    return <p className="text-center my-5">Đang tải thông tin người dùng...</p>;
   }
 
   const isConsultant = user.role?.toLowerCase() === "consultant";
 
   return (
     <>
+      <Header />
       <div className="container my-5">
         <div className="card shadow mx-auto" style={{ maxWidth: "600px" }}>
           <div className="card-body">
             <h2 className="card-title mb-4 text-center" style={{ color: iconColor }}>
-              Personal Details
+              Thông tin cá nhân
             </h2>
 
             <div className="text-center mb-4">
@@ -145,11 +146,11 @@ const UserProfile = () => {
 
             <form onSubmit={(e) => e.preventDefault()}>
               {[
-                { id: "fullName", label: "Full Name", type: "text" },
-                { id: "username", label: "Username", type: "text", readOnly: true },
+                { id: "fullName", label: "Họ và tên", type: "text" },
+                { id: "username", label: "Tên đăng nhập", type: "text", readOnly: true },
                 { id: "email", label: "Email", type: "email" },
-                { id: "phoneNumber", label: "Phone Number", type: "tel" },
-                { id: "dateOfBirth", label: "Date of Birth", type: "date" },
+                { id: "phoneNumber", label: "Số điện thoại", type: "tel" },
+                { id: "dateOfBirth", label: "Ngày sinh", type: "date" },
               ].map(({ id, label, type, readOnly }) => (
                 <div className="mb-3" key={id}>
                   <label htmlFor={id} className="form-label d-flex align-items-center justify-content-center gap-2" style={{ color: iconColor, fontSize: "1.2rem", fontWeight: 500 }}>
@@ -173,26 +174,26 @@ const UserProfile = () => {
                 {editing ? (
                   <>
                     <button type="button" className="btn btn-outline-primary" onClick={handleSave}>
-                      Save
+                      Lưu
                     </button>
                     <button type="button" className="btn btn-outline-secondary" onClick={() => {
                       setEditing(false);
                       setFormData(user);
                     }}>
-                      Cancel
+                      Hủy
                     </button>
                   </>
                 ) : (
                   <>
                     <button type="button" className="btn btn-outline-primary" onClick={() => setEditing(true)}>
-                      Edit Profile
+                      Chỉnh sửa hồ sơ
                     </button>
                     <button type="button" className="btn btn-outline-primary" onClick={openPasswordModal}>
-                      Change Password
+                      Đổi mật khẩu
                     </button>
                     {isConsultant && (
                       <button type="button" className="btn btn-outline-primary" onClick={() => setShowCertificates(true)}>
-                        Certificates
+                        Chứng chỉ
                       </button>
                     )}
                   </>
@@ -203,32 +204,32 @@ const UserProfile = () => {
         </div>
       </div>
 
-      {/* Certificates Modal */}
+      {/* Chứng chỉ Modal */}
       {showCertificates && (
         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }} role="dialog" aria-modal="true">
           <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-header" style={{ backgroundColor: iconColor, color: "#fff", justifyContent: "center" }}>
-                <h5 className="modal-title">Certificates</h5>
+                <h5 className="modal-title">Chứng chỉ</h5>
                 <button type="button" className="btn-close" style={{ filter: "invert(1)" }} onClick={() => setShowCertificates(false)} aria-label="Close" />
               </div>
               <div className="modal-body text-center">
-                {certificatesLoading && <p>Loading certificates...</p>}
+                {certificatesLoading && <p>Đang tải chứng chỉ...</p>}
                 {certificatesError && <p className="text-danger">{certificatesError}</p>}
-                {!certificatesLoading && certificates.length === 0 && <p>No certificates found.</p>}
+                {!certificatesLoading && certificates.length === 0 && <p>Không tìm thấy chứng chỉ nào.</p>}
                 <ul className="list-group mx-auto" style={{ maxWidth: 400 }}>
                   {certificates.map((cert) => (
                     <li key={cert.id} className="list-group-item">
-                      <strong>Issuer:</strong> {cert.issuer}<br />
-                      <strong>Issued Date:</strong> {cert.issuedDate}<br />
-                      <strong>Expiration Date:</strong> {cert.expirationDate}
+                      <strong>Người cấp phát:</strong> {cert.issuer}<br />
+                      <strong>Ngày cấp phát:</strong> {cert.issuedDate}<br />
+                      <strong>Ngày hết hạn:</strong> {cert.expirationDate}
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="modal-footer justify-content-center">
                 <button className="btn" style={{ background: iconColor, color: "#fff", minWidth: 100 }} onClick={() => setShowCertificates(false)}>
-                  Close
+                  Đóng
                 </button>
               </div>
             </div>
@@ -236,21 +237,21 @@ const UserProfile = () => {
         </div>
       )}
 
-      {/* Password Modal */}
+      {/* Mật khẩu Modal */}
       {showModal && (
         <div className="modal fade show d-block" tabIndex="-1" role="dialog" aria-modal="true" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Change Password</h5>
+                <h5 className="modal-title">Đổi mật khẩu</h5>
                 <button type="button" className="btn-close" onClick={closePasswordModal} aria-label="Close" />
               </div>
               <div className="modal-body">
                 {passwordError && <div className="alert alert-danger">{passwordError}</div>}
                 {[
-                  { id: "oldPassword", label: "Current Password", value: oldPassword, setValue: setOldPassword },
-                  { id: "newPassword", label: "New Password", value: newPassword, setValue: setNewPassword },
-                  { id: "confirmPassword", label: "Confirm New Password", value: confirmPassword, setValue: setConfirmPassword },
+                  { id: "oldPassword", label: "Mật khẩu hiện tại", value: oldPassword, setValue: setOldPassword },
+                  { id: "newPassword", label: "Mật khẩu mới", value: newPassword, setValue: setNewPassword },
+                  { id: "confirmPassword", label: "Xác nhận mật khẩu mới", value: confirmPassword, setValue: setConfirmPassword },
                 ].map(({ id, label, value, setValue }) => (
                   <div className="mb-3" key={id}>
                     <label htmlFor={id} className="form-label text-center d-block">{label}</label>
@@ -265,15 +266,15 @@ const UserProfile = () => {
                 ))}
               </div>
               <div className="modal-footer justify-content-center">
-                <button className="btn btn-outline-secondary" onClick={closePasswordModal}>Cancel</button>
-                <button className="btn btn-outline-primary" onClick={handlePasswordSubmit}>Save Password</button>
+                <button className="btn btn-outline-secondary" onClick={closePasswordModal}>Hủy</button>
+                <button className="btn btn-outline-primary" onClick={handlePasswordSubmit}>Lưu mật khẩu</button>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Toast Notification */}
+      {/* Thông báo Toast */}
       {toast.show && (
         <div
           style={{
