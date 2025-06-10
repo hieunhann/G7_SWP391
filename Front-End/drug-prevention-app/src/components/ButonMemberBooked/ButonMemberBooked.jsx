@@ -77,7 +77,7 @@ const ButtonMemberBooked = ({
                   Cancel Appointment
                 </button>
               )}
-              <button className="btn btn-secondary" onClick={(event) => setShowInfo(false)}>
+              <button className="btn btn-secondary" onClick={() => setShowInfo(false)}>
                 Close
               </button>
             </div>
