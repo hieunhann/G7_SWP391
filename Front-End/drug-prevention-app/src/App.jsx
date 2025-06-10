@@ -9,6 +9,12 @@ import Courses from './pages/Course/Courses';
 import DetailsCourse from './pages/Course/DetailsCourse';
 import MemberBookedConsultations from './pages/BookingForm/MemberBookedConsultations';
 import FeedbackCourse from './pages/Course/FeedbackCourse';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+<GoogleOAuthProvider clientId="632195046938-srur4gsnmg8nc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
+  <App /> {/* hoặc component chính */}
+</GoogleOAuthProvider>
+
 function App() {
   return (
     <Router>

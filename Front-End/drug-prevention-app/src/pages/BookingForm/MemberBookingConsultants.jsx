@@ -13,6 +13,15 @@ const toMinutes = (timeStr) => {
   return h * 60 + m;
 };
 
+const getVietnameseDayOfWeek = (dateStr) => {
+  const days = [
+    "Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư",
+    "Thứ Năm", "Thứ Sáu", "Thứ Bảy"
+  ];
+  const d = new Date(dateStr);
+  return days[d.getDay()];
+};
+
 const MemberBookingConsultants = () => {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState("");
@@ -50,16 +59,18 @@ const MemberBookingConsultants = () => {
     const fetchAvailableConsultants = async () => {
       if (!selectedDate) return setAvailableConsultants([]);
 
-      const dayOfWeek = new Date(selectedDate).toLocaleString("en-US", { weekday: "long" });
+      // Sử dụng hàm mới để lấy đúng thứ tiếng Việt
+      const dayOfWeek = getVietnameseDayOfWeek(selectedDate);
 
       try {
-        const res = await fetch(`http://localhost:5002/Schedule?dayOfWeek=${dayOfWeek}`);
+        const res = await fetch(`http://localhost:5002/Schedule?dayOfWeek=${encodeURIComponent(dayOfWeek)}`);
         const schedules = await res.json();
         const consultantIds = [...new Set(schedules.map(s => s.consultantId))];
 
         const usersRes = await fetch(`http://localhost:5002/User`);
         const users = await usersRes.json();
-        const consultants = users.filter(u => consultantIds.includes(u.id));
+        // Ép kiểu id về string để so sánh chắc chắn
+        const consultants = users.filter(u => consultantIds.includes(String(u.id)));
 
         setAvailableConsultants(consultants);
       } catch (err) {
@@ -80,7 +91,8 @@ const MemberBookingConsultants = () => {
     const fetchSlots = async () => {
       if (!selectedConsultant || !selectedDate) return;
 
-      const dayOfWeek = new Date(selectedDate).toLocaleString("en-US", { weekday: "long" });
+      // Sử dụng hàm mới để lấy đúng thứ tiếng Việt
+      const dayOfWeek = getVietnameseDayOfWeek(selectedDate);
 
       try {
         const bookingsRes = await fetch(`http://localhost:5002/Bookings?consultantId=${selectedConsultant}`);
@@ -90,7 +102,7 @@ const MemberBookingConsultants = () => {
           .map(b => b.bookingTime.substring(11, 16));
         setBookedSlots(booked);
 
-        const scheduleRes = await fetch(`http://localhost:5002/Schedule?consultantId=${selectedConsultant}&dayOfWeek=${dayOfWeek}`);
+        const scheduleRes = await fetch(`http://localhost:5002/Schedule?consultantId=${selectedConsultant}&dayOfWeek=${encodeURIComponent(dayOfWeek)}`);
         const schedule = await scheduleRes.json();
 
         if (schedule.length > 0) {
@@ -137,7 +149,7 @@ const MemberBookingConsultants = () => {
           consultantId: selectedConsultant,
           bookingTime,
           notes,
-          status: "Chờ duyệt",
+          status: "Chờ xác nhận",
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         })
