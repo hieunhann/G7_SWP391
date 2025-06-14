@@ -9,6 +9,8 @@ import Courses from "./pages/Course/Courses";
 import DetailsCourse from "./pages/Course/DetailsCourse";
 import MemberBookedConsultations from "./pages/BookingForm/MemberBookedConsultations";
 import FeedbackCourse from "./pages/Course/FeedbackCourse";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
