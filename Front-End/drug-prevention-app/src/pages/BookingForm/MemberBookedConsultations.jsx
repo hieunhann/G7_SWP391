@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../components/PageHeader/Header";
+import Header from "../../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
 
