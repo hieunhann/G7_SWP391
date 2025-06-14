@@ -658,6 +658,202 @@
         "publishedDate": "2024-06-09"
       }
     ]
+  ],
+  "events": [
+    {
+      "ID": 1,
+      "Manager_id": 1,
+      "Title": "Chiến dịch trồng cây xanh",
+      "Program_Coordinator": "Nguyễn Văn A",
+      "Description": "Chương trình nhằm tăng cường mảng xanh cho đô thị, thu hút tình nguyện viên cùng tham gia.",
+      "Location": "Công viên Gia Định",
+      "Start_date": "2025-06-20",
+      "End_date": "2025-06-22",
+      "Image": "https://images.unsplash.com/photo-1556761175-4b46a572b786",
+      "Created_at": "2025-06-01T10:00:00",
+      "Updated_at": "2025-06-10T10:00:00"
+    },
+    {
+      "ID": 2,
+      "Manager_id": 2,
+      "Title": "Chương trình hiến máu tình nguyện",
+      "Program_Coordinator": "Trần Thị B",
+      "Description": "Tổ chức sự kiện hiến máu định kỳ, hỗ trợ bệnh viện cần nguồn máu dự trữ.",
+      "Location": "Đại học Y Dược",
+      "Start_date": "2025-07-01",
+      "End_date": "2025-07-01",
+      "Image": "https://th.bing.com/th/id/OIP.3-rNv2k4DHLny_21lwSATAHaFj?rs=1&pid=ImgDetMain",
+      "Created_at": "2025-06-02T09:00:00",
+      "Updated_at": "2025-06-09T08:30:00"
+    },
+    {
+      "ID": 3,
+      "Manager_id": 3,
+      "Title": "Hội thảo phòng chống ma túy học đường",
+      "Program_Coordinator": "Lê Văn C",
+      "Description": "Tuyên truyền kiến thức và kỹ năng phòng tránh ma túy cho học sinh THPT.",
+      "Location": "Trường THPT Lê Quý Đôn",
+      "Start_date": "2025-08-05",
+      "End_date": "2025-08-05",
+      "Image": "https://images.unsplash.com/photo-1596495577886-d920f1fb7238",
+      "Created_at": "2025-06-03T14:00:00",
+      "Updated_at": "2025-06-05T16:00:00"
+    },
+    {
+      "ID": 4,
+      "Manager_id": 1,
+      "Title": "Chương trình dọn dẹp bãi biển",
+      "Program_Coordinator": "Nguyễn Văn A",
+      "Description": "Tổ chức hoạt động dọn dẹp rác thải tại bãi biển, bảo vệ môi trường biển.",
+      "Location": "Bãi biển Vũng Tàu",
+      "Start_date": "2025-09-10",
+      "End_date": "2025-09-10",
+      "Image": "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+      "Created_at": "2025-06-04T11:00:00",
+      "Updated_at": "2025-06-04T11:30:00"
+    },
+    {
+      "ID": 5,
+      "Manager_id": 2,
+      "Title": "Chương trình phát quà cho trẻ em nghèo",
+      "Program_Coordinator": "Trần Thị B",
+      "Description": "Phát quà và học bổng cho trẻ em có hoàn cảnh khó khăn tại các khu vực nông thôn.",
+      "Location": "Xã Bình Chánh, TP.HCM",
+      "Start_date": "2025-10-01",
+      "End_date": "2025-10-01",
+      "Image": "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+      "Created_at": "2025-06-05T08:00:00",
+      "Updated_at": "2025-06-05T08:30:00"
+    },
+    {
+      "ID": 6,
+      "Manager_id": 3,
+      "Title": "Chương trình tập huấn kỹ năng sống cho thanh thiếu niên",
+      "Program_Coordinator": "Lê Văn C",
+      "Description": "Tổ chức các buổi tập huấn kỹ năng sống, giúp thanh thiếu niên phát triển toàn diện.",
+      "Location": "Trung tâm Thanh thiếu niên TP.HCM",
+      "Start_date": "2025-11-15",
+      "End_date": "2025-11-15",
+      "Image": "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+      "Created_at": "2025-06-06T10:00:00",
+      "Updated_at": "2025-06-06T10:30:00"
+    },
+    {
+      "ID": 7,
+      "Manager_id": 1,
+      "Title": "Chương trình bảo vệ động vật hoang dã",
+      "Program_Coordinator": "Nguyễn Văn A",
+      "Description": "Tuyên truyền và bảo vệ động vật hoang dã, nâng cao nhận thức cộng đồng.",
+      "Location": "Khu bảo tồn Cát Tiên",
+      "Start_date": "2025-12-01",
+      "End_date": "2025-12-01",
+      "Image": "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+      "Created_at": "2025-06-07T09:00:00",
+      "Updated_at": "2025-06-07T09:30:00"
+    },
+    {
+      "ID": 8,
+      "Manager_id": 2,
+      "Title": "Chương trình hỗ trợ người cao tuổi",
+      "Program_Coordinator": "Trần Thị B",
+      "Description": "Cung cấp dịch vụ chăm sóc và hỗ trợ người cao tuổi tại các trung tâm dưỡng lão.",
+      "Location": "Trung tâm dưỡng lão TP.HCM",
+      "Start_date": "2026-01-10",
+      "End_date": "2026-01-10",
+      "Image": "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+      "Created_at": "2025-06-08T11:00:00",
+      "Updated_at": "2025-06-08T11:30:00"
+    }
+  ],
+  "feedback_events": [
+    {
+      "ID": 101,
+      "Member_id": 1,
+      "Event_id": 1,
+      "Rating": 5,
+      "Comment": "Chương trình rất ý nghĩa, mong được tham gia nhiều lần nữa!"
+    },
+    {
+      "ID": 102,
+      "Member_id": 2,
+      "Event_id": 2,
+      "Rating": 4,
+      "Comment": "Tổ chức chuyên nghiệp, thời gian phù hợp."
+    },
+    {
+      "ID": 103,
+      "Member_id": 3,
+      "Event_id": 1,
+      "Rating": 5,
+      "Comment": "Cây trồng được chăm sóc tốt, cảm thấy rất vui khi đóng góp!"
+    },
+    {
+      "id": "6169",
+      "ID": 1749629319417,
+      "Member_id": 1,
+      "Event_id": 1,
+      "Rating": 4,
+      "Comment": "oke hay đấy "
+    },
+    {
+      "id": "834f",
+      "ID": 1749631384593,
+      "Member_id": 1,
+      "Event_id": 3,
+      "Rating": 5,
+      "Comment": "hay ạ "
+    }
+  ],
+  "event_registrations": [
+    {
+      "id": "4108",
+      "ID": 1749629060813,
+      "Member_id": 1,
+      "Event_id": 1
+    },
+    {
+      "id": "e7e9",
+      "ID": 1749629913335,
+      "Member_id": 1,
+      "Event_id": 1
+    },
+    {
+      "id": "6169",
+      "ID": 1749630000001,
+      "Member_id": "6169",
+      "Event_id": 1
+    },
+    {
+      "id": "2025a",
+      "ID": 1749630000002,
+      "Member_id": "2",
+      "Event_id": 2
+    },
+    {
+      "id": "2025b",
+      "ID": 1749630000003,
+      "Member_id": "6169",
+      "Event_id": 3
+    },
+    {
+      "id": "0ccd",
+      "ID": 1749632580243,
+      "Member_id": 1,
+      "Event_id": 4
+    },
+    {
+      "id": "929b",
+      "ID": 1749632631315,
+      "Member_id": 1,
+      "Event_id": 3
+    },
+    {
+      "id": "e451",
+      "ID": 1749632736749,
+      "Member_id": 1,
+      "Event_id": 1
+    }
   ]
+
 }
 
