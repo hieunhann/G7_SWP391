@@ -35,6 +35,7 @@ const Header = () => {
     { to: "/booking", label: "Đặt Lịch" },
     { to: "/MyBooking", label: "Lịch Của Tôi" },
     { to: "/view-booked-members", label: "Xem Thành Viên Đặt Lịch" },
+    { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" },
     { to: "/Schedule-Manager", label: "Quản Lý Lịch" },
   ];
 

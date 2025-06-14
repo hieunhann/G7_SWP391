@@ -11,6 +11,7 @@ import MemberBookedConsultations from "./pages/BookingForm/MemberBookedConsultat
 import FeedbackCourse from "./pages/Course/FeedbackCourse";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Courses/lesson/:id" element={<DetailsCourse />} />
           <Route path="/MyBooking" element={<MemberBookedConsultations />} />
+          <Route
+            path="/ViewCommunicationPrograms"
+            element={<ViewCommunicationPrograms />}
+          />
           <Route
             path="/Courses/lesson/:id/feedback"
             element={<FeedbackCourse />}
