@@ -853,6 +853,99 @@
       "Member_id": 1,
       "Event_id": 1
     }
+  ],
+  "consultants": [
+    {
+      "ConsultantID": 3,
+      "Name": "Dr. Nguyen",
+      "id": "f165"
+    },
+    {
+      "ConsultantID": 5,
+      "Name": "Dr. Tran",
+      "id": "213f"
+    }
+  ],
+  "bookings": [
+    {
+      "BookingID": 1,
+      "MemberName": "Tấn Tài",
+      "Email": "a@gmail.com",
+      "Phone_number": "0123456789",
+      "Booking_time": "2025-06-01T09:00:00",
+      "Status": "Completed",
+      "Description": "Tư vấn tâm lý",
+      "Day_of_week": "Monday",
+      "Start_time": "09:00",
+      "End_time": "09:30",
+      "ConsultantID": 3,
+      "id": "bc8d"
+    },
+    {
+      "BookingID": 2,
+      "MemberName": "Hiểu Nhân",
+      "Email": "b@gmail.com",
+      "Phone_number": "0987654321",
+      "Booking_time": "2025-06-02T14:00:00",
+      "Status": "Pending",
+      "Description": "Tư vấn cai nghiện",
+      "Day_of_week": "Tuesday",
+      "Start_time": "14:00",
+      "End_time": "14:30",
+      "ConsultantID": 5,
+      "id": "f1e7"
+    },
+    {
+      "BookingID": 3,
+      "MemberName": "Nguyễn Hữu Đạt",
+      "Email": "c@gmail.com",
+      "Phone_number": "0987654321",
+      "Booking_time": "2025-06-03T14:00:00",
+      "Status": "Confirmed",
+      "Description": "Tư vấn cai nghiện",
+      "Day_of_week": "Tuesday",
+      "Start_time": "14:00",
+      "End_time": "14:30",
+      "ConsultantID": 5,
+      "id": "ebd3"
+    }
+  ],
+  "schedules": [
+    {
+      "id": "2331",
+      "consultant_id": 1,
+      "day_of_week": "Thứ 2",
+      "start_time": "07:00",
+      "end_time": "15:00"
+    },
+    {
+      "id": "2e5b",
+      "consultant_id": 2,
+      "day_of_week": "Thứ 3",
+      "start_time": "07:00",
+      "end_time": "14:00"
+    },
+    {
+      "id": "5c76",
+      "consultant_id": 1,
+      "day_of_week": "Thứ 3",
+      "start_time": "10:00",
+      "end_time": "22:00"
+    },
+    {
+      "id": "6618",
+      "consultant_id": 1,
+      "day_of_week": "Thứ 2",
+      "start_time": "07:00",
+      "end_time": "14:00"
+    },
+    {
+      "id": "0a7d",
+      "consultant_id": 1,
+      "day_of_week": "Chủ Nhật",
+      "start_time": "06:00",
+      "end_time": "12:00"
+    }
   ]
 
 }
