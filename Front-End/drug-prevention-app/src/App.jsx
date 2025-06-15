@@ -1,19 +1,25 @@
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Login from "./pages/LoginAndRegister/Login";
-import Register from "./pages/LoginAndRegister/Register";
-import MemberBookingConsultants from "./pages/BookingForm/MemberBookingConsultants";
-import UserProfile from "./pages/UserProfile/UserProfile";
-import Courses from "./pages/Course/Courses";
-import DetailsCourse from "./pages/Course/DetailsCourse";
-import MemberBookedConsultations from "./pages/BookingForm/MemberBookedConsultations";
-import FeedbackCourse from "./pages/Course/FeedbackCourse";
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home/Home';
+import Login from './pages/LoginAndRegister/Login';
+import Register from './pages/LoginAndRegister/Register';
+import MemberBookingConsultants from './pages/BookingForm/MemberBookingConsultants';
+import UserProfile from './pages/UserProfile/UserProfile';
+import Courses from './pages/Course/Courses';
+import DetailsCourse from './pages/Course/DetailsCourse';
+import MemberBookedConsultations from './pages/BookingForm/MemberBookedConsultations';
+import FeedbackCourse from './pages/Course/FeedbackCourse';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
 import ViewBookedMembers from "./pages/ViewBookedMembers/ViewBookedMembers";
+
+
+<GoogleOAuthProvider clientId="632195046938-srur4gsnmg8nc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
+  <App /> {/* hoặc component chính */}
+</GoogleOAuthProvider>
 
 
 function App() {
