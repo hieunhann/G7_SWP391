@@ -55,7 +55,6 @@ const Register = () => {
         role: "Member",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        avatar: "/avatars/default.jpg"
       };
 
       const response = await fetch("http://localhost:5002/User", {

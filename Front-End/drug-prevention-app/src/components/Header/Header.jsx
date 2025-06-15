@@ -37,6 +37,10 @@ const Header = () => {
     { to: "/CommunityActivities", label: "Hoạt động cộng đồng" },
     // { to: "/view-booked-members", label: "Xem Thành Viên Đặt Lịch" },
     // { to: "/Schedule-Manager", label: "Quản Lý Lịch" },
+    // { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" },
+    { to: "/ScheduleManager", label: "Quản Lý Lịch" },
+    { to : "/ViewBookedMembers", label: "Xem Thành Viên Đặt Lịch" },
+
   ];
 
   // Toggle hamburger menu

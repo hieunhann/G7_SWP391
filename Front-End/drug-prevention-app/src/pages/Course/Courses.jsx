@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import Header from "../../components/PageHeader/Header";
 import Header from "../../components/Header/Header";
 const COURSES_PER_PAGE = 4;
 
@@ -19,10 +18,11 @@ const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
-  const [ageGroupFilter, setAgeGroupFilter] = useState(""); // Thêm state cho bộ lọc
+  const [ageGroupFilter, setAgeGroupFilter] = useState(""); 
 
   const navigate = useNavigate();
 
+ 
   useEffect(() => {
     fetch("http://localhost:5002/Course")
       .then((res) => res.json())
@@ -153,7 +153,14 @@ const Courses = () => {
                           padding: "8px 28px",
                           fontSize: "1.1rem",
                         }}
-                        onClick={() => navigate(`/Courses/lesson/${course.id}`)}
+                        onClick={() => {
+                          const user = JSON.parse(localStorage.getItem("user") || "null");
+                          if (!user || !(user.id || user._id)) {
+                            navigate("/login");
+                          } else {
+                            navigate(`/Courses/lesson/${course.id}`);
+                          }
+                        }}
                       >
                         Bắt đầu khóa học miễn phí này{" "}
                         <i className="bi bi-arrow-right-circle" style={{ fontSize: "1.1rem" }}></i>

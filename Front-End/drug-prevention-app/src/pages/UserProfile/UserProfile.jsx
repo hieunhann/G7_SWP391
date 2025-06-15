@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import Header from "../../components/PageHeader/Header";
 import Header from "../../components/Header/Header";
 const iconColor = "#004b8d";
 
@@ -90,6 +89,10 @@ const UserProfile = () => {
   };
 
   const handlePasswordSubmit = () => {
+    if (!user?.password) {
+      setPasswordError('Tài khoản Gmail không hỗ trợ đổi mật khẩu.');
+      return;
+    }
     if (oldPassword !== user?.password) {
       setPasswordError("Mật khẩu hiện tại không đúng.");
       return;
@@ -177,21 +180,39 @@ const UserProfile = () => {
                     <button type="button" className="btn btn-outline-primary" onClick={handleSave}>
                       Lưu
                     </button>
-                    <button type="button" className="btn btn-outline-secondary" onClick={() => {
-                      setEditing(false);
-                      setFormData(user);
-                    }}>
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary"
+                      onClick={() => {
+                        setEditing(false);
+                        setFormData(user);
+                      }}
+                    >
                       Hủy
                     </button>
+                    {/* Only show Đổi mật khẩu if user has a password */}
+                    {user?.password && (
+                      <button type="button" className="btn btn-outline-primary" onClick={openPasswordModal}>
+                        Đổi mật khẩu
+                      </button>
+                    )}
+                    {isConsultant && (
+                      <button type="button" className="btn btn-outline-primary" onClick={() => setShowCertificates(true)}>
+                        Chứng chỉ
+                      </button>
+                    )}
                   </>
                 ) : (
                   <>
                     <button type="button" className="btn btn-outline-primary" onClick={() => setEditing(true)}>
                       Chỉnh sửa hồ sơ
                     </button>
-                    <button type="button" className="btn btn-outline-primary" onClick={openPasswordModal}>
-                      Đổi mật khẩu
-                    </button>
+                    {/* Only show Đổi mật khẩu if user has a password */}
+                    {user?.password && (
+                      <button type="button" className="btn btn-outline-primary" onClick={openPasswordModal}>
+                        Đổi mật khẩu
+                      </button>
+                    )}
                     {isConsultant && (
                       <button type="button" className="btn btn-outline-primary" onClick={() => setShowCertificates(true)}>
                         Chứng chỉ
