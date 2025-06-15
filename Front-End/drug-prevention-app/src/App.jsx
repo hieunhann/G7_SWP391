@@ -13,6 +13,8 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
+import ViewBookedMembers from "./pages/ViewBookedMembers/ViewBookedMembers";
+
 
 function App() {
   return (
@@ -29,6 +31,10 @@ function App() {
           <Route path="/Courses/lesson/:id" element={<DetailsCourse />} />
           <Route path="/MyBooking" element={<MemberBookedConsultations />} />
           <Route path="/ScheduleManager" element={<ScheduleManager />} />
+          <Route
+            path="/ViewBookedMembers"
+            element={<ViewBookedMembers />}
+          />
           <Route
             path="/ViewCommunicationPrograms"
             element={<ViewCommunicationPrograms />}
