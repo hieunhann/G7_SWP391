@@ -1,0 +1,92 @@
+/* src/pages/CommunityActivities/CommunityActivities.css */
+
+.community-activities-title {
+  color: #004b8d;
+  font-weight: 700;
+}
+
+.search-filter-input,
+.search-filter-select {
+  max-width: 400px;
+  border-color: #004b8d;
+}
+
+.activity-card {
+  width: 20rem; /* Kích thước thẻ để hiển thị nhiều trên một hàng */
+  border: 1.5px solid #b2dfdb;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  /* Đảm bảo chiều cao tối thiểu cho thẻ nếu cần,
+     nhưng chủ yếu dựa vào flex-grow của body để cân bằng */
+}
+
+.activity-card-img {
+  height: 180px;
+  object-fit: cover;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.activity-card-title {
+  color: #004b8d;
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.activity-card-text {
+  color: #444;
+  font-size: 0.95rem;
+  flex-grow: 1; /* Để mô tả chiếm hết không gian còn lại */
+
+  /* Bắt đầu áp dụng giới hạn số dòng cho mô tả */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Giới hạn 3 dòng. Thay đổi số này nếu muốn ít/nhiều hơn */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Thêm dấu "..." khi bị cắt */
+  margin-bottom: 0.5rem; /* Giảm margin bottom để sát hơn với badges */
+}
+
+.activity-meta-info {
+  margin-top: auto; /* Đẩy phần thông tin xuống cuối card-body */
+  padding-top: 0.5rem; /* Giảm padding trên để gọn hơn */
+}
+
+.activity-detail-badge {
+  font-size: 0.9rem;
+  /* Thêm thuộc tính để các badge không bị tràn khi địa điểm quá dài */
+  white-space: normal; /* Cho phép text xuống dòng */
+  line-height: 1.2; /* Tăng khoảng cách dòng nếu xuống dòng */
+  padding: 0.3em 0.6em; /* Điều chỉnh padding cho badge */
+  display: inline-flex; /* Để icon và text canh giữa theo chiều dọc */
+  align-items: center; /* Canh giữa icon và text */
+}
+
+.activity-detail-badge i {
+    margin-right: 0.25rem; /* Khoảng cách giữa icon và text */
+}
+
+.activity-link-button {
+  background-color: #004b8d;
+  border-color: #004b8d;
+  color: #fff;
+  font-weight: 600;
+}
+
+.activity-link-button:hover {
+    background-color: #003a70;
+    border-color: #003a70;
+}
+
+.pagination-link {
+  color: #004b8d;
+}
+
+.pagination-item.active .page-link {
+  color: #fff !important;
+  background: #004b8d !important;
+  border-color: #004b8d !important;
+}

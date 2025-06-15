@@ -12,7 +12,8 @@ import {
   FaYoutube,
   FaSearch,
 } from "react-icons/fa";
-import Header from "../../components/PageHeader/Header";
+// import Header from "../../components/PageHeader/Header";
+import Header from "../../components/Header/Header";
 export default function HomePage() {
   const [search, setSearch] = useState("");
 

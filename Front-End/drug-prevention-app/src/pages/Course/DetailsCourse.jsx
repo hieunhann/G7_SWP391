@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
-import Header from "../../components/PageHeader/Header";
+// import Header from "../../components/PageHeader/Header";
+
+import Header from "../../components/Header/Header";
 
 const DetailsCourse = () => {
   const { id } = useParams();

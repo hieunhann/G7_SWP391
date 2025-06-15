@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import './CRAFFT.css';
+import Header from "../../components/Header/Header";
+import { useNavigate } from 'react-router-dom';
 
 const PORT = 5002;
 
@@ -14,22 +16,72 @@ const getRiskLevel = (score) => {
     }
 };
 
+// Hàm lấy khuyến nghị dựa trên mức độ rủi ro và totalPartADaysForLogic
+const getRecommendation = (riskLevel, totalPartADaysForLogic) => {
+    if (totalPartADaysForLogic === 0) {
+        return "Chúc mừng bạn! Bạn chưa sử dụng bất kỳ chất nào được đề cập trong đời. Duy trì lối sống lành mạnh này.";
+    }
+
+    switch (riskLevel) {
+        case "Thấp":
+            return "Bạn có vẻ đang kiểm soát tốt việc sử dụng chất. Hãy tiếp tục duy trì và tham gia các hoạt động cộng đồng lành mạnh để tăng cường sức khỏe tinh thần và thể chất.";
+        case "Trung bình":
+            return "Kết quả cho thấy bạn có thể đang ở mức rủi ro trung bình. Bạn nên cân nhắc tìm hiểu thêm về các khóa học kỹ năng sống hoặc tham vấn để nhận được hỗ trợ kịp thời.";
+        case "Cao":
+            return "Mức độ rủi ro cao cho thấy bạn cần được hỗ trợ chuyên sâu. Chúng tôi khuyến nghị bạn nên đặt lịch hẹn với chuyên gia y tế để được đánh giá và tư vấn cụ thể.";
+        default:
+            return "Vui lòng liên hệ với chuyên gia y tế để được tư vấn thêm.";
+    }
+};
+
+// --- HÀM MỚI ĐỂ TẠO INLINE STYLE ---
+const getRiskLevelStyles = (riskLevel) => {
+    switch (riskLevel) {
+        case "Thấp":
+            return {
+                backgroundColor: '#d4edda', // Màu xanh lá nhạt
+                color: '#155724',          // Màu chữ xanh lá đậm
+                border: '1px solid #c3e6cb'
+            };
+        case "Trung bình":
+            return {
+                backgroundColor: '#fff3cd', // Màu vàng nhạt
+                color: '#856404',          // Màu chữ vàng đậm
+                border: '1px solid #ffeeba'
+            };
+        case "Cao":
+            return {
+                backgroundColor: '#f8d7da', // Màu đỏ nhạt
+                color: '#721c24',          // Màu chữ đỏ đậm
+                border: '1px solid #f5c6cb'
+            };
+        default:
+            return {}; // Trả về object rỗng nếu không khớp
+    }
+};
+// --- KẾT THÚC HÀM MỚI ---
+
+
 const CRAFFT = () => {
     const [allQuestions, setAllQuestions] = useState([]);
-    const [partAChoices, setPartAChoices] = useState({}); // Lưu trữ câu trả lời số ngày của Phần A (câu 1-3)
-    const [partBChoices, setPartBChoices] = useState({}); // Lưu trữ câu trả lời Có/Không của Phần B (từ câu 4-9)
-    const [questionChoices, setQuestionChoices] = useState([]); // Chứa tất cả các lựa chọn từ backend
+    const [partAChoices, setPartAChoices] = useState({});
+    const [partBChoices, setPartBChoices] = useState({});
+    const [questionChoices, setQuestionChoices] = useState([]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showResultPopup, setShowResultPopup] = useState(false);
+    const [resultScore, setResultScore] = useState(0); // Lưu trữ điểm số để hiển thị trong popup
+    const [resultRiskLevel, setResultRiskLevel] = useState("Thấp"); // Lưu trữ mức độ rủi ro để hiển thị
+    const [resultRecommendation, setResultRecommendation] = useState(""); // Lưu trữ khuyến nghị
 
-    const [showFullPartB, setShowFullPartB] = useState(false); // Trạng thái quyết định hiển thị các câu 4-9
+    const [showFullPartB, setShowFullPartB] = useState(false);
 
-    // Tính tổng số ngày ở Phần A (chỉ câu 1, 2, 3) để quyết định hiển thị Phần B đầy đủ
+    const navigate = useNavigate();
+
     const totalPartADaysForLogic = useMemo(() => {
-        // Đảm bảo chỉ tính các câu 1, 2, 3
-        return (partAChoices[1] || 0) + (partAChoices[2] || 0) + (partAChoices[3] || 0);
+        const days = (partAChoices[1] || 0) + (partAChoices[2] || 0) + (partAChoices[3] || 0);
+        return days;
     }, [partAChoices]);
 
     useEffect(() => {
@@ -50,17 +102,15 @@ const CRAFFT = () => {
                 const choicesData = await resChoices.json();
                 setQuestionChoices(choicesData);
 
-                // Khởi tạo partAChoices cho câu 1-3 với 0
                 const initialPartAChoices = {};
                 questionsData.filter(q => q.id >= 1 && q.id <= 3).forEach(q => {
-                    initialPartAChoices[q.id] = 0; // Mặc định là 0 số ngày
+                    initialPartAChoices[q.id] = 0;
                 });
                 setPartAChoices(initialPartAChoices);
 
-                // Khởi tạo partBChoices cho câu 4-9 với 0 (mặc định "No" cho câu 4, hoặc 0 điểm cho các câu khác)
                 const initialPartBChoices = {};
                 questionsData.filter(q => q.id >= 4 && q.id <= 9).forEach(q => {
-                    initialPartBChoices[q.id] = 0; // Mặc định là 0 (score của "No")
+                    initialPartBChoices[q.id] = 0;
                 });
                 setPartBChoices(initialPartBChoices);
 
@@ -74,54 +124,42 @@ const CRAFFT = () => {
         fetchTestData();
     }, []);
 
-    // Hàm xử lý thay đổi cho Phần A (nhập số ngày cho câu 1-3)
     const handlePartAChoice = (questionId, value) => {
-        const numericValue = Number(value); // Ép kiểu về số
+        const numericValue = Number(value);
         setPartAChoices((prev) => ({ ...prev, [questionId]: numericValue }));
     };
 
-    // Hàm xử lý thay đổi cho Phần B (Có/Không cho câu 4-9)
     const handlePartBChoice = (questionId, score) => {
         setPartBChoices((prev) => ({ ...prev, [questionId]: score }));
     };
 
-    // Logic để xác định liệu có hiển thị toàn bộ Phần B (câu 4-9) hay không
-    // Phần B chỉ hiển thị nếu có số ngày > 0 ở bất kỳ câu 1-3 nào
     useEffect(() => {
         const shouldShowFullPartB = totalPartADaysForLogic > 0;
-
         if (shouldShowFullPartB !== showFullPartB) {
             setShowFullPartB(shouldShowFullPartB);
         }
-
-        // Nếu chuyển từ hiển thị Phần B đầy đủ sang không hiển thị,
-        // thì đặt lại các câu trả lời Phần B từ câu 4 trở đi.
-        if (!shouldShowFullPartB && showFullPartB) {
-            // Đặt lại các câu trả lời Phần B về 0
+        // Nếu Part B không còn hiển thị, reset các lựa chọn của Part B
+        if (!shouldShowFullPartB) {
             const resetPartBChoices = {};
             allQuestions.filter(q => q.id >= 4 && q.id <= 9).forEach(q => {
-                resetPartBChoices[q.id] = 0; 
+                resetPartBChoices[q.id] = 0;
             });
             setPartBChoices(resetPartBChoices);
         }
     }, [totalPartADaysForLogic, showFullPartB, allQuestions]);
 
-
-    // Tính tổng điểm cho Phần B (tất cả các câu hỏi Có/Không từ câu 4-9)
     const totalPartBScore = useMemo(() => {
         let score = 0;
-        // Điểm từ các câu 4-9, lấy từ partBChoices
         Object.entries(partBChoices).forEach(([qId, choiceScore]) => {
-            if (Number(qId) >= 4 && Number(qId) <= 9) { // Chỉ tính điểm cho các câu 4-9
+            if (Number(qId) >= 4 && Number(qId) <= 9) {
                 score += choiceScore;
             }
         });
         return score;
-    }, [partBChoices]); // Phụ thuộc vào thay đổi của partBChoices
+    }, [partBChoices]);
 
-    // Hàm xử lý khi người dùng nhấn nút "GỬI BÀI KIỂM TRA"
+
     const handleSubmit = () => {
-        // 1. Kiểm tra Phần A: Đảm bảo tất cả 3 câu hỏi Phần A đã được trả lời
         const partAQuestionsToSubmit = allQuestions.filter(q => q.id >= 1 && q.id <= 3);
         const allPartAAnswered = partAQuestionsToSubmit.every(q => partAChoices[q.id] !== undefined && partAChoices[q.id] !== null);
 
@@ -130,35 +168,48 @@ const CRAFFT = () => {
             return;
         }
 
-        // 2. Nếu Part B đầy đủ đang hiển thị, cần trả lời các câu 4-9
-        if (showFullPartB) {
+        let finalScore = 0;
+        let finalRiskLevel = "Thấp"; // Mặc định là Thấp
+        let recommendationText = "";
+
+        if (totalPartADaysForLogic === 0) {
+            // Nếu tổng số ngày ở Phần A là 0, thì điểm CRAFFT là 0 và mức độ rủi ro là Thấp
+            finalScore = 0;
+            finalRiskLevel = "Thấp";
+            recommendationText = getRecommendation("Thấp", totalPartADaysForLogic);
+        } else {
+            // Nếu tổng số ngày ở Phần A > 0, cần trả lời Phần B và tính điểm
             const partBQuestionsToAnswer = allQuestions.filter(q => q.id >= 4 && q.id <= 9);
             const allPartBRemainingAnswered = partBQuestionsToAnswer.every(q => partBChoices[q.id] !== undefined);
             if (!allPartBRemainingAnswered) {
                 alert("Vui lòng trả lời tất cả các câu hỏi ở Phần B (câu 4-9) vì chúng đang hiển thị.");
                 return;
             }
+            finalScore = totalPartBScore;
+            finalRiskLevel = getRiskLevel(finalScore);
+            recommendationText = getRecommendation(finalRiskLevel, totalPartADaysForLogic);
         }
 
-        const level = getRiskLevel(totalPartBScore);
+        setResultScore(finalScore);
+        setResultRiskLevel(finalRiskLevel);
+        setResultRecommendation(recommendationText); // Cập nhật khuyến nghị
+
         console.log("Trả lời Phần A (câu 1-3):", partAChoices);
         console.log("Trả lời Phần B (câu 4-9):", partBChoices);
-        console.log("Tổng điểm CRAFFT của bạn:", totalPartBScore);
-        console.log("Mức độ rủi ro:", level);
+        console.log("Tổng điểm CRAFFT của bạn:", finalScore);
+        console.log("Mức độ rủi ro:", finalRiskLevel);
+        console.log("Khuyến nghị:", recommendationText);
 
         setShowResultPopup(true);
     };
 
-    // Hàm để xóa tất cả các câu trả lời và đặt lại bài kiểm tra
     const handleClearAnswers = () => {
-        // Đặt lại câu trả lời Phần A (câu 1-3) về 0
         const initialPartAChoices = {};
         allQuestions.filter(q => q.id >= 1 && q.id <= 3).forEach(q => {
             initialPartAChoices[q.id] = 0;
         });
         setPartAChoices(initialPartAChoices);
 
-        // Đặt lại câu trả lời Phần B (câu 4-9) về 0
         const initialPartBChoices = {};
         allQuestions.filter(q => q.id >= 4 && q.id <= 9).forEach(q => {
             initialPartBChoices[q.id] = 0;
@@ -167,150 +218,200 @@ const CRAFFT = () => {
 
         setShowFullPartB(false);
         setShowResultPopup(false);
+        setResultScore(0); // Reset điểm số và mức độ rủi ro khi xóa câu trả lời
+        setResultRiskLevel("Thấp");
+        setResultRecommendation(""); // Reset khuyến nghị
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Hàm đóng cửa sổ popup kết quả
     const handleClosePopup = () => {
         setShowResultPopup(false);
     };
 
-    // Hàm làm lại bài kiểm tra từ đầu (đặt lại toàn bộ và đóng popup)
-    const handleStartOver = () => {
-        handleClearAnswers();
-        setShowResultPopup(false);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    const handleSuggestionClick = () => {
+        handleClearAnswers(); // Xóa câu trả lời trước khi chuyển hướng
+        switch (resultRiskLevel) { // Sử dụng resultRiskLevel đã được tính toán
+            case "Thấp":
+                navigate("/CommunityActivities");
+                break;
+            case "Trung bình":
+                navigate("/Courses");
+                break;
+            case "Cao":
+                navigate("/booking");
+                break;
+            default:
+                navigate("/");
+        }
     };
 
     if (loading) return <p>Đang tải bài kiểm tra...</p>;
     if (error) return <p className="error-message">Lỗi: {error}</p>;
 
-    // Phân loại câu hỏi Phần A (1-3) và Phần B (4-9) để render
     const partAQuestions = allQuestions.filter(q => q.id >= 1 && q.id <= 3);
-    const partBQuestions_Full = allQuestions.filter(q => q.id >= 4 && q.id <= 9); // Bao gồm câu 4
+    const partBQuestions_Full = allQuestions.filter(q => q.id >= 4 && q.id <= 9);
 
     return (
-        <div className="test-wrapper">
-            {allQuestions.length === 0 && !loading ? (
-                <p>Không có câu hỏi nào</p>
-            ) : (
-                <> 
-                    <div className="questions-container">
-                        <h2 className="test-title">BÀI KIỂM TRA CRAFFT</h2>
+        <>
+            <Header />
+            <div className="test-wrapper">
+                {allQuestions.length === 0 && !loading ? (
+                    <p>Không có câu hỏi nào</p>
+                ) : (
+                    <>
+                        <div className="questions-container">
+                            <h2 className="test-title">BÀI KIỂM TRA CRAFFT</h2>
 
-                        {/* Phần A */}
-                        <div className="part-section">
-                            <h3 className="part-title">Phần A: Trong 12 THÁNG QUA, bạn đã bao nhiêu ngày:</h3>
-                            {partAQuestions.map((q) => (
-                                <div key={q.id} className="question-text">
-                                    <p>
-                                        <b>
-                                            {q.id}. {q.question_text}
-                                        </b>
-                                        <span className="instruction-text-inline"> (Điền “0” nếu không có.)</span>
-                                    </p>
-                                    <div className="input-days-container">
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            className="days-input"
-                                            value={partAChoices[q.id] || 0}
-                                            onChange={(e) => handlePartAChoice(q.id, e.target.value)}
-                                            placeholder="0"
-                                        />
-                                        <span className="days-label"> # số ngày</span>
-                                    </div>
-                                </div>
-                            ))}
-                            <p className="instructions-partA">
-                                <span className="instruction-heading">ĐỌC CÁC HƯỚNG DẪN NÀY TRƯỚC KHI TIẾP TỤC:</span><br />
-                                • Nếu bạn điền “0” vào TẤT CẢ các ô ở **câu hỏi 1-3** ở trên, **HÃY DỪNG LẠI.**<br />
-                                • Nếu bạn điền “1” hoặc cao hơn vào BẤT KỲ ô nào ở **câu hỏi 1-3** ở trên, HÃY TRẢ LỜI CÁC CÂU HỎI **4-9** (Phần B).
-                            </p>
-                        </div>
-
-                        {/* Phần B - Các câu hỏi CRAFFT còn lại (bắt đầu từ câu 4) */}
-                        {showFullPartB && ( // Chỉ hiển thị Phần B nếu điều kiện được đáp ứng
+                            {/* Phần A */}
                             <div className="part-section">
-                                <h3 className="part-title">Phần B: Bảng câu hỏi CRAFFT (phiên bản 2.1)</h3>
-                                <p className="instruction-text">Bệnh nhân điền</p>
-                                <p className="instruction-text">Vui lòng trả lời tất cả các câu hỏi một cách trung thực; câu trả lời của bạn sẽ được giữ bí mật.</p>
-                                <div className="choices-header">
-                                    <span className="header-label">Không</span>
-                                    <span className="header-label">Có</span>
-                                </div>
-
-                                {partBQuestions_Full.map((q) => ( // Render các câu hỏi Phần B (4-9)
-                                    <div key={q.id} className="question-text question-partB">
+                                <h3 className="part-title">Phần A: Trong 12 THÁNG QUA, bạn đã bao nhiêu ngày:</h3>
+                                {partAQuestions.map((q) => (
+                                    <div key={q.id} className="question-text">
                                         <p>
                                             <b>
                                                 {q.id}. {q.question_text}
                                             </b>
+                                            <span className="instruction-text-inline"> (Điền “0” nếu không có.)</span>
                                         </p>
-                                        <div className="choices-container">
-                                            {/*
-                                                Lấy lựa chọn từ questionChoices. Nếu không có (ví dụ, backend thiếu dữ liệu cho câu 4),
-                                                sử dụng mảng mặc định cho câu 4 để đảm bảo nút luôn hiển thị.
-                                            */}
-                                            {(q.id === 4 && questionChoices.filter((c) => Number(c.question_id) === Number(q.id)).length === 0
-                                                ? [
-                                                      { id: 'default_no_4', choice_text: "Không", score: 0 },
-                                                      { id: 'default_yes_4', choice_text: "Có", score: 1 }
-                                                  ]
-                                                : questionChoices.filter((c) => Number(c.question_id) === Number(q.id))
-                                            ).map((choice) => (
-                                                <button
-                                                    key={choice.id}
-                                                    onClick={() => handlePartBChoice(q.id, choice.score)}
-                                                    className={`button-base ${partBChoices[q.id] === choice.score ? 'button-selected' : ''}`}
-                                                >
-                                                    {choice.choice_text}
-                                                </button>
-                                            ))}
+                                        <div className="input-days-container">
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                className="days-input"
+                                                value={partAChoices[q.id] || 0}
+                                                onChange={(e) => handlePartAChoice(q.id, e.target.value)}
+                                                placeholder="0"
+                                            />
+                                            <span className="days-label"> # số ngày</span>
                                         </div>
                                     </div>
                                 ))}
+                                <p className="instructions-partA">
+                                    <span className="instruction-heading">ĐỌC CÁC HƯỚNG DẪN NÀY TRƯỚC KHI TIẾP TỤNG:</span><br />
+                                    • Nếu bạn điền “0” vào TẤT CẢ các ô ở **câu hỏi 1-3** ở trên, **HÃY DỪNG LẠI.**<br />
+                                    • Nếu bạn điền “1” hoặc cao hơn vào BẤT KỲ ô nào ở **câu hỏi 1-3** ở trên, HÃY TRẢ LỜI CÁC CÂU HỎI **4-9** (Phần B).
+                                </p>
                             </div>
-                        )} {/* Đóng thẻ Phần B section */}
 
-                    </div> {/* Đóng thẻ questions-container */}
+                            {/* Phần B - Các câu hỏi CRAFFT còn lại (bắt đầu từ câu 4) */}
+                            {showFullPartB && (
+                                <div className="part-section">
+                                    <h3 className="part-title">Phần B: Bảng câu hỏi CRAFFT (phiên bản 2.1)</h3>
+                                    <p className="instruction-text">Bệnh nhân điền</p>
+                                    <p className="instruction-text">Vui lòng trả lời tất cả các câu hỏi một cách trung thực; câu trả lời của bạn sẽ được giữ bí mật.</p>
+                                    <div className="choices-header">
+                                        <span className="header-label">Không</span>
+                                        <span className="header-label">Có</span>
+                                    </div>
 
-                    <hr className="divider" />
+                                    {partBQuestions_Full.map((q) => (
+                                        <div key={q.id} className="question-text question-partB">
+                                            <p>
+                                                <b>
+                                                    {q.id}. {q.question_text}
+                                                </b>
+                                            </p>
+                                            <div className="choices-container">
+                                                {(q.id === 4 && questionChoices.filter((c) => Number(c.question_id) === Number(q.id)).length === 0
+                                                    ? [
+                                                        { id: 'default_no_4', choice_text: "Không", score: 0 },
+                                                        { id: 'default_yes_4', choice_text: "Có", score: 1 }
+                                                    ]
+                                                    : questionChoices.filter((c) => Number(c.question_id) === Number(q.id))
+                                                ).map((choice) => (
+                                                    <button
+                                                        key={choice.id}
+                                                        onClick={() => handlePartBChoice(q.id, choice.score)}
+                                                        className={`button-base ${partBChoices[q.id] === choice.score ? 'button-selected' : ''}`}
+                                                    >
+                                                        {choice.choice_text}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
-                    <div className="action-buttons-container">
-                        <button
-                            onClick={handleClearAnswers}
-                            className="clear-button action-button"
-                        >
-                            Xóa tất cả câu trả lời
-                        </button>
-                        <button
-                            onClick={handleSubmit}
-                            className="submit-button action-button"
-                        >
-                            GỬI BÀI KIỂM TRA
-                        </button>
-                    </div>
+                        </div>
 
-                    {showResultPopup && (
-                        <div className="popup-overlay">
-                            <div className="popup-content">
-                                <h3 className="popup-title">Kết quả bài kiểm tra</h3>
-                                <p className="popup-text">Tổng điểm CRAFFT của bạn: <strong>{totalPartBScore}</strong></p>
-                                <p className="popup-text">Mức độ rủi ro: <strong className={`risk-level ${getRiskLevel(totalPartBScore).toLowerCase()}`}>{getRiskLevel(totalPartBScore)}</strong></p>
-                                <div className="popup-actions">
-                                    <button onClick={handleClosePopup} className="popup-button close-button action-button">
-                                        Đóng
-                                    </button>
-                                    <button onClick={handleStartOver} className="popup-button restart-button action-button">
-                                        Làm bài kiểm tra lại từ đầu
-                                    </button>
+                        <hr className="divider" />
+
+                        <div className="action-buttons-container">
+                            <button
+                                onClick={handleClearAnswers}
+                                className="clear-button action-button"
+                            >
+                                Xóa tất cả câu trả lời
+                            </button>
+                            <button
+                                onClick={handleSubmit}
+                                className="submit-button action-button"
+                            >
+                                GỬI BÀI KIỂM TRA
+                            </button>
+                        </div>
+
+                        {showResultPopup && (
+                            <div className="popup-overlay">
+                                <div className="popup-content">
+                                    <h3 className="popup-title">Kết Quả Bài Kiểm Tra CRAFFT</h3>
+                                    {totalPartADaysForLogic === 0 ? (
+                                        <>
+                                            <p className="popup-text">
+                                                Bạn chưa sử dụng bất kỳ chất nào được đề cập trong đời.
+                                            </p>
+                                            <p className="popup-text">
+                                                Mức độ rủi ro của bạn: &nbsp;
+                                                {/* Đã thêm inline style tại đây */}
+                                                <span
+                                                    className={`risk-level ${resultRiskLevel.toLowerCase().replace(' ', '-')}`}
+                                                    style={getRiskLevelStyles(resultRiskLevel)}
+                                                >
+                                                    {resultRiskLevel}
+                                                </span>
+                                            </p>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <p className="popup-text">
+                                                Tổng điểm CRAFFT của bạn: <strong>{resultScore}</strong>.
+                                            </p>
+                                            <p className="popup-text">
+                                                Mức độ rủi ro của bạn: &nbsp;
+                                                {/* Đã thêm inline style tại đây */}
+                                                <span
+                                                    className={`risk-level ${resultRiskLevel.toLowerCase().replace(' ', '-')}`}
+                                                    style={getRiskLevelStyles(resultRiskLevel)}
+                                                >
+                                                    {resultRiskLevel}
+                                                </span>
+                                            </p>
+                                        </>
+                                    )}
+                                    <p className="popup-text recommendation-text">
+                                        **Khuyến nghị:** {resultRecommendation}
+                                    </p>
+                                    <p className="popup-text">
+                                        Lưu ý: Kết quả này chỉ mang tính chất sàng lọc ban đầu và không thay thế cho đánh giá lâm sàng chuyên sâu.
+                                    </p>
+                                    <div className="popup-actions">
+                                        <button onClick={handleClosePopup} className="popup-button close-button action-button">
+                                            Đóng
+                                        </button>
+                                        <button onClick={handleSuggestionClick} className="popup-button restart-button action-button">
+                                            {resultRiskLevel === "Thấp" && "Tham gia cộng đồng"}
+                                            {resultRiskLevel === "Trung bình" && "Khóa học"}
+                                            {resultRiskLevel === "Cao" && "Đặt lịch"}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
-                </> 
-            )} {/* Đóng khối điều kiện allQuestions.length === 0 */}
-        </div>
+                        )}
+                    </>
+                )}
+            </div>
+        </>
     );
 };
 

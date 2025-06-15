@@ -31,11 +31,12 @@ const Header = () => {
   const navItems = [
     { to: "/", label: "Trang Chủ" },
     { to: "/courses", label: "Khóa Học" },
-    { to: "/surveys", label: "Khảo Sát" },
+    { to: "/Surveys", label: "Khảo Sát" },
     { to: "/booking", label: "Đặt Lịch" },
     { to: "/MyBooking", label: "Lịch Của Tôi" },
-    { to: "/view-booked-members", label: "Xem Thành Viên Đặt Lịch" },
-    { to: "/Schedule-Manager", label: "Quản Lý Lịch" },
+    { to: "/CommunityActivities", label: "Hoạt động cộng đồng" },
+    // { to: "/view-booked-members", label: "Xem Thành Viên Đặt Lịch" },
+    // { to: "/Schedule-Manager", label: "Quản Lý Lịch" },
   ];
 
   // Toggle hamburger menu

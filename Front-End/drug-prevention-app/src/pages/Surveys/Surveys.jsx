@@ -1,10 +1,14 @@
 import "./Surveys.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
+import Header from "../../components/Header/Header";
 import { Link } from "react-router-dom";
+// import Header from "../../components/PageHeader/Header";
 
 const Surveys = () => {
   return (
+    <>
+      <Header />
     <div className="container ">
 
       <div className="card card_ASSIST" style={{ width: "18rem" }}>
@@ -16,7 +20,7 @@ const Surveys = () => {
             It can involve giving advice, offering physical help,
             or providing resources to make something easier or more successful.
           </p>
-          <Link to="/Surveys" className="btn btn-primary">
+          <Link to="/ASSIST" className="btn btn-primary">
             Go survey
           </Link>
         </div>
@@ -36,6 +40,7 @@ const Surveys = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

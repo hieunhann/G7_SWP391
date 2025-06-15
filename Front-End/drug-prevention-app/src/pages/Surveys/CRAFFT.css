@@ -315,35 +315,139 @@
 }
 
 /* Định dạng cho vùng hiển thị kết quả (trong popup) */
-.risk-level {
-  font-weight: bold;
-  padding: 5px 10px;
-  border-radius: 5px;
-  display: inline-block; /* Để padding và background hoạt động tốt */
-  margin-left: 5px;
-}
 
-.risk-level.low {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.risk-level.medium {
-  background-color: #fff3cd;
-  color: #856404;
-}
-
-.risk-level.high {
-  background-color: #f8d7da;
-  color: #721c24;
-}
 .days-input {
     width: 77px;
-    padding: 15px;
+    padding: 4px;
     border: 1px solid #ccc;
     border-radius: 20px;
     text-align: center;
-    background: #3181F0;
+    background: #4CAF50; /* Màu xanh lá */
+    color: white; /* Màu chữ trắng */
     font-weight: bold;
-    font-size: 15px;
+    font-size: 20px;
+}
+
+
+
+.risk-level {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 5px;
+    display: inline-block; /* Để padding và margin hoạt động tốt */
+    margin-left: 5px;
+    text-transform: uppercase;
+    font-size: 0.95em; /* Tăng nhẹ kích thước font */
+    line-height: 1.2; /* Đảm bảo đủ khoảng cách dòng */
+    vertical-align: middle; /* Căn giữa theo chiều dọc nếu có text khác */
+}
+
+.risk-level.thap {
+    background-color: #d4edda !important; /* Thêm !important */
+    color: #155724 !important; /* Thêm !important */
+    border: 1px solid #c3e6cb;
+}
+
+.risk-level.trung-binh {
+    background-color: #fff3cd !important; /* Thêm !important */
+    color: #856404 !important; /* Thêm !important */
+    border: 1px solid #ffeeba;
+}
+
+.risk-level.cao {
+    background-color: #f8d7da; /* Màu đỏ nhạt */
+    color: #721c24; /* Màu chữ đỏ đậm */
+    border: 1px solid #f5c6cb;
+}
+
+/* Kiểu dáng cho khuyến nghị trong popup */
+.recommendation-text {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #e9ecef; /* Thay đổi màu nền nhẹ để nổi bật hơn */
+    border-left: 4px solid #007bff;
+    color: #343a40; /* Màu chữ sẫm hơn một chút */
+    line-height: 1.6; /* Tăng khoảng cách dòng để dễ đọc */
+    font-style: italic;
+    border-radius: 5px; /* Thêm bo góc nhẹ */
+    text-align: left; /* Căn trái cho đoạn văn bản dài */
+}
+
+/* CSS cho popup overlay và content */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 550px; /* Tăng nhẹ max-width cho popup */
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.popup-title {
+    margin-top: 0;
+    color: #007bff;
+    margin-bottom: 20px;
+    font-size: 1.8em; /* Tăng kích thước tiêu đề popup */
+}
+
+.popup-text {
+    margin-bottom: 10px;
+    color: #495057; /* Màu chữ sẫm hơn để dễ đọc */
+    line-height: 1.7; /* Tăng khoảng cách dòng */
+    font-size: 1.05em; /* Tăng nhẹ kích thước font */
+}
+
+.popup-actions {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+}
+
+.popup-button {
+    padding: 12px 25px; /* Tăng kích thước padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.05em; /* Tăng kích thước font nút */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Thêm transform */
+    flex-grow: 1;
+}
+
+.popup-button:hover {
+    transform: translateY(-2px); /* Hiệu ứng nhỏ khi hover */
+}
+
+.popup-button.close-button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.popup-button.close-button:hover {
+    background-color: #5a6268;
+}
+
+.popup-button.restart-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.popup-button.restart-button:hover {
+    background-color: #0056b3;
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/PageHeader/Header";
+// import Header from "../../components/PageHeader/Header";
+import Header from "../../components/Header/Header";
 const COURSES_PER_PAGE = 4;
 
 const getAllAgeGroups = (courses) => {
