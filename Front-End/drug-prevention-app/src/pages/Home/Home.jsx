@@ -12,7 +12,7 @@ import {
   FaYoutube,
   FaSearch,
 } from "react-icons/fa";
-import Header from "../../components/PageHeader/Header";
+
 export default function HomePage() {
   const [search, setSearch] = useState("");
 
@@ -88,62 +88,68 @@ export default function HomePage() {
   );
 
   return (
-    <>
-      <Header />
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-black to-gray-900 text-white">
+    <div className="min-h-screen bg-white text-black">
       {/* Hero Section */}
-      <section className="relative text-center py-32 px-4 max-w-6xl mx-auto">
+      <section className="relative text-center py-32 px-4  mx-auto bg-gradient-to-br from-green-50 via-white to-green-100">
         <motion.img
-          src="https://americaontrack.org/wp-content/uploads/2020/09/DrugUse-1024x666.jpg"
+          src="https://attorneycarl.com/wp-content/uploads/2021/06/illegal-drugs-NO.jpeg"
           alt="drug prevention"
-          className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none rounded-lg"
+          className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.15 }}
+          animate={{ opacity: 0.3 }}
           transition={{ duration: 1 }}
         />
-        <div className="relative z-10 backdrop-blur-md bg-black/40 rounded-lg p-10 mx-auto max-w-3xl shadow-xl border border-white/10">
+        <div className="relative z-10 bg-white/50 backdrop-blur-sm rounded-2xl p-10 md:p-12 mx-auto max-w-3xl shadow-xl border border-gray-200">
           <motion.h1
-            className="text-5xl md:text-6xl font-extrabold leading-tight mb-6 text-green-300 drop-shadow"
-            initial={{ y: -30, opacity: 0 }}
+            className="text-4xl md:text-5xl font-bold leading-snug mb-6 text-green-700 drop-shadow-xl"
+            initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
           >
             Cùng cộng đồng phòng chống ma túy hiệu quả
           </motion.h1>
-          <p className="text-lg md:text-xl text-gray-300 mb-10">
+
+          <p className="text-md md:text-lg text-gray-700 mb-8 leading-relaxed">
             Nâng cao nhận thức, kỹ năng phòng tránh và tư vấn hỗ trợ cá nhân &
             gia đình.
           </p>
+
           <motion.button
-            className="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-full transition shadow-lg"
+            className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-full transition-all shadow-lg"
             whileHover={{ scale: 1.05 }}
           >
-                Bắt đầu hành trình <FaArrowRight className="ml-3" />
+            Bắt đầu hành trình <FaArrowRight className="ml-2" />
           </motion.button>
         </div>
       </section>
 
       {/* Khóa học đào tạo */}
-      <section className="bg-black/40 py-20 px-6 relative overflow-hidden">
+      <section className="relative py-20 px-6 overflow-hidden bg-white">
+        {/* Hình nền  */}
         <img
-          src="https://worlddidac.org/wp-content/uploads/2019/07/AdobeStock_273644746.jpeg"
+          src="https://images.saymedia-content.com/.image/t_share/MTc0NjQxODIwMDY2NjU0MTk4/amaado.jpg"
           alt="Education Background"
-          className="absolute inset-0 w-full h-full object-cover opacity-10"
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
         />
+
+        {/* Lớp làm dịu chỉ nhẹ nhẹ */}
+        <div className="absolute inset-0 bg-white/20 backdrop-blur-[1px]" />
+
         <div className="max-w-6xl mx-auto relative z-10">
-          <h2 className="text-3xl font-bold mb-4 text-center text-green-400 drop-shadow-md">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-green-700 drop-shadow-lime-50">
             Chương trình đào tạo trực tuyến
           </h2>
-          <p className="text-center text-gray-300 mb-10">
+          <p className="text-center text-black-500 mb-12 text-lg drop-shadow-sm">
             Phù hợp cho từng nhóm đối tượng
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             {filteredTrainingPrograms.length > 0 ? (
               filteredTrainingPrograms.map(
                 ({ title, description, img }, index) => (
                   <motion.div
                     key={title}
-                    className="bg-gray-800 bg-opacity-70 rounded-xl p-6 shadow-lg flex flex-col items-center text-center hover:bg-green-800 transition"
+                    className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-md flex flex-col items-center text-center border border-white/40 hover:shadow-xl transition"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.2 }}
@@ -151,18 +157,20 @@ export default function HomePage() {
                     <motion.img
                       src={img}
                       alt={title}
-                      className="w-20 h-20 mb-4 rounded-full shadow-md"
-                      initial={{ scale: 0, rotate: -15 }}
+                      className="w-20 h-20 mb-4 rounded-full shadow-md object-cover"
+                      initial={{ scale: 0.8, rotate: -10 }}
                       animate={{ scale: 1, rotate: 0 }}
                       whileHover={{ scale: 1.15, rotate: 5 }}
                       transition={{
-                        duration: 0.6,
+                        duration: 0.5,
                         type: "spring",
                         stiffness: 200,
                       }}
                     />
-                    <h3 className="text-xl font-semibold mb-2">{title}</h3>
-                    <p className="text-gray-300 text-sm mb-4">{description}</p>
+                    <h3 className="text-lg font-semibold mb-2 text-gray-800">
+                      {title}
+                    </h3>
+                    <p className="text-gray-700 text-sm mb-4">{description}</p>
                     <button className="bg-green-600 hover:bg-green-700 text-white py-2 px-5 rounded-full font-semibold transition transform hover:scale-105 shadow-md">
                       Xem chi tiết
                     </button>
@@ -170,7 +178,7 @@ export default function HomePage() {
                 )
               )
             ) : (
-              <p className="col-span-full text-center text-gray-400">
+              <p className="col-span-full text-center text-white drop-shadow">
                 Không tìm thấy khóa học phù hợp.
               </p>
             )}
@@ -178,23 +186,24 @@ export default function HomePage() {
 
           {/* Tìm kiếm */}
           <div className="relative w-full max-w-md mx-auto mt-4">
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
             <input
               type="text"
-              placeholder=" Tìm khóa học..."
+              placeholder="Tìm khóa học..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full p-3 pl-10 rounded-lg bg-gray-800 text-white placeholder-gray-400 shadow-inner focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full pl-10 pr-3 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 shadow-inner focus:outline-none focus:ring-2 focus:ring-green-500"
             />
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
         </div>
       </section>
+
       {/* 📝 Blog Section */}
-      <section className="py-24 px-6 max-w-6xl mx-auto">
-        <h3 className="text-4xl font-extrabold mb-6 text-green-400 text-center drop-shadow-lg">
+      <section className="py-24 px-6 max-w-6xl mx-auto bg-white">
+        <h3 className="text-4xl font-extrabold mb-6 text-green-700 text-center drop-shadow-lg">
           Blog mới nhất
         </h3>
-        <p className="text-center text-gray-400 text-lg mb-14 max-w-3xl mx-auto">
+        <p className="text-center text-gray-700 text-lg mb-14 max-w-3xl mx-auto">
           Cập nhật kiến thức, câu chuyện và tin tức mới nhất về phòng chống ma
           túy.
         </p>
@@ -203,7 +212,7 @@ export default function HomePage() {
           {blogs.map(({ id, title, excerpt, img }, index) => (
             <motion.div
               key={id}
-              className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 cursor-pointer flex flex-col"
+              className="relative rounded-3xl overflow-hidden shadow-xl bg-white border border-gray-200 cursor-pointer flex flex-col"
               initial={{ opacity: 0, y: 40, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
@@ -214,8 +223,8 @@ export default function HomePage() {
               }}
               viewport={{ once: true }}
               whileHover={{
-                scale: 1.05,
-                boxShadow: "0 15px 30px rgba(72, 187, 120, 0.6)",
+                scale: 1.03,
+                boxShadow: "0 12px 28px rgba(72, 187, 120, 0.3)",
               }}
             >
               <div className="relative h-48 overflow-hidden rounded-t-3xl">
@@ -224,17 +233,17 @@ export default function HomePage() {
                   alt={title}
                   className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-80 hover:opacity-60 transition-opacity duration-300"></div>
-                <h4 className="absolute bottom-4 left-4 right-4 text-xl sm:text-2xl font-extrabold text-green-400 drop-shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-90 hover:opacity-70 transition-opacity duration-300"></div>
+                <h4 className="absolute bottom-4 left-4 right-4 text-xl sm:text-2xl font-extrabold text-green-700 drop-shadow">
                   {title}
                 </h4>
               </div>
               <div className="p-6 flex flex-col flex-grow">
-                <p className="text-gray-300 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
+                <p className="text-gray-700 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
                   {excerpt}
                 </p>
                 <button
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 focus:outline-none flex-shrink-0"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-3 rounded-full shadow-md transition-transform duration-300 ease-in-out hover:scale-105 focus:outline-none flex-shrink-0"
                   aria-label={`Xem chi tiết bài viết: ${title}`}
                 >
                   Xem chi tiết <FaArrowRight />
@@ -246,11 +255,11 @@ export default function HomePage() {
       </section>
 
       {/* 📝 Tự đánh giá nguy cơ */}
-      <section className="py-24 px-6 max-w-6xl mx-auto text-center">
-        <h2 className="text-4xl font-bold text-yellow-400 mb-4 drop-shadow-md">
+      <section className="py-24 px-6 max-w-6xl mx-auto text-center bg-white">
+        <h2 className="text-4xl font-bold text-yellow-600 mb-4 drop-shadow-md">
           Tự đánh giá nguy cơ
         </h2>
-        <p className="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">
+        <p className="text-lg text-gray-700 mb-12 max-w-2xl mx-auto">
           Hãy chọn bài khảo sát phù hợp để nhận đánh giá sơ bộ về mức độ nguy cơ
           và lời khuyên hành động.
         </p>
@@ -259,15 +268,15 @@ export default function HomePage() {
           {/* ASSIST */}
           <motion.div
             whileHover={{ scale: 1.03 }}
-            className="bg-yellow-600/90 hover:bg-yellow-700 rounded-2xl shadow-2xl p-6 flex flex-col items-center text-white transition"
+            className="bg-yellow-100 hover:bg-yellow-200 rounded-2xl shadow-xl p-6 flex flex-col items-center text-yellow-900 transition"
           >
-            <FaClipboardList size={40} className="mb-4" />
+            <FaClipboardList size={40} className="mb-4 text-yellow-700" />
             <h3 className="text-2xl font-semibold mb-2">Khảo sát ASSIST</h3>
-            <p className="text-sm text-white/90 mb-6">
+            <p className="text-sm text-gray-800 mb-6">
               Công cụ sàng lọc được WHO khuyến nghị nhằm phát hiện mức độ sử
               dụng các chất gây nghiện.
             </p>
-            <button className="bg-white text-yellow-700 hover:bg-gray-200 font-semibold px-6 py-2 rounded-full transition">
+            <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-6 py-2 rounded-full transition">
               Bắt đầu khảo sát
             </button>
           </motion.div>
@@ -275,15 +284,15 @@ export default function HomePage() {
           {/* CRAFFT */}
           <motion.div
             whileHover={{ scale: 1.03 }}
-            className="bg-yellow-600/90 hover:bg-yellow-700 rounded-2xl shadow-2xl p-6 flex flex-col items-center text-white transition"
+            className="bg-yellow-100 hover:bg-yellow-200 rounded-2xl shadow-xl p-6 flex flex-col items-center text-yellow-900 transition"
           >
-            <FaClipboardList size={40} className="mb-4" />
+            <FaClipboardList size={40} className="mb-4 text-yellow-700" />
             <h3 className="text-2xl font-semibold mb-2">Khảo sát CRAFFT</h3>
-            <p className="text-sm text-white/90 mb-6">
+            <p className="text-sm text-gray-800 mb-6">
               Công cụ dành cho thanh thiếu niên nhằm đánh giá nguy cơ lạm dụng
               rượu, thuốc và chất kích thích.
             </p>
-            <button className="bg-white text-yellow-700 hover:bg-gray-200 font-semibold px-6 py-2 rounded-full transition">
+            <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-6 py-2 rounded-full transition">
               Bắt đầu khảo sát
             </button>
           </motion.div>
@@ -292,7 +301,7 @@ export default function HomePage() {
         {/* CTA bổ sung */}
         <div className="mt-16">
           <motion.button
-            className="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg inline-flex items-center gap-3 transition-all"
+            className="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-full font-semibold shadow-md inline-flex items-center gap-3 transition-all"
             whileHover={{ scale: 1.05 }}
           >
             <FaPoll size={18} /> Xem kết quả khảo sát gần đây
@@ -301,7 +310,7 @@ export default function HomePage() {
       </section>
 
       {/* 📅 Gặp chuyên viên tư vấn */}
-      <section className="relative bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-700 py-24 px-6 text-center rounded-3xl mx-4 max-w-6xl mx-auto shadow-2xl overflow-hidden">
+      <section className="relative bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-700 py-24 px-6 text-center rounded-3xl max-w-6xl mx-auto shadow-2xl overflow-hidden">
         {/* Decorative background icon */}
         <motion.div
           className="absolute -top-10 -left-10 text-indigo-300 opacity-10 text-[250px] pointer-events-none"
@@ -337,7 +346,7 @@ export default function HomePage() {
         <h3 className="text-4xl font-bold mb-4 text-green-400 text-center drop-shadow-lg">
           Truyền thông cộng đồng
         </h3>
-        <p className="text-center text-gray-300 text-lg mb-12 max-w-2xl mx-auto">
+        <p className="text-center text-black-500 text-lg mb-12 max-w-2xl mx-auto">
           Những hoạt động nổi bật giúp lan tỏa nhận thức và phòng chống ma túy
           trong cộng đồng.
         </p>
@@ -370,23 +379,6 @@ export default function HomePage() {
           </motion.button>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="text-center text-gray-400 text-sm py-8 border-t border-gray-700 mt-12">
-        2025 Tổ chức Tình nguyện Phòng chống Ma túy.
-        <div className="mt-4 flex justify-center gap-5 text-green-400 text-xl">
-          <a href="#">
-            <FaFacebookF />
-          </a>
-          <a href="#">
-            <FaTwitter />
-          </a>
-          <a href="#">
-            <FaYoutube />
-          </a>
-        </div>
-      </footer>
     </div>
-        </>
   );
 }

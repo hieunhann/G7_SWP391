@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Header from "../../components/PageHeader/Header";
+import Header from "../../components/Header/Header";
 import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
 
 const FEEDBACKS_PER_PAGE = 3;

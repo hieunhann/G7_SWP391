@@ -10,15 +10,23 @@ import DetailsCourse from './pages/Course/DetailsCourse';
 import MemberBookedConsultations from './pages/BookingForm/MemberBookedConsultations';
 import FeedbackCourse from './pages/Course/FeedbackCourse';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
+import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
+import ViewBookedMembers from "./pages/ViewBookedMembers/ViewBookedMembers";
+
 
 <GoogleOAuthProvider clientId="632195046938-srur4gsnmg8nc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
   <App /> {/* hoặc component chính */}
 </GoogleOAuthProvider>
 
+
 function App() {
   return (
-    <Router>
-      <div className="App">
+    <div className="App">
+      <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -28,10 +36,24 @@ function App() {
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Courses/lesson/:id" element={<DetailsCourse />} />
           <Route path="/MyBooking" element={<MemberBookedConsultations />} />
-          <Route path="/Courses/lesson/:id/feedback" element={<FeedbackCourse />} />
+          <Route path="/ScheduleManager" element={<ScheduleManager />} />
+          <Route
+            path="/ViewBookedMembers"
+            element={<ViewBookedMembers />}
+          />
+          <Route
+            path="/ViewCommunicationPrograms"
+            element={<ViewCommunicationPrograms />}
+          />
+          <Route
+            path="/Courses/lesson/:id/feedback"
+            element={<FeedbackCourse />}
+          />
+          <Route path="*" element={<div>404 - Không tìm thấy trang</div>} />
         </Routes>
-      </div>
-    </Router>
+        <Footer />
+      </Router>
+    </div>
   );
 }
 
