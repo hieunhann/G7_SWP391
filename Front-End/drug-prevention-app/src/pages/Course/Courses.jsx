@@ -60,138 +60,35 @@ const Courses = () => {
     <>
       <Header />
     
-      <div className="container py-4">
-        <h2 className="text-center mb-4" style={{ color: "#004b8d", fontWeight: 700 }}>
-          Khóa học phòng chống ma túy
-        </h2>
-
-        {/* Thanh tìm kiếm và bộ lọc nhóm tuổi */}
-        <div className="mb-4 d-flex flex-wrap justify-content-center gap-3">
-          <input
-            type="text"
-            className="form-control"
-            style={{ maxWidth: 400, borderColor: "#004b8d" }}
-            placeholder="Tìm kiếm khóa học..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setCurrentPage(1); // Đặt lại về trang 1 khi tìm kiếm
-            }}
-          />
-          <select
-            className="form-select"
-            style={{ maxWidth: 220, borderColor: "#004b8d" }}
-            value={ageGroupFilter}
-            onChange={(e) => {
-              setAgeGroupFilter(e.target.value);
-              setCurrentPage(1);
-            }}
-          >
-            <option value="">Tất cả nhóm tuổi</option>
-            {allAgeGroups.map((group) => (
-              <option key={group} value={group}>
-                {group}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="d-flex flex-column gap-4">
+      <div className="container py-5">
+        <h2 className="text-center mb-5">Khóa học</h2>
+        
+        <div className="row g-4">
           {currentCourses.map((course) => (
-            <div
-              className="card p-3"
-              key={course.id}
-              style={{
-                border: "1.5px solid #b2dfdb",
-                borderRadius: "8px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
-              }}
-            >
-              <div className="row g-0 align-items-center">
-                <div className="col-md-3 d-flex justify-content-center">
-                  <img
-                    src={course.image}
-                    alt={course.title}
-                    className="img-fluid"
-                    style={{
-                      maxWidth: 180,
-                      minWidth: 140,
-                      height: 120,
-                      objectFit: "cover",
-                      borderRadius: "4px",
-                      border: "1.5px solid #004b8d",
-                      background: "#fff",
-                    }}
-                  />
-                </div>
-                <div className="col-md-9">
-                  <div className="card-body ps-md-4 d-flex flex-column h-100">
-                    <h3
-                      className="mb-2"
+            <div className="col-md-6 col-lg-4" key={course.id}>
+              <div className="card h-100">
+                <div className="row g-0">
+                  <div className="col-md-4">
+                    <img
+                      src={course.image}
+                      alt={course.title}
+                      className="img-fluid rounded-start h-100"
                       style={{
-                        color: "#004b8d",
-                        fontWeight: 700,
-                        fontSize: "1.6rem",
-                        lineHeight: 1.2,
+                        objectFit: 'cover',
+                        border: '1px solid var(--primary-color)',
                       }}
-                    >
-                      {course.title}
-                    </h3>
-                    <p className="mb-2" style={{ color: "#444", fontSize: "1.05rem" }}>
-                      {course.description}
-                    </p>
-                    <div className="mt-2 mb-3">
-                      <button
-                        className="btn"
-                        style={{
-                          border: "2px solid #004b8d",
-                          color: "#004b8d",
-                          fontWeight: 600,
-                          borderRadius: "4px",
-                          background: "#fff",
-                          padding: "8px 28px",
-                          fontSize: "1.1rem",
-                        }}
-                        onClick={() => navigate(`/Courses/lesson/${course.id}`)}
-                      >
-                        Bắt đầu khóa học miễn phí này{" "}
-                        <i className="bi bi-arrow-right-circle" style={{ fontSize: "1.1rem" }}></i>
-                      </button>
-                    </div>
-                    <div className="mt-2 mb-3">
-                      <button
-                        className="btn"
-                        style={{
-                          border: "2px solid #004b8d",
-                          color: "#004b8d",
-                          fontWeight: 600,
-                          borderRadius: "4px",
-                          background: "#fff",
-                          padding: "8px 28px",
-                          fontSize: "1.1rem",
-                        }}
-                        onClick={() => navigate(`/Courses/lesson/${course.id}/feedback`)}
-                      >
-                        Phản hồi khóa học này{" "}
-                        <i className="bi bi-arrow-right-circle" style={{ fontSize: "1.1rem" }}></i>
-                      </button>
-                    </div>
-                    <div
-                      className="d-flex align-items-center gap-4 pt-3 border-top"
-                      style={{ color: "#004b8d", fontSize: "1rem" }}
-                    >
-                      <span>
-                        <i className="bi bi-person-circle me-1"></i>
-                        {course.ageGroup || "Tất cả độ tuổi"} 
-                      </span>
-                      <span>
-                        <i className="bi bi-clock me-1"></i>
-                        {course.duration || "N/A"}
-                      </span>
-                      <span>
-                        <i className="bi bi-journal-bookmark me-1"></i>
-                        {course.lessons ? `${course.lessons} bài học` : "5 bài học"}
-                      </span>
+                    />
+                  </div>
+                  <div className="col-md-8">
+                    <div className="card-body d-flex flex-column h-100">
+                      <h5 className="card-title">{course.title}</h5>
+                      <p className="card-text flex-grow-1">{course.description}</p>
+                      <div className="d-flex justify-content-between align-items-center mt-3">
+                        <span className="badge bg-primary">#{course.id}</span>
+                        <button className="btn btn-primary">
+                          Xem chi tiết
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -200,45 +97,38 @@ const Courses = () => {
           ))}
         </div>
 
-        {/* Phân trang */}
-        <nav className="mt-4 d-flex justify-content-center">
-          <ul className="pagination">
-            <li className={`page-item${currentPage === 1 ? " disabled" : ""}`}>
+        {/* Pagination */}
+        <nav className="mt-4">
+          <ul className="pagination justify-content-center">
+            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
               <button
                 className="page-link"
-                style={{ color: "#004b8d" }}
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                Trang trước
+                Trước
               </button>
             </li>
-            {[...Array(totalPages)].map((_, idx) => (
+            {[...Array(totalPages)].map((_, index) => (
               <li
-                key={idx}
-                className={`page-item${currentPage === idx + 1 ? " active" : ""}`}
+                key={index + 1}
+                className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
               >
                 <button
                   className="page-link"
-                  style={{
-                    color: currentPage === idx + 1 ? "#fff" : "#004b8d",
-                    background: currentPage === idx + 1 ? "#004b8d" : "#fff",
-                    borderColor: "#004b8d",
-                  }}
-                  onClick={() => setCurrentPage(idx + 1)}
+                  onClick={() => setCurrentPage(index + 1)}
                 >
-                  {idx + 1}
+                  {index + 1}
                 </button>
               </li>
             ))}
-            <li className={`page-item${currentPage === totalPages ? " disabled" : ""}`}>
+            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
               <button
                 className="page-link"
-                style={{ color: "#004b8d" }}
                 onClick={() => setCurrentPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                Trang sau
+                Sau
               </button>
             </li>
           </ul>

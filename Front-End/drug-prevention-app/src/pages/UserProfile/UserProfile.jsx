@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
+import { Modal } from "react-bootstrap";
 const iconColor = "#004b8d";
 
 const UserProfile = () => {
@@ -19,6 +20,16 @@ const UserProfile = () => {
   const [certificatesError, setCertificatesError] = useState("");
 
   const [toast, setToast] = useState({ show: false, message: "" });
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editedUser, setEditedUser] = useState(null);
+
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
 
   useEffect(() => {
     try {
@@ -110,6 +121,40 @@ const UserProfile = () => {
     showToast("Mật khẩu đã được thay đổi thành công.");
   };
 
+  const handleUpdateProfile = () => {
+    const updatedUser = { ...user, ...editedUser };
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    setUser(updatedUser);
+    setShowEditModal(false);
+    showToast("Thông tin đã được cập nhật.");
+  };
+
+  const handleChangePassword = () => {
+    if (passwordData.currentPassword !== user?.password) {
+      setPasswordError("Mật khẩu hiện tại không đúng.");
+      return;
+    }
+    if (passwordData.newPassword.length < 6) {
+      setPasswordError("Mật khẩu mới phải có ít nhất 6 ký tự.");
+      return;
+    }
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setPasswordError("Mật khẩu mới không khớp.");
+      return;
+    }
+
+    const updatedUser = { ...user, password: passwordData.newPassword };
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    setUser(updatedUser);
+    setPasswordData({
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    });
+    setShowChangePasswordModal(false);
+    showToast("Mật khẩu đã được thay đổi thành công.");
+  };
+
   if (!user) {
     return <p className="text-center my-5">Đang tải thông tin người dùng...</p>;
   }
@@ -119,90 +164,191 @@ const UserProfile = () => {
   return (
     <>
       <Header />
-      <div className="container my-5">
-        <div className="card shadow mx-auto" style={{ maxWidth: "600px" }}>
-          <div className="card-body">
-            <h2 className="card-title mb-4 text-center" style={{ color: iconColor }}>
-              Thông tin cá nhân
-            </h2>
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-md-8 col-lg-6">
+            <div className="card">
+              <div className="card-body">
+                <h2 className="card-title text-center mb-4">
+                  Thông tin cá nhân
+                </h2>
 
-            <div className="text-center mb-4">
-              <div
-                className="rounded-circle d-flex align-items-center justify-content-center"
-                style={{
-                  width: 120,
-                  height: 120,
-                  background: "#e3e6ea",
-                  color: "#004b8d",
-                  fontSize: 48,
-                  fontWeight: "bold",
-                  userSelect: "none",
-                  margin: "0 auto"
-                }}
-              >
-                {user.fullName ? user.fullName.charAt(0).toUpperCase() : "U"}
-              </div>
-            </div>
+                <div className="text-center mb-4">
+                  <div
+                    className="rounded-circle d-flex align-items-center justify-content-center mx-auto"
+                    style={{
+                      width: '120px',
+                      height: '120px',
+                      background: 'var(--light-color)',
+                      color: 'var(--primary-color)',
+                      fontSize: '48px',
+                      fontWeight: 'bold',
+                      userSelect: 'none'
+                    }}
+                  >
+                    {user.fullName ? user.fullName.charAt(0).toUpperCase() : "U"}
+                  </div>
+                </div>
 
-            <form onSubmit={(e) => e.preventDefault()}>
-              {[
-                { id: "fullName", label: "Họ và tên", type: "text" },
-                { id: "username", label: "Tên đăng nhập", type: "text", readOnly: true },
-                { id: "email", label: "Email", type: "email" },
-                { id: "phoneNumber", label: "Số điện thoại", type: "tel" },
-                { id: "dateOfBirth", label: "Ngày sinh", type: "date" },
-              ].map(({ id, label, type, readOnly }) => (
-                <div className="mb-3" key={id}>
-                  <label htmlFor={id} className="form-label d-flex align-items-center justify-content-center gap-2" style={{ color: iconColor, fontSize: "1.2rem", fontWeight: 500 }}>
-                    <i className={`bi bi-${id === "email" ? "envelope" : id === "phoneNumber" ? "telephone" : id === "dateOfBirth" ? "calendar2-week" : id === "username" ? "person" : "pencil-square"}`} style={{ fontSize: "1.4rem" }}></i>
-                    {label}:
-                  </label>
+                <div className="mb-4">
+                  <label className="form-label">Họ và tên</label>
                   <input
-                    id={id}
-                    name={id}
-                    type={type}
-                    value={formData[id] || ""}
-                    onChange={handleChange}
-                    className="form-control text-center"
-                    disabled={!editing || readOnly}
-                    readOnly={readOnly}
+                    type="text"
+                    className="form-control"
+                    value={user.fullName || ""}
+                    readOnly
                   />
                 </div>
-              ))}
 
-              <div className="d-flex justify-content-center gap-3 mb-3 flex-wrap">
-                {editing ? (
-                  <>
-                    <button type="button" className="btn btn-outline-primary" onClick={handleSave}>
-                      Lưu
-                    </button>
-                    <button type="button" className="btn btn-outline-secondary" onClick={() => {
-                      setEditing(false);
-                      setFormData(user);
-                    }}>
-                      Hủy
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button type="button" className="btn btn-outline-primary" onClick={() => setEditing(true)}>
-                      Chỉnh sửa hồ sơ
-                    </button>
-                    <button type="button" className="btn btn-outline-primary" onClick={openPasswordModal}>
-                      Đổi mật khẩu
-                    </button>
-                    {isConsultant && (
-                      <button type="button" className="btn btn-outline-primary" onClick={() => setShowCertificates(true)}>
-                        Chứng chỉ
-                      </button>
-                    )}
-                  </>
-                )}
+                <div className="mb-4">
+                  <label className="form-label">Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    value={user.email || ""}
+                    readOnly
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="form-label">Số điện thoại</label>
+                  <input
+                    type="tel"
+                    className="form-control"
+                    value={user.phone || ""}
+                    readOnly
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="form-label">Địa chỉ</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={user.address || ""}
+                    readOnly
+                  />
+                </div>
+
+                <div className="d-grid gap-2">
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => setShowEditModal(true)}
+                  >
+                    <i className="bi bi-pencil me-2"></i>
+                    Chỉnh sửa thông tin
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setShowChangePasswordModal(true)}
+                  >
+                    <i className="bi bi-key me-2"></i>
+                    Đổi mật khẩu
+                  </button>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Edit Profile Modal */}
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Chỉnh sửa thông tin</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className="mb-3">
+              <label className="form-label">Họ và tên</label>
+              <input
+                type="text"
+                className="form-control"
+                value={editedUser?.fullName}
+                onChange={(e) => setEditedUser({ ...editedUser, fullName: e.target.value })}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Số điện thoại</label>
+              <input
+                type="tel"
+                className="form-control"
+                value={editedUser?.phone}
+                onChange={(e) => setEditedUser({ ...editedUser, phone: e.target.value })}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Địa chỉ</label>
+              <input
+                type="text"
+                className="form-control"
+                value={editedUser?.address}
+                onChange={(e) => setEditedUser({ ...editedUser, address: e.target.value })}
+              />
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="btn btn-secondary"
+            onClick={() => setShowEditModal(false)}
+          >
+            Hủy
+          </button>
+          <button className="btn btn-primary" onClick={handleUpdateProfile}>
+            Lưu thay đổi
+          </button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Change Password Modal */}
+      <Modal show={showChangePasswordModal} onHide={() => setShowChangePasswordModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Đổi mật khẩu</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className="mb-3">
+              <label className="form-label">Mật khẩu hiện tại</label>
+              <input
+                type="password"
+                className="form-control"
+                value={passwordData.currentPassword}
+                onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Mật khẩu mới</label>
+              <input
+                type="password"
+                className="form-control"
+                value={passwordData.newPassword}
+                onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Xác nhận mật khẩu mới</label>
+              <input
+                type="password"
+                className="form-control"
+                value={passwordData.confirmPassword}
+                onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+              />
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="btn btn-secondary"
+            onClick={() => setShowChangePasswordModal(false)}
+          >
+            Hủy
+          </button>
+          <button className="btn btn-primary" onClick={handleChangePassword}>
+            Đổi mật khẩu
+          </button>
+        </Modal.Footer>
+      </Modal>
 
       {/* Chứng chỉ Modal */}
       {showCertificates && (
@@ -231,43 +377,6 @@ const UserProfile = () => {
                 <button className="btn" style={{ background: iconColor, color: "#fff", minWidth: 100 }} onClick={() => setShowCertificates(false)}>
                   Đóng
                 </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Mật khẩu Modal */}
-      {showModal && (
-        <div className="modal fade show d-block" tabIndex="-1" role="dialog" aria-modal="true" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Đổi mật khẩu</h5>
-                <button type="button" className="btn-close" onClick={closePasswordModal} aria-label="Close" />
-              </div>
-              <div className="modal-body">
-                {passwordError && <div className="alert alert-danger">{passwordError}</div>}
-                {[
-                  { id: "oldPassword", label: "Mật khẩu hiện tại", value: oldPassword, setValue: setOldPassword },
-                  { id: "newPassword", label: "Mật khẩu mới", value: newPassword, setValue: setNewPassword },
-                  { id: "confirmPassword", label: "Xác nhận mật khẩu mới", value: confirmPassword, setValue: setConfirmPassword },
-                ].map(({ id, label, value, setValue }) => (
-                  <div className="mb-3" key={id}>
-                    <label htmlFor={id} className="form-label text-center d-block">{label}</label>
-                    <input
-                      type="password"
-                      id={id}
-                      className="form-control text-center"
-                      value={value}
-                      onChange={(e) => setValue(e.target.value)}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="modal-footer justify-content-center">
-                <button className="btn btn-outline-secondary" onClick={closePasswordModal}>Hủy</button>
-                <button className="btn btn-outline-primary" onClick={handlePasswordSubmit}>Lưu mật khẩu</button>
               </div>
             </div>
           </div>

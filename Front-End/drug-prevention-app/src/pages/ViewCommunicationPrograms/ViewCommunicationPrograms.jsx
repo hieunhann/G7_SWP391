@@ -1,24 +1,36 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, Button, Modal, ListGroup, Form, Alert, Badge } from "react-bootstrap";
+import { Card, Button, Modal, ListGroup, Form, Alert, Badge, InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./ViewCommunicationPrograms.css"; // Assuming you have a CSS file for styles
 
 const ViewCommunicationPrograms = () => {
   const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [feedbacks, setFeedbacks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newRating, setNewRating] = useState(5);
   const [newComment, setNewComment] = useState("");
   const [registrationMessage, setRegistrationMessage] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     axios.get("http://localhost:3001/events")
-      .then((res) => setEvents(res.data))
+      .then((res) => {
+        setEvents(res.data);
+        setFilteredEvents(res.data);
+      })
       .catch((err) => console.error("Lỗi khi tải danh sách chương trình:", err));
   }, []);
+
+  useEffect(() => {
+    const filtered = events.filter(event => 
+      event.Location.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredEvents(filtered);
+  }, [searchQuery, events]);
 
   const handleViewDetail = (event) => {
     setSelectedEvent(event);
@@ -75,38 +87,75 @@ const ViewCommunicationPrograms = () => {
     <h2 className="text-center text-primary mb-5 display-4 fw-bold border-bottom pb-3 shadow-sm">
       <i className="bi bi-globe"></i> Danh sách chương trình cộng đồng
     </h2>
+
+    <div className="search-container mb-4">
+      <InputGroup>
+        <InputGroup.Text>
+          <i className="bi bi-search"></i>
+        </InputGroup.Text>
+        <Form.Control
+          type="text"
+          placeholder="Tìm kiếm theo địa điểm (quận/huyện)..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+      </InputGroup>
+    </div>
+
     <div className="d-flex flex-wrap justify-content-center gap-4">
-      {events.map((event) => (
-        <Card key={event.ID} className="event-card border border-primary shadow-sm" style={{ maxWidth: "320px" }}>
-          {event.Image && (
-            <Card.Img variant="top" src={event.Image} alt="Hình ảnh chương trình" className="event-image img-fluid" />
-          )}
-          <Card.Body className="bg-white text-dark d-flex flex-column justify-content-between">
-            <div>
-              <Card.Title className="fs-5 fw-bold text-primary d-flex justify-content-between align-items-center">
-                <span className="d-flex align-items-center gap-2">
-                  <i className="bi bi-bullseye"></i> {event.Title}
-                </span>
-                <Badge bg="primary" text="light">
-                  <i className="bi bi-hash"></i> {event.ID}
-                </Badge>
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-secondary">
-                <i className="bi bi-person-circle"></i> {event.Program_Coordinator}
-              </Card.Subtitle>
-              <Card.Text>
-                <i className="bi bi-geo-alt"></i> {event.Location}
-              </Card.Text>
-              <Card.Text>
-                <i className="bi bi-calendar-range"></i> {event.Start_date} - {event.End_date}
-              </Card.Text>
+      {filteredEvents.length === 0 ? (
+        <div className="no-results">
+          <i className="bi bi-search display-4"></i>
+          <p className="mt-3">Không tìm thấy chương trình nào tại địa điểm này.</p>
+        </div>
+      ) : (
+        <div className="row g-4">
+          {filteredEvents.map((event) => (
+            <div key={event.ID} className="col-md-6 col-lg-4">
+              <div className="card h-100">
+                {event.Image && (
+                  <img
+                    src={event.Image}
+                    alt="Hình ảnh chương trình"
+                    className="card-img-top"
+                    style={{ height: '200px', objectFit: 'cover' }}
+                  />
+                )}
+                <div className="card-body d-flex flex-column">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h5 className="card-title mb-0">{event.Title}</h5>
+                    <span className="badge bg-primary">#{event.ID}</span>
+                  </div>
+                  
+                  <div className="mb-3">
+                    <p className="card-text mb-2">
+                      <i className="bi bi-person-circle me-2"></i>
+                      {event.Program_Coordinator}
+                    </p>
+                    <p className="card-text mb-2">
+                      <i className="bi bi-geo-alt me-2"></i>
+                      {event.Location}
+                    </p>
+                    <p className="card-text">
+                      <i className="bi bi-calendar-range me-2"></i>
+                      {event.Start_date} - {event.End_date}
+                    </p>
+                  </div>
+
+                  <button
+                    className="btn btn-primary mt-auto"
+                    onClick={() => handleViewDetail(event)}
+                  >
+                    <i className="bi bi-eye me-2"></i>
+                    Xem chi tiết
+                  </button>
+                </div>
+              </div>
             </div>
-            <Button variant="outline-primary" className="mt-3 w-100 align-self-end d-flex align-items-center justify-content-center gap-2" onClick={() => handleViewDetail(event)}>
-              <i className="bi bi-eye"></i> Xem chi tiết
-            </Button>
-          </Card.Body>
-        </Card>
-      ))}
+          ))}
+        </div>
+      )}
     </div>
 
     {selectedEvent && (
