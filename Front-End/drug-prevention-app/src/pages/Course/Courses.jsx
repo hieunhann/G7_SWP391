@@ -108,7 +108,7 @@ const Courses = () => {
                 boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
               }}
             >
-              <div className="row g-0 align-items-center">
+              <div className="row g-0 align-items-center" style ={{ width: "auto" }}>
                 <div className="col-md-3 d-flex justify-content-center">
                   <img
                     src={course.image}

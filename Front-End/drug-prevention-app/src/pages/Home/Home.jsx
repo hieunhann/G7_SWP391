@@ -12,6 +12,7 @@ import {
   FaYoutube,
   FaSearch,
 } from "react-icons/fa";
+import Header from "../../components/Header/Header";
 export default function HomePage() {
   const [search, setSearch] = useState("");
 
@@ -87,8 +88,12 @@ export default function HomePage() {
   );
 
   return (
+    <>
+          <Header />
+
     <div className="min-h-screen bg-white text-black">
       {/* Hero Section */}
+      
       <section className="relative text-center py-32 px-4  mx-auto bg-gradient-to-br from-green-50 via-white to-green-100">
         <motion.img
           src="https://attorneycarl.com/wp-content/uploads/2021/06/illegal-drugs-NO.jpeg"
@@ -379,5 +384,6 @@ export default function HomePage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

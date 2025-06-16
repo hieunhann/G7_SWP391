@@ -660,247 +660,248 @@
       "updatedAt": "2025-05-03T12:00:00"
     }
   ],
-  "Course": 
-    [ 
-      {
-        "id": 1,
-        "title": "The Truth About Drugs",
-        "description": "Through this interactive course you’ll learn the reason why people take drugs in the first place. You’ll also discover basic facts about the most commonly abused drugs. And you’ll hear it from those who lived through the addiction to tell their story. Educate yourself. Get the truth about drugs",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/drugs_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/pwy3_wFMATU",
-        "author": "Drug Free World Organization",
-        "duration": "20 minutes",
-        "ageGroup": "Student, Parent",
-        "category": "Drug Prevention",
-        "tags": [
-          "drugs",
-          "prevention",
-          "health education"
-        ],
-        "publishedDate": "2024-01-10"
-      },
-      {
-        "id": 2,
-        "title": "The Truth About Prescription Drug Abuse",
-        "description": "Through this interactive course you will learn the truth about prescription drug abuse. You’ll hear it from former addicts who know the consequences and give real, first-hand experience of the dangers of prescription drugs.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/prescriptiondrugs_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/L6r9ITMaVtw",
-        "author": "Drug Free World Organization",
-        "duration": "25 minutes",
-        "ageGroup": "University student, Teacher",
-        "category": "Drug Prevention",
-        "tags": [
-          "drugs",
-          "knowledge",
-          "research"
-        ],
-        "publishedDate": "2024-02-15"
-      },
-      {
-        "id": 3,
-        "title": "The Truth About Marijuana",
-        "description": "Through this interactive course you will learn the truth about marijuana, the myths surrounding it and why many former addicts believe using it often leads to even more harmful drugs.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/marijuana_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/IHX7zQrBEG8",
-        "author": "Drug Free World Organization",
-        "duration": "18 minutes",
-        "ageGroup": "Student, Parent",
-        "category": "Drug Prevention",
-        "tags": [
-          "health",
-          "society",
-          "prevention"
-        ],
-        "publishedDate": "2024-03-05"
-      },
-      {
-        "id": 4,
-        "title": "The Truth About Ritalin Abuse",
-        "description": "Through this interactive course you will learn the truth about Ritalin abuse. You’ll learn how Ritalin abuse starts and the consequences of abusing prescription drugs. People who’ve used Ritalin tell the unedited truth about what happened to them.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/ritalin_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/HAm7SxPXjvo",
-        "author": "Drug Free World Organization",
-        "duration": "15 minutes",
-        "ageGroup": "Student",
-        "category": "Drug Prevention",
-        "tags": [
-          "skills",
-          "refusal",
-          "support"
-        ],
-        "publishedDate": "2024-04-10"
-      },
-      {
-        "id": 5,
-        "title": "The Truth About Painkillers",
-        "description": "Through this interactive course you will learn the truth about painkillers. You’ll get straight facts from former addicts who know first-hand how easy it is to become addicted.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/painkillers_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/YAHVESjVkWs",
-        "author": "Drug Free World Organization",
-        "duration": "22 minutes",
-        "ageGroup": "Parent, Teacher",
-        "category": "Drug Prevention",
-        "tags": [
-          "psychology",
-          "behavior",
-          "addiction"
-        ],
-        "publishedDate": "2024-05-20"
-      },
-      {
-        "id": 6,
-        "title": "The Truth About Heroin",
-        "description": "Through this interactive course you will learn the truth about heroin. You’ll hear former addicts tell their stories about how they got hooked and how their heroin habit became their full-time obsession.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/heroin_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/RGuOlYTqi0E",
-        "author": "Drug Free World Organization",
-        "duration": "48 min",
-        "ageGroup": "University student",
-        "category": "Drug Prevention",
-        "tags": [
-          "heroin",
-          "addiction",
-          "story"
-        ],
-        "publishedDate": "2024-06-01"
-      },
-      {
-        "id": 7,
-        "title": "The Truth About Crystal Meth",
-        "description": "Through this interactive course you will learn the truth about crystal meth. You’ll hear it from former users who experienced the severe effects of crystal meth addiction.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/crystalmeth_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/fuyX1XKxX_s",
-        "author": "Drug Free World Organization",
-        "duration": "50 min",
-        "ageGroup": "University student, Teacher",
-        "category": "Drug Prevention",
-        "tags": [
-          "crystal meth",
-          "addiction",
-          "effects"
-        ],
-        "publishedDate": "2024-06-02"
-      },
-      {
-        "id": 8,
-        "title": "The Truth About Synthetic Drugs",
-        "description": "Through this interactive course you will learn the truth about synthetic drugs and why—no matter what people tell you—they are not natural, safe or legal. You’ll hear it straight from former users who experienced the severe effects of synthetic drugs.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/14-synthetic-bklt-cover_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/CpnHkziqaR4",
-        "author": "Drug Free World Organization",
-        "duration": "47 min",
-        "ageGroup": "Teacher, Parent",
-        "category": "Drug Prevention",
-        "tags": [
-          "synthetic drugs",
-          "effects",
-          "prevention"
-        ],
-        "publishedDate": "2024-06-03"
-      },
-      {
-        "id": 9,
-        "title": "The Truth About Alcohol",
-        "description": "Through this interactive course you will learn the truth about alcohol. Get straight talk about alcohol in its many forms from those who overcame addiction.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/alcohol_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/WwFPb-2T8N8",
-        "author": "Drug Free World Organization",
-        "duration": "41 min",
-        "ageGroup": "Parent, Student",
-        "category": "Drug Prevention",
-        "tags": [
-          "alcohol",
-          "addiction",
-          "facts"
-        ],
-        "publishedDate": "2024-06-04"
-      },
-      {
-        "id": 10,
-        "title": "The Truth About Inhalants",
-        "description": "Through this interactive course you will learn the truth about inhalants. You’ll find out how inhaling everyday chemicals can cause dangerous and deadly effects. And you’ll hear it from people who survived inhalant addiction.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/inhalants_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/392jFOsvpoQ",
-        "author": "Drug Free World Organization",
-        "duration": "46 min",
-        "ageGroup": "Teacher, University student",
-        "category": "Drug Prevention",
-        "tags": [
-          "inhalants",
-          "chemicals",
-          "addiction"
-        ],
-        "publishedDate": "2024-06-05"
-      },
-      {
-        "id": 11,
-        "title": "The Truth About Ecstasy",
-        "description": "Through this interactive course you will learn the truth about Ecstasy. You’ll get the straight facts about this designer drug from people who have abused it.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/ecstasy_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/zZMETFXFE24",
-        "author": "Drug Free World Organization",
-        "duration": "44 min",
-        "ageGroup": "University student, Parent",
-        "category": "Drug Prevention",
-        "tags": [
-          "ecstasy",
-          "facts",
-          "abuse"
-        ],
-        "publishedDate": "2024-06-06"
-      },
-      {
-        "id": 12,
-        "title": "The Truth About LSD",
-        "description": "Through this interactive course you will learn the truth about LSD. Real people who’ve used LSD spell it all out—from its history to its street names, and its unpredictable effects and risks.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/lsd_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/bdh3Em-fAEo",
-        "author": "Drug Free World Organization",
-        "duration": "45 min",
-        "ageGroup": "University student, Teacher",
-        "category": "Drug Prevention",
-        "tags": [
-          "LSD",
-          "effects",
-          "risks"
-        ],
-        "publishedDate": "2024-06-07"
-      },
-      {
-        "id": 13,
-        "title": "The Truth About Cocaine",
-        "description": "Through this interactive course you will learn the truth about cocaine. What it is, what it’s made of and why it’s so highly addictive. Former cocaine addicts give the straight facts about the problems they encountered from using coke.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/cocaine_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/YFmXkzS-Rp8",
-        "author": "Drug Free World Organization",
-        "duration": "49 min",
-        "ageGroup": "Parent, Teacher",
-        "category": "Drug Prevention",
-        "tags": [
-          "cocaine",
-          "addiction",
-          "facts"
-        ],
-        "publishedDate": "2024-06-08"
-      },
-      {
-        "id": 14,
-        "title": "The Truth About Crack Cocaine",
-        "description": "Through this interactive course you will learn the truth about crack cocaine. You’ll hear it straight from former crack users who talk about how they got addicted and what it did to their lives.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/crack_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/-GmW-BCm-UA",
-        "author": "Drug Free World Organization",
-        "duration": "45 min",
-        "ageGroup": "Teacher, Student",
-        "category": "Drug Prevention",
-        "tags": [
-          "crack cocaine",
-          "addiction",
-          "stories"
-        ],
-        "publishedDate": "2024-06-09"
-      }
-    ],
+ 
+  "Course": [
+    {
+      "id": 1,
+      "title": "Sự Thật Về Ma Túy",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu lý do tại sao mọi người sử dụng ma túy ngay từ đầu. Bạn cũng sẽ khám phá những sự thật cơ bản về các loại ma túy bị lạm dụng phổ biến nhất. Và bạn sẽ được lắng nghe câu chuyện từ những người đã trải qua cơn nghiện để kể lại. Tự giáo dục bản thân. Nắm bắt sự thật về ma túy.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/drugs_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/pwy3_wFMATU",
+      "author": "Drug Free World Organization",
+      "duration": "20 minutes",
+      "ageGroup": "Student, Parent",
+      "category": "Drug Prevention",
+      "tags": [
+        "drugs",
+        "prevention",
+        "health education"
+      ],
+      "publishedDate": "2024-01-10"
+    },
+    {
+      "id": 2,
+      "title": "Sự Thật Về Lạm Dụng Thuốc Kê Đơn",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về việc lạm dụng thuốc kê đơn. Bạn sẽ được lắng nghe từ những người từng nghiện, những người hiểu rõ hậu quả và cung cấp những trải nghiệm thực tế, trực tiếp về sự nguy hiểm của thuốc kê đơn.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/prescriptiondrugs_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/L6r9ITMaVtw",
+      "author": "Drug Free World Organization",
+      "duration": "25 minutes",
+      "ageGroup": "University student, Teacher",
+      "category": "Drug Prevention",
+      "tags": [
+        "drugs",
+        "knowledge",
+        "research"
+      ],
+      "publishedDate": "2024-02-15"
+    },
+    {
+      "id": 3,
+      "title": "Sự Thật Về Cần Sa",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về cần sa, những lầm tưởng xung quanh nó và lý do tại sao nhiều người từng nghiện tin rằng việc sử dụng nó thường dẫn đến những loại ma túy nguy hiểm hơn.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/marijuana_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/IHX7zQrBEG8",
+      "author": "Drug Free World Organization",
+      "duration": "18 minutes",
+      "ageGroup": "Student, Parent",
+      "category": "Drug Prevention",
+      "tags": [
+        "health",
+        "society",
+        "prevention"
+      ],
+      "publishedDate": "2024-03-05"
+    },
+    {
+      "id": 4,
+      "title": "Sự Thật Về Lạm Dụng Ritalin",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về việc lạm dụng Ritalin. Bạn sẽ biết được lạm dụng Ritalin bắt đầu như thế nào và hậu quả của việc lạm dụng thuốc kê đơn. Những người từng sử dụng Ritalin sẽ kể sự thật không chỉnh sửa về những gì đã xảy ra với họ.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/ritalin_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/HAm7SxPXjvo",
+      "author": "Drug Free World Organization",
+      "duration": "15 minutes",
+      "ageGroup": "Student",
+      "category": "Drug Prevention",
+      "tags": [
+        "skills",
+        "refusal",
+        "support"
+      ],
+      "publishedDate": "2024-04-10"
+    },
+    {
+      "id": 5,
+      "title": "Sự Thật Về Thuốc Giảm Đau",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về thuốc giảm đau. Bạn sẽ nhận được những sự thật trực tiếp từ những người từng nghiện, những người biết rõ việc nghiện thuốc dễ dàng đến mức nào.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/painkillers_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/YAHVESjVkWs",
+      "author": "Drug Free World Organization",
+      "duration": "22 minutes",
+      "ageGroup": "Parent, Teacher",
+      "category": "Drug Prevention",
+      "tags": [
+        "psychology",
+        "behavior",
+        "addiction"
+      ],
+      "publishedDate": "2024-05-20"
+    },
+    {
+      "id": 6,
+      "title": "Sự Thật Về Heroin",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về heroin. Bạn sẽ được nghe những người từng nghiện kể câu chuyện của họ về cách họ bị nghiện và làm thế nào thói quen sử dụng heroin trở thành nỗi ám ảnh toàn thời gian của họ.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/heroin_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/RGuOlYTqi0E",
+      "author": "Drug Free World Organization",
+      "duration": "48 min",
+      "ageGroup": "University student",
+      "category": "Drug Prevention",
+      "tags": [
+        "heroin",
+        "addiction",
+        "story"
+      ],
+      "publishedDate": "2024-06-01"
+    },
+    {
+      "id": 7,
+      "title": "Sự Thật Về Ma Túy Đá",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về ma túy đá (crystal meth). Bạn sẽ được nghe từ những người từng sử dụng đã trải nghiệm những tác động nghiêm trọng của việc nghiện ma túy đá.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/crystalmeth_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/fuyX1XKxX_s",
+      "author": "Drug Free World Organization",
+      "duration": "50 min",
+      "ageGroup": "University student, Teacher",
+      "category": "Drug Prevention",
+      "tags": [
+        "crystal meth",
+        "addiction",
+        "effects"
+      ],
+      "publishedDate": "2024-06-02"
+    },
+    {
+      "id": 8,
+      "title": "Sự Thật Về Ma Túy Tổng Hợp",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về ma túy tổng hợp và tại sao – bất kể mọi người nói gì với bạn – chúng không tự nhiên, an toàn hay hợp pháp. Bạn sẽ được nghe trực tiếp từ những người từng sử dụng đã trải nghiệm những tác động nghiêm trọng của ma túy tổng hợp.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/14-synthetic-bklt-cover_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/CpnHkziqaR4",
+      "author": "Drug Free World Organization",
+      "duration": "47 min",
+      "ageGroup": "Teacher, Parent",
+      "category": "Drug Prevention",
+      "tags": [
+        "synthetic drugs",
+        "effects",
+        "prevention"
+      ],
+      "publishedDate": "2024-06-03"
+    },
+    {
+      "id": 9,
+      "title": "Sự Thật Về Rượu",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về rượu. Hãy nghe những chia sẻ thẳng thắn về rượu dưới nhiều hình thức từ những người đã vượt qua cơn nghiện.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/alcohol_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/WwFPb-2T8N8",
+      "author": "Drug Free World Organization",
+      "duration": "41 min",
+      "ageGroup": "Parent, Student",
+      "category": "Drug Prevention",
+      "tags": [
+        "alcohol",
+        "addiction",
+        "facts"
+      ],
+      "publishedDate": "2024-06-04"
+    },
+    {
+      "id": 10,
+      "title": "Sự Thật Về Hóa Chất Hít",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về các hóa chất dạng hít. Bạn sẽ biết được việc hít phải các hóa chất thông thường hàng ngày có thể gây ra những tác động nguy hiểm và chết người như thế nào. Và bạn sẽ được nghe từ những người đã sống sót sau cơn nghiện hóa chất hít.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/inhalants_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/392jFOsvpoQ",
+      "author": "Drug Free World Organization",
+      "duration": "46 min",
+      "ageGroup": "Teacher, University student",
+      "category": "Drug Prevention",
+      "tags": [
+        "inhalants",
+        "chemicals",
+        "addiction"
+      ],
+      "publishedDate": "2024-06-05"
+    },
+    {
+      "id": 11,
+      "title": "Sự Thật Về Ecstasy",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về Ecstasy. Bạn sẽ nhận được những sự thật thẳng thắn về loại ma túy tổng hợp này từ những người đã lạm dụng nó.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/ecstasy_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/zZMETFXFE24",
+      "author": "Drug Free World Organization",
+      "duration": "44 min",
+      "ageGroup": "University student, Parent",
+      "category": "Drug Prevention",
+      "tags": [
+        "ecstasy",
+        "facts",
+        "abuse"
+      ],
+      "publishedDate": "2024-06-06"
+    },
+    {
+      "id": 12,
+      "title": "Sự Thật Về LSD",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về LSD. Những người thực tế đã sử dụng LSD sẽ trình bày tất cả – từ lịch sử đến tên đường phố, và những tác dụng và rủi ro không thể đoán trước của nó.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/lsd_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/bdh3Em-fAEo",
+      "author": "Drug Free World Organization",
+      "duration": "45 min",
+      "ageGroup": "University student, Teacher",
+      "category": "Drug Prevention",
+      "tags": [
+        "LSD",
+        "effects",
+        "risks"
+      ],
+      "publishedDate": "2024-06-07"
+    },
+    {
+      "id": 13,
+      "title": "Sự Thật Về Cocaine",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về cocaine. Nó là gì, được làm từ gì và tại sao nó lại gây nghiện cao như vậy. Những người từng nghiện cocaine sẽ kể những sự thật thẳng thắn về các vấn đề họ gặp phải khi sử dụng cocaine.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/cocaine_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/YFmXkzS-Rp8",
+      "author": "Drug Free World Organization",
+      "duration": "49 min",
+      "ageGroup": "Parent, Teacher",
+      "category": "Drug Prevention",
+      "tags": [
+        "cocaine",
+        "addiction",
+        "facts"
+      ],
+      "publishedDate": "2024-06-08"
+    },
+    {
+      "id": 14,
+      "title": "Sự Thật Về Crack Cocaine",
+      "description": "Thông qua khóa học tương tác này, bạn sẽ tìm hiểu sự thật về crack cocaine. Bạn sẽ được nghe trực tiếp từ những người từng sử dụng crack kể về cách họ bị nghiện và những gì nó đã gây ra cho cuộc sống của họ.",
+      "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/crack_booklet_en.jpg?k=",
+      "videoUrl": "https://www.youtube.com/embed/-GmW-BCm-UA",
+      "author": "Drug Free World Organization",
+      "duration": "45 min",
+      "ageGroup": "Teacher, Student",
+      "category": "Drug Prevention",
+      "tags": [
+        "crack cocaine",
+        "addiction",
+        "stories"
+      ],
+      "publishedDate": "2024-06-09"
+    }
+  ],
+    
   
   "events": [
     {

@@ -10,15 +10,16 @@ import DetailsCourse from "./pages/Course/DetailsCourse";
 import MemberBookedConsultations from "./pages/BookingForm/MemberBookedConsultations";
 import FeedbackCourse from "./pages/Course/FeedbackCourse";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import Header from "./components/Header/Header";
+// import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
-import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
-import ViewBookedMembers from "./pages/ViewBookedMembers/ViewBookedMembers";
+// import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
+// import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
+// import ViewBookedMembers from "./pages/ViewBookedMembers/ViewBookedMembers";
 import CRAFFT from "./pages/Surveys/CRAFFT";
 import Surveys from "./pages/Surveys/Surveys";
 import ASSIST from "./pages/Surveys/ASSIST";
 import CommunityActivities from "./pages/CommunityActivities/CommunityActivities";
+
 
 <GoogleOAuthProvider clientId="632195046938-srur4gsnmg8nc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
   <App /> {/* hoặc component chính */}
@@ -26,9 +27,13 @@ import CommunityActivities from "./pages/CommunityActivities/CommunityActivities
 
 function App() {
   return (
+      
     <div className="App">
+      {/* Bọc toàn bộ ứng dụng trong GoogleOAuthProvider */}
       <Router>
+   
         <Routes>
+
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -47,12 +52,12 @@ function App() {
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Courses/lesson/:id" element={<DetailsCourse />} />
           <Route path="/MyBooking" element={<MemberBookedConsultations />} />
-          <Route path="/ScheduleManager" element={<ScheduleManager />} />
-          <Route path="/ViewBookedMembers" element={<ViewBookedMembers />} />
-          <Route
+          {/* <Route path="/ScheduleManager" element={<ScheduleManager />} />
+          <Route path="/ViewBookedMembers" element={<ViewBookedMembers />} /> */}
+          {/* <Route
             path="/ViewCommunicationPrograms"
             element={<ViewCommunicationPrograms />}
-          />
+          /> */}
           <Route
             path="/Courses/lesson/:id/feedback"
             element={<FeedbackCourse />}

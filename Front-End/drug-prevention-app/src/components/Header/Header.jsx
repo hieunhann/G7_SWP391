@@ -25,7 +25,7 @@ const Header = () => {
 
   const renderUserName = () => {
     if (!user) return null;
-    return user.fullname || user.name || user.username || "User";
+    return user.fullName  || "User";
   };
 
   const navItems = [
