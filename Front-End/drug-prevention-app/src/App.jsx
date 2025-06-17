@@ -1,4 +1,3 @@
-import './styles/global.css';
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
@@ -15,6 +14,11 @@ import Footer from "./components/Footer/Footer";
 import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
 import ViewBookedMembers from "./pages/ViewBookedMembers/ViewBookedMembers";
+
+
+<GoogleOAuthProvider clientId="632195046938-srur4gsnmg8nc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
+  <App /> {/* hoặc component chính */}
+</GoogleOAuthProvider>
 
 
 function App() {

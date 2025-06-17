@@ -100,6 +100,10 @@ const UserProfile = () => {
   };
 
   const handlePasswordSubmit = () => {
+    if (!user?.password) {
+      setPasswordError('Tài khoản Gmail không hỗ trợ đổi mật khẩu.');
+      return;
+    }
     if (oldPassword !== user?.password) {
       setPasswordError("Mật khẩu hiện tại không đúng.");
       return;
@@ -229,23 +233,36 @@ const UserProfile = () => {
                     readOnly
                   />
                 </div>
+              ))}
 
-                <div className="d-grid gap-2">
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => setShowEditModal(true)}
-                  >
-                    <i className="bi bi-pencil me-2"></i>
-                    Chỉnh sửa thông tin
-                  </button>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => setShowChangePasswordModal(true)}
-                  >
-                    <i className="bi bi-key me-2"></i>
-                    Đổi mật khẩu
-                  </button>
-                </div>
+              <div className="d-flex justify-content-center gap-3 mb-3 flex-wrap">
+                {editing ? (
+                  <>
+                    <button type="button" className="btn btn-outline-primary" onClick={handleSave}>
+                      Lưu
+                    </button>
+                    <button type="button" className="btn btn-outline-secondary" onClick={() => {
+                      setEditing(false);
+                      setFormData(user);
+                    }}>
+                      Hủy
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button type="button" className="btn btn-outline-primary" onClick={() => setEditing(true)}>
+                      Chỉnh sửa hồ sơ
+                    </button>
+                    <button type="button" className="btn btn-outline-primary" onClick={openPasswordModal}>
+                      Đổi mật khẩu
+                    </button>
+                    {isConsultant && (
+                      <button type="button" className="btn btn-outline-primary" onClick={() => setShowCertificates(true)}>
+                        Chứng chỉ
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>

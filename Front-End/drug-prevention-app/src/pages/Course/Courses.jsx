@@ -18,10 +18,11 @@ const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
-  const [ageGroupFilter, setAgeGroupFilter] = useState(""); // Thêm state cho bộ lọc
+  const [ageGroupFilter, setAgeGroupFilter] = useState(""); 
 
   const navigate = useNavigate();
 
+ 
   useEffect(() => {
     fetch("http://localhost:5002/Course")
       .then((res) => res.json())
@@ -74,21 +75,69 @@ const Courses = () => {
                       alt={course.title}
                       className="img-fluid rounded-start h-100"
                       style={{
-                        objectFit: 'cover',
-                        border: '1px solid var(--primary-color)',
+                        color: "#004b8d",
+                        fontWeight: 700,
+                        fontSize: "1.6rem",
+                        lineHeight: 1.2,
                       }}
-                    />
-                  </div>
-                  <div className="col-md-8">
-                    <div className="card-body d-flex flex-column h-100">
-                      <h5 className="card-title">{course.title}</h5>
-                      <p className="card-text flex-grow-1">{course.description}</p>
-                      <div className="d-flex justify-content-between align-items-center mt-3">
-                        <span className="badge bg-primary">#{course.id}</span>
-                        <button className="btn btn-primary">
-                          Xem chi tiết
-                        </button>
-                      </div>
+                    >
+                      {course.title}
+                    </h3>
+                    <p className="mb-2" style={{ color: "#444", fontSize: "1.05rem" }}>
+                      {course.description}
+                    </p>
+                    <div className="mt-2 mb-3">
+                      <button
+                        className="btn"
+                        style={{
+                          border: "2px solid #004b8d",
+                          color: "#004b8d",
+                          fontWeight: 600,
+                          borderRadius: "4px",
+                          background: "#fff",
+                          padding: "8px 28px",
+                          fontSize: "1.1rem",
+                        }}
+                        onClick={() => navigate(`/Courses/lesson/${course.id}`)}
+                      >
+                        Bắt đầu khóa học miễn phí này{" "}
+                        <i className="bi bi-arrow-right-circle" style={{ fontSize: "1.1rem" }}></i>
+                      </button>
+                    </div>
+                    <div className="mt-2 mb-3">
+                      <button
+                        className="btn"
+                        style={{
+                          border: "2px solid #004b8d",
+                          color: "#004b8d",
+                          fontWeight: 600,
+                          borderRadius: "4px",
+                          background: "#fff",
+                          padding: "8px 28px",
+                          fontSize: "1.1rem",
+                        }}
+                        onClick={() => navigate(`/Courses/lesson/${course.id}/feedback`)}
+                      >
+                        Phản hồi khóa học này{" "}
+                        <i className="bi bi-arrow-right-circle" style={{ fontSize: "1.1rem" }}></i>
+                      </button>
+                    </div>
+                    <div
+                      className="d-flex align-items-center gap-4 pt-3 border-top"
+                      style={{ color: "#004b8d", fontSize: "1rem" }}
+                    >
+                      <span>
+                        <i className="bi bi-person-circle me-1"></i>
+                        {course.ageGroup || "Tất cả độ tuổi"} 
+                      </span>
+                      <span>
+                        <i className="bi bi-clock me-1"></i>
+                        {course.duration || "N/A"}
+                      </span>
+                      <span>
+                        <i className="bi bi-journal-bookmark me-1"></i>
+                        {course.lessons ? `${course.lessons} bài học` : "5 bài học"}
+                      </span>
                     </div>
                   </div>
                 </div>
