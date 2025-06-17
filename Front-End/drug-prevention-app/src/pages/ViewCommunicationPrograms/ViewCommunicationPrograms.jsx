@@ -103,17 +103,17 @@ const ViewCommunicationPrograms = () => {
       </InputGroup>
     </div>
 
-    <div className="d-flex flex-wrap justify-content-center gap-4">
+    <div className="container">
       {filteredEvents.length === 0 ? (
-        <div className="no-results">
-          <i className="bi bi-search display-4"></i>
-          <p className="mt-3">Không tìm thấy chương trình nào tại địa điểm này.</p>
+        <div className="text-center py-5">
+          <i className="bi bi-search display-4 text-muted"></i>
+          <p className="mt-3 text-muted">Không tìm thấy chương trình nào tại địa điểm này.</p>
         </div>
       ) : (
-        <div className="row g-4">
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {filteredEvents.map((event) => (
-            <div key={event.ID} className="col-md-6 col-lg-4">
-              <div className="card h-100">
+            <div key={event.ID} className="col">
+              <div className="card h-100 shadow-sm">
                 {event.Image && (
                   <img
                     src={event.Image}

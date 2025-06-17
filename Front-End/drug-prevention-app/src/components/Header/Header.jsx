@@ -30,13 +30,10 @@ const Header = () => {
 
   const navItems = [
     { to: "/", label: "Trang Chủ" },
-    { to: "/courses", label: "Khóa Học" },
-    { to: "/surveys", label: "Khảo Sát" },
-    { to: "/booking", label: "Đặt Lịch" },
-    { to: "/MyBooking", label: "Lịch Của Tôi" },
     { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" },
     { to: "/ScheduleManager", label: "Quản Lý Lịch" },
     { to : "/ViewBookedMembers", label: "Xem Thành Viên Đặt Lịch" },
+    { to :"/blogs", label: "Blogs" },
 
   ];
 

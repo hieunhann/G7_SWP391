@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   FaArrowRight,
   FaClipboardList,
@@ -15,6 +16,8 @@ import {
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const trainingPrograms = [
     {
@@ -59,29 +62,20 @@ export default function HomePage() {
         "Lắng nghe ý kiến, góp ý từ cộng đồng để cải tiến các hoạt động.",
     },
   ];
-  const blogs = [
-    {
-      id: 1,
-      title: "5 cách phòng tránh ma túy hiệu quả cho thanh thiếu niên",
-      excerpt:
-        "Tìm hiểu những phương pháp đơn giản và thiết thực giúp thanh thiếu niên tránh xa ma túy.",
-      img: "https://cdn-icons-png.flaticon.com/512/2913/2913461.png",
-    },
-    {
-      id: 2,
-      title: "Vai trò của gia đình trong phòng chống ma túy",
-      excerpt:
-        "Gia đình có thể làm gì để giúp con em mình nhận biết và tránh xa nguy cơ ma túy?",
-      img: "https://cdn-icons-png.flaticon.com/512/2721/2721277.png",
-    },
-    {
-      id: 3,
-      title: "Chia sẻ kinh nghiệm từ chuyên gia tư vấn tâm lý",
-      excerpt:
-        "Những lời khuyên quý giá giúp nhận diện dấu hiệu sử dụng ma túy và cách can thiệp.",
-      img: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-    },
-  ];
+
+  useEffect(() => {
+    // Fetch blogs from JSON server
+    fetch('http://localhost:3000/blogs')
+      .then(res => res.json())
+      .then(data => {
+        setBlogs(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching blogs:', err);
+        setLoading(false);
+      });
+  }, []);
 
   const filteredTrainingPrograms = trainingPrograms.filter(({ title }) =>
     title.toLowerCase().includes(search.toLowerCase())
@@ -204,53 +198,66 @@ export default function HomePage() {
           Blog mới nhất
         </h3>
         <p className="text-center text-gray-700 text-lg mb-14 max-w-3xl mx-auto">
-          Cập nhật kiến thức, câu chuyện và tin tức mới nhất về phòng chống ma
-          túy.
+          Cập nhật kiến thức, câu chuyện và tin tức mới nhất về phòng chống ma túy.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-          {blogs.map(({ id, title, excerpt, img }, index) => (
-            <motion.div
-              key={id}
-              className="relative rounded-3xl overflow-hidden shadow-xl bg-white border border-gray-200 cursor-pointer flex flex-col"
-              initial={{ opacity: 0, y: 40, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{
-                delay: index * 0.15,
-                duration: 0.5,
-                type: "spring",
-                stiffness: 120,
-              }}
-              viewport={{ once: true }}
-              whileHover={{
-                scale: 1.03,
-                boxShadow: "0 12px 28px rgba(72, 187, 120, 0.3)",
-              }}
-            >
-              <div className="relative h-48 overflow-hidden rounded-t-3xl">
-                <img
-                  src={img}
-                  alt={title}
-                  className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-90 hover:opacity-70 transition-opacity duration-300"></div>
-                <h4 className="absolute bottom-4 left-4 right-4 text-xl sm:text-2xl font-extrabold text-green-700 drop-shadow">
-                  {title}
-                </h4>
-              </div>
-              <div className="p-6 flex flex-col flex-grow">
-                <p className="text-gray-700 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
-                  {excerpt}
-                </p>
-                <button
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-3 rounded-full shadow-md transition-transform duration-300 ease-in-out hover:scale-105 focus:outline-none flex-shrink-0"
-                  aria-label={`Xem chi tiết bài viết: ${title}`}
-                >
-                  Xem chi tiết <FaArrowRight />
-                </button>
-              </div>
-            </motion.div>
-          ))}
+        {loading ? (
+          <div className="text-center">Đang tải...</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+            {blogs.map((blog, index) => (
+              <motion.div
+                key={blog.id}
+                className="relative rounded-3xl overflow-hidden shadow-xl bg-white border border-gray-200 cursor-pointer flex flex-col"
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  delay: index * 0.15,
+                  duration: 0.5,
+                  type: "spring",
+                  stiffness: 120,
+                }}
+                viewport={{ once: true }}
+                whileHover={{
+                  scale: 1.03,
+                  boxShadow: "0 12px 28px rgba(72, 187, 120, 0.3)",
+                }}
+              >
+                <div className="relative h-48 overflow-hidden rounded-t-3xl">
+                  <img
+                    src={blog.image || "https://cdn-icons-png.flaticon.com/512/2913/2913461.png"}
+                    alt={blog.title}
+                    className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-90 hover:opacity-70 transition-opacity duration-300"></div>
+                  <h4 className="absolute bottom-4 left-4 right-4 text-xl sm:text-2xl font-extrabold text-green-700 drop-shadow">
+                    {blog.title}
+                  </h4>
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
+                  <p className="text-gray-700 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
+                    {blog.content}
+                  </p>
+                  <Link
+                    to={`/blog/${blog.id}`}
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-3 rounded-full shadow-md transition-transform duration-300 ease-in-out hover:scale-105 focus:outline-none flex-shrink-0"
+                    aria-label={`Xem chi tiết bài viết: ${blog.title}`}
+                  >
+                    Xem chi tiết <FaArrowRight />
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+
+        <div className="text-center mt-12">
+          <Link
+            to="/blogs"
+            className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-all"
+          >
+            Xem tất cả bài viết <FaArrowRight />
+          </Link>
         </div>
       </section>
 
