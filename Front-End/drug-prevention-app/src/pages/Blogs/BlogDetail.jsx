@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FaHeart, FaShare, FaArrowLeft } from 'react-icons/fa';
+import Header from '../../components/Header/Header';
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -15,7 +16,7 @@ const BlogDetail = () => {
 
   useEffect(() => {
     // Fetch blog details
-    fetch(`http://localhost:3000/blogs/${id}`)
+    fetch(`http://localhost:5002/blogs/${id}`)
       .then(res => res.json())
       .then(data => {
         setBlog(data);
@@ -24,7 +25,7 @@ const BlogDetail = () => {
       .catch(err => console.error('Error fetching blog:', err));
 
     // Fetch comments
-    fetch(`http://localhost:3000/comments?blog_id=${id}`)
+    fetch(`http://localhost:5002/comments?blog_id=${id}`)
       .then(res => res.json())
       .then(data => setComments(data))
       .catch(err => console.error('Error fetching comments:', err));
@@ -67,7 +68,7 @@ const BlogDetail = () => {
       updated_at: new Date().toISOString()
     };
 
-    fetch('http://localhost:3000/comments', {
+    fetch('http://localhost:5002/comments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -86,6 +87,9 @@ const BlogDetail = () => {
   if (!blog) return <div className="text-center py-8">Không tìm thấy bài viết</div>;
 
   return (
+    <>
+    <Header />
+    
     <div className="container mx-auto px-4 py-8">
       <Link 
         to="/blogs"
@@ -169,10 +173,7 @@ const BlogDetail = () => {
                   </div>
                   <p className="text-gray-700">{comment.description}</p>
                   <div className="mt-2 flex items-center">
-                    <button className="text-gray-500 hover:text-blue-500">
-                      <span className="mr-1">👍</span>
-                      {comment.like}
-                    </button>
+                    
                   </div>
                 </div>
               ))}
@@ -181,6 +182,7 @@ const BlogDetail = () => {
         </div>
       </article>
     </div>
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaHeart, FaShare, FaFilter } from 'react-icons/fa';
-
+import Header from '../../components/Header/Header';
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,7 +22,7 @@ const BlogList = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await fetch('http://localhost:3001/blogs');
+      const response = await fetch('http://localhost:5002/blogs');
       const data = await response.json();
       setBlogs(data);
       setLoading(false);
@@ -76,6 +76,9 @@ const BlogList = () => {
   }
 
   return (
+    <>
+      <Header />
+    
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <div className="flex-1">
@@ -161,6 +164,7 @@ const BlogList = () => {
         ))}
       </div>
     </div>
+    </>
   );
 };
 

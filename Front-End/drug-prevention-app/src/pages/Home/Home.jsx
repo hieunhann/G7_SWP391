@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import Header from "../../components/Header/Header";
 import {
   FaArrowRight,
   FaClipboardList,
@@ -65,7 +66,7 @@ export default function HomePage() {
 
   useEffect(() => {
     // Fetch blogs from JSON server
-    fetch('http://localhost:3000/blogs')
+    fetch('http://localhost:5002/blogs')
       .then(res => res.json())
       .then(data => {
         setBlogs(data);
@@ -82,6 +83,9 @@ export default function HomePage() {
   );
 
   return (
+<>
+      <Header />
+    
     <div className="min-h-screen bg-white text-black">
       {/* Hero Section */}
       <section className="relative text-center py-32 px-4  mx-auto bg-gradient-to-br from-green-50 via-white to-green-100">
@@ -387,5 +391,6 @@ export default function HomePage() {
         </div>
       </section>
     </div>
+  </>
   );
 }
