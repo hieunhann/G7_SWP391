@@ -1,4 +1,75 @@
 { 
+  "blogs": [
+    {
+      "id": "1",
+      "manager_id": 1,
+      "title": "5 dấu hiệu nhận biết người nghiện ma túy",
+      "content": "Ma túy là một vấn đề nghiêm trọng trong xã hội hiện nay. Việc nhận biết sớm các dấu hiệu của người nghiện ma túy có thể giúp can thiệp kịp thời và ngăn chặn hậu quả nghiêm trọng. Dưới đây là 5 dấu hiệu phổ biến:\n\n1. Thay đổi thói quen sinh hoạt: Người nghiện thường có giấc ngủ thất thường, ăn uống không đều đặn.\n\n2. Thay đổi tâm trạng: Dễ cáu gắt, lo lắng, trầm cảm hoặc hưng phấn bất thường.\n\n3. Thay đổi ngoại hình: Sụt cân nhanh, mắt đỏ, da xanh xao.\n\n4. Vấn đề tài chính: Chi tiêu bất thường, thường xuyên vay mượn tiền.\n\n5. Thay đổi trong các mối quan hệ: Xa lánh gia đình, bạn bè, thay đổi nhóm bạn.",
+      "type": "Nhận biết",
+      "created_at": "2024-03-20T10:00:00Z",
+      "updated_at": "2024-03-20T10:00:00Z",
+      "image": "https://images.unsplash.com/photo-1576086213369-97a306d36557"
+    },
+    {
+      "id": "2",
+      "manager_id": 1,
+      "title": "Vai trò của gia đình trong phòng chống ma túy",
+      "content": "Gia đình đóng vai trò quan trọng trong việc phòng chống ma túy. Dưới đây là những cách gia đình có thể thực hiện:\n\n1. Xây dựng mối quan hệ gần gũi: Tạo không khí cởi mở để con cái có thể chia sẻ mọi vấn đề.\n\n2. Giáo dục sớm: Cung cấp thông tin chính xác về tác hại của ma túy từ sớm.\n\n3. Theo dõi hoạt động: Quan tâm đến bạn bè và hoạt động của con cái.\n\n4. Làm gương: Cha mẹ cần tránh sử dụng các chất kích thích.\n\n5. Hỗ trợ tinh thần: Luôn sẵn sàng lắng nghe và hỗ trợ khi con cái gặp khó khăn.",
+      "type": "Gia đình",
+      "created_at": "2024-03-21T09:00:00Z",
+      "updated_at": "2024-03-21T09:00:00Z",
+      "image": "https://images.unsplash.com/photo-1511895426328-dc8714191300"
+    },
+    {
+      "id": "3",
+      "manager_id": 1,
+      "title": "Các biện pháp phòng tránh ma túy cho thanh thiếu niên",
+      "content": "Thanh thiếu niên là đối tượng dễ bị ảnh hưởng bởi ma túy. Dưới đây là các biện pháp phòng tránh hiệu quả:\n\n1. Nâng cao nhận thức: Hiểu rõ tác hại của ma túy đối với sức khỏe và tương lai.\n\n2. Rèn luyện kỹ năng từ chối: Học cách nói 'không' với các lời mời sử dụng ma túy.\n\n3. Xây dựng lối sống lành mạnh: Tham gia các hoạt động thể thao, văn nghệ.\n\n4. Chọn bạn tốt: Kết bạn với những người có lối sống lành mạnh.\n\n5. Tìm kiếm sự giúp đỡ: Không ngại tìm kiếm sự hỗ trợ từ gia đình, nhà trường khi cần.",
+      "type": "Phòng tránh",
+      "created_at": "2024-03-22T08:00:00Z",
+      "updated_at": "2024-03-22T08:00:00Z",
+      "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
+    },
+    {
+      "id": "4",
+      "manager_id": 1,
+      "title": "Hậu quả của việc sử dụng ma túy đối với sức khỏe",
+      "content": "Ma túy gây ra nhiều hậu quả nghiêm trọng cho sức khỏe:\n\n1. Tác động lên hệ thần kinh: Gây rối loạn tâm thần, suy giảm trí nhớ.\n\n2. Ảnh hưởng tim mạch: Tăng huyết áp, rối loạn nhịp tim.\n\n3. Tổn thương gan, thận: Suy giảm chức năng gan, thận.\n\n4. Hệ hô hấp: Viêm phổi, suy hô hấp.\n\n5. Hệ miễn dịch: Suy giảm sức đề kháng, dễ mắc bệnh.\n\n6. Tác động xã hội: Mất việc làm, tan vỡ gia đình, tội phạm.",
+      "type": "Sức khỏe",
+      "created_at": "2024-03-23T07:00:00Z",
+      "updated_at": "2024-03-23T07:00:00Z",
+      "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "user_id": 2,
+      "blog_id": 1,
+      "description": "Bài viết rất hữu ích, giúp tôi nhận biết được các dấu hiệu của người nghiện ma túy.",
+      "like": 5,
+      "created_at": "2024-03-20T11:00:00Z",
+      "updated_at": "2024-03-20T11:00:00Z"
+    },
+    {
+      "id": "2",
+      "user_id": 2,
+      "blog_id": 2,
+      "description": "Gia đình thực sự đóng vai trò quan trọng trong việc phòng chống ma túy. Cảm ơn bài viết!",
+      "like": 3,
+      "created_at": "2024-03-21T10:00:00Z",
+      "updated_at": "2024-03-21T10:00:00Z"
+    },
+    {
+      "id": "3",
+      "user_id": 2,
+      "blog_id": 3,
+      "description": "Những biện pháp phòng tránh rất thiết thực cho thanh thiếu niên.",
+      "like": 4,
+      "created_at": "2024-03-22T09:00:00Z",
+      "updated_at": "2024-03-22T09:00:00Z"
+    }
+  ],
   "communityActivities": [
     {
       "id": 1,

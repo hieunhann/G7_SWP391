@@ -11,7 +11,8 @@ import MemberBookedConsultations from "./pages/BookingForm/MemberBookedConsultat
 import FeedbackCourse from "./pages/Course/FeedbackCourse";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Footer from "./components/Footer/Footer";
-
+import BlogList from "./pages/Blogs/BlogList";
+import BlogDetail from "./pages/Blogs/BlogDetail";
 import CRAFFT from "./pages/Surveys/CRAFFT";
 import Surveys from "./pages/Surveys/Surveys";
 import ASSIST from "./pages/Surveys/ASSIST";
@@ -37,7 +38,12 @@ function App() {
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Courses/lesson/:id" element={<DetailsCourse />} />
           <Route path="/MyBooking" element={<MemberBookedConsultations />} />
-          <Route path="/Courses/lesson/:id/feedback" element={<FeedbackCourse />}/>
+          <Route
+            path="/Courses/lesson/:id/feedback"
+            element={<FeedbackCourse />}
+          />
+          <Route path="/blogs" element={<BlogList />} />
+          <Route path="/blog/:id" element={<BlogDetail />} />
         </Routes>
         <Footer />
       </Router>

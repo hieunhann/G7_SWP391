@@ -40,7 +40,7 @@ const Header = () => {
     // { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" },
     { to: "/ScheduleManager", label: "Quản Lý Lịch" },
     { to : "/ViewBookedMembers", label: "Xem Thành Viên Đặt Lịch" },
-
+    { to :"/blogs", label: "Blogs" },
   ];
 
   // Toggle hamburger menu
