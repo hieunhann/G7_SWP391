@@ -115,6 +115,8 @@ const DetailsCourse = () => {
     );
   }
 
+  console.log("course", course);
+
   return (
     <>
       <Header />
@@ -145,16 +147,16 @@ const DetailsCourse = () => {
           <div className="d-flex justify-content-center mb-4">
             {course.videoUrl ? (
               <div style={{ maxWidth: 700, width: "100%" }}>
-                <div className="ratio ratio-16x9">
                   <iframe
                     src={getEmbedUrl(course.videoUrl)}
                     title={course.title}
+                    width="700"
+                    height="400"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     style={{ borderRadius: "8px", border: "2px solid #b2dfdb" }}
                   ></iframe>
                 </div>
-              </div>
             ) : (
               <div
                 style={{

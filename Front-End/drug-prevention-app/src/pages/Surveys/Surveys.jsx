@@ -12,7 +12,7 @@ const Surveys = () => {
     <div className="container ">
 
       <div className="card card_ASSIST" style={{ width: "18rem" }}>
-        {/* <img src="https://iris.who.int/bitstream/handle/10665/44320/9789241599382_eng.pdf.jpg?sequence=40" className="card-img-top" alt="..." /> */}
+        <img src="https://iris.who.int/bitstream/handle/10665/44320/9789241599382_eng.pdf.jpg?sequence=40" className="card-img-top" alt="..." />
         <div className="card-body">
           <h5 className="card-title">ASSIST Survey</h5>
           <p className="card-text">
@@ -27,7 +27,7 @@ const Surveys = () => {
       </div>
 
       <div className="card card_CRAFFT" style={{ width: "18rem" }}>
-        {/* <img src="https://www.afterschoolnetwork.org/sites/main/files/imagecache/lightbox/main-images/migo_vmk_400x400.jpg" className="card-img-top" alt="..." /> */}
+        <img src="https://www.afterschoolnetwork.org/sites/main/files/imagecache/lightbox/main-images/migo_vmk_400x400.jpg" className="card-img-top" alt="..." />
         <div className="card-body">
           <h5 className="card-title">CRAFFT Survey</h5>
           <p className="card-text">
