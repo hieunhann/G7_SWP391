@@ -1,400 +1,144 @@
-{ 
-  "communityActivities": [
+{
+  "blogs": [
     {
-      "id": 1,
-      "title": "Tuyên truyền tại trường học A",
-      "description": "Tổ chức buổi nói chuyện, trò chơi giáo dục về tác hại ma túy cho học sinh cấp 2.",
-      "image": "https://via.placeholder.com/150/FF5733/FFFFFF?text=Truong+hoc",
-      "location": "Quận 1, TP.HCM",
-      "date": "15/07/2025",
-      "status": "Đang diễn ra"
+      "id": "1",
+      "manager_id": 1,
+      "title": "5 dấu hiệu nhận biết người nghiện ma túy",
+      "content": "Ma túy là một vấn đề nghiêm trọng trong xã hội hiện nay. Việc nhận biết sớm các dấu hiệu của người nghiện ma túy có thể giúp can thiệp kịp thời và ngăn chặn hậu quả nghiêm trọng. Dưới đây là 5 dấu hiệu phổ biến:\n\n1. Thay đổi thói quen sinh hoạt: Người nghiện thường có giấc ngủ thất thường, ăn uống không đều đặn.\n\n2. Thay đổi tâm trạng: Dễ cáu gắt, lo lắng, trầm cảm hoặc hưng phấn bất thường.\n\n3. Thay đổi ngoại hình: Sụt cân nhanh, mắt đỏ, da xanh xao.\n\n4. Vấn đề tài chính: Chi tiêu bất thường, thường xuyên vay mượn tiền.\n\n5. Thay đổi trong các mối quan hệ: Xa lánh gia đình, bạn bè, thay đổi nhóm bạn.",
+      "type": "Nhận biết",
+      "created_at": "2024-03-20T10:00:00Z",
+      "updated_at": "2024-03-20T10:00:00Z",
+      "image": "https://images.unsplash.com/photo-1576086213369-97a306d36557"
     },
     {
-      "id": 2,
-      "title": "Ngày hội tình nguyện chống ma túy",
-      "description": "Thu hút cộng đồng tham gia các hoạt động gây quỹ, tuyên truyền lưu động.",
-      "image": "https://via.placeholder.com/150/33FF57/FFFFFF?text=Tinh+nguyen",
-      "location": "Công viên Tao Đàn",
-      "date": "20/07/2025",
-      "status": "Sắp diễn ra"
+      "id": "2",
+      "manager_id": 1,
+      "title": "Vai trò của gia đình trong phòng chống ma túy",
+      "content": "Gia đình đóng vai trò quan trọng trong việc phòng chống ma túy. Dưới đây là những cách gia đình có thể thực hiện:\n\n1. Xây dựng mối quan hệ gần gũi: Tạo không khí cởi mở để con cái có thể chia sẻ mọi vấn đề.\n\n2. Giáo dục sớm: Cung cấp thông tin chính xác về tác hại của ma túy từ sớm.\n\n3. Theo dõi hoạt động: Quan tâm đến bạn bè và hoạt động của con cái.\n\n4. Làm gương: Cha mẹ cần tránh sử dụng các chất kích thích.\n\n5. Hỗ trợ tinh thần: Luôn sẵn sàng lắng nghe và hỗ trợ khi con cái gặp khó khăn.",
+      "type": "Gia đình",
+      "created_at": "2024-03-21T09:00:00Z",
+      "updated_at": "2024-03-21T09:00:00Z",
+      "image": "https://images.unsplash.com/photo-1511895426328-dc8714191300"
     },
     {
-      "id": 3,
-      "title": "Hội thảo phụ huynh: Bảo vệ con khỏi ma túy",
-      "description": "Hội thảo chuyên sâu dành cho phụ huynh về cách nhận biết và phòng ngừa ma túy.",
-      "image": "https://via.placeholder.com/150/3357FF/FFFFFF?text=Phu+huynh",
-      "location": "Quận Bình Thạnh, TP.HCM",
-      "date": "25/07/2025",
-      "status": "Sắp diễn ra"
+      "id": "3",
+      "manager_id": 1,
+      "title": "Các biện pháp phòng tránh ma túy cho thanh thiếu niên",
+      "content": "Thanh thiếu niên là đối tượng dễ bị ảnh hưởng bởi ma túy. Dưới đây là các biện pháp phòng tránh hiệu quả:\n\n1. Nâng cao nhận thức: Hiểu rõ tác hại của ma túy đối với sức khỏe và tương lai.\n\n2. Rèn luyện kỹ năng từ chối: Học cách nói 'không' với các lời mời sử dụng ma túy.\n\n3. Xây dựng lối sống lành mạnh: Tham gia các hoạt động thể thao, văn nghệ.\n\n4. Chọn bạn tốt: Kết bạn với những người có lối sống lành mạnh.\n\n5. Tìm kiếm sự giúp đỡ: Không ngại tìm kiếm sự hỗ trợ từ gia đình, nhà trường khi cần.",
+      "type": "Phòng tránh",
+      "created_at": "2024-03-22T08:00:00Z",
+      "updated_at": "2024-03-22T08:00:00Z",
+      "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
     },
     {
-      "id": 4,
-      "title": "Phát tờ rơi và tư vấn tại khu dân cư",
-      "description": "Tổ chức đội ngũ tình nguyện viên phát tờ rơi, tư vấn trực tiếp cho người dân.",
-      "image": "https://via.placeholder.com/150/F3FF33/FFFFFF?text=To+roi",
-      "location": "Quận Gò Vấp, TP.HCM",
-      "date": "01/08/2025",
-      "status": "Sắp diễn ra"
-    },
-    {
-      "id": 5,
-      "title": "Chương trình hỗ trợ cai nghiện cộng đồng",
-      "description": "Cung cấp hỗ trợ tâm lý và giới thiệu đến các trung tâm cai nghiện uy tín.",
-      "image": "https://via.placeholder.com/150/FF33E9/FFFFFF?text=Cai+nghien",
-      "location": "Quận 12, TP.HCM",
-      "date": "Đang triển khai",
-      "status": "Đang diễn ra"
-    },
-    {
-      "id": 6,
-      "title": "Đào tạo kỹ năng sống cho thanh niên",
-      "description": "Tổ chức các buổi tập huấn kỹ năng từ chối, giải quyết vấn đề cho thanh thiếu niên.",
-      "image": "https://via.placeholder.com/150/33FFFF/FFFFFF?text=Ky+nang",
-      "location": "TP. Thủ Đức",
-      "date": "10/08/2025",
-      "status": "Sắp diễn ra"
-    },
-    {
-      "id": 7,
-      "title": "Vận động cộng đồng tham gia phòng chống ma túy",
-      "description": "Kêu gọi người dân cùng chung tay xây dựng cộng đồng không ma túy.",
-      "image": "https://via.placeholder.com/150/AAAAAA/FFFFFF?text=Cong+dong",
-      "location": "Quận Phú Nhuận, TP.HCM",
-      "date": "20/08/2025",
-      "status": "Sắp diễn ra"
-    },
-    {
-      "id": 8,
-       "title": "Tổ chức các buổi chiếu phim tuyên truyền",
-      "description": "Chiếu các bộ phim ngắn, phim tài liệu về tác hại của ma túy.",
-      "image": "https://via.placeholder.com/150/FFA07A/FFFFFF?text=Phim",
-      "location": "Quận 3, TP.HCM",
-      "date": "28/08/2025",
-      "status": "Sắp diễn ra"
-    },
-    {
-      "id": 9,
-      "title": "Cuộc thi vẽ tranh 'Thế giới không ma túy'",
-      "description": "Tạo sân chơi lành mạnh cho học sinh thể hiện ý tưởng về một thế giới không ma túy.",
-      "image": "https://via.placeholder.com/150/40E0D0/FFFFFF?text=Ve+tranh",
-      "location": "Nhà Văn hóa Thanh niên",
-      "date": "05/09/2025",
-      "status": "Sắp diễn ra"
-    },
-    {
-       "id": 10,
-       "title": "Giải chạy bộ 'Vì một cộng đồng khỏe mạnh'",
-       "description": "Tổ chức giải chạy bộ để nâng cao nhận thức về sức khỏe và lối sống lành mạnh.",
-       "image": "https://via.placeholder.com/150/00CED1/FFFFFF?text=Chay+bo",
-       "location": "Khu đô thị Phú Mỹ Hưng",
-       "date": "12/09/2025",
-       "status": "Sắp diễn ra"
-    },
-    {
-      "id": 11,
-      "title": "Tư vấn trực tuyến về phòng chống ma túy",
-      "description": "Cung cấp kênh tư vấn trực tuyến miễn phí cho người dân có nhu cầu.",
-      "image": "https://via.placeholder.com/150/9370DB/FFFFFF?text=Tu+van",
-      "location": "Trực tuyến",
-      "date": "Hàng ngày",
-      "status": "Đang diễn ra"
-    },
-    {
-      "id": 12,
-      "title": "Hỗ trợ tái hòa nhập cộng đồng cho người cai nghiện",
-      "description": "Giúp đỡ người đã cai nghiện thành công tìm kiếm việc làm, ổn định cuộc sống.",
-      "image": "https://via.placeholder.com/150/FF69B4/FFFFFF?text=Tai+hoa+nhap",
-      "location": "Toàn TP.HCM",
-      "date": "Đang triển khai",
-      "status": "Đang diễn ra"
-    }
-  ], "test_questions": [
-    {
-      "id": 1,
-      "category_id": 1,
-      "question_text": "Trong 12 tháng qua, bạn đã uống bia, rượu vang hoặc bất kỳ đồ uống có cồn nào (nhiều hơn vài ngụm) trong bao nhiêu ngày?",
-      "question_order": 1,
-      "created_at": "2024-01-01T10:00:00Z",
-      "updated_at": "2024-01-01T10:00:00Z"
-    },
-    {
-      "id": 2,
-      "category_id": 1,
-      "question_text": "Trong 12 tháng qua, bạn đã sử dụng cần sa (dạng khô, dầu, nhựa) bằng cách hút, xông hơi hoặc ăn trong bao nhiêu ngày?",
-      "question_order": 2,
-      "created_at": "2024-01-01T10:00:00Z",
-      "updated_at": "2024-01-01T10:00:00Z"
-    },
-    {
-      "id": 3,
-      "category_id": 1,
-      "question_text": "Trong 12 tháng qua, bạn đã sử dụng chất nào khác để phê (ma túy bất hợp pháp, thuốc kê đơn, hoặc các chất hít, ngửi, xông hơi) trong bao nhiêu ngày?",
-      "question_order": 3,
-      "created_at": "2024-01-01T10:00:00Z",
-      "updated_at": "2024-01-01T10:00:00Z"
-    },
-    {
-      "id": 4,
-      "category_id": 1,
-      "question_text": "Bạn đã từng đi xe do người đang 'phê' hoặc đã dùng rượu/bia, ma túy (kể cả bạn tự lái) điều khiển chưa?",
-      "question_order": 4,
-      "created_at": "2024-01-01T10:00:00Z",
-      "updated_at": "2024-01-01T10:00:00Z"
-    },
-    {
-      "id": 5,
-      "category_id": 1,
-      "question_text": "Bạn có bao giờ dùng rượu hoặc ma túy để thư giãn, cảm thấy tốt hơn về bản thân, hoặc để hòa nhập không?",
-      "question_order": 5,
-      "created_at": "2024-01-01T10:00:00Z",
-      "updated_at": "2024-01-01T10:00:00Z"
-    },
-    {
-      "id": 6,
-      "category_id": 1,
-      "question_text": "Bạn có bao giờ sử dụng rượu hoặc ma túy khi chỉ có một mình không?",
-      "question_order": 6,
-      "created_at": "2024-01-01T10:00:00Z",
-      "updated_at": "2024-01-01T10:00:00Z"
-    },
-    {
-      "id": 7,
-      "category_id": 1,
-      "question_text": "Bạn có bao giờ quên những gì mình đã làm trong khi sử dụng rượu hoặc ma túy không?",
-      "question_order": 7,
-      "created_at": "2024-01-01T10:00:00Z",
-      "updated_at": "2024-01-01T10:00:00Z"
-    },
-    {
-      "id": 8,
-      "category_id": 1,
-      "question_text": "Gia đình hoặc bạn bè của bạn có bao giờ nói rằng bạn nên giảm bớt việc uống rượu hoặc sử dụng ma túy không?",
-      "question_order": 8,
-      "created_at": "2024-01-01T10:00:00Z",
-      "updated_at": "2024-01-01T10:00:00Z"
-    },
-    {
-      "id": 9,
-      "category_id": 1,
-      "question_text": "Bạn đã bao giờ gặp rắc rối trong khi đang sử dụng rượu hoặc ma túy chưa?",
-      "question_order": 9,
-      "created_at": "2024-01-01T10:00:00Z",
-      "updated_at": "2024-01-01T10:00:00Z"
-    },
-    {
-      "id": 101,
-      "category_id": 2,
-      "question_text": "Trong đời bạn, bạn đã từng sử dụng chất nào sau đây chưa?",
-      "question_order": 1,
-      "type": "Q1_SCREENING",
-      "sub_questions": [
-        {"key": "a", "text": "Cần sa (ma túy, bồ đà, cỏ, nhựa cần, v.v.)"},
-        {"key": "b", "text": "Cocain (kẹo, đá, v.v.)"},
-        {"key": "c", "text": "Thuốc kích thích kê đơn chỉ để tìm cảm giác, dùng quá liều, hoặc không được kê đơn cho bạn. (Ritalin, Adderall, thuốc giảm cân, v.v.)"},
-        {"key": "d", "text": "Ma túy đá (meth, crystal, speed, ecstasy, molly, v.v.)"},
-        {"key": "e", "text": "Chất hít (nitrous, keo, dung môi sơn, poppers, whippets, v.v.)"},
-        {"key": "f", "text": "Thuốc an thần chỉ để tìm cảm giác, dùng quá liều, hoặc không được kê đơn cho bạn. (thuốc ngủ, Valium, Xanax, thuốc trấn an, benzos, v.v.)"},
-        {"key": "g", "text": "Chất gây ảo giác (LSD, acid, nấm, PCP, Special K, ecstasy, v.v.)"},
-        {"key": "h", "text": "Opioid đường phố (heroin, thuốc phiện, v.v.)"},
-        {"key": "i", "text": "Opioid kê đơn chỉ để tìm cảm giác, dùng quá liều, hoặc không được kê đơn cho bạn. (Fentanyl, Oxycodone, OxyContin, Percocet, Vicodin, methadone, Buprenorphine, v.v.)"},
-        {"key": "j", "text": "Bất kỳ loại ma túy nào khác để 'phê'. Vui lòng ghi rõ:"}
-      ]
-    },
-    {
-      "id": 102,
-      "category_id": 2,
-      "question_text": "Trong ba tháng qua, bạn đã sử dụng [SUBSTANCE_PLACEHOLDER] bao nhiêu lần?",
-      "question_order": 2,
-      "type": "Q_SUBSTANCE_SPECIFIC"
-    },
-    {
-      "id": 103,
-      "category_id": 2,
-      "question_text": "Trong ba tháng qua, bạn đã có cảm giác thèm muốn hoặc thôi thúc mạnh mẽ muốn sử dụng [SUBSTANCE_PLACEHOLDER] bao nhiêu lần?",
-      "question_order": 3,
-      "type": "Q_SUBSTANCE_SPECIFIC"
-    },
-    {
-      "id": 104,
-      "category_id": 2,
-      "question_text": "Trong ba tháng qua, việc sử dụng [SUBSTANCE_PLACEHOLDER] của bạn đã dẫn đến các vấn đề về sức khỏe, xã hội, pháp lý hoặc tài chính bao nhiêu lần?",
-      "question_order": 4,
-      "type": "Q_SUBSTANCE_SPECIFIC"
-    },
-    {
-      "id": 105,
-      "category_id": 2,
-      "question_text": "Trong ba tháng qua, bạn đã không làm được những điều bình thường mong đợi ở bạn vì việc sử dụng [SUBSTANCE_PLACEHOLDER] bao nhiêu lần?",
-      "question_order": 5,
-      "type": "Q_SUBSTANCE_SPECIFIC"
-    },
-    {
-      "id": 106,
-      "category_id": 2,
-      "question_text": "Đã bao giờ bạn bè, người thân hoặc bất kỳ ai khác bày tỏ lo ngại về việc sử dụng [SUBSTANCE_PLACEHOLDER] của bạn chưa?",
-      "question_order": 6,
-      "type": "Q_SUBSTANCE_SPECIFIC"
-    },
-    {
-      "id": 107,
-      "category_id": 2,
-      "question_text": "Bạn đã bao giờ thử và thất bại trong việc kiểm soát, cắt giảm hoặc ngừng sử dụng [SUBSTANCE_PLACEHOLDER] chưa?",
-      "question_order": 7,
-      "type": "Q_SUBSTANCE_SPECIFIC"
-    },
-    {
-      "id": 108,
-      "category_id": 2,
-      "question_text": "Bạn đã bao giờ sử dụng ma túy bằng cách tiêm chích chưa? (CHỈ SỬ DỤNG PHI Y TẾ)",
-      "question_order": 8,
-      "type": "Q_INJECTION"
-    },
-    {
-      "id": 109,
-      "category_id": 2,
-      "question_text": "Trong ba tháng qua, bạn đã tiêm chích ma túy bao nhiêu lần?",
-      "question_order": 9,
-      "type": "Q_INJECTION_FREQ"
-    },
-    {
-      "id": 110,
-      "category_id": 2,
-      "question_text": "Trong ba tháng qua, bạn đã từng tiêm chích ma túy ba ngày trở lên liên tục chưa?",
-      "question_order": 10,
-      "type": "Q_INJECTION_DAYS"
+      "id": "4",
+      "manager_id": 1,
+      "title": "Hậu quả của việc sử dụng ma túy đối với sức khỏe",
+      "content": "Ma túy gây ra nhiều hậu quả nghiêm trọng cho sức khỏe:\n\n1. Tác động lên hệ thần kinh: Gây rối loạn tâm thần, suy giảm trí nhớ.\n\n2. Ảnh hưởng tim mạch: Tăng huyết áp, rối loạn nhịp tim.\n\n3. Tổn thương gan, thận: Suy giảm chức năng gan, thận.\n\n4. Hệ hô hấp: Viêm phổi, suy hô hấp.\n\n5. Hệ miễn dịch: Suy giảm sức đề kháng, dễ mắc bệnh.\n\n6. Tác động xã hội: Mất việc làm, tan vỡ gia đình, tội phạm.",
+      "type": "Sức khỏe",
+      "created_at": "2024-03-23T07:00:00Z",
+      "updated_at": "2024-03-23T07:00:00Z",
+      "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef"
     }
   ],
-  "test_choices": [
-    { "id": 1, "question_id": 1, "choice_text": "0 ngày", "score": 0.0 },
-    { "id": 2, "question_id": 1, "choice_text": "1-2 ngày", "score": 1.0 },
-    { "id": 3, "question_id": 1, "choice_text": "3 ngày trở lên", "score": 2.0 },
-    { "id": 4, "question_id": 2, "choice_text": "0 ngày", "score": 0.0 },
-    { "id": 5, "question_id": 2, "choice_text": "1-2 ngày", "score": 1.0 },
-    { "id": 6, "question_id": 2, "choice_text": "3 ngày trở lên", "score": 2.0 },
-    { "id": 7, "question_id": 3, "choice_text": "0 ngày", "score": 0.0 },
-    { "id": 8, "question_id": 3, "choice_text": "1-2 ngày", "score": 1.0 },
-    { "id": 9, "question_id": 3, "choice_text": "3 ngày trở lên", "score": 2.0 },
-    { "id": 10, "question_id": 4, "choice_text": "Có", "score": 1.0 },
-    { "id": 11, "question_id": 4, "choice_text": "Không", "score": 0.0 },
-    { "id": 12, "question_id": 5, "choice_text": "Có", "score": 1.0 },
-    { "id": 13, "question_id": 5, "choice_text": "Không", "score": 0.0 },
-    { "id": 14, "question_id": 6, "choice_text": "Có", "score": 1.0 },
-    { "id": 15, "question_id": 6, "choice_text": "Không", "score": 0.0 },
-    { "id": 16, "question_id": 7, "choice_text": "Có", "score": 1.0 },
-    { "id": 17, "question_id": 7, "choice_text": "Không", "score": 0.0 },
-    { "id": 18, "question_id": 8, "choice_text": "Có", "score": 1.0 },
-    { "id": 19, "question_id": 8, "choice_text": "Không", "score": 0.0 },
-    { "id": 20, "question_id": 9, "choice_text": "Có", "score": 1.0 },
-    { "id": 21, "question_id": 9, "choice_text": "Không", "score": 0.0 },
-    
-    
-    {"id": 101, "question_id": 101, "choice_text": "Không", "score": 0, "sub_question_key": "any"},
-    {"id": 102, "question_id": 101, "choice_text": "Có", "score": 3, "sub_question_key": "any"},
-
-    {"id": 103, "question_id": 102, "choice_text": "Chưa bao giờ", "score": 0, "sub_question_key": "any"},
-    {"id": 104, "question_id": 102, "choice_text": "Một hoặc hai lần", "score": 2, "sub_question_key": "any"},
-    {"id": 105, "question_id": 102, "choice_text": "Hàng tháng", "score": 3, "sub_question_key": "any"},
-    {"id": 106, "question_id": 102, "choice_text": "Hàng tuần", "score": 4, "sub_question_key": "any"},
-    {"id": 107, "question_id": 102, "choice_text": "Hàng ngày hoặc gần như hàng ngày", "score": 6, "sub_question_key": "any"},
-
-    {"id": 108, "question_id": 103, "choice_text": "Chưa bao giờ", "score": 0, "sub_question_key": "any"},
-    {"id": 109, "question_id": 103, "choice_text": "Một hoặc hai lần", "score": 3, "sub_question_key": "any"},
-    {"id": 110, "question_id": 103, "choice_text": "Hàng tháng", "score": 4, "sub_question_key": "any"},
-    {"id": 111, "question_id": 103, "choice_text": "Hàng tuần", "score": 5, "sub_question_key": "any"},
-    {"id": 112, "question_id": 103, "choice_text": "Hàng ngày hoặc gần như hàng ngày", "score": 6, "sub_question_key": "any"},
-
-    {"id": 113, "question_id": 104, "choice_text": "Chưa bao giờ", "score": 0, "sub_question_key": "any"},
-    {"id": 114, "question_id": 104, "choice_text": "Một hoặc hai lần", "score": 4, "sub_question_key": "any"},
-    {"id": 115, "question_id": 104, "choice_text": "Hàng tháng", "score": 5, "sub_question_key": "any"},
-    {"id": 116, "question_id": 104, "choice_text": "Hàng tuần", "score": 6, "sub_question_key": "any"},
-    {"id": 117, "question_id": 104, "choice_text": "Hàng ngày hoặc gần như hàng ngày", "score": 7, "sub_question_key": "any"},
-
-    {"id": 118, "question_id": 105, "choice_text": "Chưa bao giờ", "score": 0, "sub_question_key": "any"},
-    {"id": 119, "question_id": 105, "choice_text": "Một hoặc hai lần", "score": 5, "sub_question_key": "any"},
-    {"id": 120, "question_id": 105, "choice_text": "Hàng tháng", "score": 6, "sub_question_key": "any"},
-    {"id": 121, "question_id": 105, "choice_text": "Hàng tuần", "score": 7, "sub_question_key": "any"},
-    {"id": 122, "question_id": 105, "choice_text": "Hàng ngày hoặc gần như hàng ngày", "score": 8, "sub_question_key": "any"},
-
-    {"id": 123, "question_id": 106, "choice_text": "Không, chưa bao giờ", "score": 0, "sub_question_key": "any"},
-    {"id": 124, "question_id": 106, "choice_text": "Có, trong 3 tháng qua", "score": 6, "sub_question_key": "any"},
-    {"id": 125, "question_id": 106, "choice_text": "Có, nhưng không phải trong 3 tháng qua", "score": 3, "sub_question_key": "any"},
-
-    {"id": 126, "question_id": 107, "choice_text": "Không, chưa bao giờ", "score": 0, "sub_question_key": "any"},
-    {"id": 127, "question_id": 107, "choice_text": "Có, trong 3 tháng qua", "score": 6, "sub_question_key": "any"},
-    {"id": 128, "question_id": 107, "choice_text": "Có, nhưng không phải trong 3 tháng qua", "score": 3, "sub_question_key": "any"},
-
-    {"id": 129, "question_id": 108, "choice_text": "Không, chưa bao giờ", "score": 0, "sub_question_key": "any"},
-    {"id": 130, "question_id": 108, "choice_text": "Có, trong 3 tháng qua", "score": 1, "sub_question_key": "any"},
-    {"id": 131, "question_id": 108, "choice_text": "Có, nhưng không phải trong 3 tháng qua", "score": 0, "sub_question_key": "any"},
-
-    {"id": 132, "question_id": 109, "choice_text": "Một lần mỗi tuần hoặc ít hơn", "score": 0, "sub_question_key": "any"},
-    {"id": 133, "question_id": 109, "choice_text": "Hơn một lần mỗi tuần", "score": 0, "sub_question_key": "any"},
-
-    {"id": 134, "question_id": 110, "choice_text": "Có", "score": 0, "sub_question_key": "any"},
-    {"id": 135, "question_id": 110, "choice_text": "Không", "score": 0, "sub_question_key": "any"}
+  "comments": [
+    {
+      "id": "1",
+      "user_id": 2,
+      "blog_id": 1,
+      "description": "Bài viết rất hữu ích, giúp tôi nhận biết được các dấu hiệu của người nghiện ma túy.",
+      "like": 5,
+      "created_at": "2024-03-20T11:00:00Z",
+      "updated_at": "2024-03-20T11:00:00Z"
+    },
+    {
+      "id": "2",
+      "user_id": 2,
+      "blog_id": 2,
+      "description": "Gia đình thực sự đóng vai trò quan trọng trong việc phòng chống ma túy. Cảm ơn bài viết!",
+      "like": 3,
+      "created_at": "2024-03-21T10:00:00Z",
+      "updated_at": "2024-03-21T10:00:00Z"
+    },
+    {
+      "id": "3",
+      "user_id": 2,
+      "blog_id": 3,
+      "description": "Những biện pháp phòng tránh rất thiết thực cho thanh thiếu niên.",
+      "like": 4,
+      "created_at": "2024-03-22T09:00:00Z",
+      "updated_at": "2024-03-22T09:00:00Z"
+    },
+    {
+      "id": "ee1b",
+      "blog_id": 1,
+      "user_id": 2,
+      "description": "sss",
+      "like": 0,
+      "created_at": "2025-06-18T04:18:22.820Z",
+      "updated_at": "2025-06-18T04:18:22.821Z"
+    },
+    {
+      "id": "5057",
+      "blog_id": 1,
+      "user_id": 2,
+      "description": "sss",
+      "like": 0,
+      "created_at": "2025-06-18T04:18:54.620Z",
+      "updated_at": "2025-06-18T04:18:54.620Z"
+    }
   ],
-  "assist_substances": [
-    {"key": "a", "name": "Cần sa (marijuana, pot, grass, hash, v.v.)", "is_cannabis": true},
-    {"key": "b", "name": "Cocain (kẹo, đá, v.v.)"},
-    {"key": "c", "name": "Thuốc kích thích kê đơn (Ritalin, Adderall, thuốc giảm cân, v.v.)"},
-    {"key": "d", "name": "Ma túy đá (meth, crystal, speed, ecstasy, molly, v.v.)"},
-    {"key": "e", "name": "Chất hít (nitrous, keo, dung môi sơn, poppers, whippets, v.v.)"},
-    {"key": "f", "name": "Thuốc an thần (thuốc ngủ, Valium, Xanax, thuốc trấn an, benzos, v.v.)"},
-    {"key": "g", "name": "Chất gây ảo giác (LSD, acid, nấm, PCP, Special K, ecstasy, v.v.)"},
-    {"key": "h", "name": "Opioid đường phố (heroin, thuốc phiện, v.v.)"},
-    {"key": "i", "name": "Opioid kê đơn (Fentanyl, Oxycodone, OxyContin, Percocet, Vicodin, methadone, Buprenorphine, v.v.)"},
-    {"key": "j", "name": "Bất kỳ loại ma túy nào khác để 'phê'"}
-  ]
-,
   "User": [
     {
       "id": "1",
-      "fullName": "Nguyen Van A",
+      "fullName": "Nguyễn Văn A",
       "email": "nguyenvana@example.com",
       "phoneNumber": "0912345678",
       "username": "1",
       "password": "1",
       "dateOfBirth": "1990-01-15",
-      "role": "Member",
+      "role": "Thành viên",
       "createdAt": "2024-01-01T10:00:00",
       "updatedAt": "2024-01-01T10:00:00",
       "avatar": "/avatars/default.jpg"
     },
     {
       "id": "2",
-      "fullName": "Ta Hieu Nhan",
-      "email": "tranthib@example.com",
+      "fullName": "Tạ Hiếu Nhân",
+      "email": "tahieunhann@example.com",
       "phoneNumber": "0987654321",
-      "username": "tranthib",
-      "password": "hashed_password_2",
+      "username": "3",
+      "password": "3",
       "dateOfBirth": "1985-05-20",
-      "role": "Consultant",
+      "role": "Chuyên gia tư vấn",
       "createdAt": "2024-02-01T09:30:00",
       "updatedAt": "2024-02-01T09:30:00",
-      "avatar": "/avatars/default2.png"
+      "avatar": "https://th.bing.com/th/id/OIP.Gjw5VF3LQxuBa97cXVq-8gHaE8?w=296&h=198&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3",
+      "googleMeetLink": "https://meet.google.com/xey-enux-pmr"
     },
     {
       "id": "4",
-      "fullName": "Tran Tien Hung",
-      "email": "tranthib@example.com",
+      "fullName": "Trần Tiến Hùng",
+      "email": "trantienhungg@example.com",
       "phoneNumber": "0987654321",
       "username": "2",
       "password": "2",
       "dateOfBirth": "1985-05-20",
-      "role": "Consultant",
+      "role": "Chuyên gia tư vấn",
       "createdAt": "2024-02-01T09:30:00",
       "updatedAt": "2024-02-01T09:30:00",
-      "avatar": "/avatars/default.jpg"
+      "avatar": "https://th.bing.com/th/id/OIP.BW9M6nMx06X9wEKPKYfRXQHaLH?w=115&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3",
+      "googleMeetLink": "https://meet.google.com/tsz-wonp-xjr"
     },
     {
       "id": "3",
-      "fullName": "Le Van C",
+      "fullName": "Lê Văn C",
       "email": "levanc@example.com",
       "phoneNumber": "0909123456",
       "username": "levanc",
       "password": "hashed_password_3",
       "dateOfBirth": "1992-08-10",
-      "role": "Manager",
+      "role": "Quản lý",
       "createdAt": "2024-03-10T08:00:00",
       "updatedAt": "2024-03-10T08:00:00",
       "avatar": "/avatars/bob.jpg"
@@ -407,10 +151,11 @@
       "username": "Smith Brown",
       "password": "123",
       "dateOfBirth": "2010-02-03",
-      "role": "Consultant",
+      "role": "Chuyên gia tư vấn",
       "createdAt": "2025-05-28T01:20:52.248Z",
       "updatedAt": "2025-05-28T01:20:52.248Z",
-      "avatar": "/avatars/default.jpg"
+      "avatar": "https://th.bing.com/th/id/OIP.vfWhSV8FfnI7hovwZxEZRAHaE7?w=243&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3",
+      "googleMeetLink": "https://meet.google.com/egw-pzrr-roh"
     },
     {
       "id": "9771",
@@ -420,7 +165,7 @@
       "username": "12",
       "password": "1",
       "dateOfBirth": "2025-05-31",
-      "role": "Member",
+      "role": "Thành viên",
       "createdAt": "2025-06-05T01:20:01.598Z",
       "updatedAt": "2025-06-05T01:20:01.598Z",
       "avatar": "/avatars/default.jpg"
@@ -433,654 +178,23 @@
       "username": "1234",
       "password": "123",
       "dateOfBirth": "2025-05-31",
-      "role": "Member",
+      "role": "Thành viên",
       "createdAt": "2025-06-06T04:35:00.428Z",
       "updatedAt": "2025-06-06T04:35:00.429Z",
       "avatar": "/avatars/default.jpg"
-    }
-  ],
-  "Bookings": [
-    {
-      "id": "1",
-      "memberId": 1,
-      "consultantId": 2,
-      "bookingTime": "2025-05-28T09:30:00",
-      "createdAt": "2025-05-01T12:00:00",
-      "updatedAt": "2025-05-01T12:00:00",
-      "status": "Pending"
     },
     {
-      "id": "2",
-      "memberId": 1,
-      "consultantId": 2,
-      "bookingTime": "2025-05-28T11:00:00",
-      "createdAt": "2025-05-02T12:00:00",
-      "updatedAt": "2025-05-02T12:00:00",
-      "status": "Completed"
-    },
-    {
-      "id": "3",
-      "memberId": 1,
-      "consultantId": 4,
-      "bookingTime": "2025-05-28T13:30:00",
-      "createdAt": "2025-05-03T12:00:00",
-      "updatedAt": "2025-05-03T12:00:00",
-      "status": "Confirmed"
-    }
-  ],
-  "Schedule": [
-    {
-      "id": "1",
-      "consultantId": "2",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Tuesday"
-    },
-    {
-      "id": "2",
-      "consultantId": "2",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Tuesday"
-    },
-    {
-      "id": "3",
-      "consultantId": "4",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Tuesday"
-    },
-    {
-      "id": "4",
-      "consultantId": "4",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Tuesday"
-    },
-    {
-      "id": "5",
-      "consultantId": "f0d7",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Tuesday"
-    },
-    {
-      "id": "6",
-      "consultantId": "f0d7",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Tuesday"
-    },
-    {
-      "id": "7",
-      "consultantId": "2",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Wednesday"
-    },
-    {
-      "id": "8",
-      "consultantId": "2",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Wednesday"
-    },
-    {
-      "id": "9",
-      "consultantId": "4",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Wednesday"
-    },
-    {
-      "id": "10",
-      "consultantId": "4",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Wednesday"
-    },
-    {
-      "id": "11",
-      "consultantId": "f0d7",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Wednesday"
-    },
-    {
-      "id": "12",
-      "consultantId": "f0d7",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Wednesday"
-    },
-    {
-      "id": "13",
-      "consultantId": "2",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Thursday"
-    },
-    {
-      "id": "14",
-      "consultantId": "2",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Thursday"
-    },
-    {
-      "id": "15",
-      "consultantId": "4",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Thursday"
-    },
-    {
-      "id": "16",
-      "consultantId": "4",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Thursday"
-    },
-    {
-      "id": "17",
-      "consultantId": "f0d7",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Thursday"
-    },
-    {
-      "id": "18",
-      "consultantId": "f0d7",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Thursday"
-    },
-    {
-      "id": "19",
-      "consultantId": "2",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Friday"
-    },
-    {
-      "id": "20",
-      "consultantId": "2",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Friday"
-    },
-    {
-      "id": "21",
-      "consultantId": "4",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Friday"
-    },
-    {
-      "id": "22",
-      "consultantId": "4",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Friday"
-    },
-    {
-      "id": "23",
-      "consultantId": "f0d7",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Friday"
-    },
-    {
-      "id": "24",
-      "consultantId": "f0d7",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Friday"
-    }
-  ],
-  "ConsultationSession": [
-    {
-      "id": "1",
-      "bookingId": "1",
-      "scheduleId": "1",
-      "status": "Scheduled",
-      "description": "Consultation at 09:30",
-      "createdAt": "2025-05-01T12:00:00",
-      "updatedAt": "2025-05-01T12:00:00"
-    },
-    {
-      "id": "2",
-      "bookingId": "2",
-      "scheduleId": "1",
-      "status": "Scheduled",
-      "description": "Consultation at 11:00",
-      "createdAt": "2025-05-02T12:00:00",
-      "updatedAt": "2025-05-02T12:00:00"
-    },
-    {
-      "id": "3",
-      "bookingId": "3",
-      "scheduleId": "4",
-      "status": "Scheduled",
-      "description": "Consultation at 13:30",
-      "createdAt": "2025-05-03T12:00:00",
-      "updatedAt": "2025-05-03T12:00:00"
-    }
-  ],
-  "Course": 
-    [
-      {
-        "id": 1,
-        "title": "The Truth About Drugs",
-        "description": "Through this interactive course you’ll learn the reason why people take drugs in the first place. You’ll also discover basic facts about the most commonly abused drugs. And you’ll hear it from those who lived through the addiction to tell their story. Educate yourself. Get the truth about drugs",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/drugs_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/pwy3_wFMATU",
-        "author": "Drug Free World Organization",
-        "duration": "20 minutes",
-        "ageGroup": "Student, Parent",
-        "category": "Drug Prevention",
-        "tags": [
-          "drugs",
-          "prevention",
-          "health education"
-        ],
-        "publishedDate": "2024-01-10"
-      },
-      {
-        "id": 2,
-        "title": "The Truth About Prescription Drug Abuse",
-        "description": "Through this interactive course you will learn the truth about prescription drug abuse. You’ll hear it from former addicts who know the consequences and give real, first-hand experience of the dangers of prescription drugs.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/prescriptiondrugs_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/L6r9ITMaVtw",
-        "author": "Drug Free World Organization",
-        "duration": "25 minutes",
-        "ageGroup": "University student, Teacher",
-        "category": "Drug Prevention",
-        "tags": [
-          "drugs",
-          "knowledge",
-          "research"
-        ],
-        "publishedDate": "2024-02-15"
-      },
-      {
-        "id": 3,
-        "title": "The Truth About Marijuana",
-        "description": "Through this interactive course you will learn the truth about marijuana, the myths surrounding it and why many former addicts believe using it often leads to even more harmful drugs.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/marijuana_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/IHX7zQrBEG8",
-        "author": "Drug Free World Organization",
-        "duration": "18 minutes",
-        "ageGroup": "Student, Parent",
-        "category": "Drug Prevention",
-        "tags": [
-          "health",
-          "society",
-          "prevention"
-        ],
-        "publishedDate": "2024-03-05"
-      },
-      {
-        "id": 4,
-        "title": "The Truth About Ritalin Abuse",
-        "description": "Through this interactive course you will learn the truth about Ritalin abuse. You’ll learn how Ritalin abuse starts and the consequences of abusing prescription drugs. People who’ve used Ritalin tell the unedited truth about what happened to them.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/ritalin_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/HAm7SxPXjvo",
-        "author": "Drug Free World Organization",
-        "duration": "15 minutes",
-        "ageGroup": "Student",
-        "category": "Drug Prevention",
-        "tags": [
-          "skills",
-          "refusal",
-          "support"
-        ],
-        "publishedDate": "2024-04-10"
-      },
-      {
-        "id": 5,
-        "title": "The Truth About Painkillers",
-        "description": "Through this interactive course you will learn the truth about painkillers. You’ll get straight facts from former addicts who know first-hand how easy it is to become addicted.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/painkillers_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/YAHVESjVkWs",
-        "author": "Drug Free World Organization",
-        "duration": "22 minutes",
-        "ageGroup": "Parent, Teacher",
-        "category": "Drug Prevention",
-        "tags": [
-          "psychology",
-          "behavior",
-          "addiction"
-        ],
-        "publishedDate": "2024-05-20"
-      },
-      {
-        "id": 6,
-        "title": "The Truth About Heroin",
-        "description": "Through this interactive course you will learn the truth about heroin. You’ll hear former addicts tell their stories about how they got hooked and how their heroin habit became their full-time obsession.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/heroin_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/RGuOlYTqi0E",
-        "author": "Drug Free World Organization",
-        "duration": "48 min",
-        "ageGroup": "University student",
-        "category": "Drug Prevention",
-        "tags": [
-          "heroin",
-          "addiction",
-          "story"
-        ],
-        "publishedDate": "2024-06-01"
-      },
-      {
-        "id": 7,
-        "title": "The Truth About Crystal Meth",
-        "description": "Through this interactive course you will learn the truth about crystal meth. You’ll hear it from former users who experienced the severe effects of crystal meth addiction.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/crystalmeth_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/fuyX1XKxX_s",
-        "author": "Drug Free World Organization",
-        "duration": "50 min",
-        "ageGroup": "University student, Teacher",
-        "category": "Drug Prevention",
-        "tags": [
-          "crystal meth",
-          "addiction",
-          "effects"
-        ],
-        "publishedDate": "2024-06-02"
-      },
-      {
-        "id": 8,
-        "title": "The Truth About Synthetic Drugs",
-        "description": "Through this interactive course you will learn the truth about synthetic drugs and why—no matter what people tell you—they are not natural, safe or legal. You’ll hear it straight from former users who experienced the severe effects of synthetic drugs.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/14-synthetic-bklt-cover_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/CpnHkziqaR4",
-        "author": "Drug Free World Organization",
-        "duration": "47 min",
-        "ageGroup": "Teacher, Parent",
-        "category": "Drug Prevention",
-        "tags": [
-          "synthetic drugs",
-          "effects",
-          "prevention"
-        ],
-        "publishedDate": "2024-06-03"
-      },
-      {
-        "id": 9,
-        "title": "The Truth About Alcohol",
-        "description": "Through this interactive course you will learn the truth about alcohol. Get straight talk about alcohol in its many forms from those who overcame addiction.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/alcohol_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/WwFPb-2T8N8",
-        "author": "Drug Free World Organization",
-        "duration": "41 min",
-        "ageGroup": "Parent, Student",
-        "category": "Drug Prevention",
-        "tags": [
-          "alcohol",
-          "addiction",
-          "facts"
-        ],
-        "publishedDate": "2024-06-04"
-      },
-      {
-        "id": 10,
-        "title": "The Truth About Inhalants",
-        "description": "Through this interactive course you will learn the truth about inhalants. You’ll find out how inhaling everyday chemicals can cause dangerous and deadly effects. And you’ll hear it from people who survived inhalant addiction.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/inhalants_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/392jFOsvpoQ",
-        "author": "Drug Free World Organization",
-        "duration": "46 min",
-        "ageGroup": "Teacher, University student",
-        "category": "Drug Prevention",
-        "tags": [
-          "inhalants",
-          "chemicals",
-          "addiction"
-        ],
-        "publishedDate": "2024-06-05"
-      },
-      {
-        "id": 11,
-        "title": "The Truth About Ecstasy",
-        "description": "Through this interactive course you will learn the truth about Ecstasy. Youll get the straight facts about this designer drug from people who have abused it.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/ecstasy_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/zZMETFXFE24",
-        "author": "Drug Free World Organization",
-        "duration": "44 min",
-        "ageGroup": "University student, Parent",
-        "category": "Drug Prevention",
-        "tags": [
-          "ecstasy",
-          "facts",
-          "abuse"
-        ],
-        "publishedDate": "2024-06-06"
-      },
-      {
-        "id": 12,
-        "title": "The Truth About LSD",
-        "description": "Through this interactive course you will learn the truth about LSD. Real people who’ve used LSD spell it all out—from its history to its street names, and its unpredictable effects and risks.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/lsd_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/bdh3Em-fAEo",
-        "author": "Drug Free World Organization",
-        "duration": "45 min",
-        "ageGroup": "University student, Teacher",
-        "category": "Drug Prevention",
-        "tags": [
-          "LSD",
-          "effects",
-          "risks"
-        ],
-        "publishedDate": "2024-06-07"
-      },
-      {
-        "id": 13,
-        "title": "The Truth About Cocaine",
-        "description": "Through this interactive course you will learn the truth about cocaine. What it is, what it’s made of and why it’s so highly addictive. Former cocaine addicts give the straight facts about the problems they encountered from using coke.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/cocaine_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/YFmXkzS-Rp8",
-        "author": "Drug Free World Organization",
-        "duration": "49 min",
-        "ageGroup": "Parent, Teacher",
-        "category": "Drug Prevention",
-        "tags": [
-          "cocaine",
-          "addiction",
-          "facts"
-        ],
-        "publishedDate": "2024-06-08"
-      },
-      {
-        "id": 14,
-        "title": "The Truth About Crack Cocaine",
-        "description": "Through this interactive course you will learn the truth about crack cocaine. You’ll hear it straight from former crack users who talk about how they got addicted and what it did to their lives.",
-        "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/crack_booklet_en.jpg?k=",
-        "videoUrl": "https://www.youtube.com/embed/-GmW-BCm-UA",
-        "author": "Drug Free World Organization",
-        "duration": "45 min",
-        "ageGroup": "Teacher, Student",
-        "category": "Drug Prevention",
-        "tags": [
-          "crack cocaine",
-          "addiction",
-          "stories"
-        ],
-        "publishedDate": "2024-06-09"
-      }
-
-  ],
-  "consultants2": [
-    {
-      "ConsultantID": 3,
-      "Name": "Dr. Nguyen",
-      "id": "f165"
-    },
-    {
-      "ConsultantID": 5,
-      "Name": "Dr. Tran",
-      "id": "213f"
-    }
-  ],
-  "bookings": [
-    {
-      "BookingID": 1,
-      "MemberName": "Tấn Tài",
-      "Email": "a@gmail.com",
-      "Phone_number": "0123456789",
-      "Booking_time": "2025-06-01T09:00:00",
-      "Status": "Completed",
-      "Description": "Tư vấn tâm lý",
-      "Day_of_week": "Monday",
-      "Start_time": "09:00",
-      "End_time": "09:30",
-      "ConsultantID": 3,
-      "id": "bc8d"
-    },
-    {
-      "BookingID": 2,
-      "MemberName": "Hiểu Nhân",
-      "Email": "b@gmail.com",
-      "Phone_number": "0987654321",
-      "Booking_time": "2025-06-02T14:00:00",
-      "Status": "Pending",
-      "Description": "Tư vấn cai nghiện",
-      "Day_of_week": "Tuesday",
-      "Start_time": "14:00",
-      "End_time": "14:30",
-      "ConsultantID": 5,
-      "id": "f1e7"
-    },
-    {
-      "BookingID": 3,
-      "MemberName": "Nguyễn Hữu Đạt",
-      "Email": "c@gmail.com",
-      "Phone_number": "0987654321",
-      "Booking_time": "2025-06-03T14:00:00",
-      "Status": "Confirmed",
-      "Description": "Tư vấn cai nghiện",
-      "Day_of_week": "Tuesday",
-      "Start_time": "14:00",
-      "End_time": "14:30",
-      "ConsultantID": 5,
-      "id": "ebd3"
-    }
-  ],
-  "schedules": [
-    {
-      "id": "2331",
-      "consultant_id": 1,
-      "day_of_week": "Thứ 2",
-      "start_time": "07:00",
-      "end_time": "15:00"
-    },
-    {
-      "id": "2e5b",
-      "consultant_id": 2,
-      "day_of_week": "Thứ 3",
-      "start_time": "07:00",
-      "end_time": "14:00"
-    },
-    {
-      "id": "5c76",
-      "consultant_id": 1,
-      "day_of_week": "Thứ 3",
-      "start_time": "10:00",
-      "end_time": "22:00"
-    },
-    {
-      "id": "6618",
-      "consultant_id": 1,
-      "day_of_week": "Thứ 2",
-      "start_time": "07:00",
-      "end_time": "14:00"
-    },
-    {
-      "id": "0a7d",
-      "consultant_id": 1,
-      "day_of_week": "Chủ Nhật",
-      "start_time": "06:00",
-      "end_time": "12:00"
-    }
-  ],
-  "User": [
-    {
-      "id": "1",
-      "fullName": "Nguyễn Văn A",
-      "email": "nguyenvana@example.com",
-      "phoneNumber": "0912345678",
-      "username": "1",
-      "password": "1",
-      "dateOfBirth": "1990-01-15",
-      "role": "MEMBER",
-      "createdAt": "2024-01-01T10:00:00",
-      "updatedAt": "2024-01-01T10:00:00",
-      "avatar": "/avatars/default.jpg"
-    },
-    {
-      "id": "2",
-      "fullName": "Tạ Hiếu Nhân",
-      "email": "tranthib@example.com",
-      "phoneNumber": "0987654321",
-      "username": "tranthib",
-      "password": "hashed_password_2",
-      "dateOfBirth": "1985-05-20",
-      "role": "CONSULTANT",
-      "createdAt": "2024-02-01T09:30:00",
-      "updatedAt": "2024-02-01T09:30:00",
-      "avatar": "/avatars/default2.png"
-    },
-    {
-      "id": "4",
+      "id": "b75e",
       "fullName": "Trần Tiến Hùng",
-      "email": "tranthib@example.com",
-      "phoneNumber": "0987654321",
-      "username": "2",
-      "password": "2",
-      "dateOfBirth": "1985-05-20",
-      "role": "CONSULTANT",
-      "createdAt": "2024-02-01T09:30:00",
-      "updatedAt": "2024-02-01T09:30:00",
-      "avatar": "/avatars/default.jpg"
-    },
-    {
-      "id": "3",
-      "fullName": "Lê Văn C",
-      "email": "levanc@example.com",
-      "phoneNumber": "0909123456",
-      "username": "levanc",
-      "password": "hashed_password_3",
-      "dateOfBirth": "1992-08-10",
-      "role": "MANAGER",
-      "createdAt": "2024-03-10T08:00:00",
-      "updatedAt": "2024-03-10T08:00:00",
-      "avatar": "/avatars/bob.jpg"
-    },
-    {
-      "id": "f0d7",
-      "fullName": "Smith Brown",
-      "email": "trantienhung21122004@gmail.com",
+      "email": "traung21122004@gmail.com",
       "phoneNumber": "0937639122",
-      "username": "Smith Brown",
+      "username": "12344",
       "password": "123",
-      "dateOfBirth": "2010-02-03",
-      "role": "CONSULTANT",
-      "createdAt": "2025-05-28T01:20:52.248Z",
-      "updatedAt": "2025-05-28T01:20:52.248Z",
-      "avatar": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/lsd_booklet_en.jpg?k="
-    },
-    {
-      "id": "9771",
-      "fullName": "Smith Brown",
-      "email": "trantienh2004@gmail.com",
-      "phoneNumber": "0937639122",
-      "username": "12",
-      "password": "1",
       "dateOfBirth": "2025-05-31",
-      "role": "MEMBER",
-      "createdAt": "2025-06-05T01:20:01.598Z",
-      "updatedAt": "2025-06-05T01:20:01.598Z",
+      "role": "Thành viên",
+      "createdAt": "2025-06-09T01:38:09.427Z",
+      "updatedAt": "2025-06-09T01:38:09.427Z",
       "avatar": "/avatars/default.jpg"
-
     }
   ],
   "Certificates": [
@@ -1121,7 +235,7 @@
       "createdAt": "2025-05-01T12:00:00",
       "notes": "",
       "updatedAt": "2025-05-01T12:00:00",
-      "status": "Đã hủy"
+      "status": "Chờ xác nhận"
     },
     {
       "id": "2",
@@ -1131,7 +245,7 @@
       "createdAt": "2025-05-02T12:00:00",
       "notes": "",
       "updatedAt": "2025-05-02T12:00:00",
-      "status": "Hoàn thành"
+      "status": "Chờ xác nhận"
     },
     {
       "id": "3",
@@ -1171,7 +285,7 @@
       "notes": "",
       "createdAt": "2025-06-06T14:49:45.304Z",
       "updatedAt": "2025-06-06T14:49:45.304Z",
-      "status": "Chờ xác nhận"
+      "status": "Đã hủy"
     },
     {
       "id": "27f7",
@@ -1181,7 +295,7 @@
       "notes": "",
       "createdAt": "2025-06-06T14:49:46.609Z",
       "updatedAt": "2025-06-06T14:49:46.609Z",
-      "status": "Chờ xác nhận"
+      "status": "Đã hủy"
     },
     {
       "id": "fb24",
@@ -1189,7 +303,7 @@
       "consultantId": "4",
       "bookingTime": "2025-06-11T10:00:00",
       "notes": "",
-      "status": "Chờ xác nhận",
+      "status": "Đã hủy",
       "createdAt": "2025-06-06T15:01:43.713Z",
       "updatedAt": "2025-06-06T15:01:43.713Z"
     },
@@ -1224,14 +338,186 @@
       "updatedAt": "2025-06-08T09:01:25.843Z"
     },
     {
-      "id": "ca19",
-      "memberId": "117709169178341238725",
+      "id": "cad5",
+      "memberId": "1",
       "consultantId": "4",
-      "bookingTime": "2025-06-20T11:00:00",
+      "bookingTime": "2025-06-20T14:00:00",
+      "notes": "",
+      "status": "Đã hủy",
+      "createdAt": "2025-06-19T13:20:03.324Z",
+      "updatedAt": "2025-06-19T13:20:03.324Z"
+    },
+    {
+      "id": "c4a0",
+      "memberId": "2",
+      "consultantId": "2",
+      "bookingTime": "2025-07-02T14:30:00",
+      "notes": "",
+      "status": "Đã xác nhận",
+      "createdAt": "2025-06-22T07:35:21.945Z",
+      "updatedAt": "2025-06-22T07:35:21.945Z"
+    },
+    {
+      "id": "d168",
+      "memberId": "1",
+      "consultantId": "4",
+      "bookingTime": "2025-06-25T14:00:00",
       "notes": "",
       "status": "Chờ xác nhận",
-      "createdAt": "2025-06-10T14:21:32.395Z",
-      "updatedAt": "2025-06-10T14:21:32.395Z"
+      "createdAt": "2025-06-22T07:36:24.269Z",
+      "updatedAt": "2025-06-22T07:36:24.269Z"
+    },
+    {
+      "id": "97a4",
+      "memberId": "1",
+      "consultantId": "2",
+      "bookingTime": "2025-06-26T10:00:00",
+      "notes": "",
+      "status": "Đã xác nhận",
+      "createdAt": "2025-06-22T09:43:43.128Z",
+      "updatedAt": "2025-06-22T09:43:43.128Z"
+    }
+  ],
+  "events": [
+    {
+      "ID": 1,
+      "Manager_id": 1,
+      "Title": "Hội thảo phòng chống ma túy trong học đường",
+      "Program_Coordinator": "Nguyễn Văn A",
+      "Description": "Tuyên truyền kiến thức và kỹ năng phòng tránh ma túy cho học sinh trung học phổ thông.",
+      "Location": "Trường THPT Lê Quý Đôn, TP.HCM",
+      "Start_date": "2025-07-05",
+      "End_date": "2025-07-05",
+      "Image": "https://images.unsplash.com/photo-1596495577886-d920f1fb7238",
+      "Created_at": "2025-06-01T09:00:00",
+      "Updated_at": "2025-06-01T09:00:00",
+      "id": "evt001"
+    },
+    {
+      "ID": 2,
+      "Manager_id": 2,
+      "Title": "Chiến dịch tuyên truyền 'Nói không với ma túy'",
+      "Program_Coordinator": "Trần Thị B",
+      "Description": "Tổ chức diễu hành, phát tờ rơi tuyên truyền về tác hại của ma túy tại các khu dân cư.",
+      "Location": "Công viên Tao Đàn, TP.HCM",
+      "Start_date": "2025-07-10",
+      "End_date": "2025-07-10",
+      "Image": "https://images.unsplash.com/photo-1515162305286-9f7827b45691",
+      "Created_at": "2025-06-02T10:00:00",
+      "Updated_at": "2025-06-02T10:00:00",
+      "id": "evt002"
+    },
+    {
+      "ID": 3,
+      "Manager_id": 3,
+      "Title": "Diễn đàn thanh niên nói không với ma túy",
+      "Program_Coordinator": "Lê Văn C",
+      "Description": "Tạo không gian để thanh niên trao đổi kinh nghiệm phòng chống ma túy, cùng cam kết sống lành mạnh.",
+      "Location": "Trung tâm Thanh thiếu niên TP.HCM",
+      "Start_date": "2025-07-15",
+      "End_date": "2025-07-15",
+      "Image": "https://images.unsplash.com/photo-1617806111964-e20cc6615c89",
+      "Created_at": "2025-06-03T09:30:00",
+      "Updated_at": "2025-06-03T09:30:00",
+      "id": "evt003"
+    },
+    {
+      "ID": 4,
+      "Manager_id": 1,
+      "Title": "Chương trình tư vấn cai nghiện ma túy miễn phí",
+      "Program_Coordinator": "Nguyễn Văn A",
+      "Description": "Hỗ trợ người nghiện ma túy qua các buổi tư vấn tâm lý miễn phí cùng chuyên gia.",
+      "Location": "Nhà văn hóa quận 3, TP.HCM",
+      "Start_date": "2025-07-20",
+      "End_date": "2025-07-22",
+      "Image": "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb",
+      "Created_at": "2025-06-04T11:00:00",
+      "Updated_at": "2025-06-04T11:00:00",
+      "id": "evt004"
+    },
+    {
+      "ID": 5,
+      "Manager_id": 2,
+      "Title": "Ngày hội gia đình phòng chống ma túy",
+      "Program_Coordinator": "Trần Thị B",
+      "Description": "Hoạt động nâng cao nhận thức về ma túy thông qua các trò chơi, hội thi và triển lãm dành cho cả gia đình.",
+      "Location": "Nhà thiếu nhi TP.HCM",
+      "Start_date": "2025-07-25",
+      "End_date": "2025-07-25",
+      "Image": "https://images.unsplash.com/photo-1560264280-88b68371db39",
+      "Created_at": "2025-06-05T13:00:00",
+      "Updated_at": "2025-06-05T13:00:00",
+      "id": "evt005"
+    },
+    {
+      "ID": 6,
+      "Manager_id": 3,
+      "Title": "Khóa học kỹ năng sống phòng chống ma túy",
+      "Program_Coordinator": "Lê Văn C",
+      "Description": "Trang bị kỹ năng từ chối, kiểm soát cảm xúc và tự bảo vệ bản thân trước cám dỗ của ma túy.",
+      "Location": "Trung tâm Kỹ năng sống TP.HCM",
+      "Start_date": "2025-08-01",
+      "End_date": "2025-08-03",
+      "Image": "https://images.unsplash.com/photo-1496309732348-3627f3f040ee",
+      "Created_at": "2025-06-06T09:00:00",
+      "Updated_at": "2025-06-06T09:00:00",
+      "id": "evt006"
+    },
+    {
+      "ID": 7,
+      "Manager_id": 1,
+      "Title": "Chiến dịch truyền thông 'Thanh niên sống khỏe - tránh xa ma túy'",
+      "Program_Coordinator": "Nguyễn Văn A",
+      "Description": "Kết hợp hoạt động thể thao, văn nghệ với tuyên truyền nhằm khuyến khích lối sống lành mạnh.",
+      "Location": "Sân vận động Phú Thọ, TP.HCM",
+      "Start_date": "2025-08-05",
+      "End_date": "2025-08-05",
+      "Image": "https://images.unsplash.com/photo-1555529669-e69a0c84c2d5",
+      "Created_at": "2025-06-07T10:00:00",
+      "Updated_at": "2025-06-07T10:00:00",
+      "id": "evt007"
+    },
+    {
+      "ID": 8,
+      "Manager_id": 2,
+      "Title": "Buổi nói chuyện chuyên đề: Ma túy và pháp luật",
+      "Program_Coordinator": "Trần Thị B",
+      "Description": "Chia sẻ kiến thức pháp luật liên quan đến ma túy và hậu quả pháp lý khi vi phạm.",
+      "Location": "Đại học Luật TP.HCM",
+      "Start_date": "2025-08-10",
+      "End_date": "2025-08-10",
+      "Image": "https://images.unsplash.com/photo-1573497169581-4a7c63dd45c4",
+      "Created_at": "2025-06-08T11:00:00",
+      "Updated_at": "2025-06-08T11:00:00",
+      "id": "evt008"
+    },
+    {
+      "ID": 9,
+      "Manager_id": 3,
+      "Title": "Triển lãm ảnh 'Tác hại của ma túy'",
+      "Program_Coordinator": "Lê Văn C",
+      "Description": "Triển lãm hình ảnh thực tế và chia sẻ câu chuyện người thật việc thật để nâng cao ý thức phòng chống.",
+      "Location": "Nhà văn hóa Thanh niên TP.HCM",
+      "Start_date": "2025-08-15",
+      "End_date": "2025-08-20",
+      "Image": "https://images.unsplash.com/photo-1588776814546-ec07aa486e1d",
+      "Created_at": "2025-06-09T10:30:00",
+      "Updated_at": "2025-06-09T10:30:00",
+      "id": "evt009"
+    },
+    {
+      "ID": 10,
+      "Manager_id": 1,
+      "Title": "Talkshow 'Giới trẻ đối diện với ma túy: Câu chuyện thật'",
+      "Program_Coordinator": "Nguyễn Văn A",
+      "Description": "Talkshow giao lưu với người từng cai nghiện, chia sẻ góc nhìn thực tế và lời khuyên cho giới trẻ.",
+      "Location": "Nhà hát Thành phố, TP.HCM",
+      "Start_date": "2025-08-25",
+      "End_date": "2025-08-25",
+      "Image": "https://images.unsplash.com/photo-1573164713988-8665fc963095",
+      "Created_at": "2025-06-10T15:00:00",
+      "Updated_at": "2025-06-10T15:00:00",
+      "id": "evt010"
     }
   ],
   "Schedule": [
@@ -1240,46 +526,46 @@
       "consultantId": "2",
       "startTime": "09:00:00",
       "endTime": "12:00:00",
-      "dayOfWeek": "Thứ Ba"
+      "dayOfWeek": "Thứ Hai"
     },
     {
       "id": "2",
-      "consultantId": "2",
+      "consultantId": "4",
       "startTime": "13:00:00",
       "endTime": "17:00:00",
-      "dayOfWeek": "Thứ Ba"
+      "dayOfWeek": "Thứ Hai"
     },
     {
       "id": "3",
-      "consultantId": "4",
+      "consultantId": "f0d7",
       "startTime": "09:00:00",
       "endTime": "12:00:00",
-      "dayOfWeek": "Thứ Ba"
+      "dayOfWeek": "Thứ Hai"
     },
     {
       "id": "4",
       "consultantId": "4",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
+      "startTime": "09:00:00",
+      "endTime": "12:00:00",
       "dayOfWeek": "Thứ Ba"
     },
     {
       "id": "5",
       "consultantId": "f0d7",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Thứ Ba"
-    },
-    {
-      "id": "6",
-      "consultantId": "f0d7",
       "startTime": "13:00:00",
       "endTime": "17:00:00",
       "dayOfWeek": "Thứ Ba"
     },
     {
-      "id": "7",
+      "id": "6",
       "consultantId": "2",
+      "startTime": "09:00:00",
+      "endTime": "12:00:00",
+      "dayOfWeek": "Thứ Ba"
+    },
+    {
+      "id": "7",
+      "consultantId": "f0d7",
       "startTime": "09:00:00",
       "endTime": "12:00:00",
       "dayOfWeek": "Thứ Tư"
@@ -1294,114 +580,93 @@
     {
       "id": "9",
       "consultantId": "4",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
+      "startTime": "13:00:00",
+      "endTime": "17:00:00",
       "dayOfWeek": "Thứ Tư"
     },
     {
       "id": "10",
-      "consultantId": "4",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Thứ Tư"
-    },
-    {
-      "id": "11",
-      "consultantId": "f0d7",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Thứ Tư"
-    },
-    {
-      "id": "12",
-      "consultantId": "f0d7",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Thứ Tư"
-    },
-    {
-      "id": "13",
       "consultantId": "2",
       "startTime": "09:00:00",
       "endTime": "12:00:00",
       "dayOfWeek": "Thứ Năm"
+    },
+    {
+      "id": "11",
+      "consultantId": "f0d7",
+      "startTime": "13:00:00",
+      "endTime": "17:00:00",
+      "dayOfWeek": "Thứ Năm"
+    },
+    {
+      "id": "12",
+      "consultantId": "4",
+      "startTime": "09:00:00",
+      "endTime": "12:00:00",
+      "dayOfWeek": "Thứ Năm"
+    },
+    {
+      "id": "13",
+      "consultantId": "f0d7",
+      "startTime": "09:00:00",
+      "endTime": "12:00:00",
+      "dayOfWeek": "Thứ Sáu"
     },
     {
       "id": "14",
       "consultantId": "2",
       "startTime": "13:00:00",
       "endTime": "17:00:00",
-      "dayOfWeek": "Thứ Năm"
+      "dayOfWeek": "Thứ Sáu"
     },
     {
       "id": "15",
       "consultantId": "4",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Thứ Năm"
+      "startTime": "13:00:00",
+      "endTime": "17:00:00",
+      "dayOfWeek": "Thứ Sáu"
     },
     {
       "id": "16",
-      "consultantId": "4",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Thứ Năm"
+      "consultantId": "2",
+      "startTime": "09:00:00",
+      "endTime": "12:00:00",
+      "dayOfWeek": "Thứ Bảy"
     },
     {
       "id": "17",
-      "consultantId": "f0d7",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Thứ Năm"
+      "consultantId": "4",
+      "startTime": "13:00:00",
+      "endTime": "17:00:00",
+      "dayOfWeek": "Thứ Bảy"
     },
     {
       "id": "18",
       "consultantId": "f0d7",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Thứ Năm"
+      "startTime": "09:00:00",
+      "endTime": "12:00:00",
+      "dayOfWeek": "Thứ Bảy"
     },
     {
       "id": "19",
-      "consultantId": "2",
+      "consultantId": "4",
       "startTime": "09:00:00",
       "endTime": "12:00:00",
-      "dayOfWeek": "Thứ Sáu"
+      "dayOfWeek": "Chủ Nhật"
     },
     {
       "id": "20",
-      "consultantId": "2",
+      "consultantId": "f0d7",
       "startTime": "13:00:00",
       "endTime": "17:00:00",
-      "dayOfWeek": "Thứ Sáu"
+      "dayOfWeek": "Chủ Nhật"
     },
     {
       "id": "21",
-      "consultantId": "4",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Thứ Sáu"
-    },
-    {
-      "id": "22",
-      "consultantId": "4",
+      "consultantId": "2",
       "startTime": "13:00:00",
       "endTime": "17:00:00",
-      "dayOfWeek": "Thứ Sáu"
-    },
-    {
-      "id": "23",
-      "consultantId": "f0d7",
-      "startTime": "09:00:00",
-      "endTime": "12:00:00",
-      "dayOfWeek": "Thứ Sáu"
-    },
-    {
-      "id": "24",
-      "consultantId": "f0d7",
-      "startTime": "13:00:00",
-      "endTime": "17:00:00",
-      "dayOfWeek": "Thứ Sáu"
+      "dayOfWeek": "Chủ Nhật"
     }
   ],
   "ConsultationSession": [
@@ -1433,9 +698,9 @@
       "updatedAt": "2025-05-03T12:00:00"
     }
   ],
-  " ": [
+  "Course": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Sự Thật Về Ma Túy",
       "description": "Qua khóa học tương tác này, bạn sẽ hiểu lý do tại sao mọi người bắt đầu sử dụng ma túy. Bạn cũng sẽ biết các sự thật cơ bản về những loại ma túy phổ biến nhất và nghe câu chuyện thực tế từ những người từng nghiện. Hãy tự trang bị kiến thức cho bản thân. Tìm hiểu sự thật về ma túy.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/drugs_booklet_en.jpg?k=",
@@ -1452,7 +717,7 @@
       "publishedDate": "2024-01-10"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Sự Thật Về Lạm Dụng Thuốc Kê Đơn",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về lạm dụng thuốc kê đơn. Bạn sẽ nghe những người từng nghiện chia sẻ về hậu quả và trải nghiệm thực tế về sự nguy hiểm của thuốc kê đơn.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/prescriptiondrugs_booklet_en.jpg?k=",
@@ -1469,7 +734,7 @@
       "publishedDate": "2024-02-15"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Sự Thật Về Cần Sa",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về cần sa, những lầm tưởng xung quanh nó và lý do nhiều người từng nghiện tin rằng sử dụng cần sa thường dẫn đến các loại ma túy nguy hiểm hơn.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/marijuana_booklet_en.jpg?k=",
@@ -1486,7 +751,7 @@
       "publishedDate": "2024-03-05"
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Sự Thật Về Lạm Dụng Ritalin",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về lạm dụng Ritalin. Bạn sẽ biết cách lạm dụng Ritalin bắt đầu và hậu quả của việc lạm dụng thuốc kê đơn. Những người từng sử dụng Ritalin sẽ kể lại sự thật về những gì đã xảy ra với họ.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/ritalin_booklet_en.jpg?k=",
@@ -1503,7 +768,7 @@
       "publishedDate": "2024-04-10"
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "Sự Thật Về Thuốc Giảm Đau",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về thuốc giảm đau. Bạn sẽ nhận được thông tin thực tế từ những người từng nghiện, những người hiểu rõ việc nghiện thuốc dễ dàng như thế nào.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/painkillers_booklet_en.jpg?k=",
@@ -1520,7 +785,7 @@
       "publishedDate": "2024-05-20"
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Sự Thật Về Heroin",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về heroin. Bạn sẽ nghe những người từng nghiện kể về cách họ bị nghiện và heroin đã trở thành nỗi ám ảnh toàn thời gian của họ như thế nào.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/heroin_booklet_en.jpg?k=",
@@ -1537,7 +802,7 @@
       "publishedDate": "2024-06-01"
     },
     {
-      "id": 7,
+      "id": "7",
       "title": "Sự Thật Về Crystal Meth",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về crystal meth. Bạn sẽ nghe những người từng sử dụng kể về tác hại nghiêm trọng của nghiện crystal meth.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/crystalmeth_booklet_en.jpg?k=",
@@ -1554,7 +819,7 @@
       "publishedDate": "2024-06-02"
     },
     {
-      "id": 8,
+      "id": "8",
       "title": "Sự Thật Về Ma Túy Tổng Hợp",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về ma túy tổng hợp và lý do tại sao - dù ai nói gì - chúng không tự nhiên, không an toàn và không hợp pháp. Bạn sẽ nghe trực tiếp từ những người từng sử dụng về tác hại nghiêm trọng của ma túy tổng hợp.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/14-synthetic-bklt-cover_en.jpg?k=",
@@ -1571,7 +836,7 @@
       "publishedDate": "2024-06-03"
     },
     {
-      "id": 9,
+      "id": "9",
       "title": "Sự Thật Về Rượu",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về rượu. Nhận thông tin thực tế về rượu dưới nhiều hình thức từ những người đã vượt qua nghiện.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/alcohol_booklet_en.jpg?k=",
@@ -1588,7 +853,7 @@
       "publishedDate": "2024-06-04"
     },
     {
-      "id": 10,
+      "id": "10",
       "title": "Sự Thật Về Chất Hít",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về chất hít. Bạn sẽ biết việc hít các hóa chất hàng ngày có thể gây ra tác hại nguy hiểm và chết người như thế nào. Và bạn sẽ nghe từ những người đã vượt qua nghiện chất hít.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/inhalants_booklet_en.jpg?k=",
@@ -1605,7 +870,7 @@
       "publishedDate": "2024-06-05"
     },
     {
-      "id": 11,
+      "id": "11",
       "title": "Sự Thật Về Ecstasy",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về Ecstasy. Bạn sẽ nhận được thông tin thực tế về loại ma túy thiết kế này từ những người từng lạm dụng nó.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/ecstasy_booklet_en.jpg?k=",
@@ -1622,7 +887,7 @@
       "publishedDate": "2024-06-06"
     },
     {
-      "id": 12,
+      "id": "12",
       "title": "Sự Thật Về LSD",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về LSD. Những người từng sử dụng LSD sẽ kể lại tất cả - từ lịch sử, tên gọi đường phố, đến tác động và rủi ro khó lường.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/lsd_booklet_en.jpg?k=",
@@ -1639,7 +904,7 @@
       "publishedDate": "2024-06-07"
     },
     {
-      "id": 13,
+      "id": "13",
       "title": "Sự Thật Về Cocaine",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về cocaine. Đó là gì, thành phần ra sao và tại sao nó lại gây nghiện mạnh. Những người từng nghiện cocaine sẽ chia sẻ thực tế về các vấn đề họ gặp phải khi sử dụng.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/cocaine_booklet_en.jpg?k=",
@@ -1656,7 +921,7 @@
       "publishedDate": "2024-06-08"
     },
     {
-      "id": 14,
+      "id": "14",
       "title": "Sự Thật Về Crack Cocaine",
       "description": "Qua khóa học tương tác này, bạn sẽ biết sự thật về crack cocaine. Bạn sẽ nghe trực tiếp từ những người từng sử dụng crack về cách họ bị nghiện và crack đã ảnh hưởng đến cuộc sống của họ như thế nào.",
       "image": "https://files.ondemandhosting.info/imagecache/cropfit@w=271/data/www.drugfreeworld.org/web/assets/images/booklet-images/crack_booklet_en.jpg?k=",
@@ -1718,7 +983,8 @@
           },
           "correctAnswer": "B"
         }
-      ]
+      ],
+      "id": "0c14"
     },
     {
       "courseId": 2,
@@ -1764,7 +1030,8 @@
           },
           "correctAnswer": "C"
         }
-      ]
+      ],
+      "id": "8a6d"
     },
     {
       "courseId": 3,
@@ -1810,7 +1077,8 @@
           },
           "correctAnswer": "B"
         }
-      ]
+      ],
+      "id": "5610"
     },
     {
       "courseId": 4,
@@ -1856,7 +1124,8 @@
           },
           "correctAnswer": "B"
         }
-      ]
+      ],
+      "id": "1a46"
     },
     {
       "courseId": 5,
@@ -1902,7 +1171,8 @@
           },
           "correctAnswer": "C"
         }
-      ]
+      ],
+      "id": "8a64"
     },
     {
       "courseId": 6,
@@ -1948,7 +1218,8 @@
           },
           "correctAnswer": "A"
         }
-      ]
+      ],
+      "id": "b833"
     },
     {
       "courseId": 7,
@@ -1994,7 +1265,8 @@
           },
           "correctAnswer": "B"
         }
-      ]
+      ],
+      "id": "d005"
     },
     {
       "courseId": 8,
@@ -2040,7 +1312,8 @@
           },
           "correctAnswer": "B"
         }
-      ]
+      ],
+      "id": "1b1d"
     },
     {
       "courseId": 9,
@@ -2086,7 +1359,8 @@
           },
           "correctAnswer": "B"
         }
-      ]
+      ],
+      "id": "19a8"
     },
     {
       "courseId": 10,
@@ -2132,7 +1406,8 @@
           },
           "correctAnswer": "B"
         }
-      ]
+      ],
+      "id": "e6d3"
     },
     {
       "courseId": 11,
@@ -2178,7 +1453,8 @@
           },
           "correctAnswer": "B"
         }
-      ]
+      ],
+      "id": "55ca"
     },
     {
       "courseId": 12,
@@ -2224,7 +1500,8 @@
           },
           "correctAnswer": "B"
         }
-      ]
+      ],
+      "id": "2e78"
     },
     {
       "courseId": 13,
@@ -2270,7 +1547,8 @@
           },
           "correctAnswer": "B"
         }
-      ]
+      ],
+      "id": "f412"
     },
     {
       "courseId": 14,
@@ -2316,7 +1594,100 @@
           },
           "correctAnswer": "B"
         }
-      ]
+      ],
+      "id": "3330"
+    }
+  ],
+  "feedback_events": [
+    {
+      "ID": 101,
+      "Member_id": 1,
+      "Event_id": 1,
+      "Rating": 5,
+      "Comment": "Chương trình rất ý nghĩa, mong được tham gia nhiều lần nữa!",
+      "id": "64d1"
+    },
+    {
+      "ID": 102,
+      "Member_id": 2,
+      "Event_id": 2,
+      "Rating": 4,
+      "Comment": "Tổ chức chuyên nghiệp, thời gian phù hợp.",
+      "id": "9884"
+    },
+    {
+      "ID": 103,
+      "Member_id": 3,
+      "Event_id": 1,
+      "Rating": 5,
+      "Comment": "Cây trồng được chăm sóc tốt, cảm thấy rất vui khi đóng góp!",
+      "id": "ce45"
+    },
+    {
+      "id": "6169",
+      "ID": 1749629319417,
+      "Member_id": 1,
+      "Event_id": 1,
+      "Rating": 4,
+      "Comment": "oke hay đấy "
+    },
+    {
+      "id": "834f",
+      "ID": 1749631384593,
+      "Member_id": 1,
+      "Event_id": 3,
+      "Rating": 5,
+      "Comment": "hay ạ "
+    }
+  ],
+  "event_registrations": [
+    {
+      "id": "4108",
+      "ID": 1749629060813,
+      "Member_id": 1,
+      "Event_id": 1
+    },
+    {
+      "id": "e7e9",
+      "ID": 1749629913335,
+      "Member_id": 1,
+      "Event_id": 1
+    },
+    {
+      "id": "6169",
+      "ID": 1749630000001,
+      "Member_id": "6169",
+      "Event_id": 1
+    },
+    {
+      "id": "2025a",
+      "ID": 1749630000002,
+      "Member_id": "2",
+      "Event_id": 2
+    },
+    {
+      "id": "2025b",
+      "ID": 1749630000003,
+      "Member_id": "6169",
+      "Event_id": 3
+    },
+    {
+      "id": "0ccd",
+      "ID": 1749632580243,
+      "Member_id": 1,
+      "Event_id": 4
+    },
+    {
+      "id": "929b",
+      "ID": 1749632631315,
+      "Member_id": 1,
+      "Event_id": 3
+    },
+    {
+      "id": "e451",
+      "ID": 1749632736749,
+      "Member_id": 1,
+      "Event_id": 1
     }
   ],
   "feedbackCourse": [
@@ -2473,21 +1844,6 @@
       "userId": "f0d7",
       "rating": 5,
       "comment": "Bình luận 5"
-    },
-    {
-      "id": "1749533129804",
-      "courseId": 1,
-      "userId": "undefined",
-      "rating": 5,
-      "comment": "s"
-    },
-    {
-      "id": "1749554417674",
-      "courseId": 1,
-      "userId": "117709169178341238725",
-      "rating": 5,
-      "comment": "xin chào"
     }
   ]
 }
-
