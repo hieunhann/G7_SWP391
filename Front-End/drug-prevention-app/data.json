@@ -1662,5 +1662,666 @@
       "start_time": "06:00",
       "end_time": "12:00"
     }
+  ],
+  "CourseQuestions": [
+    {
+      "courseId": 1,
+      "courseTitle": "Sự Thật Về Ma Túy",
+      "questions": [
+        {
+          "question": "Theo khóa học, lý do chính khiến mọi người bắt đầu sử dụng ma túy là gì?",
+          "options": {
+            "A": "Tò mò và áp lực từ bạn bè",
+            "B": "Để cải thiện sức khỏe",
+            "C": "Vì nó miễn phí",
+            "D": "Để trở nên nổi tiếng"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Tác hại phổ biến của việc lạm dụng ma túy là gì?",
+          "options": {
+            "A": "Cải thiện trí nhớ",
+            "B": "Nghiện và các vấn đề sức khỏe",
+            "C": "Học tốt hơn",
+            "D": "Tăng năng lượng"
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "question": "Ai là người chia sẻ câu chuyện trong khóa học?",
+          "options": {
+            "A": "Bác sĩ",
+            "B": "Người từng sử dụng ma túy",
+            "C": "Giáo viên",
+            "D": "Chính trị gia"
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "question": "Thông điệp chính của khóa học là gì?",
+          "options": {
+            "A": "Ma túy an toàn nếu sử dụng cẩn thận",
+            "B": "Ma túy nguy hiểm và nên tránh xa",
+            "C": "Ma túy hợp pháp ở mọi nơi",
+            "D": "Ma túy tốt cho căng thẳng"
+          },
+          "correctAnswer": "B"
+        }
+      ],
+      "id": "0c14"
+    },
+    {
+      "courseId": 2,
+      "courseTitle": "Sự Thật Về Lạm Dụng Thuốc Kê Đơn",
+      "questions": [
+        {
+          "question": "Rủi ro của việc lạm dụng thuốc kê đơn là gì?",
+          "options": {
+            "A": "Nghiện và quá liều",
+            "B": "Ngủ ngon hơn",
+            "C": "Cơ bắp khỏe hơn",
+            "D": "Không có tác dụng phụ"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai có thể nghiện thuốc kê đơn?",
+          "options": {
+            "A": "Chỉ thanh thiếu niên",
+            "B": "Bất kỳ ai",
+            "C": "Chỉ người già",
+            "D": "Chỉ vận động viên"
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "question": "Lầm tưởng phổ biến về thuốc kê đơn là gì?",
+          "options": {
+            "A": "Chúng luôn an toàn",
+            "B": "Chúng gây nghiện",
+            "C": "Chúng nguy hiểm",
+            "D": "Chúng bất hợp pháp"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Khóa học khuyến khích điều gì?",
+          "options": {
+            "A": "Chia sẻ thuốc kê đơn",
+            "B": "Dùng thuốc không cần bác sĩ",
+            "C": "Sử dụng có trách nhiệm và nhận thức",
+            "D": "Bỏ qua tác dụng phụ"
+          },
+          "correctAnswer": "C"
+        }
+      ],
+      "id": "8a6d"
+    },
+    {
+      "courseId": 3,
+      "courseTitle": "Sự Thật Về Cần Sa",
+      "questions": [
+        {
+          "question": "Lầm tưởng phổ biến về cần sa là gì?",
+          "options": {
+            "A": "Không gây nghiện",
+            "B": "Luôn an toàn",
+            "C": "Không có tác dụng phụ",
+            "D": "Tất cả các đáp án trên"
+          },
+          "correctAnswer": "D"
+        },
+        {
+          "question": "Việc sử dụng cần sa có thể dẫn đến điều gì?",
+          "options": {
+            "A": "Học tốt hơn",
+            "B": "Nghiện và vấn đề sức khỏe",
+            "C": "Không thay đổi gì",
+            "D": "Hạnh phúc tức thì"
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "question": "Ai chia sẻ trải nghiệm trong khóa học?",
+          "options": {
+            "A": "Người từng sử dụng cần sa",
+            "B": "Diễn viên",
+            "C": "Chính trị gia",
+            "D": "Đầu bếp"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Thông điệp chính của khóa học là gì?",
+          "options": {
+            "A": "Cần sa an toàn cho mọi người",
+            "B": "Cần sa có thể gây hại và gây nghiện",
+            "C": "Cần sa hợp pháp ở mọi nơi",
+            "D": "Cần sa là vitamin"
+          },
+          "correctAnswer": "B"
+        }
+      ],
+      "id": "5610"
+    },
+    {
+      "courseId": 4,
+      "courseTitle": "Sự Thật Về Lạm Dụng Ritalin",
+      "questions": [
+        {
+          "question": "Ritalin thường được kê đơn cho ai?",
+          "options": {
+            "A": "ADHD",
+            "B": "Đau đầu",
+            "C": "Ho",
+            "D": "Sốt"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Rủi ro của việc lạm dụng Ritalin là gì?",
+          "options": {
+            "A": "Nghiện",
+            "B": "Nhìn tốt hơn",
+            "C": "Không có tác dụng phụ",
+            "D": "Ngủ lâu hơn"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai kể lại câu chuyện trong khóa học?",
+          "options": {
+            "A": "Người từng lạm dụng Ritalin",
+            "B": "Ca sĩ",
+            "C": "Vận động viên",
+            "D": "Đầu bếp"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Thông điệp chính của khóa học là gì?",
+          "options": {
+            "A": "Ritalin an toàn cho mọi người",
+            "B": "Lạm dụng Ritalin có thể nguy hiểm",
+            "C": "Ritalin là vitamin",
+            "D": "Ritalin chỉ dành cho trẻ em"
+          },
+          "correctAnswer": "B"
+        }
+      ],
+      "id": "1a46"
+    },
+    {
+      "courseId": 5,
+      "courseTitle": "Sự Thật Về Thuốc Giảm Đau",
+      "questions": [
+        {
+          "question": "Rủi ro của việc lạm dụng thuốc giảm đau là gì?",
+          "options": {
+            "A": "Nghiện",
+            "B": "Không có tác dụng phụ",
+            "C": "Nhớ tốt hơn",
+            "D": "Xương chắc khỏe hơn"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai chia sẻ câu chuyện trong khóa học?",
+          "options": {
+            "A": "Người từng nghiện thuốc giảm đau",
+            "B": "Diễn viên",
+            "C": "Chính trị gia",
+            "D": "Đầu bếp"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Lầm tưởng phổ biến về thuốc giảm đau là gì?",
+          "options": {
+            "A": "Chúng luôn an toàn",
+            "B": "Chúng gây nghiện",
+            "C": "Chúng nguy hiểm",
+            "D": "Chúng bất hợp pháp"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Khóa học khuyến khích điều gì?",
+          "options": {
+            "A": "Chia sẻ thuốc giảm đau",
+            "B": "Dùng thuốc không cần bác sĩ",
+            "C": "Nhận thức về nguy cơ nghiện",
+            "D": "Bỏ qua tác dụng phụ"
+          },
+          "correctAnswer": "C"
+        }
+      ],
+      "id": "8a64"
+    },
+    {
+      "courseId": 6,
+      "courseTitle": "Sự Thật Về Heroin",
+      "questions": [
+        {
+          "question": "Heroin được xếp loại là gì?",
+          "options": {
+            "A": "Chất kích thích",
+            "B": "Chất gây nghiện opioid",
+            "C": "Vitamin",
+            "D": "Thực phẩm"
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "question": "Rủi ro chính của việc sử dụng heroin là gì?",
+          "options": {
+            "A": "Nghiện và quá liều",
+            "B": "Ngủ ngon hơn",
+            "C": "Không có tác dụng phụ",
+            "D": "Cơ bắp khỏe hơn"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Heroin thường được sử dụng như thế nào?",
+          "options": {
+            "A": "Tiêm",
+            "B": "Ăn như kẹo",
+            "C": "Bôi lên da",
+            "D": "Trộn với vitamin"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai chia sẻ câu chuyện trong khóa học?",
+          "options": {
+            "A": "Người từng sử dụng heroin",
+            "B": "Bác sĩ",
+            "C": "Giáo viên",
+            "D": "Chính trị gia"
+          },
+          "correctAnswer": "A"
+        }
+      ],
+      "id": "b833"
+    },
+    {
+      "courseId": 7,
+      "courseTitle": "Sự Thật Về Crystal Meth",
+      "questions": [
+        {
+          "question": "Crystal meth là gì?",
+          "options": {
+            "A": "Chất kích thích",
+            "B": "Vitamin",
+            "C": "Thuốc giảm đau",
+            "D": "Thực phẩm"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Rủi ro của việc sử dụng crystal meth là gì?",
+          "options": {
+            "A": "Nghiện và vấn đề sức khỏe nghiêm trọng",
+            "B": "Nhìn tốt hơn",
+            "C": "Không có tác dụng phụ",
+            "D": "Xương chắc khỏe hơn"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai chia sẻ trải nghiệm trong khóa học?",
+          "options": {
+            "A": "Người từng sử dụng crystal meth",
+            "B": "Đầu bếp",
+            "C": "Ca sĩ",
+            "D": "Vận động viên"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Thông điệp chính của khóa học là gì?",
+          "options": {
+            "A": "Crystal meth an toàn nếu dùng một lần",
+            "B": "Crystal meth rất dễ gây nghiện và nguy hiểm",
+            "C": "Crystal meth là vitamin",
+            "D": "Crystal meth hợp pháp"
+          },
+          "correctAnswer": "B"
+        }
+      ],
+      "id": "d005"
+    },
+    {
+      "courseId": 8,
+      "courseTitle": "Sự Thật Về Ma Túy Tổng Hợp",
+      "questions": [
+        {
+          "question": "Ma túy tổng hợp là gì?",
+          "options": {
+            "A": "Hóa chất nhân tạo",
+            "B": "Thảo dược tự nhiên",
+            "C": "Vitamin",
+            "D": "Khoáng chất"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Rủi ro của việc sử dụng ma túy tổng hợp là gì?",
+          "options": {
+            "A": "Tác động khó lường và nguy hiểm",
+            "B": "Sức khỏe tốt hơn",
+            "C": "Không có tác dụng phụ",
+            "D": "Xương chắc khỏe hơn"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai chia sẻ câu chuyện trong khóa học?",
+          "options": {
+            "A": "Người từng sử dụng ma túy tổng hợp",
+            "B": "Bác sĩ",
+            "C": "Giáo viên",
+            "D": "Chính trị gia"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Thông điệp chính của khóa học là gì?",
+          "options": {
+            "A": "Ma túy tổng hợp an toàn",
+            "B": "Ma túy tổng hợp có thể rất nguy hiểm",
+            "C": "Ma túy tổng hợp là vitamin",
+            "D": "Ma túy tổng hợp hợp pháp ở mọi nơi"
+          },
+          "correctAnswer": "B"
+        }
+      ],
+      "id": "1b1d"
+    },
+    {
+      "courseId": 9,
+      "courseTitle": "Sự Thật Về Rượu",
+      "questions": [
+        {
+          "question": "Rượu được xếp loại là gì?",
+          "options": {
+            "A": "Chất ức chế thần kinh",
+            "B": "Chất kích thích",
+            "C": "Vitamin",
+            "D": "Khoáng chất"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Rủi ro của việc lạm dụng rượu là gì?",
+          "options": {
+            "A": "Nghiện và tổn thương gan",
+            "B": "Nhớ tốt hơn",
+            "C": "Không có tác dụng phụ",
+            "D": "Xương chắc khỏe hơn"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai chia sẻ câu chuyện trong khóa học?",
+          "options": {
+            "A": "Người từng nghiện rượu",
+            "B": "Bác sĩ",
+            "C": "Giáo viên",
+            "D": "Chính trị gia"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Thông điệp chính của khóa học là gì?",
+          "options": {
+            "A": "Rượu an toàn cho mọi người",
+            "B": "Rượu có thể gây nghiện và gây hại",
+            "C": "Rượu là vitamin",
+            "D": "Rượu hợp pháp ở mọi nơi"
+          },
+          "correctAnswer": "B"
+        }
+      ],
+      "id": "19a8"
+    },
+    {
+      "courseId": 10,
+      "courseTitle": "Sự Thật Về Chất Hít",
+      "questions": [
+        {
+          "question": "Chất hít là gì?",
+          "options": {
+            "A": "Hóa chất gây thay đổi tâm thần",
+            "B": "Vitamin",
+            "C": "Khoáng chất",
+            "D": "Protein"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Rủi ro của việc lạm dụng chất hít là gì?",
+          "options": {
+            "A": "Tổn thương não và tử vong",
+            "B": "Nhìn tốt hơn",
+            "C": "Không có tác dụng phụ",
+            "D": "Xương chắc khỏe hơn"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai chia sẻ câu chuyện trong khóa học?",
+          "options": {
+            "A": "Người từng lạm dụng chất hít",
+            "B": "Bác sĩ",
+            "C": "Giáo viên",
+            "D": "Chính trị gia"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Thông điệp chính của khóa học là gì?",
+          "options": {
+            "A": "Chất hít an toàn nếu dùng một lần",
+            "B": "Chất hít có thể gây chết người và nên tránh xa",
+            "C": "Chất hít là vitamin",
+            "D": "Chất hít hợp pháp ở mọi nơi"
+          },
+          "correctAnswer": "B"
+        }
+      ],
+      "id": "e6d3"
+    },
+    {
+      "courseId": 11,
+      "courseTitle": "Sự Thật Về Ecstasy",
+      "questions": [
+        {
+          "question": "Ecstasy là gì?",
+          "options": {
+            "A": "Ma túy tổng hợp",
+            "B": "Vitamin",
+            "C": "Thuốc giảm đau",
+            "D": "Khoáng chất"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Rủi ro của việc sử dụng ecstasy là gì?",
+          "options": {
+            "A": "Mất nước và tăng thân nhiệt",
+            "B": "Nhớ tốt hơn",
+            "C": "Không có tác dụng phụ",
+            "D": "Xương chắc khỏe hơn"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai chia sẻ câu chuyện trong khóa học?",
+          "options": {
+            "A": "Người từng sử dụng ecstasy",
+            "B": "Bác sĩ",
+            "C": "Giáo viên",
+            "D": "Chính trị gia"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Thông điệp chính của khóa học là gì?",
+          "options": {
+            "A": "Ecstasy an toàn cho mọi người",
+            "B": "Ecstasy có thể nguy hiểm và gây nghiện",
+            "C": "Ecstasy là vitamin",
+            "D": "Ecstasy hợp pháp ở mọi nơi"
+          },
+          "correctAnswer": "B"
+        }
+      ],
+      "id": "55ca"
+    },
+    {
+      "courseId": 12,
+      "courseTitle": "Sự Thật Về LSD",
+      "questions": [
+        {
+          "question": "LSD là gì?",
+          "options": {
+            "A": "Chất gây ảo giác",
+            "B": "Vitamin",
+            "C": "Thuốc giảm đau",
+            "D": "Khoáng chất"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Rủi ro của việc sử dụng LSD là gì?",
+          "options": {
+            "A": "Tác động tâm thần khó lường",
+            "B": "Nhớ tốt hơn",
+            "C": "Không có tác dụng phụ",
+            "D": "Xương chắc khỏe hơn"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai chia sẻ câu chuyện trong khóa học?",
+          "options": {
+            "A": "Người từng sử dụng LSD",
+            "B": "Bác sĩ",
+            "C": "Giáo viên",
+            "D": "Chính trị gia"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Thông điệp chính của khóa học là gì?",
+          "options": {
+            "A": "LSD an toàn cho mọi người",
+            "B": "LSD có thể nguy hiểm và khó lường",
+            "C": "LSD là vitamin",
+            "D": "LSD hợp pháp ở mọi nơi"
+          },
+          "correctAnswer": "B"
+        }
+      ],
+      "id": "2e78"
+    },
+    {
+      "courseId": 13,
+      "courseTitle": "Sự Thật Về Cocaine",
+      "questions": [
+        {
+          "question": "Cocaine là gì?",
+          "options": {
+            "A": "Chất kích thích mạnh",
+            "B": "Vitamin",
+            "C": "Thuốc giảm đau",
+            "D": "Khoáng chất"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Rủi ro của việc sử dụng cocaine là gì?",
+          "options": {
+            "A": "Nghiện và vấn đề tim mạch",
+            "B": "Nhớ tốt hơn",
+            "C": "Không có tác dụng phụ",
+            "D": "Xương chắc khỏe hơn"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai chia sẻ câu chuyện trong khóa học?",
+          "options": {
+            "A": "Người từng sử dụng cocaine",
+            "B": "Bác sĩ",
+            "C": "Giáo viên",
+            "D": "Chính trị gia"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Thông điệp chính của khóa học là gì?",
+          "options": {
+            "A": "Cocaine an toàn cho mọi người",
+            "B": "Cocaine rất dễ gây nghiện và nguy hiểm",
+            "C": "Cocaine là vitamin",
+            "D": "Cocaine hợp pháp ở mọi nơi"
+          },
+          "correctAnswer": "B"
+        }
+      ],
+      "id": "f412"
+    },
+    {
+      "courseId": 14,
+      "courseTitle": "Sự Thật Về Crack Cocaine",
+      "questions": [
+        {
+          "question": "Crack cocaine là gì?",
+          "options": {
+            "A": "Một dạng cocaine dùng để hút",
+            "B": "Vitamin",
+            "C": "Thuốc giảm đau",
+            "D": "Khoáng chất"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Rủi ro của việc sử dụng crack cocaine là gì?",
+          "options": {
+            "A": "Nghiện và vấn đề sức khỏe nghiêm trọng",
+            "B": "Nhớ tốt hơn",
+            "C": "Không có tác dụng phụ",
+            "D": "Xương chắc khỏe hơn"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Ai chia sẻ câu chuyện trong khóa học?",
+          "options": {
+            "A": "Người từng sử dụng crack cocaine",
+            "B": "Bác sĩ",
+            "C": "Giáo viên",
+            "D": "Chính trị gia"
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "question": "Thông điệp chính của khóa học là gì?",
+          "options": {
+            "A": "Crack cocaine an toàn cho mọi người",
+            "B": "Crack cocaine rất dễ gây nghiện và nguy hiểm",
+            "C": "Crack cocaine là vitamin",
+            "D": "Crack cocaine hợp pháp ở mọi nơi"
+          },
+          "correctAnswer": "B"
+        }
+      ],
+      "id": "3330"
+    }
   ]
+
 }

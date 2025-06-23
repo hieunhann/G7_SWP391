@@ -16,38 +16,47 @@ import BlogDetail from "./pages/Blogs/BlogDetail";
 import CRAFFT from "./pages/Surveys/CRAFFT";
 import Surveys from "./pages/Surveys/Surveys";
 import ASSIST from "./pages/Surveys/ASSIST";
-
-<GoogleOAuthProvider clientId="632195046938-srur4gsnmg8nc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
-  <App /> {/* hoặc component chính */}
-</GoogleOAuthProvider>;
+import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <div className="App">
-      {/* Bọc toàn bộ ứng dụng trong GoogleOAuthProvider */}
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/Surveys" element={<Surveys />} />
-          <Route path="/CRAFFT" element={<CRAFFT />} />
-          <Route path="/ASSIST" element={<ASSIST />} />
-          <Route path="/booking" element={<MemberBookingConsultants />} />
-          <Route path="/UserProfile" element={<UserProfile />} />
-          <Route path="/Courses" element={<Courses />} />
-          <Route path="/Courses/lesson/:id" element={<DetailsCourse />} />
-          <Route path="/MyBooking" element={<MemberBookedConsultations />} />
-          <Route
-            path="/Courses/lesson/:id/feedback"
-            element={<FeedbackCourse />}
-          />
-          <Route path="/blogs" element={<BlogList />} />
-          <Route path="/blog/:id" element={<BlogDetail />} />
-        </Routes>
-        <Footer />
-      </Router>
-    </div>
+    <GoogleOAuthProvider clientId="632195046938-srur4gsnmg8nc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
+      <div className="App">
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/Surveys" element={<Surveys />} />
+            <Route path="/CRAFFT" element={<CRAFFT />} />
+            <Route path="/ASSIST" element={<ASSIST />} />
+            <Route path="/booking" element={<MemberBookingConsultants />} />
+            <Route path="/UserProfile" element={<UserProfile />} />
+            <Route path="/Courses" element={<Courses />} />
+            <Route path="/Courses/lesson/:id" element={<DetailsCourse />} />
+            <Route path="/MyBooking" element={<MemberBookedConsultations />} />
+            <Route path="/Courses/lesson/:id/feedback" element={<FeedbackCourse />} />
+            <Route path="/blogs" element={<BlogList />} />
+            <Route path="/blog/:id" element={<BlogDetail />} />
+            <Route path="ScheduleManager" element={<ScheduleManager />} />
+          </Routes>
+          <Footer />
+        </Router>
+
+        <ToastContainer 
+          position="top-right"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </div>
+    </GoogleOAuthProvider>
   );
 }
 
