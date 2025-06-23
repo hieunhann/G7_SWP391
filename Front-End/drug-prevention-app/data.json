@@ -363,7 +363,7 @@
       "consultantId": "4",
       "bookingTime": "2025-06-25T14:00:00",
       "notes": "",
-      "status": "Chờ xác nhận",
+      "status": "Đã hủy",
       "createdAt": "2025-06-22T07:36:24.269Z",
       "updatedAt": "2025-06-22T07:36:24.269Z"
     },
@@ -413,7 +413,7 @@
       "consultantId": "4",
       "bookingTime": "2025-07-10T11:30:00",
       "notes": "",
-      "status": "Chờ xác nhận",
+      "status": "Đã xác nhận",
       "createdAt": "2025-06-23T00:06:23.657Z",
       "updatedAt": "2025-06-23T00:06:23.657Z"
     }
