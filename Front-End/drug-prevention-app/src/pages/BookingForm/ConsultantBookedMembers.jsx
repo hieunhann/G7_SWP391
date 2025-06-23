@@ -204,10 +204,10 @@ const ConsultantBookedMembers = () => {
                             </button>
                             <button
                               className="btn btn-danger btn-sm"
-                              style={{ backgroundColor: "#0070cc" }}
+                              style={{ backgroundColor: "#F06822" }}
                               onClick={() => handleCancel(booking.id)}
                             >
-                              Hủy
+                              Từ Chối
                             </button>
                           </>
                         )}
@@ -215,7 +215,7 @@ const ConsultantBookedMembers = () => {
                             user.googleMeetLink && (
                               <button
                                 className="btn btn-success btn-sm"
-                                style={{ backgroundColor: "#0070cc" }} 
+                                style={{ backgroundColor: "#2DD84E" }} 
                                 onClick={() =>
                               window.open(user.googleMeetLink, "_blank")
                                 }

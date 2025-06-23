@@ -214,17 +214,20 @@ const MemberBookedConsultations = () => {
                           {booking.status === "Chờ xác nhận" && (
                             <button
                               className="btn btn-danger btn-sm"
+                              style={{ backgroundColor: "#F06822" }}
+
                               onClick={() => handleCancel(booking.id)}
                             >
                               Hủy
                             </button>
                           )}
-                          {/* </div> */}
+                                                                
                           
                           {booking.status === "Đã xác nhận" &&
                             consultant.googleMeetLink && (
                               <button
                                 className="btn btn-success btn-sm"
+                              style={{ backgroundColor: "#2DD84E" }}
                                 onClick={() =>
                                   window.open(
                                     consultant.googleMeetLink,
