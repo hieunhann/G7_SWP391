@@ -16,6 +16,9 @@ import BlogDetail from "./pages/Blogs/BlogDetail";
 import CRAFFT from "./pages/Surveys/CRAFFT";
 import Surveys from "./pages/Surveys/Surveys";
 import ASSIST from "./pages/Surveys/ASSIST";
+import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
+import BookingRouter from "./components/BookingRouter";
+import ConsultantBookedMembers from "./pages/BookingForm/ConsultantBookedMembers";
 
 <GoogleOAuthProvider clientId="632195046938-srur4gsnmg8nc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
   <App /> {/* hoặc component chính */}
@@ -38,12 +41,16 @@ function App() {
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Courses/lesson/:id" element={<DetailsCourse />} />
           <Route path="/MyBooking" element={<MemberBookedConsultations />} />
+          <Route path="/ViewCommunicationPrograms" element={<ViewCommunicationPrograms />} />
           <Route
             path="/Courses/lesson/:id/feedback"
             element={<FeedbackCourse />}
           />
           <Route path="/blogs" element={<BlogList />} />
           <Route path="/blog/:id" element={<BlogDetail />} />
+          <Route path="/booking-router" element={<BookingRouter />} />
+          <Route path="/member-booked-consultations" element={<MemberBookedConsultations />} />
+          <Route path="/consultant-booked-members" element={<ConsultantBookedMembers />} />
         </Routes>
         <Footer />
       </Router>

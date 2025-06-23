@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Header.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 
 const Header = () => {
   const [user, setUser] = useState(null);
@@ -45,9 +45,9 @@ const Header = () => {
         <NavLink className="nav-items" to="/booking">
           Book Appointment
         </NavLink>
-        <NavLink className="nav-items" to="/booked-consultations">
-          My Schedule
-        </NavLink>
+        <Link to="/booking-router" className="nav-items">
+          Lịch của tôi
+        </Link>
         {user ? (
           <>
             <span className="nav-items user-name">

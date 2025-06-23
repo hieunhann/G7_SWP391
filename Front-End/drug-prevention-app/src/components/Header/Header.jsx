@@ -28,19 +28,19 @@ const Header = () => {
     return user.fullName  || "User";
   };
 
+  // Lấy role từ user
+  const role = user?.role;
+
   const navItems = [
     { to: "/", label: "Trang Chủ" },
     { to: "/courses", label: "Khóa Học" },
     { to: "/Surveys", label: "Khảo Sát" },
     { to: "/booking", label: "Đặt Lịch" },
-    { to: "/MyBooking", label: "Lịch Của Tôi" },
-    { to: "/CommunityActivities", label: "Hoạt động cộng đồng" },
-    { to: "/view-booked-members", label: "Xem Thành Viên Đặt Lịch" },
-    // { to: "/Schedule-Manager", label: "Quản Lý Lịch" },
-    // { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" },
+    // Thay thế MyBooking bằng booking-router
+    { to: "/booking-router", label: "Lịch Của Tôi" },
+    { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" },
     { to: "/ScheduleManager", label: "Quản Lý Lịch" },
-    { to : "/ViewBookedMembers", label: "Xem Thành Viên Đặt Lịch" },
-    { to :"/blogs", label: "Blogs" },
+    { to: "/blogs", label: "Blogs" },
   ];
 
   // Toggle hamburger menu

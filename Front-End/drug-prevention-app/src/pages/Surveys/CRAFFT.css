@@ -118,6 +118,16 @@
     color: #555;
 }
 
+/* Ẩn spinner (nút tăng/giảm) của input type=number trên mọi trình duyệt */
+.days-input::-webkit-outer-spin-button,
+.days-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.days-input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
 
 /* Header cho lựa chọn Yes/No ở Part B */
 .choices-header {
@@ -317,12 +327,12 @@
 /* Định dạng cho vùng hiển thị kết quả (trong popup) */
 
 .days-input {
-    width: 77px;
+    width: 75px !important; /* Giữ kích thước cố định */
     padding: 4px;
     border: 1px solid #ccc;
     border-radius: 20px;
     text-align: center;
-    background: #4CAF50; /* Màu xanh lá */
+    background: #007bff; 
     color: white; /* Màu chữ trắng */
     font-weight: bold;
     font-size: 20px;
