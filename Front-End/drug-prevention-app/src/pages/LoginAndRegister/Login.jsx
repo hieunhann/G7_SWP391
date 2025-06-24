@@ -40,11 +40,10 @@ const Login = () => {
         phoneNumber: '',
         dateOfBirth: '',
         password: '',
-        role: 'member',
+        role: 'MEMBER',
         avatar: googleData.picture || ''
       };
 
-      // Optionally send to backend here...
 
       localStorage.setItem('user', JSON.stringify(normalizedUser));
       toast.success('Đăng nhập bằng Google thành công!');

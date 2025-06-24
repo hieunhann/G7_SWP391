@@ -23,7 +23,8 @@ const FeedbackCourse = () => {
     fetch("http://localhost:5002/Course")
       .then((res) => res.json())
       .then((data) => {
-        const courses = Array.isArray(data) && Array.isArray(data[0]) ? data[0] : data;
+        const courses =
+          Array.isArray(data) && Array.isArray(data[0]) ? data[0] : data;
         const found = courses.find((c) => String(c.id) === String(id));
         setCourse(found || {});
       });
@@ -138,14 +139,24 @@ const FeedbackCourse = () => {
       <div style={{ background: "#f8fafc", minHeight: "100vh" }}>
         <div className="container py-4">
           {/* Breadcrumb */}
-          <nav style={{ "--bs-breadcrumb-divider": "'>'" }} aria-label="breadcrumb">
+          <nav
+            style={{ "--bs-breadcrumb-divider": "'>'" }}
+            aria-label="breadcrumb"
+          >
             <ol className="breadcrumb bg-transparent px-0 mb-2">
               <li className="breadcrumb-item">
-                <Link to="/Courses" style={{ color: "#00838f", textDecoration: "none" }}>
-                  Khóa học
+                <Link
+                  to="/Courses"
+                  style={{ color: "#00838f", textDecoration: "none" }}
+                >
+                  KHÓA HỌC
                 </Link>
               </li>
-              <li className="breadcrumb-item active" aria-current="page" style={{ color: "#222", fontWeight: 600 }}>
+              <li
+                className="breadcrumb-item active"
+                aria-current="page"
+                style={{ color: "#222", fontWeight: 600 }}
+              >
                 {course?.title} - Feedback
               </li>
             </ol>
@@ -159,7 +170,8 @@ const FeedbackCourse = () => {
                   display: "inline-block",
                   padding: 8,
                   borderRadius: 8,
-                  background: "linear-gradient(135deg, #e3f2fd 0%, #b2dfdb 100%)",
+                  background:
+                    "linear-gradient(135deg, #e3f2fd 0%, #b2dfdb 100%)",
                   boxShadow: "0 6px 24px 0 rgba(0,75,141,0.10)",
                   position: "relative",
                 }}
@@ -177,10 +189,13 @@ const FeedbackCourse = () => {
                     background: "#fff",
                     transition: "transform 0.3s",
                   }}
-                  onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.06)")}
-                  onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                  onMouseOver={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.06)")
+                  }
+                  onMouseOut={(e) =>
+                    (e.currentTarget.style.transform = "scale(1)")
+                  }
                 />
-                
               </div>
               <div
                 style={{
@@ -194,18 +209,29 @@ const FeedbackCourse = () => {
               >
                 {course.title}
               </div>
-              <span className="badge bg-info text-white" style={{ fontSize: "1rem", marginTop: 8 }}>
+              <span
+                className="badge bg-info text-white"
+                style={{ fontSize: "1rem", marginTop: 8 }}
+              >
                 {feedbacks.length} đánh giá
               </span>
             </div>
           )}
-       
+
           {/* Danh sách feedback */}
           <div>
             {feedbacks.length === 0 ? (
-              <div className="text-muted text-center py-5" style={{ fontSize: "1.1rem" }}>
-                <i className="bi bi-chat-left-dots" style={{ fontSize: 40, color: "#bdbdbd" }}></i>
-                <div className="mt-2">Chưa có đánh giá nào cho khóa học này.</div>
+              <div
+                className="text-muted text-center py-5"
+                style={{ fontSize: "1.1rem" }}
+              >
+                <i
+                  className="bi bi-chat-left-dots"
+                  style={{ fontSize: 40, color: "#bdbdbd" }}
+                ></i>
+                <div className="mt-2">
+                  Chưa có đánh giá nào cho khóa học này.
+                </div>
               </div>
             ) : (
               <>
@@ -213,7 +239,7 @@ const FeedbackCourse = () => {
                   {pagedFeedbacks.map((fb) => (
                     <div
                       key={fb.id}
-                      className="p-3 px-md-4 border rounded bg-white d-flex align-items-center gap-3 shadow-sm"
+                      className="p-3 px-md-4 border rounded bg-white d-flex align-items-start gap-3 shadow-sm"
                       style={{
                         transition: "box-shadow 0.2s",
                         borderLeft: "6px solid #00bcd4",
@@ -221,11 +247,14 @@ const FeedbackCourse = () => {
                       }}
                     >
                       {renderUserAvatar(fb.userId)}
-                      <div style={{ flex: 1 }}>
-                        <div className="fw-bold" style={{ color: "#00838f", fontSize: "1.1rem" }}>
+                      <div style={{ flex: 1, width: "100%" }}>
+                        <div
+                          className="fw-bold mb-1"
+                          style={{ color: "#00838f", fontSize: "1.1rem" }}
+                        >
                           {getUserName(fb.userId)}
                         </div>
-                        <div className="mb-1">
+                        <div className="mb-2">
                           {Array.from({ length: 5 }).map((_, i) => (
                             <span
                               key={i}
@@ -233,13 +262,22 @@ const FeedbackCourse = () => {
                                 color: i < fb.rating ? "#ffc107" : "#e4e5e9",
                                 fontSize: "1.2rem",
                                 marginRight: 2,
-                            }}
-                          >
-                            ★
-                          </span>
-                        ))}
+                              }}
+                            >
+                              ★
+                            </span>
+                          ))}
                         </div>
-                        <div style={{ fontSize: "1.05rem", color: "#333" }}>{fb.comment}</div>
+                        <div
+                          style={{
+                            fontSize: "1.05rem",
+                            color: "#333",
+                            whiteSpace: "pre-wrap", // <-- giữ xuống dòng nếu có
+                            lineHeight: 1.6,
+                          }}
+                        >
+                          {fb.comment}
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -248,11 +286,21 @@ const FeedbackCourse = () => {
                 {totalPages > 1 && (
                   <nav className="mt-4 d-flex justify-content-center">
                     <ul className="pagination mb-0">
-                      <li className={`page-item${currentPage === 1 ? " disabled" : ""}`}>
+                      <li
+                        className={`page-item${
+                          currentPage === 1 ? " disabled" : ""
+                        }`}
+                      >
                         <button
                           className="page-link"
-                          style={{ color: "#00838f", fontWeight: 600, borderRadius: 8 }}
-                          onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                          style={{
+                            color: "#00838f",
+                            fontWeight: 600,
+                            borderRadius: 8,
+                          }}
+                          onClick={() =>
+                            setCurrentPage((p) => Math.max(1, p - 1))
+                          }
                         >
                           &laquo;
                         </button>
@@ -260,16 +308,20 @@ const FeedbackCourse = () => {
                       {Array.from({ length: totalPages }).map((_, idx) => (
                         <li
                           key={idx}
-                          className={`page-item${currentPage === idx + 1 ? " active" : ""}`}
+                          className={`page-item${
+                            currentPage === idx + 1 ? " active" : ""
+                          }`}
                         >
                           <button
                             className="page-link"
                             style={{
-                              color: currentPage === idx + 1 ? "#fff" : "#00838f",
-                              background: currentPage === idx + 1 ? "#00bcd4" : "#fff",
+                              color:
+                                currentPage === idx + 1 ? "#fff" : "#00838f",
+                              background:
+                                currentPage === idx + 1 ? "#00bcd4" : "#fff",
                               fontWeight: 600,
                               borderRadius: 8,
-                              border: "1px solid #00bcd4"
+                              border: "1px solid #00bcd4",
                             }}
                             onClick={() => setCurrentPage(idx + 1)}
                           >
@@ -277,11 +329,21 @@ const FeedbackCourse = () => {
                           </button>
                         </li>
                       ))}
-                      <li className={`page-item${currentPage === totalPages ? " disabled" : ""}`}>
+                      <li
+                        className={`page-item${
+                          currentPage === totalPages ? " disabled" : ""
+                        }`}
+                      >
                         <button
                           className="page-link"
-                          style={{ color: "#00838f", fontWeight: 600, borderRadius: 8 }}
-                          onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                          style={{
+                            color: "#00838f",
+                            fontWeight: 600,
+                            borderRadius: 8,
+                          }}
+                          onClick={() =>
+                            setCurrentPage((p) => Math.min(totalPages, p + 1))
+                          }
                         >
                           &raquo;
                         </button>
@@ -304,7 +366,9 @@ const FeedbackCourse = () => {
                 {currentUser ? renderUserAvatar(currentUser.id) : null}
                 <div>
                   <div className="fw-bold" style={{ color: "#00838f" }}>
-                    {currentUser ? getUserName(currentUser.id) : "Bạn chưa đăng nhập"}
+                    {currentUser
+                      ? getUserName(currentUser.id)
+                      : "Bạn chưa đăng nhập"}
                   </div>
                   <div>
                     {Array.from({ length: 5 }).map((_, i) => (
@@ -314,7 +378,7 @@ const FeedbackCourse = () => {
                           color: i < rating ? "#ffc107" : "#e4e5e9",
                           fontSize: "1.3rem",
                           cursor: currentUser ? "pointer" : "not-allowed",
-                          transition: "color 0.2s"
+                          transition: "color 0.2s",
                         }}
                         onClick={() => currentUser && setRating(i + 1)}
                       >
@@ -336,7 +400,11 @@ const FeedbackCourse = () => {
                 onChange={(e) => setComment(e.target.value)}
                 required
                 disabled={!currentUser || submitting}
-                style={{ resize: "none", borderRadius: 10, borderColor: "#b2dfdb" }}
+                style={{
+                  resize: "none",
+                  borderRadius: 10,
+                  borderColor: "#b2dfdb",
+                }}
               />
               <div className="text-end">
                 <button
@@ -347,7 +415,7 @@ const FeedbackCourse = () => {
                     background: "#00bcd4",
                     border: "none",
                     fontWeight: 700,
-                    borderRadius: 8
+                    borderRadius: 8,
                   }}
                 >
                   {submitting ? "Đang gửi..." : "Gửi đánh giá"}

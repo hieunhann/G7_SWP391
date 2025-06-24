@@ -22,7 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="632195046938-srur4gsnmg8nc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="632195046938-srur4gsnmg8cnc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
       <div className="App">
         <Router>
           <Routes>
@@ -36,11 +36,12 @@ function App() {
             <Route path="/UserProfile" element={<UserProfile />} />
             <Route path="/Courses" element={<Courses />} />
             <Route path="/Courses/lesson/:id" element={<DetailsCourse />} />
-            <Route path="/MyBooking" element={<MemberBookedConsultations />} />
+            <Route path="/booking-router" element={<MemberBookedConsultations />} />
             <Route path="/Courses/lesson/:id/feedback" element={<FeedbackCourse />} />
             <Route path="/blogs" element={<BlogList />} />
             <Route path="/blog/:id" element={<BlogDetail />} />
             <Route path="ScheduleManager" element={<ScheduleManager />} />
+            
           </Routes>
           <Footer />
         </Router>
@@ -57,6 +58,7 @@ function App() {
         />
       </div>
     </GoogleOAuthProvider>
+
   );
 }
 
