@@ -1,57 +1,77 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
-import api from '../../Axios/Axios'; // Đường dẫn tới file axios bạn tạo
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import api from "../../Axios/Axios";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { Login } from "../../redux/features/userSlice";
 
-const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+const LoginPage = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMsg('');
+    setErrorMsg("");
 
     try {
-      const res = await api.post('/auth/login', { username, password });
-      const userData = res.data;
+      const res = await api.post("/auth/login", { username, password });
 
-      localStorage.setItem('user', JSON.stringify(userData));
-      toast.success('Đăng nhập thành công!');
-      navigate('/');
+      const response = res.data.data; // ✅ Truy cập đúng tầng data
+      const user = response.user;
+      const accessToken = response.accessToken;
+
+      const userData = {
+        ...user,
+        accessToken,
+      };
+
+      dispatch(Login({ user, accessToken }));
+      localStorage.setItem("user", JSON.stringify(userData));
+      toast.success("Đăng nhập thành công!");
+      navigate("/");
     } catch (err) {
-      console.error(err);
-      setErrorMsg('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
-      toast.error('Sai tài khoản hoặc mật khẩu!');
+      console.error("Login failed:", err);
+      setErrorMsg("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
+      toast.error("Sai tài khoản hoặc mật khẩu!");
     }
   };
 
-  const handleGoogleSuccess = async (credentialResponse) => {
+  const handleGoogleSuccess = (credentialResponse) => {
     try {
       const googleData = jwtDecode(credentialResponse.credential);
+
+      const fullName = googleData.name || "";
+      const firstName = fullName.split(" ")[0] || "";
+      const lastName = fullName.split(" ").slice(1).join(" ") || "";
+
       const normalizedUser = {
         id: googleData.sub,
-        fullName: googleData.name || '',
-        email: googleData.email || '',
-        username: googleData.email?.split('@')[0] || '',
-        phoneNumber: '',
-        dateOfBirth: '',
-        password: '',
-        role: 'MEMBER',
-        avatar: googleData.picture || ''
+        firstName,
+        lastName,
+        fullName,
+        email: googleData.email || "",
+        username: googleData.email?.split("@")[0] || "",
+        phoneNumber: "",
+        dateOfBirth: "",
+        password: "",
+        role: "MEMBER",
+        avatar: googleData.picture || "",
       };
 
-
-      localStorage.setItem('user', JSON.stringify(normalizedUser));
-      toast.success('Đăng nhập bằng Google thành công!');
-      navigate('/');
+      dispatch(Login(normalizedUser));
+      localStorage.setItem("user", JSON.stringify(normalizedUser));
+      toast.success("Đăng nhập bằng Google thành công!");
+      navigate("/");
     } catch (err) {
-      console.error('Google login error:', err);
-      setErrorMsg('Đăng nhập Google thất bại');
-      toast.error('Lỗi đăng nhập Google');
+      console.error("Google login error:", err);
+      setErrorMsg("Đăng nhập Google thất bại");
+      toast.error("Lỗi đăng nhập Google");
     }
   };
 
@@ -64,7 +84,10 @@ const Login = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block mb-1 font-medium text-gray-700">
+            <label
+              htmlFor="username"
+              className="block mb-1 font-medium text-gray-700"
+            >
               Tên người dùng
             </label>
             <div className="flex items-center border rounded-md overflow-hidden">
@@ -84,7 +107,10 @@ const Login = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="password" className="block mb-1 font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block mb-1 font-medium text-gray-700"
+            >
               Mật khẩu
             </label>
             <div className="flex items-center border rounded-md overflow-hidden">
@@ -104,7 +130,9 @@ const Login = () => {
           </div>
 
           {errorMsg && (
-            <div className="text-red-600 text-sm text-center mb-4">{errorMsg}</div>
+            <div className="text-red-600 text-sm text-center mb-4">
+              {errorMsg}
+            </div>
           )}
 
           <button
@@ -121,8 +149,8 @@ const Login = () => {
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
             onError={() => {
-              setErrorMsg('Đăng nhập Google thất bại');
-              toast.error('Lỗi đăng nhập Google');
+              setErrorMsg("Đăng nhập Google thất bại");
+              toast.error("Lỗi đăng nhập Google");
             }}
             locale="vi"
           />
@@ -130,8 +158,11 @@ const Login = () => {
 
         <div className="text-center">
           <p className="text-sm">
-            Bạn chưa có tài khoản?{' '}
-            <a href="/register" className="text-blue-800 font-semibold hover:underline">
+            Bạn chưa có tài khoản?{" "}
+            <a
+              href="/register"
+              className="text-blue-800 font-semibold hover:underline"
+            >
               Đăng ký tại đây
             </a>
           </p>
@@ -141,4 +172,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

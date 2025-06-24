@@ -1,52 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/features/userSlice";
+import { persistor } from "../../redux/store";
 import "./Header.css";
 
 const Header = () => {
-  const [user, setUser] = useState(null);
-  const [menuOpen, setMenuOpen] = useState(false); // trạng thái mở menu
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    try {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
-      if (storedUser) setUser(storedUser);
-    } catch {
-      console.error("Invalid user data in localStorage");
-      setUser(null);
-    }
-  }, []);
+  const currentUser = useSelector((state) => state.user?.user);
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
+  const handleLogout = async () => {
+    dispatch(logout()); // reset Redux
+    await persistor.purge(); // xóa persisted state
+    localStorage.clear(); // xóa toàn bộ localStorage
     navigate("/");
   };
 
   const renderUserName = () => {
-    if (!user) return null;
-    return user.fullName  || "User";
+    if (!currentUser) return null;
+    const { firstName = "", lastName = "" } = currentUser;
+    return `${firstName} ${lastName}`.trim() || "User";
   };
-
-  // Lấy role từ user
-  const role = user?.role;
 
   const navItems = [
     { to: "/", label: "Trang Chủ" },
     { to: "/courses", label: "Khóa Học" },
     { to: "/Surveys", label: "Khảo Sát" },
     { to: "/booking", label: "Đặt Lịch" },
-    // Thay thế MyBooking bằng booking-router
     { to: "/booking-router", label: "Lịch Của Tôi" },
     { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" },
     { to: "/ScheduleManager", label: "Quản Lý Lịch" },
     { to: "/blogs", label: "Blogs" },
   ];
-
-  // Toggle hamburger menu
-  const toggleMenu = () => {
-    setMenuOpen((prev) => !prev);
-  };
 
   return (
     <div className="header-container">
@@ -55,12 +43,10 @@ const Header = () => {
         <div className="subtitle">Support System</div>
       </div>
 
-      {/* Hamburger button */}
       <button
         className={`hamburger${menuOpen ? " active" : ""}`}
         aria-label="Toggle menu"
-        aria-expanded={menuOpen}
-        onClick={toggleMenu}
+        onClick={() => setMenuOpen(!menuOpen)}
         type="button"
       >
         <span />
@@ -68,7 +54,6 @@ const Header = () => {
         <span />
       </button>
 
-      {/* Navigation */}
       <nav className={`nav-links${menuOpen ? " show" : ""}`}>
         {navItems.map(({ to, label }) => (
           <NavLink
@@ -77,19 +62,19 @@ const Header = () => {
             className={({ isActive }) =>
               `nav-items${isActive ? " active-item" : ""}`
             }
-            onClick={() => setMenuOpen(false)} // đóng menu khi click nav link
+            onClick={() => setMenuOpen(false)}
           >
             {label}
           </NavLink>
         ))}
 
-        {user ? (
+        {currentUser ? (
           <>
             <NavLink
               to="/UserProfile"
               className="nav-items user-name"
               onClick={() => setMenuOpen(false)}
-              style={{ cursor: "pointer", textDecoration: "none" }}
+              style={{ textDecoration: "none", cursor: "pointer" }}
             >
               Xin chào, {renderUserName()}
             </NavLink>
@@ -97,7 +82,7 @@ const Header = () => {
               className="nav-items logout-button"
               onClick={() => {
                 handleLogout();
-                setMenuOpen(false); // đóng menu khi logout
+                setMenuOpen(false);
               }}
             >
               Đăng Xuất
