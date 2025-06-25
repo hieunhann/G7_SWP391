@@ -257,7 +257,7 @@ const CRAFFT = () => {
     handleClearAnswers();
     switch (resultRiskLevel) {
       case "Thấp":
-        navigate("/CommunityActivities");
+        navigate("/ViewCommunicationPrograms");
         break;
       case "Trung bình":
         navigate("/Courses");

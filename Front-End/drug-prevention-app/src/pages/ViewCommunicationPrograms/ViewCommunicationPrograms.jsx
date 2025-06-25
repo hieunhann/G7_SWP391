@@ -4,6 +4,7 @@ import { Card, Button, Modal, ListGroup, Form, Alert, Badge } from "react-bootst
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./ViewCommunicationPrograms.css"; // Assuming you have a CSS file for styles
+import Header from "../../components/Header/Header"; // Thêm/chỉnh lại import Header
 
 const ViewCommunicationPrograms = () => {
   const [events, setEvents] = useState([]);
@@ -15,14 +16,14 @@ const ViewCommunicationPrograms = () => {
   const [registrationMessage, setRegistrationMessage] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/events")
+    axios.get("http://localhost:5002/events")
       .then((res) => setEvents(res.data))
       .catch((err) => console.error("Lỗi khi tải danh sách chương trình:", err));
   }, []);
 
   const handleViewDetail = (event) => {
     setSelectedEvent(event);
-    axios.get(`http://localhost:3001/feedback_events?Event_id=${event.ID}`)
+    axios.get(`http://localhost:5002/feedback_events?Event_id=${event.ID}`)
       .then((res) => setFeedbacks(res.data))
       .catch((err) => console.error("Lỗi khi tải phản hồi:", err));
     setShowModal(true);
@@ -46,7 +47,7 @@ const ViewCommunicationPrograms = () => {
       Comment: newComment
     };
 
-    axios.post("http://localhost:3001/feedback_events", newFeedback)
+    axios.post("http://localhost:5002/feedback_events", newFeedback)
       .then(() => {
         setFeedbacks([...feedbacks, newFeedback]);
         setNewComment("");
@@ -62,7 +63,7 @@ const ViewCommunicationPrograms = () => {
       Event_id: selectedEvent.ID
     };
 
-    axios.post("http://localhost:3001/event_registrations", registration)
+    axios.post("http://localhost:5002/event_registrations", registration)
       .then(() => {
         setRegistrationMessage("✅ Bạn đã đăng ký tham gia chương trình thành công!");
         setTimeout(() => setRegistrationMessage(""), 3000);
@@ -71,7 +72,9 @@ const ViewCommunicationPrograms = () => {
   };
 
  return (
-  <div className="min-h-screen w-full bg-light text-dark py-5 px-3 px-md-5">
+  <>
+   <Header /> {/* Đảm bảo sử dụng đúng component Header */}
+   <div className="min-h-screen w-full bg-light text-dark py-5 px-3 px-md-5">
     <h2 className="text-center text-primary mb-5 display-4 fw-bold border-bottom pb-3 shadow-sm">
       <i className="bi bi-globe"></i> Danh sách chương trình cộng đồng
     </h2>
@@ -165,6 +168,7 @@ const ViewCommunicationPrograms = () => {
       </Modal>
     )}
   </div>
+</>
 );
 
 };
