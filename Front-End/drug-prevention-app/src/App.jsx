@@ -20,7 +20,7 @@ import MemberBookedConsultations from "./pages/BookingForm/MemberBookedConsultat
 import FeedbackCourse from "./pages/Course/FeedbackCourse";
 import BlogList from "./pages/Blogs/BlogList";
 import BlogDetail from "./pages/Blogs/BlogDetail";
-import CRAFFT from "./pages/Surveys/CRAFFT";
+import CRAFFT from "./pages/Surveys/CRAFFT";                                                      
 import Surveys from "./pages/Surveys/Surveys";
 import ASSIST from "./pages/Surveys/ASSIST";
 import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";

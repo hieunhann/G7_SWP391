@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
+import api from "../../Axios/Axios";
 
 const statusOptions = [
   "Tất cả",
@@ -33,12 +34,12 @@ const MemberBookedConsultations = () => {
         setLoading(true);
         setError(null);
 
-        const resBookings = await fetch(
-          `http://localhost:5002/Bookings?memberId=${userId}`
+        // Lấy danh sách bookings từ backend Spring Boot
+        const resBookings = await api.get(
+          "/bookings",
+          { params: { memberId: userId } }
         );
-        if (!resBookings.ok)
-          throw new Error("Không thể tải danh sách đặt lịch");
-        const bookingsData = await resBookings.json();
+        const bookingsData = resBookings.data;
 
         const consultantIds = [
           ...new Set(bookingsData.map((b) => String(b.consultantId))),
@@ -49,14 +50,12 @@ const MemberBookedConsultations = () => {
           return;
         }
 
-        const resConsultants = await fetch(
-          `http://localhost:5002/User?${consultantIds
-            .map((id) => `id=${id}`)
-            .join("&")}`
+        // Lấy thông tin chuyên gia tư vấn
+        const resConsultants = await api.get(
+          "/user",
+          { params: { id: consultantIds } }
         );
-        if (!resConsultants.ok)
-          throw new Error("Không thể tải thông tin chuyên gia tư vấn");
-        const consultantsData = await resConsultants.json();
+        const consultantsData = resConsultants.data;
 
         const enrichedBookings = bookingsData.map((b) => ({
           ...b,
@@ -75,28 +74,14 @@ const MemberBookedConsultations = () => {
 
     fetchData();
   }, [userId, navigate]);
+
   const handleLink = async (googleMeetLink) => {
     if (!window.confirm("Bạn có chắc chắn muốn đến cuộc họp không?")) return;
     try {
-      const res = await fetch(
-        `http://localhost:5002/Bookings/${googleMeetLink}`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status: "Đang tới" }),
-        }
-      );
-      if (!res.ok) throw new Error("Đến cuộc họp không thành công");
-      setBookings((prev) =>
-        prev.map((c) =>
-          c.googleMeetLink === googleMeetLink
-            ? { ...c, status: "Đi đến thành công" }
-            : c
-        )
-      );
+      window.open(googleMeetLink, "_blank");
     } catch (error) {
       console.error(error);
-      alert("Hủy thất bại!");
+      alert("Đến cuộc họp không thành công!");
     }
   };
 
@@ -104,12 +89,7 @@ const MemberBookedConsultations = () => {
     if (!window.confirm("Bạn có chắc chắn muốn hủy lịch hẹn này không?"))
       return;
     try {
-      const res = await fetch(`http://localhost:5002/Bookings/${bookingId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "Đã hủy" }),
-      });
-      if (!res.ok) throw new Error("Hủy không thành công");
+      await api.patch(`/booking/${bookingId}`, { status: "Đã hủy" });
       setBookings((prev) =>
         prev.map((b) => (b.id === bookingId ? { ...b, status: "Đã hủy" } : b))
       );
@@ -221,13 +201,11 @@ const MemberBookedConsultations = () => {
                               Hủy
                             </button>
                           )}
-                                                                
-                          
                           {booking.status === "Đã xác nhận" &&
                             consultant.googleMeetLink && (
                               <button
                                 className="btn btn-success btn-sm"
-                              style={{ backgroundColor: "#2DD84E" }}
+                                style={{ backgroundColor: "#2DD84E" }}
                                 onClick={() =>
                                   window.open(
                                     consultant.googleMeetLink,
