@@ -166,7 +166,7 @@ const Courses = () => {
                           if (!user || !(user.id || user._id)) {
                             navigate("/login");
                           } else {
-                            navigate(`/Courses/lesson/${course.id}`);
+                          navigate(`/Courses/lesson/${course.id}`);
                           }
                         }}
                       >
@@ -215,8 +215,8 @@ const Courses = () => {
         </div>
 
         {/* Phân trang */}
-        <nav className="mt-4 d-flex justify-content-center">
-          <ul className="pagination">
+          <nav className="mt-4 d-flex justify-content-center">
+            <ul className="pagination">
             <li className={`page-item${currentPage === 1 ? " disabled" : ""}`}>
               <button
                 className="page-link"
@@ -224,24 +224,24 @@ const Courses = () => {
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                Trang trước
-              </button>
-            </li>
-            {[...Array(totalPages)].map((_, idx) => (
-              <li key={idx} className={`page-item${currentPage === idx + 1 ? " active" : ""}`}>
-                <button
-                  className="page-link"
-                  style={{
-                    color: currentPage === idx + 1 ? "#fff" : "#004b8d",
-                    background: currentPage === idx + 1 ? "#004b8d" : "#fff",
-                    borderColor: "#004b8d",
-                  }}
-                  onClick={() => setCurrentPage(idx + 1)}
-                >
-                  {idx + 1}
+                  Trang trước
                 </button>
               </li>
-            ))}
+            {[...Array(totalPages)].map((_, idx) => (
+              <li key={idx} className={`page-item${currentPage === idx + 1 ? " active" : ""}`}>
+                  <button
+                    className="page-link"
+                    style={{
+                    color: currentPage === idx + 1 ? "#fff" : "#004b8d",
+                    background: currentPage === idx + 1 ? "#004b8d" : "#fff",
+                      borderColor: "#004b8d",
+                    }}
+                  onClick={() => setCurrentPage(idx + 1)}
+                  >
+                  {idx + 1}
+                  </button>
+                </li>
+              ))}
             <li className={`page-item${currentPage === totalPages ? " disabled" : ""}`}>
               <button
                 className="page-link"
@@ -249,11 +249,11 @@ const Courses = () => {
                 onClick={() => setCurrentPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                Trang sau
-              </button>
-            </li>
-          </ul>
-        </nav>
+                  Trang sau
+                </button>
+              </li>
+            </ul>
+          </nav>
       </div>
 
       {/* Bootstrap Icons */}

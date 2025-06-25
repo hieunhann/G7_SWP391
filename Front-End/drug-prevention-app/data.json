@@ -1079,8 +1079,8 @@
             "D": "Chỉ vận động viên"
           },
           "correctAnswer": "B"
-        },
-        {
+    },
+    {
           "question": "Lầm tưởng phổ biến về thuốc kê đơn là gì?",
           "options": {
             "A": "Chúng luôn an toàn",
@@ -1396,7 +1396,7 @@
             "B": "Chất kích thích",
             "C": "Vitamin",
             "D": "Khoáng chất"
-          },
+    },
           "correctAnswer": "A"
         },
         {
@@ -1502,8 +1502,8 @@
             "D": "Xương chắc khỏe hơn"
           },
           "correctAnswer": "A"
-        },
-        {
+    },
+    {
           "question": "Ai chia sẻ câu chuyện trong khóa học?",
           "options": {
             "A": "Người từng sử dụng ecstasy",
@@ -1584,7 +1584,7 @@
             "B": "Vitamin",
             "C": "Thuốc giảm đau",
             "D": "Khoáng chất"
-          },
+    },
           "correctAnswer": "A"
         },
         {

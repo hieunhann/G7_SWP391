@@ -243,31 +243,31 @@ const UserProfile = () => {
                   </>
                 ) : (
                   <>
-                    <button
-                      type="button"
-                      className="btn btn-outline-primary"
-                      onClick={() => setEditing(true)}
-                    >
-                      Chỉnh sửa hồ sơ
-                    </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => setEditing(true)}
+                  >
+                    Chỉnh sửa hồ sơ
+                  </button>
                     {user?.password && (
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary"
+                <button
+                  type="button"
+                  className="btn btn-outline-primary"
                         onClick={openPasswordModal}
-                      >
-                        Đổi mật khẩu
-                      </button>
+                >
+                  Đổi mật khẩu
+                </button>
                     )}
-                    {isConsultant && (
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary"
-                        onClick={() => setShowCertificates(true)}
-                      >
-                        Chứng chỉ
-                      </button>
-                    )}
+                {isConsultant && (
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => setShowCertificates(true)}
+                  >
+                    Chứng chỉ
+                  </button>
+                )}
                   </>
                 )}
               </div>
