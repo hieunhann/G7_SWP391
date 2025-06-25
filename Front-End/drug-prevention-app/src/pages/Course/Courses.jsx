@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
+
 const COURSES_PER_PAGE = 4;
 
 const getAllAgeGroups = (courses) => {
-  // Tách tất cả nhóm tuổi thành mảng, loại bỏ trùng lặp và khoảng trắng thừa
   const groups = new Set();
   courses.forEach((course) => {
     if (course.ageGroup) {
@@ -18,11 +18,9 @@ const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
-  const [ageGroupFilter, setAgeGroupFilter] = useState(""); 
-
+  const [ageGroupFilter, setAgeGroupFilter] = useState("");
   const navigate = useNavigate();
 
- 
   useEffect(() => {
     fetch("http://localhost:5002/Course")
       .then((res) => res.json())
@@ -33,41 +31,38 @@ const Courses = () => {
       .catch((err) => console.error("Không thể lấy khóa học:", err));
   }, []);
 
-  // Lấy tất cả nhóm tuổi
   const allAgeGroups = getAllAgeGroups(courses);
 
-  // Lọc theo tìm kiếm và nhóm tuổi
-  const filteredCourses = courses.filter(
-    (course) => {
-      const matchSearch =
-        course.title?.toLowerCase().includes(search.toLowerCase()) ||
-        course.description?.toLowerCase().includes(search.toLowerCase());
-      const matchAgeGroup =
-        !ageGroupFilter ||
-        (course.ageGroup &&
-          course.ageGroup
-            .split(",")
-            .map((g) => g.trim().toLowerCase())
-            .includes(ageGroupFilter.toLowerCase()));
-      return matchSearch && matchAgeGroup;
-    }
-  );
+  const filteredCourses = courses.filter((course) => {
+    const matchSearch =
+      course.title?.toLowerCase().includes(search.toLowerCase()) ||
+      course.description?.toLowerCase().includes(search.toLowerCase());
+    const matchAgeGroup =
+      !ageGroupFilter ||
+      (course.ageGroup &&
+        course.ageGroup
+          .split(",")
+          .map((g) => g.trim().toLowerCase())
+          .includes(ageGroupFilter.toLowerCase()));
+    return matchSearch && matchAgeGroup;
+  });
 
   const totalPages = Math.ceil(filteredCourses.length / COURSES_PER_PAGE);
-  const startIdx = (currentPage - 1) * COURSES_PER_PAGE;
-  const currentCourses = filteredCourses.slice(startIdx, startIdx + COURSES_PER_PAGE);
+  const currentCourses = filteredCourses.slice(
+    (currentPage - 1) * COURSES_PER_PAGE,
+    currentPage * COURSES_PER_PAGE
+  );
 
   return (
     <>
       <Header />
-    
       <div className="container py-4">
         <h2 className="text-center mb-4" style={{ color: "#004b8d", fontWeight: 700 }}>
           Khóa học phòng chống ma túy
         </h2>
 
-        {/* Thanh tìm kiếm và bộ lọc nhóm tuổi */}
-        <div className="mb-4 d-flex flex-wrap justify-content-center gap-3">
+        {/* Tìm kiếm + bộ lọc độ tuổi: hàng ngang */}
+        <div className="d-flex flex-wrap justify-content-center gap-3 mb-4">
           <input
             type="text"
             className="form-control"
@@ -76,7 +71,7 @@ const Courses = () => {
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
-              setCurrentPage(1); // Đặt lại về trang 1 khi tìm kiếm
+              setCurrentPage(1);
             }}
           />
           <select
@@ -97,6 +92,7 @@ const Courses = () => {
           </select>
         </div>
 
+        {/* Danh sách khóa học */}
         <div className="d-flex flex-column gap-4">
           {currentCourses.map((course) => (
             <div
@@ -138,10 +134,22 @@ const Courses = () => {
                     >
                       {course.title}
                     </h3>
-                    <p className="mb-2" style={{ color: "#444", fontSize: "1.05rem" }}>
+                    <p
+                      className="mb-2"
+                      style={{
+                        color: "#444",
+                        fontSize: "1.05rem",
+                        maxHeight: "3.2em",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                      }}
+                    >
                       {course.description}
                     </p>
-                    <div className="mt-2 mb-3">
+                    <div className="mt-2 mb-3 d-flex flex-wrap gap-3">
                       <button
                         className="btn"
                         style={{
@@ -162,11 +170,9 @@ const Courses = () => {
                           }
                         }}
                       >
-                        Bắt đầu khóa học miễn phí này{" "}
+                        Bắt đầu miễn phí{" "}
                         <i className="bi bi-arrow-right-circle" style={{ fontSize: "1.1rem" }}></i>
                       </button>
-                    </div>
-                    <div className="mt-2 mb-3">
                       <button
                         className="btn"
                         style={{
@@ -180,8 +186,8 @@ const Courses = () => {
                         }}
                         onClick={() => navigate(`/Courses/lesson/${course.id}/feedback`)}
                       >
-                        Phản hồi khóa học này{" "}
-                        <i className="bi bi-arrow-right-circle" style={{ fontSize: "1.1rem" }}></i>
+                        Phản hồi{" "}
+                        <i className="bi bi-chat-dots" style={{ fontSize: "1.1rem" }}></i>
                       </button>
                     </div>
                     <div
@@ -190,7 +196,7 @@ const Courses = () => {
                     >
                       <span>
                         <i className="bi bi-person-circle me-1"></i>
-                        {course.ageGroup || "Tất cả độ tuổi"} 
+                        {course.ageGroup || "Tất cả độ tuổi"}
                       </span>
                       <span>
                         <i className="bi bi-clock me-1"></i>
@@ -222,10 +228,7 @@ const Courses = () => {
               </button>
             </li>
             {[...Array(totalPages)].map((_, idx) => (
-              <li
-                key={idx}
-                className={`page-item${currentPage === idx + 1 ? " active" : ""}`}
-              >
+              <li key={idx} className={`page-item${currentPage === idx + 1 ? " active" : ""}`}>
                 <button
                   className="page-link"
                   style={{

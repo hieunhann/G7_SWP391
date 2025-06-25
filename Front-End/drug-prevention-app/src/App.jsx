@@ -1,5 +1,14 @@
+// App.js
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Provider } from "react-redux";
+import { persistor, store } from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+
+// Pages
 import Home from "./pages/Home/Home";
 import Login from "./pages/LoginAndRegister/Login";
 import Register from "./pages/LoginAndRegister/Register";
@@ -9,52 +18,55 @@ import Courses from "./pages/Course/Courses";
 import DetailsCourse from "./pages/Course/DetailsCourse";
 import MemberBookedConsultations from "./pages/BookingForm/MemberBookedConsultations";
 import FeedbackCourse from "./pages/Course/FeedbackCourse";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import Footer from "./components/Footer/Footer";
 import BlogList from "./pages/Blogs/BlogList";
 import BlogDetail from "./pages/Blogs/BlogDetail";
 import CRAFFT from "./pages/Surveys/CRAFFT";
 import Surveys from "./pages/Surveys/Surveys";
 import ASSIST from "./pages/Surveys/ASSIST";
-import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
-import BookingRouter from "./components/BookingRouter";
-import ConsultantBookedMembers from "./pages/BookingForm/ConsultantBookedMembers";
+import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
+import Footer from "./components/Footer/Footer";
 
-<GoogleOAuthProvider clientId="632195046938-srur4gsnmg8nc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
-  <App /> {/* hoặc component chính */}
-</GoogleOAuthProvider>;
+// Router configuration
+const router = createBrowserRouter([
+  { path: "/", element: <Home /> },
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
+  { path: "/Surveys", element: <Surveys /> },
+  { path: "/CRAFFT", element: <CRAFFT /> },
+  { path: "/ASSIST", element: <ASSIST /> },
+  { path: "/booking", element: <MemberBookingConsultants /> },
+  { path: "/UserProfile", element: <UserProfile /> },
+  { path: "/Courses", element: <Courses /> },
+  { path: "/Courses/lesson/:id", element: <DetailsCourse /> },
+  { path: "/booking-router", element: <MemberBookedConsultations /> },
+  { path: "/Courses/lesson/:id/feedback", element: <FeedbackCourse /> },
+  { path: "/blogs", element: <BlogList /> },
+  { path: "/blog/:id", element: <BlogDetail /> },
+  { path: "/ScheduleManager", element: <ScheduleManager /> },
+]);
 
 function App() {
   return (
-    <div className="App">
-      {/* Bọc toàn bộ ứng dụng trong GoogleOAuthProvider */}
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/Surveys" element={<Surveys />} />
-          <Route path="/CRAFFT" element={<CRAFFT />} />
-          <Route path="/ASSIST" element={<ASSIST />} />
-          <Route path="/booking" element={<MemberBookingConsultants />} />
-          <Route path="/UserProfile" element={<UserProfile />} />
-          <Route path="/Courses" element={<Courses />} />
-          <Route path="/Courses/lesson/:id" element={<DetailsCourse />} />
-          <Route path="/MyBooking" element={<MemberBookedConsultations />} />
-          <Route path="/ViewCommunicationPrograms" element={<ViewCommunicationPrograms />} />
-          <Route
-            path="/Courses/lesson/:id/feedback"
-            element={<FeedbackCourse />}
+    <GoogleOAuthProvider clientId="632195046938-srur4gsnmg8cnc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
+      <Provider store={store}>
+      <PersistGate loading = {null} persistor={persistor}>
+        <div className="App">
+          <RouterProvider router={router} />
+          <Footer />
+          <ToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
           />
-          <Route path="/blogs" element={<BlogList />} />
-          <Route path="/blog/:id" element={<BlogDetail />} />
-          <Route path="/booking-router" element={<BookingRouter />} />
-          <Route path="/member-booked-consultations" element={<MemberBookedConsultations />} />
-          <Route path="/consultant-booked-members" element={<ConsultantBookedMembers />} />
-        </Routes>
-        <Footer />
-      </Router>
-    </div>
+        </div>
+       </PersistGate>
+      </Provider>
+    </GoogleOAuthProvider>
   );
 }
 
