@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
 import api from "../../Axios/Axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
@@ -15,24 +14,18 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // ✅ Đăng nhập thông thường
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
 
     try {
       const res = await api.post("/auth/login", { username, password });
-
-      const response = res.data.data; // ✅ Truy cập đúng tầng data
-      const user = response.user;
-      const accessToken = response.accessToken;
-
-      const userData = {
-        ...user,
-        accessToken,
-      };
+      const response = res.data.data;
+      const { user, accessToken } = response;
 
       dispatch(Login({ user, accessToken }));
-      localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("user", JSON.stringify({ ...user, accessToken }));
       toast.success("Đăng nhập thành công!");
       navigate("/");
     } catch (err) {
@@ -42,35 +35,23 @@ const LoginPage = () => {
     }
   };
 
-  const handleGoogleSuccess = (credentialResponse) => {
+  // ✅ Đăng nhập Google
+  const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const googleData = jwtDecode(credentialResponse.credential);
+      const token = credentialResponse.credential;
+      if (!token) {
+        throw new Error("Google token is missing");
+      }
 
-      const fullName = googleData.name || "";
-      const firstName = fullName.split(" ")[0] || "";
-      const lastName = fullName.split(" ").slice(1).join(" ") || "";
+      const res = await api.post("/auth/google", { token });
 
-      const normalizedUser = {
-        id: googleData.sub,
-        firstName,
-        lastName,
-        fullName,
-        email: googleData.email || "",
-        username: googleData.email?.split("@")[0] || "",
-        phoneNumber: "",
-        dateOfBirth: "",
-        password: "",
-        role: "MEMBER",
-        avatar: googleData.picture || "",
-      };
-
-      dispatch(Login(normalizedUser));
-      localStorage.setItem("user", JSON.stringify(normalizedUser));
+      const { user, accessToken } = res.data.data;
+      dispatch(Login({ user, accessToken }));
+      localStorage.setItem("user", JSON.stringify({ ...user, accessToken }));
       toast.success("Đăng nhập bằng Google thành công!");
       navigate("/");
     } catch (err) {
       console.error("Google login error:", err);
-      setErrorMsg("Đăng nhập Google thất bại");
       toast.error("Lỗi đăng nhập Google");
     }
   };

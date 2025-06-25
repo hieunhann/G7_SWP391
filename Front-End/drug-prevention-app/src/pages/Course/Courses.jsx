@@ -1,49 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../Axios/Axios";
 import Header from "../../components/Header/Header";
 
 const COURSES_PER_PAGE = 4;
 
-const getAllAgeGroups = (courses) => {
-  const groups = new Set();
-  courses.forEach((course) => {
-    if (course.ageGroup) {
-      course.ageGroup.split(",").forEach((g) => groups.add(g.trim()));
-    }
-  });
-  return Array.from(groups);
-};
-
 const Courses = () => {
   const [courses, setCourses] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [ageGroupFilter, setAgeGroupFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5002/Course")
-      .then((res) => res.json())
-      .then((data) => {
-        const validData = Array.isArray(data) && Array.isArray(data[0]) ? data[0] : data;
-        setCourses(validData);
+    api
+      .get("/courses")
+      .then((res) => {
+        console.log("Courses:", res.data);
+        setCourses(Array.isArray(res.data.data) ? res.data.data : res.data); // fallback
       })
-      .catch((err) => console.error("Không thể lấy khóa học:", err));
+      .catch((err) => console.error("Lỗi lấy danh sách khóa học:", err));
   }, []);
 
-  const allAgeGroups = getAllAgeGroups(courses);
+  const allAgeGroups = Array.from(
+    new Set(
+      courses.flatMap((course) =>
+        (course.ageGroups || []).map((g) => g.name.trim())
+      )
+    )
+  );
 
   const filteredCourses = courses.filter((course) => {
     const matchSearch =
-      course.title?.toLowerCase().includes(search.toLowerCase()) ||
+      course.name?.toLowerCase().includes(search.toLowerCase()) ||
       course.description?.toLowerCase().includes(search.toLowerCase());
+
     const matchAgeGroup =
       !ageGroupFilter ||
-      (course.ageGroup &&
-        course.ageGroup
-          .split(",")
-          .map((g) => g.trim().toLowerCase())
-          .includes(ageGroupFilter.toLowerCase()));
+      (course.ageGroups || []).some(
+        (g) => g.name.toLowerCase() === ageGroupFilter.toLowerCase()
+      );
+
     return matchSearch && matchAgeGroup;
   });
 
@@ -61,7 +58,7 @@ const Courses = () => {
           Khóa học phòng chống ma túy
         </h2>
 
-        {/* Tìm kiếm + bộ lọc độ tuổi: hàng ngang */}
+        {/* Tìm kiếm + lọc */}
         <div className="d-flex flex-wrap justify-content-center gap-3 mb-4">
           <input
             type="text"
@@ -108,7 +105,7 @@ const Courses = () => {
                 <div className="col-md-3 d-flex justify-content-center">
                   <img
                     src={course.image}
-                    alt={course.title}
+                    alt={course.name}
                     className="img-fluid"
                     style={{
                       maxWidth: 180,
@@ -132,7 +129,7 @@ const Courses = () => {
                         lineHeight: 1.2,
                       }}
                     >
-                      {course.title}
+                      {course.name}
                     </h3>
                     <p
                       className="mb-2"
@@ -163,11 +160,8 @@ const Courses = () => {
                         }}
                         onClick={() => {
                           const user = JSON.parse(localStorage.getItem("user") || "null");
-                          if (!user || !(user.id || user._id)) {
-                            navigate("/login");
-                          } else {
-                            navigate(`/Courses/lesson/${course.id}`);
-                          }
+                          if (!user?.id) return navigate("/login");
+                          navigate(`/Courses/lesson/${course.id}`);
                         }}
                       >
                         Bắt đầu miễn phí{" "}
@@ -196,15 +190,15 @@ const Courses = () => {
                     >
                       <span>
                         <i className="bi bi-person-circle me-1"></i>
-                        {course.ageGroup || "Tất cả độ tuổi"}
+                        {(course.ageGroups || []).map((g) => g.name).join(", ") || "Tất cả độ tuổi"}
                       </span>
                       <span>
                         <i className="bi bi-clock me-1"></i>
-                        {course.duration || "N/A"}
+                        {course.duration || "N/A"} phút
                       </span>
                       <span>
                         <i className="bi bi-journal-bookmark me-1"></i>
-                        {course.lessons ? `${course.lessons} bài học` : "5 bài học"}
+                        {course.lessons || 5} bài học
                       </span>
                     </div>
                   </div>
@@ -215,45 +209,37 @@ const Courses = () => {
         </div>
 
         {/* Phân trang */}
-        <nav className="mt-4 d-flex justify-content-center">
-          <ul className="pagination">
-            <li className={`page-item${currentPage === 1 ? " disabled" : ""}`}>
-              <button
-                className="page-link"
-                style={{ color: "#004b8d" }}
-                onClick={() => setCurrentPage(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                Trang trước
-              </button>
-            </li>
-            {[...Array(totalPages)].map((_, idx) => (
-              <li key={idx} className={`page-item${currentPage === idx + 1 ? " active" : ""}`}>
-                <button
-                  className="page-link"
-                  style={{
-                    color: currentPage === idx + 1 ? "#fff" : "#004b8d",
-                    background: currentPage === idx + 1 ? "#004b8d" : "#fff",
-                    borderColor: "#004b8d",
-                  }}
-                  onClick={() => setCurrentPage(idx + 1)}
-                >
-                  {idx + 1}
+        {totalPages > 1 && (
+          <nav className="mt-4 d-flex justify-content-center">
+            <ul className="pagination">
+              <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>
+                  Trang trước
                 </button>
               </li>
-            ))}
-            <li className={`page-item${currentPage === totalPages ? " disabled" : ""}`}>
-              <button
-                className="page-link"
-                style={{ color: "#004b8d" }}
-                onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                Trang sau
-              </button>
-            </li>
-          </ul>
-        </nav>
+              {[...Array(totalPages)].map((_, i) => (
+                <li key={i} className={`page-item ${currentPage === i + 1 ? "active" : ""}`}>
+                  <button
+                    className="page-link"
+                    onClick={() => setCurrentPage(i + 1)}
+                    style={{
+                      color: currentPage === i + 1 ? "#fff" : "#004b8d",
+                      background: currentPage === i + 1 ? "#004b8d" : "#fff",
+                      borderColor: "#004b8d",
+                    }}
+                  >
+                    {i + 1}
+                  </button>
+                </li>
+              ))}
+              <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>
+                  Trang sau
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
       </div>
 
       {/* Bootstrap Icons */}

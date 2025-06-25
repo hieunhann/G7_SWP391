@@ -25,6 +25,7 @@ import Surveys from "./pages/Surveys/Surveys";
 import ASSIST from "./pages/Surveys/ASSIST";
 import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
 import Footer from "./components/Footer/Footer";
+// import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 
 // Router configuration
 const router = createBrowserRouter([
@@ -43,28 +44,32 @@ const router = createBrowserRouter([
   { path: "/blogs", element: <BlogList /> },
   { path: "/blog/:id", element: <BlogDetail /> },
   { path: "/ScheduleManager", element: <ScheduleManager /> },
+    // { path: "/ViewCommunicationPrograms", element: <ViewCommunicationPrograms /> },
+
 ]);
 
 function App() {
   return (
     <GoogleOAuthProvider clientId="632195046938-srur4gsnmg8cnc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
       <Provider store={store}>
-      <PersistGate loading = {null} persistor={persistor}>
-        <div className="App">
-          <RouterProvider router={router} />
-          <Footer />
-          <ToastContainer
-            position="top-right"
-            autoClose={4000}
-            hideProgressBar={false}
-            newestOnTop
-            closeOnClick
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-        </div>
-       </PersistGate>
+        <PersistGate loading={null} persistor={persistor}>
+          <div className="App">
+            <RouterProvider router={router} />
+            <Footer />
+            <>
+              <ToastContainer
+                position="top-right"
+                autoClose={4000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
+            </>
+          </div>
+        </PersistGate>
       </Provider>
     </GoogleOAuthProvider>
   );

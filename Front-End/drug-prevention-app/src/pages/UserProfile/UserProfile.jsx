@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
-const iconColor = "#004b8d";
+import api from "../../Axios/Axios";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { Login } from "../../redux/features/userSlice"; // đảm bảo đã export đúng
 
+const iconColor = "#004b8d";
 const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({});
   const [editing, setEditing] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
   const [certificates, setCertificates] = useState([]);
   const [showCertificates, setShowCertificates] = useState(false);
   const [certificatesLoading, setCertificatesLoading] = useState(false);
   const [certificatesError, setCertificatesError] = useState("");
-  const [toast, setToast] = useState({ show: false, message: "" });
 
   useEffect(() => {
     try {
@@ -55,62 +53,63 @@ const UserProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const showToast = (message) => {
-    setToast({ show: true, message });
-    setTimeout(() => setToast({ show: false, message: "" }), 5000);
-  };
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validatePhone = (phone) => /^[0-9]{9,15}$/.test(phone);
 
-  const handleSave = () => {
-    const updatedUser = {
-      ...user,
-      ...formData,
-    };
-    localStorage.setItem("user", JSON.stringify(updatedUser));
-    setUser(updatedUser);
-    setEditing(false);
-    showToast("Thông tin đã được cập nhật.");
-  };
+  const dispatch = useDispatch(); // thêm dòng này ở đầu component
 
-  const openPasswordModal = () => {
-    setOldPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setPasswordError("");
-    setShowModal(true);
-  };
+  const handleSave = async () => {
+    const { firstName, lastName, email, phoneNumber, dateOfBirth } = formData;
 
-  const closePasswordModal = () => {
-    setShowModal(false);
-    setPasswordError("");
-  };
-
-  const handlePasswordSubmit = () => {
-    if (!user?.password) {
-      setPasswordError("Tài khoản Gmail không hỗ trợ đổi mật khẩu.");
-      return;
-    }
-    if (oldPassword !== user?.password) {
-      setPasswordError("Mật khẩu hiện tại không đúng.");
-      return;
-    }
-    if (newPassword.length < 6) {
-      setPasswordError("Mật khẩu mới phải có ít nhất 6 ký tự.");
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setPasswordError("Mật khẩu mới không khớp.");
+    if (!firstName || !lastName || !email || !phoneNumber || !dateOfBirth) {
+      toast.error("Vui lòng điền đầy đủ thông tin.");
       return;
     }
 
-    const updatedUser = { ...user, password: newPassword };
-    localStorage.setItem("user", JSON.stringify(updatedUser));
-    setUser(updatedUser);
-    setFormData((prev) => ({ ...prev, password: newPassword }));
-    closePasswordModal();
-    showToast("Mật khẩu đã được thay đổi thành công.");
+    if (!validateEmail(email)) {
+      toast.error("Email không hợp lệ.");
+      return;
+    }
+
+    if (!validatePhone(phoneNumber)) {
+      toast.error("Số điện thoại không hợp lệ.");
+      return;
+    }
+
+    try {
+      const updatedUser = {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        dateOfBirth,
+        updatedAt: new Date().toISOString(),
+        updatedBy: user.username,
+      };
+
+      const response = await api.patch(`/users/${user.id}`, updatedUser);
+      const newUser = {
+        ...response.data.data,
+        accessToken: user.accessToken, // giữ token cũ
+      };
+
+      localStorage.setItem("user", JSON.stringify(newUser));
+      dispatch(Login({ user: newUser, accessToken: newUser.accessToken }));
+      setUser(newUser);
+      setFormData(newUser);
+      setEditing(false);
+      toast.success("Thông tin đã được cập nhật.");
+    } catch (error) {
+      const message = error?.response?.data?.message || "Cập nhật thất bại.";
+      console.error("Update user failed:", message);
+      toast.error(message);
+    }
   };
 
   if (!user)
@@ -138,14 +137,14 @@ const UserProfile = () => {
                   width: 120,
                   height: 120,
                   background: "#e3e6ea",
-                  color: "#004b8d",
+                  color: iconColor,
                   fontSize: 48,
                   fontWeight: "bold",
                   userSelect: "none",
                   margin: "0 auto",
                 }}
               >
-                {user.firstName ? user.firstName.charAt(0).toUpperCase() : "U"}
+                {user.firstName?.charAt(0).toUpperCase() || "U"}
               </div>
             </div>
 
@@ -153,16 +152,10 @@ const UserProfile = () => {
               {[
                 { id: "firstName", label: "Họ", type: "text" },
                 { id: "lastName", label: "Tên", type: "text" },
-                {
-                  id: "username",
-                  label: "Tên đăng nhập",
-                  type: "text",
-                  readOnly: true,
-                },
                 { id: "email", label: "Email", type: "email" },
                 { id: "phoneNumber", label: "Số điện thoại", type: "tel" },
                 { id: "dateOfBirth", label: "Ngày sinh", type: "date" },
-              ].map(({ id, label, type, readOnly }) => (
+              ].map(({ id, label, type }) => (
                 <div className="mb-3" key={id}>
                   <label
                     htmlFor={id}
@@ -181,8 +174,6 @@ const UserProfile = () => {
                           ? "telephone"
                           : id === "dateOfBirth"
                           ? "calendar2-week"
-                          : id === "username"
-                          ? "person"
                           : "pencil-square"
                       }`}
                       style={{ fontSize: "1.4rem" }}
@@ -196,8 +187,7 @@ const UserProfile = () => {
                     value={formData[id] || ""}
                     onChange={handleChange}
                     className="form-control text-center"
-                    disabled={!editing || readOnly}
-                    readOnly={readOnly}
+                    disabled={!editing}
                   />
                 </div>
               ))}
@@ -222,53 +212,33 @@ const UserProfile = () => {
                     >
                       Hủy
                     </button>
-                    {user?.password && (
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary"
-                        onClick={openPasswordModal}
-                      >
-                        Đổi mật khẩu
-                      </button>
-                    )}
-                    {isConsultant && (
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary"
-                        onClick={() => setShowCertificates(true)}
-                      >
-                        Chứng chỉ
-                      </button>
-                    )}
                   </>
                 ) : (
-                  <>
-                    <button
-                      type="button"
-                      className="btn btn-outline-primary"
-                      onClick={() => setEditing(true)}
-                    >
-                      Chỉnh sửa hồ sơ
-                    </button>
-                    {user?.password && (
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary"
-                        onClick={openPasswordModal}
-                      >
-                        Đổi mật khẩu
-                      </button>
-                    )}
-                    {isConsultant && (
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary"
-                        onClick={() => setShowCertificates(true)}
-                      >
-                        Chứng chỉ
-                      </button>
-                    )}
-                  </>
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => setEditing(true)}
+                  >
+                    Chỉnh sửa hồ sơ
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  className="btn btn-outline-primary"
+                  onClick={() => toast.info("Chức năng đang phát triển")}
+                >
+                  Đổi mật khẩu
+                </button>
+
+                {isConsultant && (
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => setShowCertificates(true)}
+                  >
+                    Chứng chỉ
+                  </button>
                 )}
               </div>
             </form>

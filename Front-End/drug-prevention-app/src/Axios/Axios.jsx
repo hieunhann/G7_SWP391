@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/api/v1/",
+  baseURL: "http://localhost:8080/api/v1",
   headers: {
     "Content-Type": "application/json",
   },
@@ -9,9 +9,14 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("access_token"); 
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+    try {
+      const userData = JSON.parse(localStorage.getItem("user"));
+      const token = userData?.accessToken;
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.error("Lỗi khi lấy token:", error);
     }
     return config;
   },
