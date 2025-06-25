@@ -323,7 +323,7 @@
       "consultantId": "4",
       "bookingTime": "2025-06-20T10:30:00",
       "notes": "",
-      "status": "Chờ xác nhận",
+      "status": "Đã xác nhận",
       "createdAt": "2025-06-07T02:15:28.853Z",
       "updatedAt": "2025-06-07T02:15:28.853Z"
     },
@@ -403,7 +403,7 @@
       "consultantId": "4",
       "bookingTime": "2025-06-26T11:30:00",
       "notes": "",
-      "status": "Chờ xác nhận",
+      "status": "Đã hủy",
       "createdAt": "2025-06-23T00:05:52.906Z",
       "updatedAt": "2025-06-23T00:05:52.906Z"
     },
@@ -1678,6 +1678,14 @@
       "Event_id": 3,
       "Rating": 5,
       "Comment": "hay ạ "
+    },
+    {
+      "id": "a83a",
+      "ID": 1750813040151,
+      "Member_id": 1,
+      "Event_id": 3,
+      "Rating": 4,
+      "Comment": "cũng cũng đi"
     }
   ],
   "event_registrations": [

@@ -362,7 +362,7 @@ const ASSIST = () => {
 
         switch (overallRisk) {
             case 'low':
-                navigateTo = '/CommunityActivities';
+                navigateTo = '/ViewCommunicationPrograms';
                 break;
             case 'medium':
                 navigateTo = '/Courses';
