@@ -37,14 +37,14 @@ const NotifyLogin = ({
       <div>{message}</div>
       <div className="mt-4 d-flex justify-content-center gap-4">
         <button
-          className="btn btn-secondary btn-lg"
+          className="btn btn-outline-primary w-100 mt-2"
           style={{ minWidth: 120, fontSize: "1.1rem" }}
           onClick={onCancel}
         >
           {cancelText}
         </button>
         <button
-          className="btn btn-primary btn-lg"
+          className="btn btn-outline-primary w-100 mt-2"
           style={{ minWidth: 120, fontSize: "1.1rem" }}
           onClick={() => navigate(redirectTo)}
         >

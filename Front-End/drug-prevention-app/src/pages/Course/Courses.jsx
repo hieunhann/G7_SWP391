@@ -14,7 +14,7 @@ const Courses = () => {
 
   useEffect(() => {
     api
-      .get("/courses")
+      .get("/course/getAllCourse")
       .then((res) => {
         console.log("Courses:", res.data);
         setCourses(Array.isArray(res.data.data) ? res.data.data : res.data); // fallback
@@ -24,9 +24,7 @@ const Courses = () => {
 
   const allAgeGroups = Array.from(
     new Set(
-      courses.flatMap((course) =>
-        (course.ageGroups || []).map((g) => g.name.trim())
-      )
+      courses.map((course) => course.ageGroup?.name.trim()).filter(Boolean)
     )
   );
 
@@ -37,9 +35,7 @@ const Courses = () => {
 
     const matchAgeGroup =
       !ageGroupFilter ||
-      (course.ageGroups || []).some(
-        (g) => g.name.toLowerCase() === ageGroupFilter.toLowerCase()
-      );
+      course.ageGroup?.name.toLowerCase() === ageGroupFilter.toLowerCase();
 
     return matchSearch && matchAgeGroup;
   });
@@ -54,7 +50,10 @@ const Courses = () => {
     <>
       <Header />
       <div className="container py-4">
-        <h2 className="text-center mb-4" style={{ color: "#004b8d", fontWeight: 700 }}>
+        <h2
+          className="text-center mb-4"
+          style={{ color: "#004b8d", fontWeight: 700 }}
+        >
           Khóa học phòng chống ma túy
         </h2>
 
@@ -123,7 +122,7 @@ const Courses = () => {
                     <h3
                       className="mb-2"
                       style={{
-                        color: "#004b8d",
+                        color: "#0d6efd",
                         fontWeight: 700,
                         fontSize: "1.6rem",
                         lineHeight: 1.2,
@@ -148,40 +147,44 @@ const Courses = () => {
                     </p>
                     <div className="mt-2 mb-3 d-flex flex-wrap gap-3">
                       <button
-                        className="btn"
+                        className="btn btn-outline-primary"
                         style={{
-                          border: "2px solid #004b8d",
-                          color: "#004b8d",
                           fontWeight: 600,
                           borderRadius: "4px",
-                          background: "#fff",
                           padding: "8px 28px",
                           fontSize: "1.1rem",
                         }}
                         onClick={() => {
-                          const user = JSON.parse(localStorage.getItem("user") || "null");
+                          const user = JSON.parse(
+                            localStorage.getItem("user") || "null"
+                          );
                           if (!user?.id) return navigate("/login");
                           navigate(`/Courses/lesson/${course.id}`);
                         }}
                       >
                         Bắt đầu miễn phí{" "}
-                        <i className="bi bi-arrow-right-circle" style={{ fontSize: "1.1rem" }}></i>
+                        <i
+                          className="bi bi-arrow-right-circle"
+                          style={{ fontSize: "1.1rem" }}
+                        ></i>
                       </button>
                       <button
-                        className="btn"
+                        className="btn btn-outline-primary"
                         style={{
-                          border: "2px solid #004b8d",
-                          color: "#004b8d",
                           fontWeight: 600,
                           borderRadius: "4px",
-                          background: "#fff",
                           padding: "8px 28px",
                           fontSize: "1.1rem",
                         }}
-                        onClick={() => navigate(`/Courses/lesson/${course.id}/feedback`)}
+                        onClick={() =>
+                          navigate(`/Courses/lesson/${course.id}/feedback`)
+                        }
                       >
                         Phản hồi{" "}
-                        <i className="bi bi-chat-dots" style={{ fontSize: "1.1rem" }}></i>
+                        <i
+                          className="bi bi-chat-dots"
+                          style={{ fontSize: "1.1rem" }}
+                        ></i>
                       </button>
                     </div>
                     <div
@@ -190,15 +193,13 @@ const Courses = () => {
                     >
                       <span>
                         <i className="bi bi-person-circle me-1"></i>
-                        {(course.ageGroups || []).map((g) => g.name).join(", ") || "Tất cả độ tuổi"}
+                        {course.ageGroup
+                          ? `${course.ageGroup.name} (${course.ageGroup.age})`
+                          : "Tất cả độ tuổi"}
                       </span>
                       <span>
                         <i className="bi bi-clock me-1"></i>
                         {course.duration || "N/A"} phút
-                      </span>
-                      <span>
-                        <i className="bi bi-journal-bookmark me-1"></i>
-                        {course.lessons || 5} bài học
                       </span>
                     </div>
                   </div>
@@ -212,13 +213,23 @@ const Courses = () => {
         {totalPages > 1 && (
           <nav className="mt-4 d-flex justify-content-center">
             <ul className="pagination">
-              <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-                <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>
+              <li
+                className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
                   Trang trước
                 </button>
               </li>
               {[...Array(totalPages)].map((_, i) => (
-                <li key={i} className={`page-item ${currentPage === i + 1 ? "active" : ""}`}>
+                <li
+                  key={i}
+                  className={`page-item ${
+                    currentPage === i + 1 ? "active" : ""
+                  }`}
+                >
                   <button
                     className="page-link"
                     onClick={() => setCurrentPage(i + 1)}
@@ -232,8 +243,15 @@ const Courses = () => {
                   </button>
                 </li>
               ))}
-              <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>
+              <li
+                className={`page-item ${
+                  currentPage === totalPages ? "disabled" : ""
+                }`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
                   Trang sau
                 </button>
               </li>

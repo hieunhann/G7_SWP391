@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
+import api from "../../Axios/Axios";
+import { toast } from "react-toastify";
 
 const allTimeSlots = [
   "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
@@ -32,19 +34,8 @@ const MemberBookingConsultants = () => {
   const [selectedTime, setSelectedTime] = useState("");
   const [notes, setNotes] = useState("");
   const [showLoginPopup, setShowLoginPopup] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [popup, setPopup] = useState({ message: "", type: "" });
 
   const todayStr = new Date().toISOString().split("T")[0];
-
-  useEffect(() => {
-    if (popup.message) {
-      const timer = setTimeout(() => {
-        setPopup({ message: "", type: "" });
-      }, 7000);
-      return () => clearTimeout(timer);
-    }
-  }, [popup]);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user") || "null");
@@ -52,14 +43,12 @@ const MemberBookingConsultants = () => {
 
     if (!userId) {
       setShowLoginPopup(true);
-      setLoading(false);
       return;
     }
 
     const fetchAvailableConsultants = async () => {
       if (!selectedDate) return setAvailableConsultants([]);
 
-      // Sử dụng hàm mới để lấy đúng thứ tiếng Việt
       const dayOfWeek = getVietnameseDayOfWeek(selectedDate);
 
       try {
@@ -69,12 +58,12 @@ const MemberBookingConsultants = () => {
 
         const usersRes = await fetch(`http://localhost:5002/User`);
         const users = await usersRes.json();
-        // Ép kiểu id về string để so sánh chắc chắn
         const consultants = users.filter(u => consultantIds.includes(String(u.id)));
 
         setAvailableConsultants(consultants);
       } catch (err) {
         console.error("Không thể tải danh sách tư vấn viên:", err);
+        toast.error("Lỗi khi tải danh sách tư vấn viên");
         setAvailableConsultants([]);
       }
 
@@ -91,7 +80,6 @@ const MemberBookingConsultants = () => {
     const fetchSlots = async () => {
       if (!selectedConsultant || !selectedDate) return;
 
-      // Sử dụng hàm mới để lấy đúng thứ tiếng Việt
       const dayOfWeek = getVietnameseDayOfWeek(selectedDate);
 
       try {
@@ -121,6 +109,7 @@ const MemberBookingConsultants = () => {
         }
       } catch (err) {
         console.error("Lỗi tải lịch làm việc hoặc đặt lịch:", err);
+        toast.error("Lỗi khi tải dữ liệu ca làm việc");
         setBookedSlots([]);
         setWorkingSlots([]);
       }
@@ -134,7 +123,7 @@ const MemberBookingConsultants = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedDate || !selectedTime || !selectedConsultant) {
-      setPopup({ message: "Vui lòng chọn ngày, tư vấn viên và giờ.", type: "error" });
+      toast.error("Vui lòng chọn ngày, tư vấn viên và giờ.");
       return;
     }
 
@@ -156,16 +145,16 @@ const MemberBookingConsultants = () => {
       });
 
       if (res.ok) {
-        setPopup({ message: `Đặt lịch thành công lúc ${selectedTime}`, type: "success" });
+        toast.success(`Đặt lịch thành công lúc ${selectedTime}`);
         setBookedSlots(prev => [...prev, selectedTime]);
         setSelectedTime("");
         setNotes("");
       } else {
-        setPopup({ message: "Đặt lịch thất bại. Vui lòng thử lại.", type: "error" });
+        toast.error("Đặt lịch thất bại. Vui lòng thử lại.");
       }
     } catch (err) {
       console.error("Lỗi khi đặt lịch:", err);
-      setPopup({ message: "Có lỗi xảy ra khi đặt lịch.", type: "error" });
+      toast.error("Có lỗi xảy ra khi đặt lịch.");
     }
   };
 
@@ -297,42 +286,12 @@ const MemberBookingConsultants = () => {
 
               <button
                 type="submit"
-                className="btn text-white w-100 mt-3"
-                style={{
-                  background: 'linear-gradient(90deg, #004b8d, #0070cc)',
-                  border: 'none',
-                  padding: '12px',
-                  fontSize: '16px',
-                  borderRadius: '6px'
-                }}
+                className="btn btn-outline-primary w-100 mt-2"
               >
                 Xác nhận đặt lịch
               </button>
             </form>
           </div>
-        </div>
-      )}
-
-      {popup.message && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            padding: "12px 24px",
-            color: "white",
-            borderRadius: "6px",
-            backgroundColor: popup.type === "success" ? "#28a745" : "#dc3545",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
-            zIndex: 9999,
-            minWidth: "250px",
-            textAlign: "center",
-            fontWeight: "600",
-            userSelect: "none",
-          }}
-        >
-          {popup.message}
         </div>
       )}
     </>

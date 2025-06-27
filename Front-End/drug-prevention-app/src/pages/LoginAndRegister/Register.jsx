@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../Axios/Axios";
 import { toast } from "react-toastify";
+
 const today = new Date().toISOString().split("T")[0];
 
 const Register = () => {
@@ -18,41 +19,85 @@ const Register = () => {
     confirmPassword: "",
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setErrors((prev) => ({ ...prev, [e.target.name]: "" })); // clear error khi nhập lại
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    const phoneRegex = /^[0-9]{10}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!formData.firstName.trim()) newErrors.firstName = "Họ không được để trống";
+    if (!formData.lastName.trim()) newErrors.lastName = "Tên không được để trống";
+    if (!formData.username.trim()) newErrors.username = "Tên đăng nhập không được để trống";
+
+    if (!formData.dateOfBirth) newErrors.dateOfBirth = "Vui lòng chọn ngày sinh";
+    else if (new Date(formData.dateOfBirth) > new Date(today))
+      newErrors.dateOfBirth = "Ngày sinh không hợp lệ";
+
+    if (!emailRegex.test(formData.email)) newErrors.email = "Email không hợp lệ";
+
+    if (!phoneRegex.test(formData.phoneNumber))
+      newErrors.phoneNumber = "Số điện thoại phải có 10 chữ số";
+
+    if (formData.password.length < 6)
+      newErrors.password = "Mật khẩu phải có ít nhất 6 ký tự";
+
+    if (formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = "Mật khẩu xác nhận không khớp";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Mật khẩu không khớp!");
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
       const newUser = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        username: formData.username,
-        password: formData.password,
-        email: formData.email,
-        phoneNumber: formData.phoneNumber,
-        dateOfBirth: formData.dateOfBirth,
+        ...formData,
         role: "MEMBER",
       };
 
       await api.post("users", newUser);
 
       toast.success("Đăng ký thành công!");
-      setTimeout(() => navigate("/login"), 2000); 
+      setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
-      console.error("Lỗi đăng ký:", error);
       const message =
         error.response?.data?.message || "Đã xảy ra lỗi. Vui lòng thử lại.";
       toast.error(`Đăng ký thất bại: ${message}`);
     }
   };
+
+  const renderInput = (label, name, type, icon, placeholder) => (
+    <div className="mb-3">
+      <label className="form-label">{label}</label>
+      <div className="input-group">
+        <span className="input-group-text bg-white">
+          <i className={`bi ${icon} text-primary`}></i>
+        </span>
+        <input
+          type={type}
+          name={name}
+          className="form-control"
+          placeholder={placeholder}
+          value={formData[name]}
+          onChange={handleChange}
+          max={name === "dateOfBirth" ? today : undefined}
+        />
+      </div>
+      {errors[name] && (
+        <div className="text-danger small mt-1">{errors[name]}</div>
+      )}
+    </div>
+  );
 
   return (
     <div
@@ -66,167 +111,55 @@ const Register = () => {
         <h2 className="text-center text-primary fw-bold mb-4">Đăng ký</h2>
 
         <form onSubmit={handleSubmit}>
-          {/* Họ */}
-          <div className="mb-3">
-            <label className="form-label">Họ</label>
-            <div className="input-group">
-              <span className="input-group-text bg-white">
-                <i className="bi bi-person text-primary"></i>
-              </span>
-              <input
-                type="text"
-                name="firstName"
-                className="form-control"
-                placeholder="Nhập họ"
-                onChange={handleChange}
-                value={formData.firstName}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Tên */}
-          <div className="mb-3">
-            <label className="form-label">Tên</label>
-            <div className="input-group">
-              <span className="input-group-text bg-white">
-                <i className="bi bi-person text-primary"></i>
-              </span>
-              <input
-                type="text"
-                name="lastName"
-                className="form-control"
-                placeholder="Nhập tên"
-                onChange={handleChange}
-                value={formData.lastName}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Tên đăng nhập */}
-          <div className="mb-3">
-            <label className="form-label">Tên đăng nhập</label>
-            <div className="input-group">
-              <span className="input-group-text bg-white">
-                <i className="bi bi-person-circle text-primary"></i>
-              </span>
-              <input
-                type="text"
-                name="username"
-                className="form-control"
-                placeholder="Nhập tên đăng nhập"
-                onChange={handleChange}
-                value={formData.username}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Ngày sinh */}
-          <div className="mb-3">
-            <label className="form-label">Ngày sinh</label>
-            <div className="input-group">
-              <span className="input-group-text bg-white">
-                <i className="bi bi-calendar-date text-primary"></i>
-              </span>
-              <input
-                type="date"
-                name="dateOfBirth"
-                className="form-control"
-                onChange={handleChange}
-                value={formData.dateOfBirth}
-                required
-                max={today}
-              />
-            </div>
-          </div>
-
-          {/* Email */}
-          <div className="mb-3">
-            <label className="form-label">Email</label>
-            <div className="input-group">
-              <span className="input-group-text bg-white">
-                <i className="bi bi-envelope text-primary"></i>
-              </span>
-              <input
-                type="email"
-                name="email"
-                className="form-control"
-                placeholder="Nhập email"
-                onChange={handleChange}
-                value={formData.email}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Số điện thoại */}
-          <div className="mb-3">
-            <label className="form-label">Số điện thoại</label>
-            <div className="input-group">
-              <span className="input-group-text bg-white">
-                <i className="bi bi-telephone text-primary"></i>
-              </span>
-              <input
-                type="text"
-                name="phoneNumber"
-                className="form-control"
-                placeholder="Nhập số điện thoại"
-                onChange={handleChange}
-                value={formData.phoneNumber}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Mật khẩu */}
-          <div className="mb-3">
-            <label className="form-label">Mật khẩu</label>
-            <div className="input-group">
-              <span className="input-group-text bg-white">
-                <i className="bi bi-lock text-primary"></i>
-              </span>
-              <input
-                type="password"
-                name="password"
-                className="form-control"
-                placeholder="Nhập mật khẩu"
-                onChange={handleChange}
-                value={formData.password}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Xác nhận mật khẩu */}
-          <div className="mb-4">
-            <label className="form-label">Xác nhận mật khẩu</label>
-            <div className="input-group">
-              <span className="input-group-text bg-white">
-                <i className="bi bi-lock-fill text-primary"></i>
-              </span>
-              <input
-                type="password"
-                name="confirmPassword"
-                className="form-control"
-                placeholder="Nhập lại mật khẩu"
-                onChange={handleChange}
-                value={formData.confirmPassword}
-                required
-              />
-            </div>
-          </div>
+          {renderInput("Họ", "firstName", "text", "bi-person", "Nhập họ")}
+          {renderInput("Tên", "lastName", "text", "bi-person", "Nhập tên")}
+          {renderInput(
+            "Tên đăng nhập",
+            "username",
+            "text",
+            "bi-person-circle",
+            "Nhập tên đăng nhập"
+          )}
+          {renderInput(
+            "Ngày sinh",
+            "dateOfBirth",
+            "date",
+            "bi-calendar-date",
+            ""
+          )}
+          {renderInput(
+            "Email",
+            "email",
+            "email",
+            "bi-envelope",
+            "Nhập email"
+          )}
+          {renderInput(
+            "Số điện thoại",
+            "phoneNumber",
+            "text",
+            "bi-telephone",
+            "Nhập số điện thoại"
+          )}
+          {renderInput(
+            "Mật khẩu",
+            "password",
+            "password",
+            "bi-lock",
+            "Nhập mật khẩu"
+          )}
+          {renderInput(
+            "Xác nhận mật khẩu",
+            "confirmPassword",
+            "password",
+            "bi-lock-fill",
+            "Nhập lại mật khẩu"
+          )}
 
           <button
             type="submit"
-            className="btn text-white w-100"
-            style={{
-              backgroundColor: "#4a90e2",
-              padding: "12px",
-              fontSize: "16px",
-              borderRadius: "4px",
-            }}
+            className="btn btn-outline-primary w-100 mt-2"
+            style={{ padding: "12px", fontSize: "16px", borderRadius: "4px" }}
           >
             Đăng ký
           </button>
@@ -237,7 +170,7 @@ const Register = () => {
               <a
                 href="/login"
                 className="fw-semibold text-decoration-none"
-                style={{ color: "#4a90e2" }}
+                style={{ color: "#0d6efd" }}
               >
                 Đăng nhập tại đây
               </a>
