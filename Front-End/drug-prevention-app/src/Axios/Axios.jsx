@@ -13,7 +13,7 @@ api.interceptors.request.use(
     let token = null;
     const userStr = localStorage.getItem("user");
     accessToken = localStorage.getItem("access_token");
-
+    
     if (userStr) {
       try {
         const userObj = JSON.parse(userStr);
@@ -21,6 +21,10 @@ api.interceptors.request.use(
       } catch (e) {
         token = null;
       }
+    }
+    // Nếu không có thì thử lấy từ 'access_token' (dự phòng)
+    if (!token) {
+      token = localStorage.getItem("access_token");
     }
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
