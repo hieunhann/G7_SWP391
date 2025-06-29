@@ -21,8 +21,8 @@ const LoginPage = () => {
 
     try {
       const res = await api.post("/auth/login", { username, password });
-      const { user, accessToken } = res.data.data;
 
+      const { user, accessToken } = res.data.data;
       dispatch(Login({ user, accessToken }));
       localStorage.setItem("user", JSON.stringify({ ...user, accessToken }));
       toast.success("Đăng nhập thành công!");

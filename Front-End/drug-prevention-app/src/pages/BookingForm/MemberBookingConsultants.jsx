@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
+=======
+import { AnimatePresence, motion } from "framer-motion";
+>>>>>>> 1d3daaf21f81c84aa4d5e7279f0c0da94b85a243
 import {
   CalendarDays,
   Users,
@@ -216,7 +220,7 @@ const MemberBookingConsultants = () => {
         redirectTo="/login"
       />
       {!showLoginPopup && (
-        <div className="min-h-screen flex justify-center items-start p-4">
+        <div className=" flex justify-center items-start p-4">
           <div className="w-full max-w-3xl bg-white/50 backdrop-blur rounded-3xl shadow-xl p-6 md:p-10">
             <h2 className="text-2xl md:text-3xl font-bold text-center text-[#004b8d] mb-6">
               Đặt Lịch Tư Vấn

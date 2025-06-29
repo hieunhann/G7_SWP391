@@ -300,7 +300,7 @@ const BookedView = () => {
         redirectTo="/login"
       />
       {error !== "Hãy đăng nhập để xem lịch hẹn của bạn nhé!!!" && (
-        <div className="container py-4">
+        <div className="container pt-4 pb-5 mb-4">
           <div
             style={{
               display: "flex",
