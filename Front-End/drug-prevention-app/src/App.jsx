@@ -16,7 +16,7 @@ import MemberBookingConsultants from "./pages/BookingForm/MemberBookingConsultan
 import UserProfile from "./pages/UserProfile/UserProfile";
 import Courses from "./pages/Course/Courses";
 import DetailsCourse from "./pages/Course/DetailsCourse";
-import MemberBookedConsultations from "./pages/BookingForm/MemberBookedConsultations";
+import BookedView from "./pages/BookingForm/BookedView";
 import FeedbackCourse from "./pages/Course/FeedbackCourse";
 import BlogList from "./pages/Blogs/BlogList";
 import BlogDetail from "./pages/Blogs/BlogDetail";
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
   { path: "/UserProfile", element: <UserProfile /> },
   { path: "/Courses", element: <Courses /> },
   { path: "/Courses/lesson/:id", element: <DetailsCourse /> },
-  { path: "/booking-router", element: <MemberBookedConsultations /> },
+  { path: "/booked", element: <BookedView /> },
   { path: "/Courses/lesson/:id/feedback", element: <FeedbackCourse /> },
   { path: "/blogs", element: <BlogList /> },
   { path: "/blog/:id", element: <BlogDetail /> },
