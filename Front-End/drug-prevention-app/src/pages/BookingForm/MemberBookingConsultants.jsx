@@ -1,162 +1,171 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { CalendarDays, Users, Clock, StickyNote, CheckCircle } from "lucide-react";
 import Header from "../../components/Header/Header";
 import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
 import api from "../../Axios/Axios";
 import { toast } from "react-toastify";
 
-const allTimeSlots = [
-  "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-  "13:00", "13:30", "14:00", "14:30", "15:00", "15:30"
-];
+const MORNING_SLOTS = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30"];
+const AFTERNOON_SLOTS = ["13:00", "13:30", "14:00", "14:30", "15:00", "15:30"];
+const TIME_SLOTS = [...MORNING_SLOTS, ...AFTERNOON_SLOTS];
 
-const toMinutes = (timeStr) => {
-  const [h, m] = timeStr.split(":").map(Number);
+const toMinutes = (t) => {
+  const [h, m] = t.split(":").map(Number);
   return h * 60 + m;
 };
 
-const getVietnameseDayOfWeek = (dateStr) => {
-  const days = [
-    "Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư",
-    "Thứ Năm", "Thứ Sáu", "Thứ Bảy"
-  ];
-  const d = new Date(dateStr);
-  return days[d.getDay()];
-};
+
+const stepLabels = [
+  { icon: CalendarDays, label: "Chọn ngày" },
+  { icon: Users, label: "Chuyên viên" },
+  { icon: Clock, label: "Khung giờ" },
+  { icon: StickyNote, label: "Ghi chú" },
+  { icon: CheckCircle, label: "Xác nhận" }
+];
 
 const MemberBookingConsultants = () => {
   const navigate = useNavigate();
+  const [step, setStep] = useState(1);
   const [selectedDate, setSelectedDate] = useState("");
-  const [availableConsultants, setAvailableConsultants] = useState([]);
-  const [selectedConsultant, setSelectedConsultant] = useState("");
-  const [bookedSlots, setBookedSlots] = useState([]);
+  const [consultants, setConsultants] = useState([]);
+  const [selectedConsultant, setSelectedConsultant] = useState(null);
   const [workingSlots, setWorkingSlots] = useState([]);
+  const [bookedSlots, setBookedSlots] = useState([]);
   const [selectedTime, setSelectedTime] = useState("");
   const [notes, setNotes] = useState("");
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
-  const todayStr = new Date().toISOString().split("T")[0];
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const userId = user?.id;
+  const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "null");
-    const userId = user?.id;
+    if (!userId) setShowLoginPopup(true);
+  }, [userId]);
 
-    if (!userId) {
-      setShowLoginPopup(true);
-      return;
-    }
-
-    const fetchAvailableConsultants = async () => {
-      if (!selectedDate) return setAvailableConsultants([]);
-
-      const dayOfWeek = getVietnameseDayOfWeek(selectedDate);
-
+  useEffect(() => {
+    const fetchConsultants = async () => {
+      if (!selectedDate || !userId) return;
       try {
-        const res = await fetch(`http://localhost:5002/Schedule?dayOfWeek=${encodeURIComponent(dayOfWeek)}`);
-        const schedules = await res.json();
-        const consultantIds = [...new Set(schedules.map(s => s.consultantId))];
-
-        const usersRes = await fetch(`http://localhost:5002/User`);
-        const users = await usersRes.json();
-        const consultants = users.filter(u => consultantIds.includes(String(u.id)));
-
-        setAvailableConsultants(consultants);
-      } catch (err) {
-        console.error("Không thể tải danh sách tư vấn viên:", err);
-        toast.error("Lỗi khi tải danh sách tư vấn viên");
-        setAvailableConsultants([]);
+        const res = await api.get(`/getConsultantByDay/${selectedDate}`);
+        const raw = res.data.data || [];
+        const unique = Array.from(new Map(raw.map(c => [c.consultantId, c])).values());
+        const formatted = unique.map((c) => ({
+          id: c.consultantId,
+          fullName: `${c.lastName} ${c.firstName}`,
+          avatar: c.avatar || "https://th.bing.com/th/id/OIP.docqTxMiIrutR7inz9A_RgHaLH?w=121&h=181&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+        }));
+        setConsultants(formatted);
+      } catch {
+        toast.error("Không thể tải tư vấn viên");
+        setConsultants([]);
       }
-
-      setSelectedConsultant("");
-      setSelectedTime("");
-      setBookedSlots([]);
+      setSelectedConsultant(null);
       setWorkingSlots([]);
+      setBookedSlots([]);
+      setSelectedTime("");
     };
-
-    fetchAvailableConsultants();
+    fetchConsultants();
   }, [selectedDate]);
 
   useEffect(() => {
     const fetchSlots = async () => {
       if (!selectedConsultant || !selectedDate) return;
-
-      const dayOfWeek = getVietnameseDayOfWeek(selectedDate);
-
       try {
-        const bookingsRes = await fetch(`http://localhost:5002/Bookings?consultantId=${selectedConsultant}`);
-        const bookings = await bookingsRes.json();
-        const booked = bookings
-          .filter(b => b.bookingTime.startsWith(selectedDate))
-          .map(b => b.bookingTime.substring(11, 16));
+        const bookings = await api.get("/bookings/findAllBookings");
+        const booked = bookings.data.data
+          .filter((b) => b.consultantId === selectedConsultant && b.bookingTime.startsWith(selectedDate))
+          .map((b) => b.bookingTime.substring(11, 16));
         setBookedSlots(booked);
 
-        const scheduleRes = await fetch(`http://localhost:5002/Schedule?consultantId=${selectedConsultant}&dayOfWeek=${encodeURIComponent(dayOfWeek)}`);
-        const schedule = await scheduleRes.json();
+        const res = await api.get(`/getScheduleByConsultantId/${selectedConsultant}`);
+        const schedules = res.data.data.filter(s => s.day.slice(0, 10) === selectedDate);
 
-        if (schedule.length > 0) {
-          const { startTime, endTime } = schedule[0];
-          const start = startTime.substring(0, 5);
-          const end = endTime.substring(0, 5);
-
-          const validSlots = allTimeSlots.filter(slot => {
-            const mins = toMinutes(slot);
-            return mins >= toMinutes(start) && mins < toMinutes(end);
+        let slotSet = new Set();
+        schedules.forEach(({ startTime, endTime }) => {
+          TIME_SLOTS.forEach((t) => {
+            const mins = toMinutes(t);
+            if (mins >= toMinutes(startTime) && mins <= toMinutes(endTime)) slotSet.add(t);
           });
+        });
 
-          setWorkingSlots(validSlots);
-        } else {
-          setWorkingSlots([]);
-        }
-      } catch (err) {
-        console.error("Lỗi tải lịch làm việc hoặc đặt lịch:", err);
-        toast.error("Lỗi khi tải dữ liệu ca làm việc");
+        setWorkingSlots([...slotSet]);
+      } catch {
+        toast.error("Lỗi tải slot");
         setBookedSlots([]);
         setWorkingSlots([]);
       }
-
-      setSelectedTime("");
     };
-
     fetchSlots();
   }, [selectedConsultant, selectedDate]);
 
-  const handleSubmit = async (e) => {
+  const handleBooking = async (e) => {
     e.preventDefault();
-    if (!selectedDate || !selectedTime || !selectedConsultant) {
-      toast.error("Vui lòng chọn ngày, tư vấn viên và giờ.");
-      return;
-    }
-
-    const bookingTime = `${selectedDate}T${selectedTime}:00`;
-
+    const payload = {
+      memberId: userId,
+      consultantId: selectedConsultant,
+      bookingTime: new Date(`${selectedDate}T${selectedTime}:00`).toISOString(),
+      notes,
+      status: "Chờ xác nhận",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
     try {
-      const res = await fetch("http://localhost:5002/Bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          memberId: JSON.parse(localStorage.getItem("user")).id,
-          consultantId: selectedConsultant,
-          bookingTime,
-          notes,
-          status: "Chờ xác nhận",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        })
-      });
-
-      if (res.ok) {
-        toast.success(`Đặt lịch thành công lúc ${selectedTime}`);
-        setBookedSlots(prev => [...prev, selectedTime]);
-        setSelectedTime("");
-        setNotes("");
-      } else {
-        toast.error("Đặt lịch thất bại. Vui lòng thử lại.");
-      }
-    } catch (err) {
-      console.error("Lỗi khi đặt lịch:", err);
-      toast.error("Có lỗi xảy ra khi đặt lịch.");
+      await api.post("/bookings/", payload);
+      toast.success(`Đặt lịch thành công lúc ${selectedTime}`);
+      setStep(1);
+      setSelectedDate("");
+      setSelectedConsultant(null);
+      setSelectedTime("");
+      setNotes("");
+    } catch {
+      toast.error("Đặt lịch thất bại");
     }
   };
+
+  const renderTimeSlots = (slots, title) => (
+    <div className="mb-4">
+      <h4 className="text-sm font-medium text-gray-700 mb-1">{title}</h4>
+      <div className="flex flex-wrap gap-2">
+        {slots.map((slot) => {
+          const isDisabled = !workingSlots.includes(slot) || bookedSlots.includes(slot);
+          return (
+            <button
+              key={slot}
+              type="button"
+              disabled={isDisabled}
+              onClick={() => setSelectedTime(slot)}
+              className={`px-4 py-2 rounded-xl border text-sm shadow-sm transition-all duration-150 ease-in-out ${
+                isDisabled
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : selectedTime === slot
+                  ? "bg-blue-600 text-white border-blue-600"
+                  : "bg-white text-blue-600 border-blue-300 hover:bg-blue-50 hover:border-blue-500"
+              }`}
+            >
+              {slot}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+
+  const StepWrapper = ({ children }) => (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={step}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.4 }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
 
   return (
     <>
@@ -164,132 +173,136 @@ const MemberBookingConsultants = () => {
       <NotifyLogin
         show={showLoginPopup}
         onCancel={() => navigate("/")}
-        message="Hãy đăng nhập để có thể đặt lịch tư vấn nhé!!!"
+        message="Hãy đăng nhập để đặt lịch!"
         cancelText="Hủy"
-        confirmText="Tiếp tục"
+        confirmText="Đăng nhập"
         redirectTo="/login"
       />
-
       {!showLoginPopup && (
-        <div className="container mt-5 mb-5 d-flex justify-content-center">
-          <div className="card shadow p-5" style={{ maxWidth: "700px", width: "100%" }}>
-            <h2 className="text-center mb-4" style={{ color: "#004b8d" }}>Đặt Lịch Tư Vấn</h2>
+        <div className="min-h-screen flex justify-center items-start p-4">
+          <div className="w-full max-w-3xl bg-white/50 backdrop-blur rounded-3xl shadow-xl p-6 md:p-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-[#004b8d] mb-6">Đặt Lịch Tư Vấn</h2>
 
-            <form onSubmit={handleSubmit} className="d-flex flex-column gap-4">
-              <div>
-                <label className="form-label" style={{ color: "#004b8d" }}>Chọn ngày:</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  value={selectedDate}
-                  min={todayStr}
-                  onChange={e => setSelectedDate(e.target.value)}
-                  required
-                />
-              </div>
+            {/* Step Indicator */}
+            <div className="flex justify-between items-center mb-6 text-sm font-medium">
+              {stepLabels.map(({ icon: Icon, label }, i) => (
+                <div
+                  key={i}
+                  className={`flex-1 text-center py-2 px-1 rounded-full mx-1 flex flex-col items-center gap-1 ${
+                    step === i + 1 ? "bg-[#004b8d] text-white" : "bg-gray-200 text-gray-600"
+                  }`}
+                >
+                  <Icon size={18} />
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
 
-              {selectedDate && (
-                <div>
-                  <label className="form-label" style={{ color: "#004b8d" }}>Chọn tư vấn viên (đang làm việc):</label>
-                  <div className="row g-3 justify-content-center">
-                    {availableConsultants.map(c => (
-                      <div
-                        key={c.id}
-                        className={`col-6 col-md-4 text-center`}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setSelectedConsultant(c.id)}
-                      >
+            <form onSubmit={handleBooking} className="space-y-6">
+              <StepWrapper>
+                {step === 1 && (
+                  <div>
+                    <label className="block font-semibold text-[#004b8d] mb-1">Chọn ngày:</label>
+                    <input
+                      type="date"
+                      className="w-full border border-blue-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      min={today}
+                      value={selectedDate}
+                      onChange={(e) => setSelectedDate(e.target.value)}
+                    />
+                  </div>
+                )}
+
+                {step === 2 && (
+                  <div>
+                    <label className="block font-semibold text-[#004b8d] mb-2">Chọn chuyên viên:</label>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {consultants.map((c) => (
                         <div
-                          className={`border rounded p-3 h-100 d-flex flex-column align-items-center justify-content-center ${selectedConsultant === c.id ? "border-primary" : "border-transparent"}`}
-                          style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.1)", transition: "border-color 0.3s" }}
+                          key={c.id}
+                          onClick={() => setSelectedConsultant(c.id)}
+                          className={`p-3 rounded-2xl border cursor-pointer flex flex-col items-center gap-2 transition ${
+                            selectedConsultant === c.id
+                              ? "border-blue-600 bg-blue-50 shadow-md"
+                              : "border-gray-300 hover:border-blue-400 hover:shadow-sm"
+                          }`}
                         >
                           <img
-                            src={c.avatar || "/avatars/default.jpg"}
-                            alt={c.fullname}
-                            className="rounded-circle mb-3"
-                            width="70"
-                            height="70"
-                            style={{ objectFit: "cover" }}
+                            src={c.avatar}
+                            alt="avatar"
+                            className="w-16 h-16 rounded-full object-cover"
                           />
-                          <div className="fw-semibold text-primary" style={{ wordBreak: "break-word" }}>
-                            {c.fullname}
-                          </div>
+                          <p className="text-blue-700 font-medium text-sm text-center">{c.fullName}</p>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {selectedConsultant && (
-                <div>
-                  <label className="form-label" style={{ color: "#004b8d" }}>Chọn thời gian:</label>
-
-                  <div className="d-flex justify-content-center gap-2 mb-3">
-                    {allTimeSlots
-                      .filter(slot => slot >= "09:00" && slot <= "11:30")
-                      .map(slot => {
-                        const notWorking = !workingSlots.includes(slot);
-                        const alreadyBooked = bookedSlots.includes(slot);
-                        const disabled = notWorking || alreadyBooked;
-
-                        return (
-                          <button
-                            key={slot}
-                            type="button"
-                            className={`btn ${disabled ? "btn-secondary" : selectedTime === slot ? "btn-primary" : "btn-outline-primary"} btn-sm`}
-                            disabled={disabled}
-                            onClick={() => setSelectedTime(slot)}
-                            style={{ minWidth: "60px" }}
-                          >
-                            {slot}
-                          </button>
-                        );
-                      })}
+                {step === 3 && (
+                  <div>
+                    <label className="block font-semibold text-[#004b8d] mb-2">Chọn khung giờ:</label>
+                    {renderTimeSlots(MORNING_SLOTS, "Buổi sáng (9h - 11h30)")}
+                    {renderTimeSlots(AFTERNOON_SLOTS, "Buổi chiều (13h - 15h30)")}
                   </div>
+                )}
 
-                  <div className="d-flex justify-content-center gap-2">
-                    {allTimeSlots
-                      .filter(slot => slot >= "13:00" && slot <= "15:30")
-                      .map(slot => {
-                        const notWorking = !workingSlots.includes(slot);
-                        const alreadyBooked = bookedSlots.includes(slot);
-                        const disabled = notWorking || alreadyBooked;
-
-                        return (
-                          <button
-                            key={slot}
-                            type="button"
-                            className={`btn ${disabled ? "btn-secondary" : selectedTime === slot ? "btn-primary" : "btn-outline-primary"} btn-sm`}
-                            disabled={disabled}
-                            onClick={() => setSelectedTime(slot)}
-                            style={{ minWidth: "60px" }}
-                          >
-                            {slot}
-                          </button>
-                        );
-                      })}
+                {step === 4 && (
+                  <div>
+                    <label className="block font-semibold text-[#004b8d] mb-1">Ghi chú:</label>
+                    <textarea
+                      rows="3"
+                      placeholder="Nhập ghi chú..."
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      className="w-full border border-blue-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    />
                   </div>
-                </div>
-              )}
+                )}
 
-              <div>
-                <label className="form-label" style={{ color: "#004b8d" }}>Ghi chú thêm:</label>
-                <textarea
-                  className="form-control"
-                  rows="3"
-                  placeholder="Nhập ghi chú nếu có..."
-                  value={notes}
-                  onChange={e => setNotes(e.target.value)}
-                />
+                {step === 5 && (
+                  <div className="text-sm space-y-2">
+                    <p><strong>Ngày:</strong> {selectedDate}</p>
+                    <p><strong>Chuyên viên:</strong> {consultants.find(c => c.id === selectedConsultant)?.fullName}</p>
+                    <p><strong>Khung giờ:</strong> {selectedTime}</p>
+                    <p><strong>Ghi chú:</strong> {notes || "Không có"}</p>
+                  </div>
+                )}
+              </StepWrapper>
+
+              <div className="flex justify-between gap-4">
+                {step > 1 && (
+                  <button
+                    type="button"
+                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-xl"
+                    onClick={() => setStep(step - 1)}
+                  >
+                    Quay lại
+                  </button>
+                )}
+                {step < 5 && (
+                  <button
+                    type="button"
+                    className="flex-1 bg-gradient-to-r from-[#004b8d] to-[#0070cc] text-white font-semibold py-2 px-4 rounded-xl hover:opacity-90"
+                    onClick={() => setStep(step + 1)}
+                    disabled={
+                      (step === 1 && !selectedDate) ||
+                      (step === 2 && !selectedConsultant) ||
+                      (step === 3 && !selectedTime)
+                    }
+                  >
+                    Tiếp theo
+                  </button>
+                )}
+                {step === 5 && (
+                  <button
+                    type="submit"
+                    className="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold py-2 px-4 rounded-xl hover:opacity-90"
+                  >
+                    Xác nhận
+                  </button>
+                )}
               </div>
-
-              <button
-                type="submit"
-                className="btn btn-outline-primary w-100 mt-2"
-              >
-                Xác nhận đặt lịch
-              </button>
             </form>
           </div>
         </div>
