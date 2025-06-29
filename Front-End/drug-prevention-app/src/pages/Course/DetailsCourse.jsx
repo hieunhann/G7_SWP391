@@ -1,32 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
+import NotifyLogin from "../../components/Notify/NotifyLogin";
 import Header from "../../components/Header/Header";
 import api from "../../Axios/Axios";
+import WelcomePopup from "../../components/Notify/NotifyWelcome";
 
 const DetailsCourse = () => {
   const { id } = useParams();
-  const [course, setCourse] = useState(null);
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
-  // Tính tuổi từ ngày sinh
+  const [course, setCourse] = useState(null);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
+
   const calculateAge = (dob) => {
-  if (!dob) return 0;
-  const birthDate = new Date(dob); // chuẩn ISO format yyyy-MM-dd
-  const today = new Date();
+    if (!dob) return 0;
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
 
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
-  }
-
-  return age;
-};
-
-
-  // Trích số tuổi từ "5+", "12+", "18+"
   const extractAge = (ageStr) => {
     if (!ageStr) return 0;
     const match = ageStr.match(/^(\d+)\+/);
@@ -34,8 +33,6 @@ const DetailsCourse = () => {
   };
 
   const userAge = user?.dateOfBirth ? calculateAge(user.dateOfBirth) : 0;
-  console.log("Ngày sinh:", user?.dateOfBirth);
-  console.log("Tuổi:", userAge);
 
   useEffect(() => {
     if (!user || !user.id || user.role !== "MEMBER") {
@@ -43,12 +40,11 @@ const DetailsCourse = () => {
     }
   }, []);
 
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
-
   useEffect(() => {
     api.get("/course/getAllCourse").then((res) => {
       const found = res.data.data.find((c) => String(c.id) === String(id));
       setCourse(found);
+      setShowWelcome(true);
     });
   }, [id]);
 
@@ -64,7 +60,10 @@ const DetailsCourse = () => {
     return url;
   };
 
-  if (!user || !user.id || user.role !== "MEMBER") {
+  const requiredAge = extractAge(course?.ageGroup?.age);
+  const underAge = userAge < requiredAge;
+
+  if (showLoginPopup) {
     return (
       <NotifyLogin
         show={true}
@@ -83,14 +82,11 @@ const DetailsCourse = () => {
 
   if (!course) {
     return (
-      <div className="container py-5 text-center">
-        <div className="spinner-border text-info" role="status"></div>
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
       </div>
     );
   }
-
-  const requiredAge = extractAge(course?.ageGroup?.age);
-  const underAge = userAge < requiredAge;
 
   if (underAge) {
     return (
@@ -105,90 +101,64 @@ const DetailsCourse = () => {
     );
   }
 
+  if (showWelcome) {
+    return (
+      <WelcomePopup
+        courseName={course.name}
+        onContinue={() => setShowWelcome(false)}
+      />
+    );
+  }
+
   return (
     <>
       <Header />
-      <div className="min-vh-100 py-4" style={{ background: "#f8fafc" }}>
-        <div className="container">
-          <nav
-            style={{ "--bs-breadcrumb-divider": "'>'" }}
-            aria-label="breadcrumb"
-          >
-            <ol className="breadcrumb bg-transparent px-0 mb-2">
-              <li className="breadcrumb-item">
-                <Link
-                  to="/Courses"
-                  className="text-decoration-none"
-                  style={{ color: "#00838f" }}
-                >
+      <div className="min-h-screen py-8 px-4 bg-gray-100">
+        <div className="max-w-4xl mx-auto">
+          <nav className="text-sm text-gray-600 mb-4">
+            <ol className="flex space-x-2">
+              <li>
+                <Link to="/Courses" className="text-teal-600 font-semibold">
                   KHÓA HỌC
                 </Link>
               </li>
-              <li
-                className="breadcrumb-item active"
-                aria-current="page"
-                style={{ color: "#222", fontWeight: 600 }}
-              >
+              <li>/</li>
+              <li className="font-bold text-gray-900">
                 {course.name?.toUpperCase()}
               </li>
             </ol>
           </nav>
 
-          <div className="mb-4 text-center">
-            <h2
-              style={{
-                fontSize: "2rem",
-                fontWeight: 700,
-                color: "#00838f",
-                fontStyle: "italic",
-              }}
-            >
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-teal-700 italic drop-shadow-md">
               {course.name}
             </h2>
           </div>
 
-          {/* Video */}
-          <div className="d-flex justify-content-center mb-4 flex-column align-items-center">
+          <div className="flex justify-center mb-6">
             {course.videoUrl ? (
-              <div style={{ maxWidth: 700, width: "100%" }}>
+              <div className="w-full max-w-2xl">
                 <iframe
                   src={getEmbedUrl(course.videoUrl)}
                   title={course.name}
-                  width="700"
-                  height="400"
+                  className="w-full h-[400px] rounded-xl border-2 border-teal-200 shadow-lg"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
-                  style={{ borderRadius: "8px", border: "2px solid #b2dfdb" }}
                 ></iframe>
               </div>
             ) : (
-              <div
-                style={{
-                  width: "1000px",
-                  height: "562px",
-                  background: "#e0e0e0",
-                  borderRadius: "8px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#888",
-                  fontSize: "1.2rem",
-                  border: "2px solid #b2dfdb",
-                }}
-              >
+              <div className="w-full max-w-2xl h-[400px] bg-gray-200 flex items-center justify-center rounded-xl border-2 border-teal-200 text-gray-500">
                 Video đang được cập nhật...
               </div>
             )}
           </div>
 
-          {/* Nút kiểm tra (để sau) */}
-          <div className="text-center mt-3">
+          <div className="text-center mt-6">
             <button
-              className="btn btn-outline-info"
-              disabled
-              title="Tính năng bài kiểm tra sẽ được cập nhật sau"
+              onClick={() => navigate(`/Courses/lesson/${id}`)}
+              className="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-6 rounded-xl transition duration-300 shadow-md"
             >
-              Bài kiểm tra (sắp có)
+              Tiếp tục học
             </button>
           </div>
         </div>
