@@ -9,14 +9,21 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    try {
-      const userData = JSON.parse(localStorage.getItem("user"));
-      const token = userData?.accessToken;
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
+    // Lấy accessToken từ localStorage key 'user'
+    let token = null;
+    const userStr = localStorage.getItem("user");
+    accessToken = localStorage.getItem("access_token");
+
+    if (userStr) {
+      try {
+        const userObj = JSON.parse(userStr);
+        token = userObj.accessToken || accessToken;
+      } catch (e) {
+        token = null;
       }
-    } catch (error) {
-      console.error("Lỗi khi lấy token:", error);
+    }
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },
