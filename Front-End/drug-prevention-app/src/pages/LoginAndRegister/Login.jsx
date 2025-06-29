@@ -21,10 +21,12 @@ const LoginPage = () => {
 
     try {
       const res = await api.post("/auth/login", { username, password });
-      const { user, accessToken } = res.data.data;
 
+      const { user, accessToken } = res.data.data;
       dispatch(Login({ user, accessToken }));
-      localStorage.setItem("user", JSON.stringify(userData));
+
+
+      localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("access_token", accessToken); // Bổ sung lưu token riêng để Axios tự động lấy
       toast.success("Đăng nhập thành công!");
       navigate("/");

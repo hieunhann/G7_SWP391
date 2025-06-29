@@ -12,12 +12,11 @@ api.interceptors.request.use(
     // Lấy accessToken từ localStorage key 'user'
     let token = null;
     const userStr = localStorage.getItem("user");
-    accessToken = localStorage.getItem("access_token");
     
     if (userStr) {
       try {
         const userObj = JSON.parse(userStr);
-        token = userObj.accessToken || accessToken;
+        token = userObj.accessToken || null;
       } catch (e) {
         token = null;
       }

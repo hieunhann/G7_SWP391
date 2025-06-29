@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { CalendarDays, Users, Clock, StickyNote, CheckCircle } from "lucide-react";
+import {
+  CalendarDays,
+  Users,
+  Clock,
+  StickyNote,
+  CheckCircle,
+} from "lucide-react";
 import Header from "../../components/Header/Header";
 import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
 import api from "../../Axios/Axios";
@@ -16,13 +22,12 @@ const toMinutes = (t) => {
   return h * 60 + m;
 };
 
-
 const stepLabels = [
   { icon: CalendarDays, label: "Chọn ngày" },
   { icon: Users, label: "Chuyên viên" },
   { icon: Clock, label: "Khung giờ" },
   { icon: StickyNote, label: "Ghi chú" },
-  { icon: CheckCircle, label: "Xác nhận" }
+  { icon: CheckCircle, label: "Xác nhận" },
 ];
 
 const MemberBookingConsultants = () => {
@@ -51,11 +56,15 @@ const MemberBookingConsultants = () => {
       try {
         const res = await api.get(`/getConsultantByDay/${selectedDate}`);
         const raw = res.data.data || [];
-        const unique = Array.from(new Map(raw.map(c => [c.consultantId, c])).values());
+        const unique = Array.from(
+          new Map(raw.map((c) => [c.consultantId, c])).values()
+        );
         const formatted = unique.map((c) => ({
           id: c.consultantId,
           fullName: `${c.lastName} ${c.firstName}`,
-          avatar: c.avatar || "https://th.bing.com/th/id/OIP.docqTxMiIrutR7inz9A_RgHaLH?w=121&h=181&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+          avatar:
+            c.avatar ||
+            "https://th.bing.com/th/id/OIP.docqTxMiIrutR7inz9A_RgHaLH?w=121&h=181&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3",
         }));
         setConsultants(formatted);
       } catch {
@@ -76,18 +85,27 @@ const MemberBookingConsultants = () => {
       try {
         const bookings = await api.get("/bookings/findAllBookings");
         const booked = bookings.data.data
-          .filter((b) => b.consultantId === selectedConsultant && b.bookingTime.startsWith(selectedDate))
+          .filter(
+            (b) =>
+              b.consultantId === selectedConsultant &&
+              b.bookingTime.startsWith(selectedDate)
+          )
           .map((b) => b.bookingTime.substring(11, 16));
         setBookedSlots(booked);
 
-        const res = await api.get(`/getScheduleByConsultantId/${selectedConsultant}`);
-        const schedules = res.data.data.filter(s => s.day.slice(0, 10) === selectedDate);
+        const res = await api.get(
+          `/getScheduleByConsultantId/${selectedConsultant}`
+        );
+        const schedules = res.data.data.filter(
+          (s) => s.day.slice(0, 10) === selectedDate
+        );
 
         let slotSet = new Set();
         schedules.forEach(({ startTime, endTime }) => {
           TIME_SLOTS.forEach((t) => {
             const mins = toMinutes(t);
-            if (mins >= toMinutes(startTime) && mins <= toMinutes(endTime)) slotSet.add(t);
+            if (mins >= toMinutes(startTime) && mins <= toMinutes(endTime))
+              slotSet.add(t);
           });
         });
 
@@ -110,7 +128,7 @@ const MemberBookingConsultants = () => {
       notes,
       status: "Chờ xác nhận",
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     };
     try {
       await api.post("/bookings/", payload);
@@ -130,7 +148,8 @@ const MemberBookingConsultants = () => {
       <h4 className="text-sm font-medium text-gray-700 mb-1">{title}</h4>
       <div className="flex flex-wrap gap-2">
         {slots.map((slot) => {
-          const isDisabled = !workingSlots.includes(slot) || bookedSlots.includes(slot);
+          const isDisabled =
+            !workingSlots.includes(slot) || bookedSlots.includes(slot);
           return (
             <button
               key={slot}
@@ -179,9 +198,11 @@ const MemberBookingConsultants = () => {
         redirectTo="/login"
       />
       {!showLoginPopup && (
-        <div className="min-h-screen flex justify-center items-start p-4">
+        <div className=" flex justify-center items-start p-4">
           <div className="w-full max-w-3xl bg-white/50 backdrop-blur rounded-3xl shadow-xl p-6 md:p-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-center text-[#004b8d] mb-6">Đặt Lịch Tư Vấn</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-[#004b8d] mb-6">
+              Đặt Lịch Tư Vấn
+            </h2>
 
             {/* Step Indicator */}
             <div className="flex justify-between items-center mb-6 text-sm font-medium">
@@ -189,7 +210,9 @@ const MemberBookingConsultants = () => {
                 <div
                   key={i}
                   className={`flex-1 text-center py-2 px-1 rounded-full mx-1 flex flex-col items-center gap-1 ${
-                    step === i + 1 ? "bg-[#004b8d] text-white" : "bg-gray-200 text-gray-600"
+                    step === i + 1
+                      ? "bg-[#004b8d] text-white"
+                      : "bg-gray-200 text-gray-600"
                   }`}
                 >
                   <Icon size={18} />
@@ -202,7 +225,9 @@ const MemberBookingConsultants = () => {
               <StepWrapper>
                 {step === 1 && (
                   <div>
-                    <label className="block font-semibold text-[#004b8d] mb-1">Chọn ngày:</label>
+                    <label className="block font-semibold text-[#004b8d] mb-1">
+                      Chọn ngày:
+                    </label>
                     <input
                       type="date"
                       className="w-full border border-blue-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -215,7 +240,9 @@ const MemberBookingConsultants = () => {
 
                 {step === 2 && (
                   <div>
-                    <label className="block font-semibold text-[#004b8d] mb-2">Chọn chuyên viên:</label>
+                    <label className="block font-semibold text-[#004b8d] mb-2">
+                      Chọn chuyên viên:
+                    </label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       {consultants.map((c) => (
                         <div
@@ -232,7 +259,9 @@ const MemberBookingConsultants = () => {
                             alt="avatar"
                             className="w-16 h-16 rounded-full object-cover"
                           />
-                          <p className="text-blue-700 font-medium text-sm text-center">{c.fullName}</p>
+                          <p className="text-blue-700 font-medium text-sm text-center">
+                            {c.fullName}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -241,15 +270,22 @@ const MemberBookingConsultants = () => {
 
                 {step === 3 && (
                   <div>
-                    <label className="block font-semibold text-[#004b8d] mb-2">Chọn khung giờ:</label>
+                    <label className="block font-semibold text-[#004b8d] mb-2">
+                      Chọn khung giờ:
+                    </label>
                     {renderTimeSlots(MORNING_SLOTS, "Buổi sáng (9h - 11h30)")}
-                    {renderTimeSlots(AFTERNOON_SLOTS, "Buổi chiều (13h - 15h30)")}
+                    {renderTimeSlots(
+                      AFTERNOON_SLOTS,
+                      "Buổi chiều (13h - 15h30)"
+                    )}
                   </div>
                 )}
 
                 {step === 4 && (
                   <div>
-                    <label className="block font-semibold text-[#004b8d] mb-1">Ghi chú:</label>
+                    <label className="block font-semibold text-[#004b8d] mb-1">
+                      Ghi chú:
+                    </label>
                     <textarea
                       rows="3"
                       placeholder="Nhập ghi chú..."
@@ -262,10 +298,22 @@ const MemberBookingConsultants = () => {
 
                 {step === 5 && (
                   <div className="text-sm space-y-2">
-                    <p><strong>Ngày:</strong> {selectedDate}</p>
-                    <p><strong>Chuyên viên:</strong> {consultants.find(c => c.id === selectedConsultant)?.fullName}</p>
-                    <p><strong>Khung giờ:</strong> {selectedTime}</p>
-                    <p><strong>Ghi chú:</strong> {notes || "Không có"}</p>
+                    <p>
+                      <strong>Ngày:</strong> {selectedDate}
+                    </p>
+                    <p>
+                      <strong>Chuyên viên:</strong>{" "}
+                      {
+                        consultants.find((c) => c.id === selectedConsultant)
+                          ?.fullName
+                      }
+                    </p>
+                    <p>
+                      <strong>Khung giờ:</strong> {selectedTime}
+                    </p>
+                    <p>
+                      <strong>Ghi chú:</strong> {notes || "Không có"}
+                    </p>
                   </div>
                 )}
               </StepWrapper>
