@@ -24,7 +24,8 @@ const LoginPage = () => {
       const { user, accessToken } = res.data.data;
 
       dispatch(Login({ user, accessToken }));
-      localStorage.setItem("user", JSON.stringify({ ...user, accessToken }));
+      localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("access_token", accessToken); // Bổ sung lưu token riêng để Axios tự động lấy
       toast.success("Đăng nhập thành công!");
       navigate("/");
     } catch (err) {
