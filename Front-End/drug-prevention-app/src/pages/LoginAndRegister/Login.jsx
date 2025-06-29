@@ -11,6 +11,7 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,15 +22,7 @@ const LoginPage = () => {
 
     try {
       const res = await api.post("/auth/login", { username, password });
-
-      const response = res.data.data; // ✅ Truy cập đúng tầng data
-      const user = response.user;
-      const accessToken = response.accessToken;
-
-      const userData = {
-        ...user,
-        accessToken,
-      };
+      const { user, accessToken } = res.data.data;
 
       dispatch(Login({ user, accessToken }));
       localStorage.setItem("user", JSON.stringify(userData));
@@ -37,137 +30,115 @@ const LoginPage = () => {
       toast.success("Đăng nhập thành công!");
       navigate("/");
     } catch (err) {
-      console.error("Login failed:", err);
       setErrorMsg("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
       toast.error("Sai tài khoản hoặc mật khẩu!");
     }
   };
 
-  const handleGoogleSuccess = (credentialResponse) => {
+  const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const googleData = jwtDecode(credentialResponse.credential);
+      const token = credentialResponse.credential;
+      if (!token) throw new Error("Google token is missing");
 
-      const fullName = googleData.name || "";
-      const firstName = fullName.split(" ")[0] || "";
-      const lastName = fullName.split(" ").slice(1).join(" ") || "";
+      const res = await api.post("/auth/google", { token });
+      const { user, accessToken } = res.data.data;
 
-      const normalizedUser = {
-        id: googleData.sub,
-        firstName,
-        lastName,
-        fullName,
-        email: googleData.email || "",
-        username: googleData.email?.split("@")[0] || "",
-        phoneNumber: "",
-        dateOfBirth: "",
-        password: "",
-        role: "MEMBER",
-        avatar: googleData.picture || "",
-      };
-
-      dispatch(Login(normalizedUser));
-      localStorage.setItem("user", JSON.stringify(normalizedUser));
+      dispatch(Login({ user, accessToken }));
+      localStorage.setItem("user", JSON.stringify({ ...user, accessToken }));
       toast.success("Đăng nhập bằng Google thành công!");
       navigate("/");
     } catch (err) {
-      console.error("Google login error:", err);
-      setErrorMsg("Đăng nhập Google thất bại");
       toast.error("Lỗi đăng nhập Google");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 font-sans">
-      <div className="bg-white w-full max-w-md p-8 rounded-xl shadow-md">
-        <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
-          Drug Use Prevention Support System
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center px-4"
+      style={{
+        backgroundImage:
+          "url('https://png.pngtree.com/thumb_back/fw800/background/20231226/pngtree-elegant-light-green-cannabis-leaf-floral-texture-design-in-a-seamless-image_13909796.png')",
+      }}
+    >
+      <div className="w-full max-w-xl bg-white/30 border border-white/30 shadow-2xl rounded-3xl p-10 text-gray-800">
+        <h2 className="text-3xl font-bold text-center text-[#004b8d] mb-8">
+          Đăng nhập hệ thống
         </h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block mb-1 font-medium text-gray-700"
-            >
-              Tên người dùng
-            </label>
-            <div className="flex items-center border rounded-md overflow-hidden">
-              <span className="px-3 text-blue-800">
-                <i className="bi bi-person" />
-              </span>
-              <input
-                type="text"
-                id="username"
-                className="flex-1 py-2 px-3 focus:outline-none"
-                placeholder="Nhập tên người dùng của bạn"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5 text-base font-medium"
+        >
+          {/* Tên người dùng */}
+          <div>
+            <label className="block mb-1">Tên người dùng</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Nhập tên người dùng"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white/60 
+                         placeholder-gray-600 text-gray-900 focus:outline-none 
+                         focus:ring-2 focus:ring-blue-500"
+              required
+            />
           </div>
 
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block mb-1 font-medium text-gray-700"
+          {/* Mật khẩu */}
+          <div className="relative">
+            <label className="block mb-1">Mật khẩu</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Nhập mật khẩu"
+              className="w-full px-4 py-3 pr-12 rounded-lg border border-gray-300 bg-white/60 
+                         placeholder-gray-600 text-gray-900 focus:outline-none 
+                         focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
             >
-              Mật khẩu
-            </label>
-            <div className="flex items-center border rounded-md overflow-hidden">
-              <span className="px-3 text-blue-800">
-                <i className="bi bi-lock" />
-              </span>
-              <input
-                type="password"
-                id="password"
-                className="flex-1 py-2 px-3 focus:outline-none"
-                placeholder="Nhập mật khẩu của bạn"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
+              <i
+                className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}
+              ></i>
+            </button>
           </div>
 
+          {/* Lỗi đăng nhập */}
           {errorMsg && (
-            <div className="text-red-600 text-sm text-center mb-4">
-              {errorMsg}
-            </div>
+            <div className="text-red-600 text-sm text-center">{errorMsg}</div>
           )}
 
-          <button
-            type="submit"
-            className="w-full bg-blue-800 hover:bg-blue-700 text-white py-2 rounded-md text-lg font-semibold"
-          >
+          {/* Nút đăng nhập */}
+          <button type="submit" className="btn btn-outline-primary w-100 mt-1">
             Đăng nhập
           </button>
         </form>
 
-        <div className="my-4 text-center text-gray-600">Hoặc</div>
-
-        <div className="flex justify-center mb-4">
+        {/* Google */}
+        <div className="my-6 text-center text-gray-700">Hoặc</div>
+        <div className="flex justify-center">
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
-            onError={() => {
-              setErrorMsg("Đăng nhập Google thất bại");
-              toast.error("Lỗi đăng nhập Google");
-            }}
+            onError={() => toast.error("Lỗi đăng nhập Google")}
             locale="vi"
           />
         </div>
 
-        <div className="text-center">
-          <p className="text-sm">
-            Bạn chưa có tài khoản?{" "}
-            <a
-              href="/register"
-              className="text-blue-800 font-semibold hover:underline"
-            >
-              Đăng ký tại đây
-            </a>
-          </p>
-        </div>
+        {/* Đăng ký */}
+        <p className="text-center text-lg mt-6">
+          Bạn chưa có tài khoản?{" "}
+          <a
+            href="/register"
+            className="text-blue-700 font-semibold hover:underline"
+          >
+            Đăng ký tại đây
+          </a>
+        </p>
       </div>
     </div>
   );
