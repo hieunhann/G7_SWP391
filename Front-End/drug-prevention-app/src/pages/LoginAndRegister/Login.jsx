@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 import api from "../../Axios/Axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
@@ -24,7 +25,8 @@ const LoginPage = () => {
       const { user, accessToken } = res.data.data;
 
       dispatch(Login({ user, accessToken }));
-      localStorage.setItem("user", JSON.stringify({ ...user, accessToken }));
+      localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("access_token", accessToken); // Bổ sung lưu token riêng để Axios tự động lấy
       toast.success("Đăng nhập thành công!");
       navigate("/");
     } catch (err) {

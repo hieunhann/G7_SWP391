@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/api/v1",
+  baseURL: "http://localhost:8080/api/v1/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -9,14 +9,23 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    try {
-      const userData = JSON.parse(localStorage.getItem("user"));
-      const token = userData?.accessToken;
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
+    // Lấy accessToken từ localStorage key 'user'
+    let token = null;
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      try {
+        const userObj = JSON.parse(userStr);
+        token = userObj.accessToken || null;
+      } catch (e) {
+        token = null;
       }
-    } catch (error) {
-      console.error("Lỗi khi lấy token:", error);
+    }
+    // Nếu không có thì thử lấy từ 'access_token' (dự phòng)
+    if (!token) {
+      token = localStorage.getItem("access_token");
+    }
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },

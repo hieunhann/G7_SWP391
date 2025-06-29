@@ -30,7 +30,7 @@ const Header = () => {
     { to: "/courses", label: "Khóa Học" },
     { to: "/Surveys", label: "Khảo Sát" },
     { to: "/booking", label: "Đặt Lịch" },
-    { to: "/booking-router", label: "Lịch Của Tôi" },
+    { to: "/booked", label: "Lịch Của Tôi" },
     { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" },
     { to: "/ScheduleManager", label: "Quản Lý Lịch" },
     { to: "/blogs", label: "Blogs" },

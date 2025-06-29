@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../Axios/Axios";
 import Header from "../../components/Header/Header";
 
 const COURSES_PER_PAGE = 4;
 
+const getAllAgeGroups = (courses) => {
+  const groups = new Set();
+  courses.forEach((course) => {
+    if (course.ageGroup) {
+      course.ageGroup.split(",").forEach((g) => groups.add(g.trim()));
+    }
+  });
+  return Array.from(groups);
+};
+
 const Courses = () => {
   const [courses, setCourses] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [ageGroupFilter, setAgeGroupFilter] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +28,7 @@ const Courses = () => {
         console.log("Courses:", res.data);
         setCourses(Array.isArray(res.data.data) ? res.data.data : res.data); // fallback
       })
-      .catch((err) => console.error("Lỗi lấy danh sách khóa học:", err));
+      .catch((err) => console.error("Không thể lấy khóa học:", err));
   }, []);
 
   const allAgeGroups = Array.from(
@@ -30,9 +39,8 @@ const Courses = () => {
 
   const filteredCourses = courses.filter((course) => {
     const matchSearch =
-      course.name?.toLowerCase().includes(search.toLowerCase()) ||
+      course.title?.toLowerCase().includes(search.toLowerCase()) ||
       course.description?.toLowerCase().includes(search.toLowerCase());
-
     const matchAgeGroup =
       !ageGroupFilter ||
       course.ageGroup?.name.toLowerCase() === ageGroupFilter.toLowerCase();
@@ -57,7 +65,7 @@ const Courses = () => {
           Khóa học phòng chống ma túy
         </h2>
 
-        {/* Tìm kiếm + lọc */}
+        {/* Tìm kiếm + bộ lọc độ tuổi: hàng ngang */}
         <div className="d-flex flex-wrap justify-content-center gap-3 mb-4">
           <input
             type="text"
@@ -104,7 +112,7 @@ const Courses = () => {
                 <div className="col-md-3 d-flex justify-content-center">
                   <img
                     src={course.image}
-                    alt={course.name}
+                    alt={course.title}
                     className="img-fluid"
                     style={{
                       maxWidth: 180,
@@ -128,7 +136,7 @@ const Courses = () => {
                         lineHeight: 1.2,
                       }}
                     >
-                      {course.name}
+                      {course.title}
                     </h3>
                     <p
                       className="mb-2"
@@ -160,7 +168,8 @@ const Courses = () => {
                           );
                           if (!user?.id) return navigate("/login");
                           navigate(`/Courses/lesson/${course.id}`);
-                        }}
+                          }
+                        }
                       >
                         Bắt đầu miễn phí{" "}
                         <i
@@ -199,7 +208,7 @@ const Courses = () => {
                       </span>
                       <span>
                         <i className="bi bi-clock me-1"></i>
-                        {course.duration || "N/A"} phút
+                        {course.duration || "N/A"}
                       </span>
                     </div>
                   </div>
@@ -210,7 +219,6 @@ const Courses = () => {
         </div>
 
         {/* Phân trang */}
-        {totalPages > 1 && (
           <nav className="mt-4 d-flex justify-content-center">
             <ul className="pagination">
               <li
@@ -232,14 +240,14 @@ const Courses = () => {
                 >
                   <button
                     className="page-link"
-                    onClick={() => setCurrentPage(i + 1)}
                     style={{
-                      color: currentPage === i + 1 ? "#fff" : "#004b8d",
-                      background: currentPage === i + 1 ? "#004b8d" : "#fff",
+                    color: currentPage === idx + 1 ? "#fff" : "#004b8d",
+                    background: currentPage === idx + 1 ? "#004b8d" : "#fff",
                       borderColor: "#004b8d",
                     }}
+                  onClick={() => setCurrentPage(idx + 1)}
                   >
-                    {i + 1}
+                  {idx + 1}
                   </button>
                 </li>
               ))}
@@ -257,7 +265,6 @@ const Courses = () => {
               </li>
             </ul>
           </nav>
-        )}
       </div>
 
       {/* Bootstrap Icons */}

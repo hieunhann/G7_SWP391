@@ -16,16 +16,15 @@ import MemberBookingConsultants from "./pages/BookingForm/MemberBookingConsultan
 import UserProfile from "./pages/UserProfile/UserProfile";
 import Courses from "./pages/Course/Courses";
 import DetailsCourse from "./pages/Course/DetailsCourse";
-import MemberBookedConsultations from "./pages/BookingForm/MemberBookedConsultations";
+import BookedView from "./pages/BookingForm/BookedView";
 import FeedbackCourse from "./pages/Course/FeedbackCourse";
 import BlogList from "./pages/Blogs/BlogList";
 import BlogDetail from "./pages/Blogs/BlogDetail";
-import CRAFFT from "./pages/Surveys/CRAFFT";
+import CRAFFT from "./pages/Surveys/CRAFFT";                                                      
 import Surveys from "./pages/Surveys/Surveys";
 import ASSIST from "./pages/Surveys/ASSIST";
 import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
 import Footer from "./components/Footer/Footer";
-// import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 
 // Router configuration
 const router = createBrowserRouter([
@@ -39,37 +38,33 @@ const router = createBrowserRouter([
   { path: "/UserProfile", element: <UserProfile /> },
   { path: "/Courses", element: <Courses /> },
   { path: "/Courses/lesson/:id", element: <DetailsCourse /> },
-  { path: "/booking-router", element: <MemberBookedConsultations /> },
+  { path: "/booked", element: <BookedView /> },
   { path: "/Courses/lesson/:id/feedback", element: <FeedbackCourse /> },
   { path: "/blogs", element: <BlogList /> },
   { path: "/blog/:id", element: <BlogDetail /> },
   { path: "/ScheduleManager", element: <ScheduleManager /> },
-    // { path: "/ViewCommunicationPrograms", element: <ViewCommunicationPrograms /> },
-
 ]);
 
 function App() {
   return (
     <GoogleOAuthProvider clientId="632195046938-srur4gsnmg8cnc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <div className="App">
-            <RouterProvider router={router} />
-            <Footer />
-            <>
-              <ToastContainer
-                position="top-right"
-                autoClose={4000}
-                hideProgressBar={false}
-                newestOnTop
-                closeOnClick
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-              />
-            </>
-          </div>
-        </PersistGate>
+      <PersistGate loading = {null} persistor={persistor}>
+        <div className="App">
+          <RouterProvider router={router} />
+          <Footer />
+          <ToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </div>
+       </PersistGate>
       </Provider>
     </GoogleOAuthProvider>
   );
