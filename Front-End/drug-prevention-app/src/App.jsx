@@ -20,6 +20,10 @@ import BookedView from "./pages/BookingForm/BookedView";
 import FeedbackCourse from "./pages/Course/FeedbackCourse";
 import BlogList from "./pages/Blogs/BlogList";
 import BlogDetail from "./pages/Blogs/BlogDetail";
+import EditBlog from "./pages/Blogs/EditBlog";
+import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
+import EventDetail from "./pages/ViewCommunicationPrograms/EventDetail";
+import RegisteredMembers from "./pages/ViewCommunicationPrograms/RegisteredMembers";
 import CRAFFT from "./pages/Surveys/CRAFFT";
 import Surveys from "./pages/Surveys/Surveys";
 import ASSIST from "./pages/Surveys/ASSIST";
@@ -43,7 +47,13 @@ const router = createBrowserRouter([
   { path: "/Courses/lesson/:id/feedback", element: <FeedbackCourse /> },
   { path: "/blogs", element: <BlogList /> },
   { path: "/blog/:id", element: <BlogDetail /> },
+  { path: "/edit-blog/:id", element: <EditBlog /> },
   { path: "/ScheduleManager", element: <ScheduleManager /> },
+  { path: "/viewcommunicationprograms", element: <ViewCommunicationPrograms /> },
+  { path: "/viewcommunicationprograms/:id", element: <ViewCommunicationPrograms /> },
+  { path: "/viewcommunicationprograms", element: <ViewCommunicationPrograms /> },
+  { path: "/event/:id", element: <EventDetail /> },
+  { path: "/registered-members", element: <RegisteredMembers /> },
     // { path: "/ViewCommunicationPrograms", element: <ViewCommunicationPrograms /> },
 
 ]);
