@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-=======
-import { AnimatePresence, motion } from "framer-motion";
->>>>>>> 1d3daaf21f81c84aa4d5e7279f0c0da94b85a243
 import {
   CalendarDays,
   Users,
@@ -16,14 +12,17 @@ import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
 import api from "../../Axios/Axios";
 import { toast } from "react-toastify";
 
+
 const MORNING_SLOTS = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30"];
 const AFTERNOON_SLOTS = ["13:00", "13:30", "14:00", "14:30", "15:00", "15:30"];
 const TIME_SLOTS = [...MORNING_SLOTS, ...AFTERNOON_SLOTS];
+
 
 const toMinutes = (t) => {
   const [h, m] = t.split(":").map(Number);
   return h * 60 + m;
 };
+
 
 const stepLabels = [
   { icon: CalendarDays, label: "Chọn ngày" },
@@ -32,6 +31,7 @@ const stepLabels = [
   { icon: StickyNote, label: "Ghi chú" },
   { icon: CheckCircle, label: "Xác nhận" },
 ];
+
 
 const MemberBookingConsultants = () => {
   const navigate = useNavigate();
@@ -45,13 +45,16 @@ const MemberBookingConsultants = () => {
   const [notes, setNotes] = useState("");
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
+
   const user = JSON.parse(localStorage.getItem("user") || "null");
   const userId = user?.id;
   const today = new Date().toISOString().split("T")[0];
 
+
   useEffect(() => {
     if (!userId) setShowLoginPopup(true);
   }, [userId]);
+
 
   useEffect(() => {
     const fetchConsultants = async () => {
@@ -82,6 +85,7 @@ const MemberBookingConsultants = () => {
     fetchConsultants();
   }, [selectedDate]);
 
+
   useEffect(() => {
     const fetchSlots = async () => {
       if (!selectedConsultant || !selectedDate) return;
@@ -96,12 +100,14 @@ const MemberBookingConsultants = () => {
           .map((b) => b.bookingTime.substring(11, 16));
         setBookedSlots(booked);
 
+
         const res = await api.get(
           `/getScheduleByConsultantId/${selectedConsultant}`
         );
         const schedules = res.data.data.filter(
           (s) => s.day.slice(0, 10) === selectedDate
         );
+
 
         let slotSet = new Set();
         schedules.forEach(({ startTime, endTime }) => {
@@ -112,6 +118,7 @@ const MemberBookingConsultants = () => {
           });
         });
 
+
         setWorkingSlots([...slotSet]);
       } catch {
         toast.error("Lỗi tải slot");
@@ -121,6 +128,7 @@ const MemberBookingConsultants = () => {
     };
     fetchSlots();
   }, [selectedConsultant, selectedDate]);
+
 
   const handleBooking = async (e) => {
     e.preventDefault();
@@ -145,6 +153,7 @@ const MemberBookingConsultants = () => {
       toast.error("Đặt lịch thất bại");
     }
   };
+
 
   const renderTimeSlots = (slots, title) => (
     <div className="mb-4">
@@ -174,6 +183,7 @@ const MemberBookingConsultants = () => {
       </div>
     </div>
   );
+
 
   const handleNextStep = () => {
     switch (step) {
@@ -208,6 +218,7 @@ const MemberBookingConsultants = () => {
     setStep(step + 1);
   };
 
+
   return (
     <>
       <Header />
@@ -220,11 +231,12 @@ const MemberBookingConsultants = () => {
         redirectTo="/login"
       />
       {!showLoginPopup && (
-        <div className=" flex justify-center items-start p-4">
+        <div className="min-h-screen flex justify-center items-start p-4">
           <div className="w-full max-w-3xl bg-white/50 backdrop-blur rounded-3xl shadow-xl p-6 md:p-10">
             <h2 className="text-2xl md:text-3xl font-bold text-center text-[#004b8d] mb-6">
               Đặt Lịch Tư Vấn
             </h2>
+
 
             {/* Step Indicator */}
             <div className="flex justify-between items-center mb-6 text-sm font-medium">
@@ -243,6 +255,7 @@ const MemberBookingConsultants = () => {
               ))}
             </div>
 
+
             <form onSubmit={handleBooking} className="space-y-6">
               {step === 1 && (
                 <div>
@@ -258,6 +271,7 @@ const MemberBookingConsultants = () => {
                   />
                 </div>
               )}
+
 
               {step === 2 && (
                 <div>
@@ -289,6 +303,7 @@ const MemberBookingConsultants = () => {
                 </div>
               )}
 
+
               {step === 3 && (
                 <div>
                   <label className="block font-semibold text-[#004b8d] mb-2">
@@ -298,6 +313,7 @@ const MemberBookingConsultants = () => {
                   {renderTimeSlots(AFTERNOON_SLOTS, "Buổi chiều (13h - 15h30)")}
                 </div>
               )}
+
 
               {step === 4 && (
                 <div>
@@ -313,6 +329,7 @@ const MemberBookingConsultants = () => {
                   />
                 </div>
               )}
+
 
               {step === 5 && (
                 <div className="text-sm space-y-2">
@@ -334,6 +351,7 @@ const MemberBookingConsultants = () => {
                   </p>
                 </div>
               )}
+
 
               <div className="flex justify-between gap-4">
                 {step > 1 && (
@@ -371,4 +389,8 @@ const MemberBookingConsultants = () => {
   );
 };
 
+
 export default MemberBookingConsultants;
+
+
+
