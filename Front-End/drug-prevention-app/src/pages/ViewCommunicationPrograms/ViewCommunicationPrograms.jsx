@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { Card, Button, Modal, ListGroup, Form, Alert, Badge } from "react-bootstrap";
+import { Modal, ListGroup, Form, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "./ViewCommunicationPrograms.css"; // Assuming you have a CSS file for styles
-import Header from "../../components/Header/Header"; // Thêm/chỉnh lại import Header
+import "./ViewCommunicationPrograms.css";
+import Header from "../../components/Header/Header";
+import { FaSearch, FaFilter, FaCalendar, FaMapMarkerAlt, FaUser, FaEye, FaStar, FaComment, FaUsers } from 'react-icons/fa';
+import { Link } from "react-router-dom";
+import { getEvents, getEventFeedbacks, createEventFeedback, createRegistration } from "../../services/api";
 
 const ViewCommunicationPrograms = () => {
   const [events, setEvents] = useState([]);
@@ -14,18 +16,40 @@ const ViewCommunicationPrograms = () => {
   const [newRating, setNewRating] = useState(5);
   const [newComment, setNewComment] = useState("");
   const [registrationMessage, setRegistrationMessage] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
+  const user = JSON.parse(localStorage.getItem('user'));
+  const memberId = user?.id; // hoặc user.memberId
+
+  // Lấy danh sách sự kiện
   useEffect(() => {
-    axios.get("http://localhost:5002/events")
-      .then((res) => setEvents(res.data))
-      .catch((err) => console.error("Lỗi khi tải danh sách chương trình:", err));
+    const fetchEvents = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const res = await getEvents();
+        setEvents(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        setError('Không thể tải danh sách chương trình');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEvents();
   }, []);
 
-  const handleViewDetail = (event) => {
+  // Xem chi tiết sự kiện + feedback
+  const handleViewDetail = async (event) => {
     setSelectedEvent(event);
-    axios.get(`http://localhost:5002/feedback_events?Event_id=${event.ID}`)
-      .then((res) => setFeedbacks(res.data))
-      .catch((err) => console.error("Lỗi khi tải phản hồi:", err));
+    try {
+      const feedbackList = await getEventFeedbacks(event.id);
+      setFeedbacks(feedbackList);
+    } catch (err) {
+      // Optionally handle error
+    }
     setShowModal(true);
     setRegistrationMessage("");
   };
@@ -38,139 +62,198 @@ const ViewCommunicationPrograms = () => {
     setNewRating(5);
   };
 
-  const handleSubmitFeedback = () => {
+  // Gửi feedback mới
+  const handleSubmitFeedback = async () => {
     const newFeedback = {
-      ID: Date.now(),
-      Member_id: 1,
-      Event_id: selectedEvent.ID,
-      Rating: newRating,
-      Comment: newComment
+      memberId: memberId || 1, // fallback if not logged in
+      eventId: selectedEvent.id,
+      rating: newRating,
+      comment: newComment
     };
-
-    axios.post("http://localhost:5002/feedback_events", newFeedback)
-      .then(() => {
-        setFeedbacks([...feedbacks, newFeedback]);
-        setNewComment("");
-        setNewRating(5);
-      })
-      .catch(err => console.error("Lỗi khi gửi phản hồi:", err));
+    try {
+      const res = await createEventFeedback(newFeedback);
+      setFeedbacks([...feedbacks, res]);
+      setNewComment("");
+      setNewRating(5);
+    } catch (err) {
+      // Optionally handle error
+    }
   };
 
-  const handleRegisterEvent = () => {
+  // Đăng ký sự kiện
+  const handleRegisterEvent = async () => {
+    if (!memberId) {
+      setRegistrationMessage("❌ Bạn cần đăng nhập để đăng ký chương trình.");
+      setTimeout(() => setRegistrationMessage(""), 3000);
+      return;
+    }
     const registration = {
-      ID: Date.now(),
-      Member_id: 1,
-      Event_id: selectedEvent.ID
+      memberId,
+      eventId: selectedEvent.id
     };
-
-    axios.post("http://localhost:5002/event_registrations", registration)
-      .then(() => {
-        setRegistrationMessage("✅ Bạn đã đăng ký tham gia chương trình thành công!");
-        setTimeout(() => setRegistrationMessage(""), 3000);
-      })
-      .catch(err => console.error("Lỗi khi đăng ký chương trình:", err));
+    try {
+      await createRegistration(registration);
+      setRegistrationMessage("✅ Bạn đã đăng ký tham gia chương trình thành công!");
+      setTimeout(() => setRegistrationMessage(""), 3000);
+    } catch (err) {
+      setRegistrationMessage("❌ Lỗi khi đăng ký chương trình.");
+      setTimeout(() => setRegistrationMessage(""), 3000);
+    }
   };
 
- return (
-  <>
-   <Header /> {/* Đảm bảo sử dụng đúng component Header */}
-   <div className="min-h-screen w-full bg-light text-dark py-5 px-3 px-md-5">
-    <h2 className="text-center text-primary mb-5 display-4 fw-bold border-bottom pb-3 shadow-sm">
-      <i className="bi bi-globe"></i> Danh sách chương trình cộng đồng
-    </h2>
-    <div className="d-flex flex-wrap justify-content-center gap-4">
-      {events.map((event) => (
-        <Card key={event.ID} className="event-card border border-primary shadow-sm" style={{ maxWidth: "320px" }}>
-          {event.Image && (
-            <Card.Img variant="top" src={event.Image} alt="Hình ảnh chương trình" className="event-image img-fluid" />
-          )}
-          <Card.Body className="bg-white text-dark d-flex flex-column justify-content-between">
-            <div>
-              <Card.Title className="fs-5 fw-bold text-primary d-flex justify-content-between align-items-center">
-                <span className="d-flex align-items-center gap-2">
-                  <i className="bi bi-bullseye"></i> {event.Title}
-                </span>
-                <Badge bg="primary" text="light">
-                  <i className="bi bi-hash"></i> {event.ID}
-                </Badge>
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-secondary">
-                <i className="bi bi-person-circle"></i> {event.Program_Coordinator}
-              </Card.Subtitle>
-              <Card.Text>
-                <i className="bi bi-geo-alt"></i> {event.Location}
-              </Card.Text>
-              <Card.Text>
-                <i className="bi bi-calendar-range"></i> {event.Start_date} - {event.End_date}
-              </Card.Text>
+  // Hàm format ngày
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('vi-VN');
+  };
+
+  // Filter events
+  const filteredEvents = events.filter(event => {
+    const location = (event.location || '').trim();
+    const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         event.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesLocation = selectedLocation === '' || location === selectedLocation;
+    return matchesSearch && matchesLocation;
+  });
+
+  // Lấy danh sách địa điểm duy nhất
+  const locations = [...new Set(events.map(event => event.location))].sort();
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <p className="text-red-500 mb-4">{error}</p>
+        <button 
+          onClick={() => window.location.reload()}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Thử lại
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Header />
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+          <h2 className="text-3xl font-bold text-center md:text-left text-darkblue-800 drop-shadow-lg">
+            <i className="bi bi-globe mr-2"></i> 
+            Danh sách chương trình cộng đồng
+          </h2>
+          <Link
+            to="/registered-members"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium shadow-lg"
+          >
+            <FaUsers />
+            Xem danh sách đăng ký
+          </Link>
+        </div>
+
+        {/* Search and Filter Section */}
+        <div className="flex flex-col md:flex-row gap-4 mb-8">
+          <div className="flex-1">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Tìm kiếm chương trình..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <FaSearch className="absolute left-3 top-3 text-gray-400" />
             </div>
-            <Button variant="outline-primary" className="mt-3 w-100 align-self-end d-flex align-items-center justify-content-center gap-2" onClick={() => handleViewDetail(event)}>
-              <i className="bi bi-eye"></i> Xem chi tiết
-            </Button>
-          </Card.Body>
-        </Card>
-      ))}
-    </div>
+          </div>
+          <div className="w-full md:w-64">
+            <div className="relative">
+              <select
+                value={selectedLocation}
+                onChange={(e) => setSelectedLocation(e.target.value)}
+                className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+              >
+                <option value="">Tất cả địa điểm</option>
+                {locations.map(location => (
+                  <option key={location} value={location}>{location}</option>
+                ))}
+              </select>
+              <FaFilter className="absolute left-3 top-3 text-gray-400" />
+            </div>
+          </div>
+        </div>
 
-    {selectedEvent && (
-      <Modal show={showModal} onHide={handleClose} centered size="lg">
-        <Modal.Header closeButton className="bg-white text-dark">
-          <Modal.Title><i className="bi bi-info-circle"></i> {selectedEvent.Title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="bg-light">
-          {selectedEvent.Image && (
-            <img src={selectedEvent.Image} alt="Hình ảnh chương trình" className="img-fluid rounded mb-3 border border-info shadow-sm" />
-          )}
-          <p><strong><i className="bi bi-person"></i> Điều phối viên:</strong> {selectedEvent.Program_Coordinator}</p>
-          <p><strong><i className="bi bi-file-text"></i> Mô tả:</strong> {selectedEvent.Description}</p>
-          <p><strong><i className="bi bi-geo"></i> Địa điểm:</strong> {selectedEvent.Location}</p>
-          <p><strong><i className="bi bi-calendar"></i> Thời gian:</strong> {selectedEvent.Start_date} - {selectedEvent.End_date}</p>
+        {/* Events Grid */}
+        {filteredEvents.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-gray-500">Không tìm thấy chương trình nào</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredEvents.map((event) => (
+              <div key={event.id} className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
+                <div className="relative h-48">
+                  <img
+                    src={event.imageUrl || "https://cdn-icons-png.flaticon.com/512/2913/2913461.png"}
+                    alt={event.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => e.target.src = "https://cdn-icons-png.flaticon.com/512/2913/2913461.png"}
+                  />
+                  <div className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-sm font-medium">
+                    #{event.id}
+                  </div>
+                </div>
+                <div className="p-6 flex-grow flex flex-col">
+                  <h2 className="text-xl font-bold mb-2 line-clamp-2 text-gray-800">{event.title}</h2>
+                  
+                  <div className="space-y-2 mb-4 text-sm text-gray-600">
+                    <div className="flex items-center">
+                      <FaUser className="mr-2 text-blue-500" />
+                      <span>{event.programCoordinator}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <FaMapMarkerAlt className="mr-2 text-green-500" />
+                      <span>{event.location}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <FaCalendar className="mr-2 text-purple-500" />
+                      <span>{formatDate(event.startDate)} - {formatDate(event.endDate)}</span>
+                    </div>
+                  </div>
 
-          <Button variant="success" className="my-3 w-100 shadow-sm d-flex align-items-center justify-content-center gap-2" onClick={handleRegisterEvent}>
-            <i className="bi bi-send-check"></i> Đăng ký tham gia
-          </Button>
-          {registrationMessage && <Alert variant="success">{registrationMessage}</Alert>}
+                  <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">
+                    {event.description}
+                  </p>
 
-          <hr />
-          <h5 className="mb-3"><i className="bi bi-chat-dots"></i> Phản hồi từ người tham gia</h5>
-          {feedbacks.length === 0 ? (
-            <p className="text-muted fst-italic">Chưa có phản hồi nào.</p>
-          ) : (
-            <ListGroup variant="flush">
-              {feedbacks.map((fb) => (
-                <ListGroup.Item key={fb.ID} className="bg-white border mb-1 rounded">
-                  <strong>Đánh giá:</strong> {"⭐".repeat(fb.Rating)}<br />
-                  <strong>Bình luận:</strong> {fb.Comment}
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          )}
+                  <div className="mt-auto">
+                    <Link
+                      to={`/event/${event.id}`}
+                      className="w-full text-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+                    >
+                      <FaEye />
+                      Xem chi tiết
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
-          <hr />
-          <h5 className="mb-3"><i className="bi bi-pencil-square"></i> Gửi phản hồi mới</h5>
-          <Form.Group className="mb-2">
-            <Form.Label>Đánh giá (1-5 sao):</Form.Label>
-            <Form.Control type="number" min="1" max="5" value={newRating} onChange={(e) => setNewRating(parseInt(e.target.value))} />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Bình luận:</Form.Label>
-            <Form.Control as="textarea" rows={2} value={newComment} onChange={(e) => setNewComment(e.target.value)} />
-          </Form.Group>
-          <Button variant="primary" onClick={handleSubmitFeedback} disabled={!newComment.trim()} className="w-100 d-flex align-items-center justify-content-center gap-2">
-            <i className="bi bi-chat-left-text"></i> Gửi phản hồi
-          </Button>
-        </Modal.Body>
-        <Modal.Footer className="bg-white">
-          <Button variant="secondary" onClick={handleClose} className="d-flex align-items-center gap-2">
-            <i className="bi bi-x-circle"></i> Đóng
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    )}
-  </div>
-</>
-);
-
+        
+        
+      </div>
+    </>
+  );
 };
 
 export default ViewCommunicationPrograms;
