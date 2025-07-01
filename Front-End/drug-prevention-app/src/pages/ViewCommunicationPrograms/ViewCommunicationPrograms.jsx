@@ -173,7 +173,6 @@ const ViewCommunicationPrograms = () => {
             Danh sách chương trình cộng đồng
           </h2>
           <div className="flex gap-4 items-center">
-            {isManager && (
             <Link
               to="/registered-members"
               className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium shadow-lg"
@@ -181,7 +180,6 @@ const ViewCommunicationPrograms = () => {
               <FaUsers />
               Xem danh sách đăng ký
             </Link>
-            )}
             {isManager && (
               <Link
                 to="/create-event"
@@ -232,7 +230,7 @@ const ViewCommunicationPrograms = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredEvents.map((event) => (
+            {filteredEvents.map((event, index) => (
               <div key={event.id} className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
                 <div className="relative h-48">
                   <img
@@ -242,7 +240,7 @@ const ViewCommunicationPrograms = () => {
                     onError={(e) => e.target.src = "https://cdn-icons-png.flaticon.com/512/2913/2913461.png"}
                   />
                   <div className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-sm font-medium">
-                    #{event.id}
+                    #{index + 1}
                   </div>
                 </div>
                 <div className="p-6 flex-grow flex flex-col">
