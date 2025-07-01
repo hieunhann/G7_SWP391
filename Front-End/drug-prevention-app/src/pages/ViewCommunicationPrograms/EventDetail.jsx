@@ -4,8 +4,8 @@ import { Modal, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Header from "../../components/Header/Header";
-import { FaSearch, FaFilter, FaCalendar, FaMapMarkerAlt, FaUser, FaEye, FaStar, FaComment } from 'react-icons/fa';
-import { getEventById, getEventFeedbacks, createEventFeedback, createRegistration, registerForEvent } from "../../services/api";
+import { FaSearch, FaFilter, FaCalendar, FaMapMarkerAlt, FaUser, FaEye, FaStar, FaComment, FaTrash } from 'react-icons/fa';
+import { getEventById, getEventFeedbacks, createEventFeedback, createRegistration, registerForEvent, deleteFeedbackEvent } from "../../services/api";
 
 const EventDetail = () => {
   const { id } = useParams();
@@ -46,14 +46,18 @@ const EventDetail = () => {
 
   const handleSubmitFeedback = async () => {
     const newFeedback = {
-      memberId: memberId || 1,
+      member: { id: memberId  },
       eventId: event.id,
       rating: newRating,
       comment: newComment
     };
     try {
       const res = await createEventFeedback(newFeedback);
-      setFeedbacks([...feedbacks, res && res.data ? res.data : res]);
+      const feedbackWithMemberId = {
+        ...(res && res.data ? res.data : res),
+        memberId: memberId
+      };
+      setFeedbacks([...feedbacks, feedbackWithMemberId]);
       setNewComment("");
       setNewRating(5);
     } catch (err) {
@@ -64,16 +68,32 @@ const EventDetail = () => {
   const handleRegisterEvent = async () => {
     if (!memberId) {
       setRegistrationMessage("❌ Bạn cần đăng nhập để đăng ký chương trình.");
-      setTimeout(() => setRegistrationMessage(""), 3000);
+      setTimeout(() => setRegistrationMessage("") , 3000);
       return;
     }
+    const confirmed = window.confirm("Bạn có chắc chắn muốn đăng ký tham gia chương trình này không?");
+    if (!confirmed) return;
     try {
       await registerForEvent(memberId, event.id);
       setRegistrationMessage("✅ Bạn đã đăng ký tham gia chương trình thành công!");
-      setTimeout(() => setRegistrationMessage(""), 3000);
+      setTimeout(() => setRegistrationMessage("") , 3000);
     } catch (err) {
-      setRegistrationMessage("❌ Lỗi khi đăng ký chương trình.");
-      setTimeout(() => setRegistrationMessage(""), 3000);
+      if (err.message && err.message.includes("đã đăng ký sự kiện này")) {
+        setRegistrationMessage("❌ Bạn đã đăng ký sự kiện này rồi.");
+      } else {
+        setRegistrationMessage("❌ Lỗi khi đăng ký chương trình.");
+      }
+      setTimeout(() => setRegistrationMessage("") , 3000);
+    }
+  };
+
+  const handleDeleteFeedback = async (feedbackId) => {
+    if (!window.confirm("Bạn có chắc chắn muốn xóa phản hồi này không?")) return;
+    try {
+      await deleteFeedbackEvent(feedbackId);
+      setFeedbacks(feedbacks.filter(fb => fb.id !== feedbackId));
+    } catch (err) {
+      alert("Xóa phản hồi thất bại!");
     }
   };
 
@@ -168,12 +188,23 @@ const EventDetail = () => {
             ) : (
               <div className="space-y-3">
                 {feedbacks.map((fb) => (
-                  <div key={fb.id} className="bg-gray-50 p-3 rounded-lg border-l-4 border-blue-500">
-                    <div className="flex items-center mb-2">
-                      <FaStar className="text-yellow-500 mr-1" />
-                      <span className="font-medium">Đánh giá: {"⭐".repeat(fb.rating)}</span>
+                  <div key={fb.id} className="bg-gray-50 p-3 rounded-lg border-l-4 border-blue-500 flex justify-between items-start gap-2">
+                    <div>
+                      <div className="flex items-center mb-2">
+                        <FaStar className="text-yellow-500 mr-1" />
+                        <span className="font-medium">Đánh giá: {"⭐".repeat(fb.rating)}</span>
+                      </div>
+                      <p className="text-gray-700">{fb.comment}</p>
                     </div>
-                    <p className="text-gray-700">{fb.comment}</p>
+                    {fb.memberId === memberId && (
+                      <button
+                        className="text-red-500 hover:text-red-700 p-2 rounded-full transition-colors"
+                        title="Xóa phản hồi"
+                        onClick={() => handleDeleteFeedback(fb.id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>

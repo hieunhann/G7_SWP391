@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./ViewCommunicationPrograms.css";
 import Header from "../../components/Header/Header";
-import { FaSearch, FaFilter, FaCalendar, FaMapMarkerAlt, FaUser, FaEye, FaStar, FaComment, FaUsers } from 'react-icons/fa';
+import { FaSearch, FaFilter, FaCalendar, FaMapMarkerAlt, FaUser, FaEye, FaStar, FaComment, FaUsers, FaPen } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { getEvents, getEventFeedbacks, createEventFeedback, createRegistration } from "../../services/api";
 
@@ -23,6 +23,7 @@ const ViewCommunicationPrograms = () => {
 
   const user = JSON.parse(localStorage.getItem('user'));
   const memberId = user?.id; // hoặc user.memberId
+  const isManager = user?.role === 'MANAGER';
 
   // Lấy danh sách sự kiện
   useEffect(() => {
@@ -65,7 +66,7 @@ const ViewCommunicationPrograms = () => {
   // Gửi feedback mới
   const handleSubmitFeedback = async () => {
     const newFeedback = {
-      memberId: memberId || 1, // fallback if not logged in
+      member: { id: memberId || 1 },
       eventId: selectedEvent.id,
       rating: newRating,
       comment: newComment
@@ -84,20 +85,20 @@ const ViewCommunicationPrograms = () => {
   const handleRegisterEvent = async () => {
     if (!memberId) {
       setRegistrationMessage("❌ Bạn cần đăng nhập để đăng ký chương trình.");
-      setTimeout(() => setRegistrationMessage(""), 3000);
+      setTimeout(() => setRegistrationMessage("") , 3000);
       return;
     }
     const registration = {
-      memberId,
+      member: { id: memberId },
       eventId: selectedEvent.id
     };
     try {
       await createRegistration(registration);
       setRegistrationMessage("✅ Bạn đã đăng ký tham gia chương trình thành công!");
-      setTimeout(() => setRegistrationMessage(""), 3000);
+      setTimeout(() => setRegistrationMessage("") , 3000);
     } catch (err) {
       setRegistrationMessage("❌ Lỗi khi đăng ký chương trình.");
-      setTimeout(() => setRegistrationMessage(""), 3000);
+      setTimeout(() => setRegistrationMessage("") , 3000);
     }
   };
 
@@ -152,13 +153,25 @@ const ViewCommunicationPrograms = () => {
             <i className="bi bi-globe mr-2"></i> 
             Danh sách chương trình cộng đồng
           </h2>
-          <Link
-            to="/registered-members"
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium shadow-lg"
-          >
-            <FaUsers />
-            Xem danh sách đăng ký
-          </Link>
+          <div className="flex gap-4 items-center">
+            {isManager && (<Link
+              to="/registered-members"
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium shadow-lg"
+            >
+              <FaUsers />
+              Xem danh sách đăng ký
+            </Link>
+            )}
+            {isManager && (
+              <Link
+                to="/create-event"
+                className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2 font-medium shadow-lg"
+              >
+                <i className="bi bi-plus-circle"></i>
+                Tạo chương trình mới
+              </Link>
+            )}
+          </div>
         </div>
 
         {/* Search and Filter Section */}
@@ -234,7 +247,7 @@ const ViewCommunicationPrograms = () => {
                     {event.description}
                   </p>
 
-                  <div className="mt-auto">
+                  <div className="mt-auto flex gap-2">
                     <Link
                       to={`/event/${event.id}`}
                       className="w-full text-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
@@ -242,6 +255,16 @@ const ViewCommunicationPrograms = () => {
                       <FaEye />
                       Xem chi tiết
                     </Link>
+                    {isManager && (
+                      <Link
+                        to={`/edit-event/${event.id}`}
+                        className="w-full text-center bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
+                        title="Chỉnh sửa chương trình"
+                      >
+                        <FaPen />
+                        Chỉnh sửa
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>

@@ -23,12 +23,14 @@ import BlogDetail from "./pages/Blogs/BlogDetail";
 import EditBlog from "./pages/Blogs/EditBlog";
 import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 import EventDetail from "./pages/ViewCommunicationPrograms/EventDetail";
+import CreateEvent from "./pages/ViewCommunicationPrograms/CreateEvent";
 import RegisteredMembers from "./pages/ViewCommunicationPrograms/RegisteredMembers";
 import CRAFFT from "./pages/Surveys/CRAFFT";
 import Surveys from "./pages/Surveys/Surveys";
 import ASSIST from "./pages/Surveys/ASSIST";
 import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
 import Footer from "./components/Footer/Footer";
+import EditEvent from "./pages/ViewCommunicationPrograms/EditEvent";
 // import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 
 // Router configuration
@@ -54,6 +56,8 @@ const router = createBrowserRouter([
   { path: "/viewcommunicationprograms", element: <ViewCommunicationPrograms /> },
   { path: "/event/:id", element: <EventDetail /> },
   { path: "/registered-members", element: <RegisteredMembers /> },
+  { path : "/create-event" , element: <CreateEvent /> },
+  { path: "/edit-event/:id", element: <EditEvent /> },
     // { path: "/ViewCommunicationPrograms", element: <ViewCommunicationPrograms /> },
 
 ]);

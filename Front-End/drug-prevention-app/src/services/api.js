@@ -115,26 +115,25 @@ export const likeComment = async (commentId) => {
 };
 
 export const getEvents = async () => {
-  try {
-    const userData = JSON.parse(localStorage.getItem("user"));
-    const token = userData?.accessToken;
-    const headers = { 'Content-Type': 'application/json' };
-    if (token) headers['Authorization'] = `Bearer ${token}`;
-    const response = await fetch(`${API_BASE_URL}/events`, { headers });
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Failed to fetch events: ${error}`);
-    }
-    return response.json();
-  } catch (error) {
-    console.error('Error fetching events:', error);
-    throw error;
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const response = await fetch(`${API_BASE_URL}/events`, { headers });
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to fetch events: ${error}`);
   }
+  return response.json();
 };
 
 export const getEventById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/events/${id}`);
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const token = userData?.accessToken;
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    const response = await fetch(`${API_BASE_URL}/events/${id}`, { headers });
     if (!response.ok) {
       const error = await response.text();
       throw new Error(`Failed to fetch event: ${error}`);
@@ -148,7 +147,11 @@ export const getEventById = async (id) => {
 
 export const getRegistrations = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/registrations`);
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const token = userData?.accessToken;
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    const response = await fetch(`${API_BASE_URL}/registrations`, { headers });
     if (!response.ok) {
       const error = await response.text();
       throw new Error(`Failed to fetch registrations: ${error}`);
@@ -219,7 +222,11 @@ export const deleteRegistration = async (id) => {
 // Lấy thông tin chi tiết thành viên theo id
 export const getMemberById = async (id) => {
   try {
-    const res = await fetch(`${API_BASE_URL}/v1/users/${id}`);
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const token = userData?.accessToken;
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    const res = await fetch(`${API_BASE_URL}/v1/users/${id}`, { headers });
     if (!res.ok) throw new Error(`Failed to fetch member: ${await res.text()}`);
     return await res.json();
   } catch (error) {
@@ -320,8 +327,13 @@ export const deleteBlog = async (id) => {
 // COMMENT: Delete comment
 export const deleteComment = async (id) => {
   try {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const token = userData?.accessToken;
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
     const response = await fetch(`${API_BASE_URL}/comments/${id}`, {
       method: 'DELETE',
+      headers
     });
     if (!response.ok) {
       const error = await response.text();
@@ -336,8 +348,8 @@ export const deleteComment = async (id) => {
 
 export const registerForEvent = async (memberId, eventId) => {
   try {
-    // Tạo object EventRegistration theo backend (memberId, eventId)
-    const registration = { memberId, eventId };
+    // Gửi member là object
+    const registration = { member: { id: memberId }, eventId };
     const response = await fetch(`${API_BASE_URL}/registrations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -356,7 +368,11 @@ export const registerForEvent = async (memberId, eventId) => {
 
 export const getEventFeedbacks = async (eventId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/feedback/event/${eventId}`);
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const token = userData?.accessToken;
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    const response = await fetch(`${API_BASE_URL}/feedback/event/${eventId}`, { headers });
     if (!response.ok) {
       const error = await response.text();
       throw new Error(`Failed to fetch event feedbacks: ${error}`);
@@ -392,4 +408,73 @@ export const getUsers = async () => {
   const result = await res.json();
   // result.data là mảng user, result.total là tổng số lượng, ...
   return result.data || [];
+};
+
+// Lấy event theo manager
+export const getEventsByManager = async (managerId) => {
+  const response = await fetch(`${API_BASE_URL}/events/manager/${managerId}`);
+  if (!response.ok) throw new Error(await response.text());
+  return response.json();
+};
+
+// Lấy đăng ký theo member (chuẩn JPA)
+export const getRegistrationsByMember = async (memberId) => {
+  const response = await fetch(`${API_BASE_URL}/registrations/user/${memberId}`);
+  if (!response.ok) throw new Error(await response.text());
+  return response.json();
+};
+
+// Lấy feedback theo member
+export const getFeedbacksByMember = async (memberId) => {
+  const response = await fetch(`${API_BASE_URL}/feedback/member/${memberId}`);
+  if (!response.ok) throw new Error(await response.text());
+  return response.json();
+};
+
+// Tạo event mới (manager là object)
+export const createEvent = async (event) => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const response = await fetch(`${API_BASE_URL}/events`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(event)
+  });
+  if (!response.ok) throw new Error(await response.text());
+  return response.json();
+};
+
+export const deleteFeedbackEvent = async (id) => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const response = await fetch(`${API_BASE_URL}/feedback/${id}`, {
+    method: 'DELETE',
+    headers
+  });
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to delete feedback: ${error}`);
+  }
+  return response;
+};
+
+export const updateEvent = async (id, event) => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const response = await fetch(`${API_BASE_URL}/events/${id}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(event)
+  });
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to update event: ${error}`);
+  }
+  return response.json();
 };
