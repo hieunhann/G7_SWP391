@@ -53,7 +53,6 @@ const router = createBrowserRouter([
   { path: "/ScheduleManager", element: <ScheduleManager /> },
   { path: "/viewcommunicationprograms", element: <ViewCommunicationPrograms /> },
   { path: "/viewcommunicationprograms/:id", element: <ViewCommunicationPrograms /> },
-  { path: "/viewcommunicationprograms", element: <ViewCommunicationPrograms /> },
   { path: "/event/:id", element: <EventDetail /> },
   { path: "/registered-members", element: <RegisteredMembers /> },
   { path : "/create-event" , element: <CreateEvent /> },

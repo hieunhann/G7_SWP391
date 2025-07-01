@@ -173,6 +173,7 @@ const ViewCommunicationPrograms = () => {
             Danh sách chương trình cộng đồng
           </h2>
           <div className="flex gap-4 items-center">
+            {isManager && (
             <Link
               to="/registered-members"
               className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium shadow-lg"
@@ -180,6 +181,7 @@ const ViewCommunicationPrograms = () => {
               <FaUsers />
               Xem danh sách đăng ký
             </Link>
+            )}
             {isManager && (
               <Link
                 to="/create-event"
