@@ -63,7 +63,7 @@ export const getCommentsByBlogId = async (blogId) => {
 export const postComment = async (comment) => {
   try {
     // Validate comment object
-    if (!comment || !comment.description || !comment.blog) {
+    if (!comment || !comment.description || !comment.blogId || !comment.userId) {
       throw new Error('Invalid comment data');
     }
 
@@ -91,17 +91,19 @@ export const postComment = async (comment) => {
 
 export const likeComment = async (commentId) => {
   try {
-    // Đảm bảo commentId là số
     const numericCommentId = Number(commentId);
     if (isNaN(numericCommentId)) {
       throw new Error('Invalid comment ID');
     }
 
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const token = userData?.accessToken;
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
     const response = await fetch(`${API_BASE_URL}/comments/${numericCommentId}/like`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      }
+      headers
     });
     if (!response.ok) {
       const error = await response.text();

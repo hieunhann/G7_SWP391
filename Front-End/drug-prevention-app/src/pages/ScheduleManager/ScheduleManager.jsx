@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
-import { FaUserTie, FaCalendarAlt, FaClock, FaUserEdit, FaTrash, FaSearch, FaFilter, FaListAlt } from 'react-icons/fa';
+import { FaUserEdit, FaTrash, FaPlus, FaSyncAlt } from 'react-icons/fa';
 import Header from '../../components/Header/Header';
 
 const API_URL = "http://localhost:8080";
@@ -18,7 +18,7 @@ for (let h = 0; h < 24; h++) {
 function TimeSelect({ name, value, onChange }) {
   return (
     <select
-      className="form-control"
+      className="border border-gray-300 rounded px-3 py-2 text-sm w-full"
       name={name}
       value={value}
       onChange={onChange}
@@ -34,6 +34,19 @@ function TimeSelect({ name, value, onChange }) {
   );
 }
 
+// Tự động thêm Authorization header cho mọi request nếu có token
+axios.interceptors.request.use(
+  (config) => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const token = userData?.accessToken;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 function ScheduleManager() {
   const [users, setUsers] = useState([]);
   const [schedules, setSchedules] = useState([]);
@@ -48,20 +61,11 @@ function ScheduleManager() {
   const [loading, setLoading] = useState(false);
   const [roleFilter, setRoleFilter] = useState("");
   const [userSearch, setUserSearch] = useState("");
-  const [scheduleSearch, setScheduleSearch] = useState("");
-  const [shiftFilter, setShiftFilter] = useState("");
   const [dayFilter, setDayFilter] = useState("");
   const [toast, setToast] = useState({ show: false, type: '', message: '' });
-  const [quickUserSearch, setQuickUserSearch] = useState("");
 
   const daysOfWeek = [
-    "Chủ Nhật",
-    "Thứ 2",
-    "Thứ 3",
-    "Thứ 4",
-    "Thứ 5",
-    "Thứ 6",
-    "Thứ 7",
+    "Chủ Nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7",
   ];
 
   // Fetch data từ API
@@ -70,14 +74,14 @@ function ScheduleManager() {
       setLoading(true);
       try {
         const [userResponse, scheduleResponse] = await Promise.all([
-          axios.get(`${API_URL}/api/users`),
-          axios.get(`${API_URL}/api/schedules`)
+          axios.get(`${API_URL}/api/v1/users`),
+          axios.get(`${API_URL}/api/v1/schedules`)
         ]);
-        setUsers(userResponse.data);
-        setSchedules(scheduleResponse.data);
-        console.log('USERS:', userResponse.data);
+        console.log("userResponse", userResponse.data);
+        console.log("scheduleResponse", scheduleResponse.data);
+        setUsers(userResponse.data?.data?.result || []);
+        setSchedules(Array.isArray(scheduleResponse.data?.data) ? scheduleResponse.data.data : []);
       } catch (error) {
-        console.error("Error fetching data:", error);
         setToast({ show: true, type: 'error', message: 'Có lỗi xảy ra khi tải dữ liệu.' });
       } finally {
         setLoading(false);
@@ -92,7 +96,7 @@ function ScheduleManager() {
     if (toast.show) {
       const timer = setTimeout(() => {
         setToast({ show: false, type: '', message: '' });
-      }, 3000);
+      }, 2500);
       return () => clearTimeout(timer);
     }
   }, [toast.show]);
@@ -103,16 +107,12 @@ function ScheduleManager() {
 
   const handleSelectUser = (e) => {
     setSelectedUser(e.target.value);
-    setForm(prev => ({
-      ...prev,
-      consultant_id: e.target.value,
-    }));
+    setForm(prev => ({ ...prev, consultant_id: e.target.value }));
   };
 
   const resetFilters = () => {
     setUserSearch("");
     setRoleFilter("");
-    setShiftFilter("");
     setDayFilter("");
   };
 
@@ -128,50 +128,51 @@ function ScheduleManager() {
   // Xử lý submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate giờ
     if (form.start_time >= form.end_time) {
       setToast({ show: true, type: 'error', message: 'Giờ kết thúc phải lớn hơn giờ bắt đầu.' });
       return;
     }
-    
-    // Validate role - chỉ cho phép Staff và Consultant
     const consultant = users.find(u => u.id === Number(form.consultant_id));
-    if (!consultant || !['Staff', 'Consultant'].includes(consultant.role)) {
-      setToast({ show: true, type: 'error', message: 'Chỉ có thể tạo lịch cho Staff hoặc Consultant.' });
+    if (!consultant || !['Staff', 'Consultant', 'STAFF', 'CONSULTANT', 'MANAGER'].includes(consultant.role)) {
+      setToast({ show: true, type: 'error', message: 'Chỉ có thể tạo lịch cho Staff, Consultant hoặc Manager.' });
       return;
     }
-  
-    // Check trùng lịch
     if (isScheduleConflict({ ...form, consultant_id: Number(form.consultant_id) })) {
       setToast({ show: true, type: 'error', message: 'Lịch bị trùng với ca đã có!' });
       return;
     }
-  
-    // Chuẩn bị dữ liệu gửi lên API
     const scheduleData = {
       consultant: { id: Number(form.consultant_id) },
-      dayOfWeek: form.day_of_week,
-      startTime: form.start_time + ":00",
-      endTime: form.end_time + ":00"
+      startTime: form.start_time,
+      endTime: form.end_time,
+      day: form.day_of_week
     };
-  
     setLoading(true);
     try {
       let response;
       if (editingId) {
-        response = await axios.put(`${API_URL}/api/schedules/${editingId}`, scheduleData);
+        response = await axios.put(`${API_URL}/api/v1/schedules`, {
+          id: editingId,
+          consultant: { id: Number(form.consultant_id) },
+          day: form.day_of_week,
+          startTime: form.start_time,
+          endTime: form.end_time
+        });
         setToast({ show: true, type: 'success', message: 'Cập nhật lịch thành công!' });
       } else {
-        response = await axios.post(`${API_URL}/api/schedules`, scheduleData);
+        response = await axios.post(`${API_URL}/api/v1/schedules`, scheduleData);
         setToast({ show: true, type: 'success', message: 'Thêm lịch thành công!' });
       }
-      
-      // Refresh danh sách lịch
-      const updatedSchedules = await axios.get(`${API_URL}/api/schedules`);
-      setSchedules(updatedSchedules.data);
-      
-      // Reset form
+      const updatedSchedules = await axios.get(`${API_URL}/api/v1/schedules`);
+      setSchedules(
+        Array.isArray(updatedSchedules.data)
+          ? updatedSchedules.data
+          : Array.isArray(updatedSchedules.data?.data)
+            ? updatedSchedules.data.data
+            : Array.isArray(updatedSchedules.data?.content)
+              ? updatedSchedules.data.content
+              : []
+      );
       setForm({
         consultant_id: selectedUser,
         day_of_week: "",
@@ -180,7 +181,6 @@ function ScheduleManager() {
       });
       setEditingId(null);
     } catch (error) {
-      console.error("Error saving schedule:", error);
       const errorMsg = error.response?.data?.message || 
                       error.response?.data?.error || 
                       'Có lỗi xảy ra khi lưu lịch.';
@@ -194,11 +194,13 @@ function ScheduleManager() {
   const handleEdit = (schedule) => {
     setForm({
       consultant_id: String(schedule.consultant?.id),
-      day_of_week: schedule.dayOfWeek,
-      start_time: schedule.startTime?.slice(0, 5), // Lấy HH:mm từ HH:mm:ss
-      end_time: schedule.endTime?.slice(0, 5)     // Lấy HH:mm từ HH:mm:ss
+      day_of_week: schedule.day
+        ? (typeof schedule.day === 'string' && schedule.day.length >= 10 ? schedule.day.slice(0, 10) : "")
+        : "",
+      start_time: schedule.startTime?.slice(0, 5),
+      end_time: schedule.endTime?.slice(0, 5)
     });
-    setSelectedUser(String(schedule.consultant?.id)); // Đảm bảo dropdown chọn đúng nhân sự
+    setSelectedUser(String(schedule.consultant?.id));
     setEditingId(schedule.id);
   };
 
@@ -207,12 +209,19 @@ function ScheduleManager() {
     if (window.confirm("Xác nhận xóa lịch này?")) {
       setLoading(true);
       try {
-        await axios.delete(`${API_URL}/api/schedules/${id}`);
-        const updatedSchedules = await axios.get(`${API_URL}/api/schedules`);
-        setSchedules(updatedSchedules.data);
+        await axios.delete(`${API_URL}/api/v1/schedules/${id}`);
+        const updatedSchedules = await axios.get(`${API_URL}/api/v1/schedules`);
+        setSchedules(
+          Array.isArray(updatedSchedules.data)
+            ? updatedSchedules.data
+            : Array.isArray(updatedSchedules.data?.data)
+              ? updatedSchedules.data.data
+              : Array.isArray(updatedSchedules.data?.content)
+                ? updatedSchedules.data.content
+                : []
+        );
         setToast({ show: true, type: 'success', message: 'Xóa lịch thành công!' });
       } catch (error) {
-        console.error("Error deleting schedule:", error);
         setToast({ show: true, type: 'error', message: 'Có lỗi xảy ra khi xóa lịch.' });
       } finally {
         setLoading(false);
@@ -222,10 +231,11 @@ function ScheduleManager() {
 
   // Kiểm tra lịch trùng
   const isScheduleConflict = (newSchedule) => {
+    if (!Array.isArray(schedules)) return false;
     return schedules.some(s => {
       if (
         s.consultant?.id !== newSchedule.consultant_id ||
-        s.dayOfWeek !== newSchedule.day_of_week ||
+        s.day !== newSchedule.day_of_week ||
         (editingId && s.id === editingId)
       ) {
         return false;
@@ -243,46 +253,42 @@ function ScheduleManager() {
 
   // Lọc danh sách user - chỉ lấy Staff và Consultant
   const filteredUsers = useMemo(() => {
-    const searchValue = quickUserSearch.trim() !== "" ? quickUserSearch : userSearch;
+    if (!Array.isArray(users)) return [];
     return users
-      .filter(u => ['Staff', 'Consultant'].includes(u.role))
-      .filter(u => (roleFilter === "" ? true : u.role === roleFilter))
-      .filter(u => 
-        searchValue === "" ? true : 
-        [u.id?.toString(), u.name, u.username, u.email, u.phoneNumber].some(
-          val => (val || '').toLowerCase().includes(searchValue.toLowerCase())
-        )
-      );
-  }, [users, roleFilter, userSearch, quickUserSearch]);
+      .filter(u => ["STAFF", "CONSULTANT"].includes((u.role || "").toUpperCase()))
+      .filter(u => (roleFilter === "" ? true : u.role?.toUpperCase() === roleFilter.toUpperCase()))
+      .filter(u => {
+        const displayName = u.name || (u.firstName ? (u.firstName + ' ' + (u.lastName || '')) : '');
+        return userSearch === "" ? true :
+          [u.id?.toString(), displayName, u.username, u.email, u.phoneNumber].some(
+            val => (val || '').toLowerCase().includes(userSearch.toLowerCase())
+          );
+      });
+  }, [users, roleFilter, userSearch]);
 
-  // Lọc danh sách lịch - chỉ hiển thị lịch của Staff và Consultant
+  // Lọc danh sách lịch - chỉ lọc theo selectedUser và dayFilter, không loại theo role consultant
   const filteredSchedules = useMemo(() => {
+    if (!Array.isArray(schedules)) return [];
     return schedules
       .filter(s => {
-        const consultant = users.find(u => u.id === s.consultant?.id);
-        // Chỉ hiển thị lịch của Staff/Consultant
-        if (!consultant || !['Staff', 'Consultant'].includes(consultant.role)) return false;
-        
         if (selectedUser && s.consultant?.id !== Number(selectedUser)) return false;
-        if (scheduleSearch) {
-          const values = [
-            s.dayOfWeek,
-            s.startTime,
-            s.endTime,
-            consultant?.name || "",
-            consultant?.email || "",
-            consultant?.phoneNumber || ""
-          ];
-          return values.some(val => 
-            String(val).toLowerCase().includes(scheduleSearch.toLowerCase())
-          );
+        if (dayFilter) {
+          if (s.day && s.day !== dayFilter) return false;
+          if (s.dayOfWeek && s.dayOfWeek !== dayFilter) return false;
         }
-        if (shiftFilter && getShift(s.startTime) !== shiftFilter) return false;
-        if (dayFilter && s.dayOfWeek !== dayFilter) return false;
         return true;
       })
-      .sort((a, b) => daysOfWeek.indexOf(a.dayOfWeek) - daysOfWeek.indexOf(b.dayOfWeek));
-  }, [schedules, selectedUser, scheduleSearch, users, shiftFilter, dayFilter]);
+      .sort((a, b) => {
+        if (a.day && b.day) return a.day.localeCompare(b.day);
+        if (a.dayOfWeek && b.dayOfWeek) return daysOfWeek.indexOf(a.dayOfWeek) - daysOfWeek.indexOf(b.dayOfWeek);
+        return 0;
+      });
+  }, [schedules, selectedUser, dayFilter]);
+
+  // Debug log
+  console.log('schedules', schedules);
+  console.log('users', users);
+  console.log('filteredSchedules', filteredSchedules);
 
   // Tính thời lượng ca làm việc
   function calcDuration(start, end) {
@@ -299,264 +305,179 @@ function ScheduleManager() {
       <Header />
       {/* Overlay loading */}
       {loading && (
-        <div className="fixed inset-0 bg-white bg-opacity-70 flex items-center justify-center z-50">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-400 border-t-transparent"></div>
+        <div className="fixed inset-0 bg-white bg-opacity-60 flex items-center justify-center z-50">
+          <div className="animate-spin rounded-full h-10 w-10 border-4 border-blue-400 border-t-transparent"></div>
         </div>
       )}
       
-      <div className="max-w-2xl mx-auto px-2 py-6">
-        {/* Header */}
-        <div className="mb-6 text-center">
-          <h2 className="text-xl md:text-2xl font-bold text-blue-700 flex items-center justify-center gap-2">
-            <FaListAlt className="text-blue-500" /> Quản lý lịch Staff & Consultant
-          </h2>
-        </div>
-        {/* Bộ lọc & Thêm/Sửa lịch */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          {/* Bộ lọc nhân sự */}
-          <div className="bg-white border border-gray-100 rounded-lg p-4 flex flex-col min-h-[320px] shadow-sm">
-            <h3 className="text-base font-semibold text-blue-600 mb-3 flex items-center gap-1">
-              <FaFilter className="text-blue-400" /> Bộ lọc
-            </h3>
-            <div className="flex flex-col gap-2 flex-1">
-              <input
-                type="text"
-                className="border border-gray-200 rounded px-2 py-1 text-sm focus:outline-blue-200"
-                placeholder="Tìm kiếm nhanh (Tên)"
-                value={quickUserSearch}
-                onChange={e => setQuickUserSearch(e.target.value)}
-              />
-            
+      <div className="max-w-2xl mx-auto px-2 py-8">
+        {/* Tiêu đề */}
+        <h2 className="text-2xl font-bold text-center mb-6 text-blue-700 tracking-tight">Quản lý lịch làm việc</h2>
+        {/* Form thêm/sửa lịch */}
+        <div className="bg-white rounded-xl shadow p-5 mb-6">
+          <form className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end" onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-1 md:col-span-2">
+              <label className="text-sm font-medium text-gray-700">Nhân sự</label>
               <select
-                className="border border-gray-200 rounded px-2 py-1 text-sm"
-                value={roleFilter}
-                onChange={e => setRoleFilter(e.target.value)}
-              >
-                <option value="">Tất cả vai trò</option>
-                <option value="Consultant">Consultant</option>
-                <option value="Staff">Staff</option>
-              </select>
-              <select
-                className="border border-gray-200 rounded px-2 py-1 text-sm"
-                value={shiftFilter}
-                onChange={e => setShiftFilter(e.target.value)}
-              >
-                <option value="">Tất cả ca</option>
-                <option value="Sáng">Sáng</option>
-                <option value="Chiều">Chiều</option>
-                <option value="Tối">Tối</option>
-              </select>
-              <select
-                className="border border-gray-200 rounded px-2 py-1 text-sm"
-                value={dayFilter}
-                onChange={e => setDayFilter(e.target.value)}
-              >
-                <option value="">Tất cả ngày</option>
-                {daysOfWeek.map(day => <option key={day} value={day}>{day}</option>)}
-              </select>
-              <div className="flex-1"></div>
-              <button
-                onClick={resetFilters}
-                className="mt-2 w-full bg-gray-100 hover:bg-gray-200 text-gray-700 rounded px-2 py-1 text-sm font-medium border border-gray-200 transition"
-              >
-                Đặt lại bộ lọc
-              </button>
-            </div>
-          </div>
-          {/* Thêm/Sửa lịch làm việc */}
-          <div className="bg-white border border-gray-100 rounded-lg p-4 flex flex-col min-h-[320px] shadow-sm">
-            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 w-full">
-              <h3 className="flex flex-row items-center gap-1 whitespace-nowrap text-base font-semibold text-blue-600 mb-0 md:mb-0 min-w-fit">
-                <FaCalendarAlt className="text-blue-400" /> Thêm / Sửa lịch
-              </h3>
-              <select
-                className="border border-gray-200 rounded px-2 py-1 text-sm w-full md:w-auto"
+                className="border border-gray-300 rounded px-3 py-2 text-sm w-full"
                 value={selectedUser}
                 onChange={handleSelectUser}
                 required
               >
-                <option value="">-- Chọn Staff/Consultant --</option>
+                <option value="">-- Chọn --</option>
                 {filteredUsers.map((u) => (
                   <option key={u.id} value={u.id}>
-                    {u.name} ({u.role})
+                    {(u.name || (u.firstName ? (u.firstName + ' ' + (u.lastName || '')) : ''))} ({u.role})
                   </option>
                 ))}
               </select>
-              {selectedUser && (
-                <form className="flex flex-col md:flex-row gap-2 md:gap-3 flex-1 items-center w-full" onSubmit={handleSubmit}>
-                  <select
-                    className="border border-gray-200 rounded px-2 py-1 text-sm w-full md:w-auto"
-                    name="day_of_week"
-                    value={form.day_of_week}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">-- Chọn ngày --</option>
-                    {daysOfWeek.map((day) => (
-                      <option key={day} value={day}>{day}</option>
-                    ))}
-                  </select>
-                  <TimeSelect
-                    name="start_time"
-                    value={form.start_time}
-                    onChange={handleChange}
-                  />
-                  <TimeSelect
-                    name="end_time"
-                    value={form.end_time}
-                    onChange={handleChange}
-                  />
-                  <button 
-                    type="submit" 
-                    className="bg-blue-600 hover:bg-blue-700 text-white rounded px-3 py-1 text-sm font-medium transition min-w-fit"
-                    disabled={loading}
-                  >
-                    {editingId ? "Cập nhật" : "Thêm mới"}
-                  </button>
-                  <button 
-                    type="button" 
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded px-3 py-1 text-sm font-medium border border-gray-200 transition min-w-fit"
-                    onClick={() => {
-                      setForm({ 
-                        consultant_id: selectedUser, 
-                        day_of_week: "", 
-                        start_time: "", 
-                        end_time: "" 
-                      });
-                      setEditingId(null);
-                    }}
-                  >
-                    Làm mới
-                  </button>
-                </form>
-              )}
             </div>
-          </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-gray-700">Ngày</label>
+              <input
+                type="date"
+                className="border border-gray-300 rounded px-3 py-2 text-sm w-full"
+                name="day_of_week"
+                value={form.day_of_week}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-gray-700">Bắt đầu</label>
+              <TimeSelect
+                name="start_time"
+                value={form.start_time}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-gray-700">Kết thúc</label>
+              <TimeSelect
+                name="end_time"
+                value={form.end_time}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-row gap-2 md:col-span-5">
+              <button
+                type="submit"
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2 text-sm font-semibold shadow w-full md:w-auto justify-center"
+                disabled={loading}
+              >
+                <FaPlus /> {editingId ? "Cập nhật" : "Thêm mới"}
+              </button>
+              <button
+                type="button"
+                className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded px-4 py-2 text-sm font-semibold border border-gray-300 shadow w-full md:w-auto justify-center"
+                onClick={() => {
+                  setForm({
+                    consultant_id: selectedUser,
+                    day_of_week: "",
+                    start_time: "",
+                    end_time: ""
+                  });
+                  setEditingId(null);
+                }}
+              >
+                <FaSyncAlt /> Làm mới
+              </button>
+            </div>
+          </form>
+        </div>
+        {/* Bộ lọc */}
+        <div className="flex flex-col md:flex-row gap-3 mb-5 items-center justify-between bg-white rounded-xl shadow p-4">
+          <input
+            type="text"
+            className="border border-gray-300 rounded px-3 py-2 text-sm w-full md:w-1/3"
+            placeholder="Tìm kiếm nhân sự..."
+            value={userSearch}
+            onChange={e => setUserSearch(e.target.value)}
+          />
+          <select
+            className="border border-gray-300 rounded px-3 py-2 text-sm w-full md:w-1/4"
+            value={roleFilter}
+            onChange={e => setRoleFilter(e.target.value)}
+          >
+            <option value="">Tất cả vai trò</option>
+            <option value="Consultant">Consultant</option>
+            <option value="Staff">Staff</option>
+          </select>
+          <input
+            type="date"
+            className="border border-gray-300 rounded px-3 py-2 text-sm w-full md:w-1/4"
+            value={dayFilter}
+            onChange={e => setDayFilter(e.target.value)}
+            placeholder="Lọc theo ngày"
+          />
+          <button
+            onClick={resetFilters}
+            className="bg-gray-50 hover:bg-gray-100 text-gray-500 rounded px-3 py-2 text-sm border border-gray-200"
+          >Đặt lại</button>
         </div>
         {/* Bảng lịch */}
-        <div className="w-full mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="text-base font-semibold text-blue-600 flex items-center gap-1">
-              <FaCalendarAlt className="text-blue-400" /> Lịch làm việc
-            </h3>
-            <span className="text-xs text-gray-500">Tổng số lịch: {filteredSchedules.length}</span>
-          </div>
-          <div className="bg-white border border-gray-100 rounded-lg p-3 shadow-sm">
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-xs md:text-sm border-collapse">
-                <thead>
-                  <tr className="bg-gray-50">
-                    <th className="px-2 py-1 border-b text-left font-semibold">Nhân sự</th>
-                    <th className="px-2 py-1 border-b text-left font-semibold">Thứ</th>
-                    <th className="px-2 py-1 border-b text-left font-semibold">Bắt đầu</th>
-                    <th className="px-2 py-1 border-b text-left font-semibold">Kết thúc</th>
-                    <th className="px-2 py-1 border-b text-left font-semibold">Tổng thời lượng (giờ)</th>
-                    <th className="px-2 py-1 border-b text-left font-semibold">Hành động</th>
+        <div className="bg-white rounded-xl shadow p-4">
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm border-separate border-spacing-y-1">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="px-3 py-2 text-left font-semibold">Nhân sự</th>
+                  <th className="px-3 py-2 text-left font-semibold">Ngày</th>
+                  <th className="px-3 py-2 text-left font-semibold">Bắt đầu</th>
+                  <th className="px-3 py-2 text-left font-semibold">Kết thúc</th>
+                  <th className="px-3 py-2 text-left font-semibold">Thời lượng</th>
+                  <th className="px-3 py-2 text-left font-semibold"> </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredSchedules.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="text-center text-gray-400 py-4">Không có lịch nào.</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {filteredSchedules.length === 0 ? (
-                    <tr>
-                      <td colSpan={6} className="text-center text-gray-400 py-4">Không có lịch nào.</td>
-                    </tr>
-                  ) : (
-                    filteredSchedules.map((s) => {
-                      const consultant = users.find(u => u.id === s.consultant?.id);
-                      return (
-                        <tr key={s.id}>
-                          <td className="px-2 py-1 border-b">
-                            {consultant?.name || "?"}
-                            <span className="text-xs text-gray-500 ml-1">({consultant?.role || "?"})</span>
-                          </td>
-                          <td className="px-2 py-1 border-b">{s.dayOfWeek}</td>
-                          <td className="px-2 py-1 border-b">{s.startTime?.slice(0, 5)}</td>
-                          <td className="px-2 py-1 border-b">{s.endTime?.slice(0, 5)}</td>
-                          <td className="px-2 py-1 border-b">{calcDuration(s.startTime, s.endTime)}</td>
-                          <td className="px-2 py-1 border-b whitespace-nowrap">
-                            <div className="flex flex-row gap-1">
-                              <button
-                                className="bg-yellow-400 hover:bg-yellow-500 text-white rounded px-2 py-1 text-xs font-medium transition"
-                                onClick={() => handleEdit(s)}
-                                disabled={loading}
-                              >
-                                Sửa
-                              </button>
-                              <button
-                                className="bg-red-500 hover:bg-red-600 text-white rounded px-2 py-1 text-xs font-medium transition"
-                                onClick={() => handleDelete(s.id)}
-                                disabled={loading}
-                              >
-                                Xóa
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        {/* Thời khóa biểu */}
-        <div className="w-full mb-8">
-          <h3 className="text-base font-semibold text-blue-600 flex items-center gap-1 mb-2">
-            <FaCalendarAlt className="text-blue-400" /> Thời khóa biểu
-          </h3>
-          <div className="bg-white border border-gray-100 rounded-lg p-3 shadow-sm">
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-xs md:text-sm border-collapse">
-                <thead>
-                  <tr className="bg-gray-50">
-                    <th className="px-2 py-1 border-b text-left font-semibold">Ngày</th>
-                    <th className="px-2 py-1 border-b text-left font-semibold">Giờ</th>
-                    <th className="px-2 py-1 border-b text-left font-semibold">Nhân sự</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {daysOfWeek.map((day) => {
-                    const daySchedules = filteredSchedules.filter(s => s.dayOfWeek === day);
+                ) : (
+                  filteredSchedules.map((s) => {
+                    const consultant = users.find(
+                      u => u.id === (s.consultant?.id ?? s.consultantId)
+                    );
                     return (
-                      <tr key={day}>
-                        <td className="px-2 py-1 border-b font-semibold">{day}</td>
-                        <td className="px-2 py-1 border-b">
-                          {daySchedules.length === 0 ? (
-                            <span className="text-gray-400">-</span>
-                          ) : (
-                            daySchedules.map(s => (
-                              <div key={s.id}>
-                                {s.startTime?.slice(0, 5)} - {s.endTime?.slice(0, 5)}
-                              </div>
-                            ))
-                          )}
+                      <tr key={s.id} className="bg-white hover:bg-blue-50 rounded">
+                        <td className="px-3 py-2 rounded-l">
+                          {consultant?.name || (consultant?.firstName ? (consultant.firstName + ' ' + (consultant.lastName || '')) : "?")}
+                          <span className="text-xs text-gray-400 ml-1">({consultant?.role || "?"})</span>
                         </td>
-                        <td className="px-2 py-1 border-b">
-                          {daySchedules.length === 0 ? (
-                            <span className="text-gray-400">-</span>
-                          ) : (
-                            daySchedules.map(s => {
-                              const consultant = users.find(u => u.id === s.consultant?.id);
-                              return (
-                                <div key={s.id}>
-                                  {consultant?.name || "?"}
-                                  <span className="text-xs text-gray-500 ml-1">({consultant?.role || "?"})</span>
-                                </div>
-                              );
-                            })
-                          )}
+                        <td className="px-3 py-2">{s.day || s.dayOfWeek || '-'}</td>
+                        <td className="px-3 py-2">{s.startTime?.slice(0, 5)}</td>
+                        <td className="px-3 py-2">{s.endTime?.slice(0, 5)}</td>
+                        <td className="px-3 py-2">{calcDuration(s.startTime, s.endTime)}h</td>
+                        <td className="px-3 py-2 flex gap-2 rounded-r">
+                          <button
+                            className="p-2 rounded hover:bg-yellow-100 text-yellow-600"
+                            title="Sửa"
+                            onClick={() => handleEdit(s)}
+                            disabled={loading}
+                          >
+                            <FaUserEdit />
+                          </button>
+                          <button
+                            className="p-2 rounded hover:bg-red-100 text-red-600"
+                            title="Xóa"
+                            onClick={() => handleDelete(s.id)}
+                            disabled={loading}
+                          >
+                            <FaTrash />
+                          </button>
                         </td>
                       </tr>
                     );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                  })
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
         {/* Toast message */}
         {toast.show && (
-          <div className={`fixed top-6 right-6 z-50 px-4 py-2 rounded shadow text-xs md:text-sm font-semibold transition-all ${toast.type === 'success' ? 'bg-green-100 text-green-700 border border-green-300' : 'bg-red-100 text-red-700 border border-red-300'}`}>
+          <div className={`fixed top-8 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded shadow text-sm font-semibold transition-all ${toast.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
             {toast.message}
           </div>
         )}

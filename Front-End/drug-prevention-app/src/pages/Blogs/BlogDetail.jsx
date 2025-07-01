@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { FaHeart, FaShare, FaArrowLeft, FaEdit } from 'react-icons/fa';
+import { FaHeart, FaShare, FaArrowLeft, FaEdit, FaTrash } from 'react-icons/fa';
 import Header from '../../components/Header/Header';
-import { getBlogById, getCommentsByBlogId, postComment, likeComment } from '../../services/api';
+import { getBlogById, getCommentsByBlogId, postComment, likeComment, deleteComment, deleteBlog } from '../../services/api';
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -109,6 +109,20 @@ const BlogDetail = () => {
     }
   };
 
+  const handleDeleteComment = async (commentId) => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa bình luận này?')) return;
+    try {
+      await deleteComment(commentId);
+      // Fetch lại toàn bộ comment sau khi xóa
+      const numericId = Number(id);
+      let commentsData = await getCommentsByBlogId(numericId);
+      if (commentsData && commentsData.data) commentsData = commentsData.data;
+      setComments(Array.isArray(commentsData) ? commentsData : []);
+    } catch (err) {
+      setError('Không thể xóa bình luận');
+    }
+  };
+
   const handleSubmitComment = async (e) => {
     e.preventDefault();
     const saved = localStorage.getItem('user');
@@ -125,17 +139,30 @@ const BlogDetail = () => {
       const numericId = Number(id);
       if (isNaN(numericId)) throw new Error('Invalid blog ID');
       const comment = {
-        blog: { id: numericId },
         description: newComment.trim(),
-        like: 0
+        blogId: numericId,
+        userId: currentUser.id
       };
-      const createdComment = await postComment(comment);
-      setComments(prev => [...prev, createdComment]);
+      await postComment(comment);
+      // Fetch lại toàn bộ comment sau khi post thành công
+      let commentsData = await getCommentsByBlogId(numericId);
+      if (commentsData && commentsData.data) commentsData = commentsData.data;
+      setComments(Array.isArray(commentsData) ? commentsData : []);
       setNewComment('');
       setError('');
     } catch (err) {
       setError(err.message || 'Có lỗi khi đăng bình luận');
       console.error('Error posting comment:', err);
+    }
+  };
+
+  const handleDeleteBlog = async () => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa bài viết này?')) return;
+    try {
+      await deleteBlog(blog.id);
+      navigate('/blogs');
+    } catch (err) {
+      setError('Không thể xóa bài viết');
     }
   };
 
@@ -175,9 +202,18 @@ const BlogDetail = () => {
             />
             <div className="absolute top-4 right-4 flex gap-3">
               {user?.id === blog.manager?.id && (
-                <Link to={`/edit-blog/${blog.id}`} className="p-3 bg-yellow-500 rounded-full text-white hover:bg-yellow-600 shadow-lg">
-                  <FaEdit />
-                </Link>
+                <>
+                  <Link to={`/edit-blog/${blog.id}`} className="p-3 bg-yellow-500 rounded-full text-white hover:bg-yellow-600 shadow-lg">
+                    <FaEdit />
+                  </Link>
+                  <button
+                    onClick={handleDeleteBlog}
+                    className="p-3 bg-red-500 rounded-full text-white hover:bg-red-600 shadow-lg ml-2"
+                    title="Xóa bài viết"
+                  >
+                    <FaTrash />
+                  </button>
+                </>
               )}
               <button
                 onClick={handleLike}
@@ -242,7 +278,7 @@ const BlogDetail = () => {
                           </span>
                         </div>
                         <p className="text-gray-700">{comment.description}</p>
-                        <div className="mt-2">
+                        <div className="mt-2 flex gap-3 items-center">
                           <button
                             onClick={() => handleLikeComment(comment.id)}
                             className="flex items-center text-gray-500 hover:text-red-500 transition"
@@ -250,6 +286,15 @@ const BlogDetail = () => {
                             <FaHeart className="mr-1" />
                             <span>{comment.like || 0}</span>
                           </button>
+                          {user && comment.user && user.id === comment.user.id && (
+                            <button
+                              onClick={() => handleDeleteComment(comment.id)}
+                              className="flex items-center text-gray-500 hover:text-red-500 transition ml-2"
+                              title="Xóa bình luận"
+                            >
+                              <FaTrash className="mr-1" /> Xóa
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
