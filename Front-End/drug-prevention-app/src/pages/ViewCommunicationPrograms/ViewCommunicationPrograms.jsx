@@ -6,7 +6,7 @@ import "./ViewCommunicationPrograms.css";
 import Header from "../../components/Header/Header";
 import { FaSearch, FaFilter, FaCalendar, FaMapMarkerAlt, FaUser, FaEye, FaStar, FaComment, FaUsers, FaPen } from 'react-icons/fa';
 import { Link } from "react-router-dom";
-import { getEvents, getEventFeedbacks, createEventFeedback, createRegistration } from "../../services/api";
+import { getEvents, getEventFeedbacks, createEventFeedback, createRegistration, deleteEvent } from "../../services/api";
 
 const ViewCommunicationPrograms = () => {
   const [events, setEvents] = useState([]);
@@ -20,6 +20,8 @@ const ViewCommunicationPrograms = () => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteMessage, setDeleteMessage] = useState("");
 
   const user = JSON.parse(localStorage.getItem('user'));
   const memberId = user?.id; // hoặc user.memberId
@@ -101,6 +103,7 @@ const ViewCommunicationPrograms = () => {
       setTimeout(() => setRegistrationMessage("") , 3000);
     }
   };
+  
 
   // Hàm format ngày
   const formatDate = (dateStr) => {
@@ -120,6 +123,22 @@ const ViewCommunicationPrograms = () => {
 
   // Lấy danh sách địa điểm duy nhất
   const locations = [...new Set(events.map(event => event.location))].sort();
+
+  const handleDeleteEvent = async (eventId) => {
+    if (!window.confirm("Bạn có chắc chắn muốn xóa chương trình này?")) return;
+    setDeleteLoading(true);
+    setDeleteMessage("");
+    try {
+      await deleteEvent(eventId);
+      setEvents(events.filter(event => event.id !== eventId));
+      setDeleteMessage("✅ Đã xóa chương trình thành công!");
+    } catch (err) {
+      setDeleteMessage("❌ Lỗi khi xóa chương trình.");
+    } finally {
+      setDeleteLoading(false);
+      setTimeout(() => setDeleteMessage("") , 3000);
+    }
+  };
 
   if (loading) {
     return (
@@ -154,14 +173,13 @@ const ViewCommunicationPrograms = () => {
             Danh sách chương trình cộng đồng
           </h2>
           <div className="flex gap-4 items-center">
-            {isManager && (<Link
+            <Link
               to="/registered-members"
               className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium shadow-lg"
             >
               <FaUsers />
               Xem danh sách đăng ký
             </Link>
-            )}
             {isManager && (
               <Link
                 to="/create-event"
@@ -256,14 +274,25 @@ const ViewCommunicationPrograms = () => {
                       Xem chi tiết
                     </Link>
                     {isManager && (
-                      <Link
-                        to={`/edit-event/${event.id}`}
-                        className="w-full text-center bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
-                        title="Chỉnh sửa chương trình"
-                      >
-                        <FaPen />
-                        Chỉnh sửa
-                      </Link>
+                      <>
+                        <Link
+                          to={`/edit-event/${event.id}`}
+                          className="w-full text-center bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
+                          title="Chỉnh sửa chương trình"
+                        >
+                          <FaPen />
+                          Chỉnh sửa
+                        </Link>
+                        <button
+                          onClick={() => handleDeleteEvent(event.id)}
+                          className="w-full text-center bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
+                          title="Xóa chương trình"
+                          disabled={deleteLoading}
+                        >
+                          <i className="bi bi-trash"></i>
+                          {deleteLoading ? "Đang xóa..." : "Xóa"}
+                        </button>
+                      </>
                     )}
                   </div>
                 </div>
@@ -272,8 +301,11 @@ const ViewCommunicationPrograms = () => {
           </div>
         )}
 
-        
-        
+        {deleteMessage && (
+          <div className={`mb-4 text-center ${deleteMessage.startsWith("✅") ? "text-green-600" : "text-red-600"}`}>
+            {deleteMessage}
+          </div>
+        )}
       </div>
     </>
   );

@@ -478,3 +478,20 @@ export const updateEvent = async (id, event) => {
   }
   return response.json();
 };
+
+export const deleteEvent = async (id) => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const response = await fetch(`${API_BASE_URL}/events/${id}`, {
+    method: 'DELETE',
+    headers
+  });
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to delete event: ${error}`);
+  }
+  return response;
+};
+
