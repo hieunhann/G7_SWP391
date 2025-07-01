@@ -319,7 +319,14 @@ export const deleteBlog = async (id) => {
       const error = await response.text();
       throw new Error(`Failed to delete blog: ${error}`);
     }
-    return response.json();
+    // Nếu status 204 (No Content), không cần parse json
+    if (response.status === 204) return;
+    // Nếu có body, parse json
+    try {
+      return await response.json();
+    } catch {
+      return;
+    }
   } catch (error) {
     console.error('Error deleting blog:', error);
     throw error;

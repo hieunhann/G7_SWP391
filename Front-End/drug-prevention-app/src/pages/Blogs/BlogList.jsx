@@ -184,7 +184,7 @@ const BlogList = () => {
                       {new Date(blog.createdAt).toLocaleDateString('vi-VN')}
                     </span>
                     <div className="flex gap-2 items-center">
-                    {isManager && (
+                      {user?.id === blog.manager?.id && (
                         <>
                           <Link
                             to={`/edit-blog/${blog.id}`}
