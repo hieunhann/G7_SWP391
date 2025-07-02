@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import api from "../../Axios/Axios";
 import { toast } from "react-toastify";
@@ -14,6 +14,8 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const message = location.state?.message;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,6 +64,8 @@ const LoginPage = () => {
         <h2 className="text-3xl font-bold text-center text-[#004b8d] mb-8">
           Đăng nhập hệ thống
         </h2>
+
+        {message && <div className="mb-4 text-red-600 text-center">{message}</div>}
 
         <form
           onSubmit={handleSubmit}

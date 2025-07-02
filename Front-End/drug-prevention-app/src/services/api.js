@@ -22,7 +22,14 @@ export const getBlogById = async (id) => {
       throw new Error('Invalid blog ID');
     }
 
-    const response = await fetch(`${API_BASE_URL}/blogs/${numericId}`);
+    // Lấy token nếu có, nếu không thì chỉ gửi Content-Type
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const token = userData?.accessToken;
+    let headers = { 'Content-Type': 'application/json' };
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    const response = await fetch(`${API_BASE_URL}/blogs/${numericId}`, { headers });
     if (!response.ok) {
       const error = await response.text();
       throw new Error(`Failed to fetch blog: ${error}`);
@@ -36,19 +43,31 @@ export const getBlogById = async (id) => {
 
 export const getCommentsByBlogId = async (blogId) => {
   try {
-    // Đảm bảo blogId là số
     const numericBlogId = Number(blogId);
     if (isNaN(numericBlogId)) {
       throw new Error('Invalid blog ID');
     }
 
-    const userData = JSON.parse(localStorage.getItem("user"));
+    let headers = { 'Content-Type': 'application/json' };
+    let userData = null;
+    try {
+      userData = JSON.parse(localStorage.getItem("user"));
+    } catch {}
     const token = userData?.accessToken;
-    const headers = { 'Content-Type': 'application/json' };
-    if (token) headers['Authorization'] = `Bearer ${token}`;
-    const response = await fetch(`${API_BASE_URL}/comments?blog_id=${numericBlogId}`, {
-      headers
-    });
+    if (token && token.length > 10) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    let response = await fetch(`${API_BASE_URL}/comments?blog_id=${numericBlogId}`, { headers });
+
+    // Nếu bị 401, thử lại không gửi Authorization header
+    if (response.status === 401 && headers['Authorization']) {
+      localStorage.removeItem('user');
+      response = await fetch(`${API_BASE_URL}/comments?blog_id=${numericBlogId}`, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     if (!response.ok) {
       const error = await response.text();
       throw new Error(`Failed to fetch comments: ${error}`);

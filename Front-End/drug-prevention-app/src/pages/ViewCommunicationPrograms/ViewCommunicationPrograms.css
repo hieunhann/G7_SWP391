@@ -1,6 +1,6 @@
 /* ViewCommunicationPrograms.css - Light Theme */
 body {
-  font-family: "Arial", sans-serif;
+  font-family: 'Arial', sans-serif;
   background-color: #ffffff; /* light background */
   color: #1e293b; /* dark text */
   margin: 0;
@@ -91,6 +91,19 @@ form label {
 }
 
 /* Buttons */
+button,
+.btn {
+  border-radius: 8px;
+  font-weight: 600;
+  background-color: #0dcaf0;
+  color: white;
+  border: none;
+}
+
+button:hover,
+.btn:hover {
+  background-color: #0aaac8;
+}
 
 /* Responsive layout */
 @media (max-width: 768px) {

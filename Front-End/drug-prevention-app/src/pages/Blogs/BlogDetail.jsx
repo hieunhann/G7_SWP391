@@ -128,7 +128,7 @@ const BlogDetail = () => {
     const saved = localStorage.getItem('user');
     const currentUser = saved ? JSON.parse(saved) : null;
     if (!currentUser) {
-      navigate('/login');
+      navigate('/login', { state: { message: 'Bạn cần đăng nhập để bình luận' } });
       return;
     }
     if (!newComment.trim()) {

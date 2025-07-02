@@ -14,11 +14,14 @@ import {
   FaYoutube,
   FaSearch,
 } from "react-icons/fa";
+import { getBlogs, getEvents } from "../../services/api";
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [events, setEvents] = useState([]);
+  const [loadingEvents, setLoadingEvents] = useState(true);
 
   const trainingPrograms = [
     {
@@ -43,39 +46,48 @@ export default function HomePage() {
     },
   ];
 
-  const communityMediaItems = [
-    {
-      icon: <FaBullseye size={40} className="text-green-400 mb-4" />,
-      title: "Chiến dịch nâng cao nhận thức",
-      description:
-        "Tổ chức các chiến dịch truyền thông đa kênh giúp nâng cao kiến thức về phòng chống ma túy.",
-    },
-    {
-      icon: <FaPoll size={40} className="text-green-400 mb-4" />,
-      title: "Khảo sát hiệu quả",
-      description:
-        "Thực hiện khảo sát để đánh giá tác động và hiệu quả của các chương trình.",
-    },
-    {
-      icon: <FaComments size={40} className="text-green-400 mb-4" />,
-      title: "Phản hồi từ người tham gia",
-      description:
-        "Lắng nghe ý kiến, góp ý từ cộng đồng để cải tiến các hoạt động.",
-    },
-  ];
-
   useEffect(() => {
-    // Fetch blogs from JSON server
-    fetch("http://localhost:5002/blogs")
-      .then((res) => res.json())
-      .then((data) => {
-        setBlogs(data);
-        setLoading(false);
-      })
-      .catch((err) => {
+    // Fetch blogs using the same API as BlogList
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        const data = await getBlogs();
+        // BlogList expects data.data, Home có thể cần kiểm tra
+        if (Array.isArray(data?.data)) {
+          setBlogs(data.data);
+        } else if (Array.isArray(data)) {
+          setBlogs(data);
+        } else {
+          setBlogs([]);
+        }
+      } catch (err) {
         console.error("Error fetching blogs:", err);
+        setBlogs([]);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+    fetchBlogs();
+    // Fetch events for community media section
+    const fetchEvents = async () => {
+      try {
+        setLoadingEvents(true);
+        const res = await getEvents();
+        if (Array.isArray(res?.data)) {
+          setEvents(res.data);
+        } else if (Array.isArray(res)) {
+          setEvents(res);
+        } else {
+          setEvents([]);
+        }
+      } catch (err) {
+        console.error("Error fetching events:", err);
+        setEvents([]);
+      } finally {
+        setLoadingEvents(false);
+      }
+    };
+    fetchEvents();
   }, []);
 
   const filteredTrainingPrograms = trainingPrograms.filter(({ title }) =>
@@ -185,18 +197,6 @@ export default function HomePage() {
                 </p>
               )}
             </div>
-
-            {/* Tìm kiếm */}
-            <div className="relative w-full max-w-md mx-auto mt-4">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="Tìm khóa học..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-3 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 shadow-inner focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
           </div>
         </section>
 
@@ -233,23 +233,18 @@ export default function HomePage() {
                   }}
                 >
                   <div className="relative h-48 overflow-hidden rounded-t-3xl">
-                    <img
-                      src={
-                        blog.image ||
-                        "https://cdn-icons-png.flaticon.com/512/2913/2913461.png"
-                      }
-                      alt={blog.title}
-                      className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
-                    />
+                  <img
+                    src={blog.imageUrl || "https://cdn-icons-png.flaticon.com/512/2913/2913461.png"}
+                    alt={blog.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => e.target.src = "https://cdn-icons-png.flaticon.com/512/2913/2913461.png"}
+                  />
                     <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-90 hover:opacity-70 transition-opacity duration-300"></div>
                     <h4 className="absolute bottom-4 left-4 right-4 text-xl sm:text-2xl font-extrabold text-green-700 drop-shadow">
                       {blog.title}
                     </h4>
                   </div>
-                  <div className="p-6 flex flex-col flex-grow">
-                    <p className="text-gray-700 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
-                      {blog.content}
-                    </p>
+                  <div className="p-6 flex flex-col flex-grow items-center justify-end">
                     <Link
                       to={`/blog/${blog.id}`}
                       className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-3 rounded-full shadow-md transition-transform duration-300 ease-in-out hover:scale-105 focus:outline-none flex-shrink-0"
@@ -264,6 +259,7 @@ export default function HomePage() {
           )}
 
           <div className="text-center mt-12">
+            <p className="mb-3 text-gray-600 text-base">Khám phá thêm nhiều bài viết hữu ích về phòng chống ma túy và sức khỏe cộng đồng.</p>
             <Link
               to="/blogs"
               className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-all"
@@ -366,33 +362,47 @@ export default function HomePage() {
             Truyền thông cộng đồng
           </h3>
           <p className="text-center text-black-500 text-lg mb-12 max-w-2xl mx-auto">
-            Những hoạt động nổi bật giúp lan tỏa nhận thức và phòng chống ma túy
-            trong cộng đồng.
+            Những hoạt động nổi bật giúp lan tỏa nhận thức và phòng chống ma túy trong cộng đồng.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {communityMediaItems.map(({ icon, title, description }, index) => (
-              <motion.div
-                key={title}
-                className="bg-gradient-to-br from-green-700 via-green-800 to-green-900 p-6 rounded-2xl shadow-2xl text-center text-white hover:scale-105 hover:shadow-green-500/40 transition-all duration-300 group"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.2 }}
-                viewport={{ once: true }}
-              >
-                <div className="mb-4 bg-white/10 p-4 w-16 h-16 mx-auto flex items-center justify-center rounded-full border border-white/20 group-hover:rotate-6 transition-transform duration-300">
-                  {icon}
-                </div>
-                <h4 className="text-xl font-semibold mb-2">{title}</h4>
-                <p className="text-gray-200 text-sm">{description}</p>
-              </motion.div>
-            ))}
-          </div>
-
+          {loadingEvents ? (
+            <div className="text-center">Đang tải...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {events.length === 0 ? (
+                <div className="col-span-full text-center text-gray-500">Không có chương trình truyền thông nào.</div>
+              ) : (
+                events.slice(0, 3).map((event, index) => (
+                  <motion.div
+                    key={event.id}
+                    className="bg-gradient-to-br from-green-700 via-green-800 to-green-900 p-6 rounded-2xl shadow-2xl text-center text-white hover:scale-105 hover:shadow-green-500/40 transition-all duration-300 group flex flex-col"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.2 }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="mb-4 bg-white/10 p-4 w-16 h-16 mx-auto flex items-center justify-center rounded-full border border-white/20 group-hover:rotate-6 transition-transform duration-300">
+                      <FaBullseye size={40} className="text-green-400" />
+                    </div>
+                    <h4 className="text-xl font-semibold mb-2">{event.title}</h4>
+                    <p className="text-gray-200 text-sm mb-4 line-clamp-3">{event.description}</p>
+                    <Link
+                      to={`/event/${event.id}`}
+                      className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-full shadow-md transition-transform duration-300 ease-in-out hover:scale-105 focus:outline-none flex-shrink-0 mt-auto"
+                      aria-label={`Xem chi tiết chương trình: ${event.title}`}
+                    >
+                      Xem chi tiết <FaArrowRight />
+                    </Link>
+                  </motion.div>
+                ))
+              )}
+            </div>
+          )}
           {/* CTA */}
           <div className="mt-16 text-center">
             <motion.button
               className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg inline-flex items-center gap-3 transition-all"
               whileHover={{ scale: 1.05 }}
+              onClick={() => window.location.href = '/ViewCommunicationPrograms'}
             >
               <FaBullseye size={18} /> Xem tất cả chiến dịch
             </motion.button>

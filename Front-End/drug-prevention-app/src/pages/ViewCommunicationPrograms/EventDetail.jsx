@@ -45,6 +45,10 @@ const EventDetail = () => {
   }, [id]);
 
   const handleSubmitFeedback = async () => {
+    if (!memberId) {
+      navigate("/login", { state: { message: "Bạn cần đăng nhập để bình luận" } });
+      return;
+    }
     const newFeedback = {
       member: { id: memberId  },
       eventId: event.id,
