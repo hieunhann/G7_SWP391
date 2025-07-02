@@ -8,7 +8,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import Header from "../../components/Header/Header";
-import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
+import NotifyLogin from "../../components/Notify/NotifyLogin";
 import api from "../../Axios/Axios";
 import { toast } from "react-toastify";
 

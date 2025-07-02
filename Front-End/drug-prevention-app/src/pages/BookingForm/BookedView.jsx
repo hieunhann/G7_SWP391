@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import { useNavigate } from "react-router-dom";
-import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
+import NotifyLogin from "../../components/Notify/NotifyLogin";
 import api from "../../Axios/Axios";
 import bookingServices from "../../apis/BookingAPIs";
 import { getBookingDate } from "../../utils/Date";
