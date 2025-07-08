@@ -32,6 +32,8 @@ import ScheduleManager from "./pages/ScheduleManager/ScheduleManager";
 import Footer from "./components/Footer/Footer";
 import EditEvent from "./pages/ViewCommunicationPrograms/EditEvent";
 import CreateBlog from "./pages/Blogs/CreateBlog";
+import UserManagementPage from "./pages/Admin/UserManagementPage";
+import SystemSettings from "./pages/Admin/SystemSettings"
 // import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 
 // Router configuration
@@ -59,6 +61,8 @@ const router = createBrowserRouter([
   { path : "/create-event" , element: <CreateEvent /> },
   { path: "/edit-event/:id", element: <EditEvent /> },
   { path : "/create-blog" , element: <CreateBlog /> },
+  { path : "/admin/users" , element: <UserManagementPage /> },
+  { path : "/admin/settings" , element : <SystemSettings/>}
     // { path: "/ViewCommunicationPrograms", element: <ViewCommunicationPrograms /> },
 
 ]);
