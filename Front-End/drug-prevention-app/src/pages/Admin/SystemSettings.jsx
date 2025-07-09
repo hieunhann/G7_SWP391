@@ -32,7 +32,7 @@ const SystemSettings = () => {
             {/* Thông tin hệ thống */}
             <div className="flex items-center gap-6">
               <div>
-                <label className="block font-semibold mb-1">Tên hệ thống</label>
+                <label className="block font-semibold mb-1">Tên nhiều hệ thống đang được sử dụng</label>
                 <input
                   type="text"
                   className="border rounded-lg px-4 py-2 w-64 focus:ring-2 focus:ring-blue-300"
