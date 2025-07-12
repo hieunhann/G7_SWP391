@@ -53,14 +53,14 @@ const Courses = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-[#f9fafb] py-6 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-[#004b8d] mb-6">
+      <div className="min-h-screen bg-[#f0f2f5] py-6 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-extrabold text-left text-[#004b8d] mb-8 border-b-4 border-[#0070cc] pb-2">
             Khóa học phòng chống ma túy
           </h2>
 
           {/* Bộ lọc */}
-          <div className="flex flex-wrap justify-center gap-4 mb-6">
+          <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
             <input
               type="text"
               placeholder="Tìm kiếm khóa học..."
@@ -69,7 +69,7 @@ const Courses = () => {
                 setSearch(e.target.value);
                 setCurrentPage(1);
               }}
-              className="px-4 py-2 border border-[#004b8d] rounded-xl w-full max-w-md focus:ring focus:ring-blue-200"
+              className="px-4 py-2 border border-[#004b8d] rounded-xl w-full max-w-md focus:ring focus:ring-blue-200 shadow-sm"
             />
             <select
               value={ageGroupFilter}
@@ -77,7 +77,7 @@ const Courses = () => {
                 setAgeGroupFilter(e.target.value);
                 setCurrentPage(1);
               }}
-              className="px-4 py-2 border border-[#004b8d] rounded-xl focus:ring focus:ring-blue-200"
+              className="px-4 py-2 border border-[#004b8d] rounded-xl focus:ring focus:ring-blue-200 shadow-sm"
             >
               <option value="">Tất cả nhóm tuổi</option>
               {allAgeGroups.map((group) => (
@@ -88,10 +88,8 @@ const Courses = () => {
             </select>
           </div>
 
-          {/* Thống kê */}
-          <p className="text-center text-sm text-gray-600 mb-4">
-            Đã tìm thấy <strong>{filteredCourses.length}</strong> khóa học phù
-            hợp
+          <p className="text-left text-sm text-gray-600 mb-4">
+            Đã tìm thấy <strong>{filteredCourses.length}</strong> khóa học phù hợp
           </p>
 
           {/* Danh sách khóa học */}
@@ -105,21 +103,21 @@ const Courses = () => {
                 {currentCourses.map((course) => (
                   <motion.div
                     key={course.id}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
                     transition={{ duration: 0.3 }}
-                    whileHover={{ scale: 1.03 }}
-                    className="bg-white p-4 rounded-2xl shadow hover:shadow-lg border border-teal-200 transition-all duration-300"
+                    className="bg-white rounded-2xl shadow-2xl p-4 border border-gray-200 transform hover:scale-[1.01] transition duration-300"
+                    style={{ boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)" }}
                   >
                     <div className="flex flex-col md:flex-row gap-4">
                       <img
                         src={course.image}
                         alt={course.name}
-                        className="w-full md:w-40 h-28 object-cover rounded-lg border border-[#004b8d]"
+                        className="w-full md:w-64 h-56 object-cover rounded-lg border border-[#004b8d] shadow"
                       />
-                      <div className="flex flex-col justify-between">
-                        <h3 className="text-xl font-semibold text-blue-700">
+                      <div className="flex flex-col justify-between flex-1">
+                        <h3 className="text-xl font-semibold text-[#004b8d]">
                           {course.name}
                         </h3>
                         <p className="text-gray-700 text-sm mt-2 line-clamp-3">
@@ -131,9 +129,9 @@ const Courses = () => {
                           </span>
                           <span>⏱ {course.duration || "N/A"} phút</span>
                         </div>
-                        <div className="flex gap-2 mt-4">
+                        <div className="flex gap-2 mt-4 flex-wrap">
                           <button
-                            className="bg-blue-600 text-white px-4 py-1 rounded-xl hover:bg-blue-700 flex items-center gap-2"
+                            className="w-fit bg-gradient-to-r from-[#004b8d] to-[#0070cc] text-white font-medium py-1.5 px-4 rounded-xl hover:opacity-90 text-sm shadow"
                             onClick={() => {
                               const user = JSON.parse(
                                 localStorage.getItem("user") || "null"
@@ -142,15 +140,19 @@ const Courses = () => {
                               navigate(`/Courses/lesson/${course.id}`);
                             }}
                           >
-                            <i className="bi bi-play-circle-fill"></i> Bắt đầu khóa học miễn phí
+                            ▶️ Xem video học
                           </button>
                           <button
-                            className="bg-gray-200 text-blue-700 rounded-xl px-4 py-1 hover:bg-gray-300"
-                            onClick={() =>
-                              navigate(`/Courses/lesson/${course.id}/feedback`)
-                            }
+                            className="w-fit bg-white border border-[#004b8d] text-[#004b8d] font-medium py-1.5 px-4 rounded-xl  text-sm shadow"
+                            onClick={() => {
+                              const user = JSON.parse(
+                                localStorage.getItem("user") || "null"
+                              );
+                              if (!user?.id) return navigate("/login");
+                              navigate(`/Courses/lesson/${course.id}/feedback`);
+                            }}
                           >
-                           Xem các đánh giá khóa học
+                            💬 Đánh giá khóa học
                           </button>
                         </div>
                       </div>
@@ -160,25 +162,26 @@ const Courses = () => {
               </AnimatePresence>
             </div>
           )}
+
+          {/* Phân trang */}
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-8 gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                <button
+                  key={p}
+                  className={`px-4 py-2 rounded-xl border font-medium text-sm transition-all duration-200 shadow-sm ${
+                    p === currentPage
+                      ? "bg-[#004b8d] text-white border-[#004b8d]"
+                      : "bg-white text-[#004b8d] border-[#004b8d] hover:bg-blue-50"
+                  }`}
+                  onClick={() => setCurrentPage(p)}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
-        {/* Phân trang */}
-        {totalPages > 1 && (
-          <div className="flex justify-center mt-6 gap-2">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-              <button
-                key={p}
-                className={`px-4 py-2 rounded-xl border font-medium text-sm transition-all duration-200 ${
-                  p === currentPage
-                    ? "bg-[#004b8d] text-white border-[#004b8d]"
-                    : "bg-white text-[#004b8d] border-[#004b8d] hover:bg-blue-50"
-                }`}
-                onClick={() => setCurrentPage(p)}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
-        )}
       </div>
     </>
   );

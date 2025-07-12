@@ -8,7 +8,6 @@ const Footer = () => {
       style={{
         padding: " 0px",
         "margin-top": "auto",
-        position: "fixed",
         width: "100vw",
         height: "60px",
         bottom: " 0px",

@@ -34,6 +34,7 @@ const Header = () => {
     { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" },
     { to: "/ScheduleManager", label: "Quản Lý Lịch" },
     { to: "/blogs", label: "Bài Viết" },
+    { to: "/manage-courses", label: "Quản Lý Khóa Học" }, 
   ];
 
   return (

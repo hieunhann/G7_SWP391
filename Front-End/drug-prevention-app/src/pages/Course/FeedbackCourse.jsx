@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import api from "../../Axios/Axios";
 import Header from "../../components/Header/Header";
-import NotifyLogin from "../../components/NotifyLogin/NotifyLogin";
+import NotifyLogin from "../../components/Notify/NotifyLogin";
 
 const FEEDBACKS_PER_PAGE = 3;
 const ICON_COLOR = "#004b8d";
