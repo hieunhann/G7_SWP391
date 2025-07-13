@@ -2,10 +2,15 @@ import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import { FaUserEdit, FaTrash, FaPlus, FaSyncAlt } from 'react-icons/fa';
 import Header from '../../components/Header/Header';
-
+import { useNavigate } from "react-router-dom";
+import NotifyLogin from "../../components/Notify/NotifyLogin";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import Sidebar from '../../components/Sidebar/Sidebar';
 
 const API_URL = "http://localhost:8080";
-
 
 // Tạo options cho select giờ
 const timeOptions = [];
@@ -15,7 +20,6 @@ for (let h = 0; h < 24; h++) {
     timeOptions.push(`${hourStr}:${m}`);
   });
 }
-
 
 // Component chọn giờ
 function TimeSelect({ name, value, onChange }) {
@@ -37,7 +41,6 @@ function TimeSelect({ name, value, onChange }) {
   );
 }
 
-
 // Tự động thêm Authorization header cho mọi request nếu có token
 axios.interceptors.request.use(
   (config) => {
@@ -50,7 +53,6 @@ axios.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-
 
 function ScheduleManager() {
   const [users, setUsers] = useState([]);
@@ -68,12 +70,20 @@ function ScheduleManager() {
   const [userSearch, setUserSearch] = useState("");
   const [dayFilter, setDayFilter] = useState("");
   const [toast, setToast] = useState({ show: false, type: '', message: '' });
-
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user") || "null");
 
   const daysOfWeek = [
     "Chủ Nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7",
   ];
 
+  // Chỉ cho phép MANAGER truy cập
+  useEffect(() => {
+    if (!user || user.role?.toUpperCase() !== "MANAGER") {
+      setShowLoginPopup(true);
+    }
+  }, [user, navigate]);
 
   // Fetch data từ API
   useEffect(() => {
@@ -86,7 +96,13 @@ function ScheduleManager() {
         ]);
         console.log("userResponse", userResponse.data);
         console.log("scheduleResponse", scheduleResponse.data);
-        setUsers(userResponse.data?.data?.result || []);
+        setUsers(
+          userResponse.data?.data?.result ||
+          userResponse.data?.result ||
+          userResponse.data?.data ||
+          userResponse.data ||
+          []
+        );
         setSchedules(Array.isArray(scheduleResponse.data?.data) ? scheduleResponse.data.data : []);
       } catch (error) {
         setToast({ show: true, type: 'error', message: 'Có lỗi xảy ra khi tải dữ liệu.' });
@@ -95,10 +111,8 @@ function ScheduleManager() {
       }
     };
 
-
     fetchData();
   }, []);
-
 
   // Auto-hide toast message
   useEffect(() => {
@@ -110,24 +124,20 @@ function ScheduleManager() {
     }
   }, [toast.show]);
 
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
 
   const handleSelectUser = (e) => {
     setSelectedUser(e.target.value);
     setForm(prev => ({ ...prev, consultant_id: e.target.value }));
   };
 
-
   const resetFilters = () => {
     setUserSearch("");
     setRoleFilter("");
     setDayFilter("");
   };
-
 
   // Xác định ca làm việc
   const getShift = (start) => {
@@ -137,7 +147,6 @@ function ScheduleManager() {
     if (h < 18) return "Chiều";
     return "Tối";
   };
-
 
   // Xử lý submit form
   const handleSubmit = async (e) => {
@@ -156,10 +165,10 @@ function ScheduleManager() {
       return;
     }
     const scheduleData = {
-      consultant: { id: Number(form.consultant_id) },
+      consultantId: Number(form.consultant_id), // <-- chỉ gửi id, không gửi object
+      day: form.day_of_week,
       startTime: form.start_time,
-      endTime: form.end_time,
-      day: form.day_of_week
+      endTime: form.end_time
     };
     setLoading(true);
     try {
@@ -195,15 +204,14 @@ function ScheduleManager() {
       });
       setEditingId(null);
     } catch (error) {
-      const errorMsg = error.response?.data?.message ||
-                      error.response?.data?.error ||
+      const errorMsg = error.response?.data?.message || 
+                      error.response?.data?.error || 
                       'Có lỗi xảy ra khi lưu lịch.';
       setToast({ show: true, type: 'error', message: errorMsg });
     } finally {
       setLoading(false);
     }
   };
-
 
   // Xử lý chỉnh sửa lịch
   const handleEdit = (schedule) => {
@@ -218,7 +226,6 @@ function ScheduleManager() {
     setSelectedUser(String(schedule.consultant?.id));
     setEditingId(schedule.id);
   };
-
 
   // Xử lý xóa lịch
   const handleDelete = async (id) => {
@@ -245,7 +252,6 @@ function ScheduleManager() {
     }
   };
 
-
   // Kiểm tra lịch trùng
   const isScheduleConflict = (newSchedule) => {
     if (!Array.isArray(schedules)) return false;
@@ -257,23 +263,22 @@ function ScheduleManager() {
       ) {
         return false;
       }
-     
+      
       const normalizeTime = (time) => time?.endsWith(":00") ? time.slice(0, -3) : time;
       const sStart = normalizeTime(s.startTime);
       const sEnd = normalizeTime(s.endTime);
       const newStart = normalizeTime(newSchedule.start_time);
       const newEnd = normalizeTime(newSchedule.end_time);
-     
+      
       return !(newEnd <= sStart || newStart >= sEnd);
     });
   };
 
-
-  // Lọc danh sách user - chỉ lấy Staff và Consultant
+  // Lọc danh sách user - chỉ lấy Consultant
   const filteredUsers = useMemo(() => {
     if (!Array.isArray(users)) return [];
     return users
-      .filter(u => ["STAFF", "CONSULTANT"].includes((u.role || "").toUpperCase()))
+      .filter(u => ["CONSULTANT"].includes((u.role || "").toUpperCase()))
       .filter(u => (roleFilter === "" ? true : u.role?.toUpperCase() === roleFilter.toUpperCase()))
       .filter(u => {
         const displayName = u.name || (u.firstName ? (u.firstName + ' ' + (u.lastName || '')) : '');
@@ -283,7 +288,6 @@ function ScheduleManager() {
           );
       });
   }, [users, roleFilter, userSearch]);
-
 
   // Lọc danh sách lịch - chỉ lọc theo selectedUser và dayFilter, không loại theo role consultant
   const filteredSchedules = useMemo(() => {
@@ -304,12 +308,10 @@ function ScheduleManager() {
       });
   }, [schedules, selectedUser, dayFilter]);
 
-
   // Debug log
   console.log('schedules', schedules);
   console.log('users', users);
   console.log('filteredSchedules', filteredSchedules);
-
 
   // Tính thời lượng ca làm việc
   function calcDuration(start, end) {
@@ -321,27 +323,75 @@ function ScheduleManager() {
     return Math.round(duration * 10) / 10;
   }
 
+  // Helper: safely get consultant name
+  const getConsultantName = (consultant) => {
+    if (!consultant) return '';
+    const first = consultant.firstName || '';
+    const last = consultant.lastName || '';
+    return (first + ' ' + last).trim() || consultant.id || '';
+  };
 
   return (
     <>
       <Header />
-      {/* Overlay loading */}
-      {loading && (
-        <div className="fixed inset-0 bg-white bg-opacity-60 flex items-center justify-center z-50">
-          <div className="animate-spin rounded-full h-10 w-10 border-4 border-blue-400 border-t-transparent"></div>
+      <Sidebar />
+      <div style={{ marginLeft: 220 }}>
+      <NotifyLogin
+        show={showLoginPopup}
+        onCancel={() => navigate("/")}
+        message="Bạn cần đăng nhập với quyền Quản lý (Manager) để truy cập trang này!"
+        cancelText="Về trang chủ"
+        confirmText="Đăng nhập"
+        redirectTo="/login"
+      />
+      {!showLoginPopup && (
+        <div className="container pt-4 pb-5 mb-4">
+          <h2 className="mb-4" style={{ color: "#004b8d", fontWeight: 700 }}>
+            Quản lý lịch làm việc chuyên viên và Nhân viên 
+          </h2>
+          <div className="mb-3 d-flex align-items-center gap-2" style={{ width: "100%", justifyContent: "flex-end" }}>
+            <label htmlFor="userSearch" style={{ fontWeight: 500 }}>Tìm kiếm nhân sự:</label>
+            <input
+              type="text"
+              id="userSearch"
+              className="form-control"
+              style={{ maxWidth: 200 }}
+              placeholder="Nhập tên, email, ..."
+              value={userSearch}
+              onChange={e => setUserSearch(e.target.value)}
+            />
+            <label htmlFor="roleFilter" style={{ fontWeight: 500 }}>Vai trò:</label>
+            <select
+              id="roleFilter"
+              className="form-select"
+              style={{ maxWidth: 150 }}
+              value={roleFilter}
+              onChange={e => setRoleFilter(e.target.value)}
+            >
+              <option value="">Tất cả</option>
+              <option value="Consultant">Consultant</option>
+              <option value="Staff">Staff</option>        
+            </select>
+            <label htmlFor="dayFilter" style={{ fontWeight: 500 }}>Ngày:</label>
+            <input
+              type="date"
+              id="dayFilter"
+              className="form-control"
+              style={{ maxWidth: 150 }}
+              value={dayFilter}
+              onChange={e => setDayFilter(e.target.value)}
+            />
+            <button
+              onClick={resetFilters}
+              className="btn btn-outline-secondary btn-sm"
+            >Đặt lại</button>
         </div>
-      )}
-     
-      <div className="max-w-2xl mx-auto px-2 py-8">
-        {/* Tiêu đề */}
-        <h2 className="text-2xl font-bold text-center mb-6 text-blue-700 tracking-tight">Quản lý lịch làm việc</h2>
-        {/* Form thêm/sửa lịch */}
         <div className="bg-white rounded-xl shadow p-5 mb-6">
-          <form className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end" onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-1 md:col-span-2">
-              <label className="text-sm font-medium text-gray-700">Nhân sự</label>
+            <form className="row g-3 align-items-end" onSubmit={handleSubmit}>
+              <div className="col-md-3">
+                <label className="form-label">Nhân sự</label>
               <select
-                className="border border-gray-300 rounded px-3 py-2 text-sm w-full"
+                  className="form-select"
                 value={selectedUser}
                 onChange={handleSelectUser}
                 required
@@ -354,44 +404,44 @@ function ScheduleManager() {
                 ))}
               </select>
             </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-gray-700">Ngày</label>
+              <div className="col-md-2">
+                <label className="form-label">Ngày</label>
               <input
                 type="date"
-                className="border border-gray-300 rounded px-3 py-2 text-sm w-full"
+                  className="form-control"
                 name="day_of_week"
                 value={form.day_of_week}
                 onChange={handleChange}
                 required
               />
             </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-gray-700">Bắt đầu</label>
+              <div className="col-md-2">
+                <label className="form-label">Bắt đầu</label>
               <TimeSelect
                 name="start_time"
                 value={form.start_time}
                 onChange={handleChange}
               />
             </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-gray-700">Kết thúc</label>
+              <div className="col-md-2">
+                <label className="form-label">Kết thúc</label>
               <TimeSelect
                 name="end_time"
                 value={form.end_time}
                 onChange={handleChange}
               />
             </div>
-            <div className="flex flex-row gap-2 md:col-span-5">
+              <div className="col-md-3 d-flex gap-2">
               <button
                 type="submit"
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2 text-sm font-semibold shadow w-full md:w-auto justify-center"
+                  className="btn btn-primary w-100"
                 disabled={loading}
               >
-                <FaPlus /> {editingId ? "Cập nhật" : "Thêm mới"}
+                  {editingId ? "Cập nhật" : "Thêm mới"}
               </button>
               <button
                 type="button"
-                className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded px-4 py-2 text-sm font-semibold border border-gray-300 shadow w-full md:w-auto justify-center"
+                  className="btn btn-outline-secondary w-100"
                 onClick={() => {
                   setForm({
                     consultant_id: selectedUser,
@@ -401,79 +451,46 @@ function ScheduleManager() {
                   });
                   setEditingId(null);
                 }}
-              >
-                <FaSyncAlt /> Làm mới
-              </button>
+                >Làm mới</button>
             </div>
           </form>
         </div>
-        {/* Bộ lọc */}
-        <div className="flex flex-col md:flex-row gap-3 mb-5 items-center justify-between bg-white rounded-xl shadow p-4">
-          <input
-            type="text"
-            className="border border-gray-300 rounded px-3 py-2 text-sm w-full md:w-1/3"
-            placeholder="Tìm kiếm nhân sự..."
-            value={userSearch}
-            onChange={e => setUserSearch(e.target.value)}
-          />
-          <select
-            className="border border-gray-300 rounded px-3 py-2 text-sm w-full md:w-1/4"
-            value={roleFilter}
-            onChange={e => setRoleFilter(e.target.value)}
-          >
-            <option value="">Tất cả vai trò</option>
-            <option value="Consultant">Consultant</option>
-            <option value="Staff">Staff</option>
-          </select>
-          <input
-            type="date"
-            className="border border-gray-300 rounded px-3 py-2 text-sm w-full md:w-1/4"
-            value={dayFilter}
-            onChange={e => setDayFilter(e.target.value)}
-            placeholder="Lọc theo ngày"
-          />
-          <button
-            onClick={resetFilters}
-            className="bg-gray-50 hover:bg-gray-100 text-gray-500 rounded px-3 py-2 text-sm border border-gray-200"
-          >Đặt lại</button>
-        </div>
-        {/* Bảng lịch */}
         <div className="bg-white rounded-xl shadow p-4">
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-sm border-separate border-spacing-y-1">
-              <thead>
-                <tr className="bg-gray-50">
-                  <th className="px-3 py-2 text-left font-semibold">Nhân sự</th>
-                  <th className="px-3 py-2 text-left font-semibold">Ngày</th>
-                  <th className="px-3 py-2 text-left font-semibold">Bắt đầu</th>
-                  <th className="px-3 py-2 text-left font-semibold">Kết thúc</th>
-                  <th className="px-3 py-2 text-left font-semibold">Thời lượng</th>
-                  <th className="px-3 py-2 text-left font-semibold"> </th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredSchedules.length === 0 ? (
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover">
+                <thead className="table-primary text-center align-middle">
                   <tr>
-                    <td colSpan={6} className="text-center text-gray-400 py-4">Không có lịch nào.</td>
+                    <th>#</th>
+                    <th>Nhân sự</th>
+                    <th>Ngày</th>
+                    <th>Bắt đầu</th>
+                    <th>Kết thúc</th>
+                    <th>Thời lượng</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody className="align-middle">
+                  {filteredSchedules.length === 0 ? (
+                    <tr>
+                      <td colSpan={7} className="text-center text-gray-400 py-4">Không có lịch nào.</td>
                   </tr>
                 ) : (
-                  filteredSchedules.map((s) => {
-                    const consultant = users.find(
-                      u => u.id === (s.consultant?.id ?? s.consultantId)
-                    );
-                    return (
-                      <tr key={s.id} className="bg-white hover:bg-blue-50 rounded">
-                        <td className="px-3 py-2 rounded-l">
-                          {consultant?.name || (consultant?.firstName ? (consultant.firstName + ' ' + (consultant.lastName || '')) : "?")}
-                          <span className="text-xs text-gray-400 ml-1">({consultant?.role || "?"})</span>
-                        </td>
-                        <td className="px-3 py-2">{s.day || s.dayOfWeek || '-'}</td>
-                        <td className="px-3 py-2">{s.startTime?.slice(0, 5)}</td>
-                        <td className="px-3 py-2">{s.endTime?.slice(0, 5)}</td>
-                        <td className="px-3 py-2">{calcDuration(s.startTime, s.endTime)}h</td>
-                        <td className="px-3 py-2 flex gap-2 rounded-r">
+                    filteredSchedules.map((s, idx) => {
+                      const consultant = s.consultant || {};
+                      return (
+                        <tr key={s.id || idx} className="bg-white hover:bg-blue-50 rounded">
+                          <td>{idx + 1}</td>
+                          <td>
+                            {getConsultantName(consultant)}
+                            <span className="text-xs text-gray-400 ml-1">({consultant.role || '?'})</span>
+                          </td>
+                          <td>{s.day || s.dayOfWeek || '-'}</td>
+                          <td>{s.startTime ? String(s.startTime).slice(0, 5) : '-'}</td>
+                          <td>{s.endTime ? String(s.endTime).slice(0, 5) : '-'}</td>
+                          <td>{calcDuration(s.startTime, s.endTime)}h</td>
+                          <td className="d-flex gap-2">
                           <button
-                            className="p-2 rounded hover:bg-yellow-100 text-yellow-600"
+                              className="btn btn-warning btn-sm"
                             title="Sửa"
                             onClick={() => handleEdit(s)}
                             disabled={loading}
@@ -481,7 +498,7 @@ function ScheduleManager() {
                             <FaUserEdit />
                           </button>
                           <button
-                            className="p-2 rounded hover:bg-red-100 text-red-600"
+                              className="btn btn-danger btn-sm"
                             title="Xóa"
                             onClick={() => handleDelete(s.id)}
                             disabled={loading}
@@ -497,17 +514,146 @@ function ScheduleManager() {
             </table>
           </div>
         </div>
-        {/* Toast message */}
+          {/* Bảng thống kê tổng số ca và tổng số giờ làm việc */}
+          <div className="bg-white rounded-xl shadow p-4 mt-4">
+            <h5 style={{ fontWeight: 600, color: '#004b8d' }}>Thống kê tổng số ca & tổng số giờ làm việc</h5>
+            {/* Nút xuất file */}
+            <div className="mb-3 d-flex gap-2">
+              <button className="btn btn-success btn-sm" onClick={() => {
+                // Gom nhóm schedules theo consultant.id
+                const stats = {};
+                schedules.forEach(s => {
+                  const consultantId = s.consultant?.id;
+                  if (!consultantId) return;
+                  if (!stats[consultantId]) {
+                    stats[consultantId] = { count: 0, totalHours: 0, consultant: s.consultant };
+                  }
+                  let hours = 0;
+                  if (s.startTime && s.endTime) {
+                    const [sh, sm] = s.startTime.split(":").map(Number);
+                    const [eh, em] = s.endTime.split(":").map(Number);
+                    hours = (eh + em/60) - (sh + sm/60);
+                    if (hours < 0) hours += 24;
+                    hours = Math.round(hours * 10) / 10;
+                  }
+                  stats[consultantId].count += 1;
+                  stats[consultantId].totalHours += hours;
+                });
+                const rows = Object.values(stats).map(stat => ({
+                  'Nhân sự': stat.consultant ? (stat.consultant.firstName + ' ' + stat.consultant.lastName) : stat.consultant?.id,
+                  'Số ca làm việc': stat.count,
+                  'Tổng số giờ': stat.totalHours
+                }));
+                const ws = XLSX.utils.json_to_sheet(rows);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'ThongKeLich');
+                const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+                saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'thong_ke_lich.xlsx');
+              }}>
+                Xuất Excel
+              </button>
+              <button className="btn btn-danger btn-sm" onClick={() => {
+                // Gom nhóm schedules theo consultant.id
+                const stats = {};
+                schedules.forEach(s => {
+                  const consultantId = s.consultant?.id;
+                  if (!consultantId) return;
+                  if (!stats[consultantId]) {
+                    stats[consultantId] = { count: 0, totalHours: 0, consultant: s.consultant };
+                  }
+                  let hours = 0;
+                  if (s.startTime && s.endTime) {
+                    const [sh, sm] = s.startTime.split(":").map(Number);
+                    const [eh, em] = s.endTime.split(":").map(Number);
+                    hours = (eh + em/60) - (sh + sm/60);
+                    if (hours < 0) hours += 24;
+                    hours = Math.round(hours * 10) / 10;
+                  }
+                  stats[consultantId].count += 1;
+                  stats[consultantId].totalHours += hours;
+                });
+                const rows = Object.values(stats).map(stat => ([
+                  stat.consultant ? (stat.consultant.firstName + ' ' + stat.consultant.lastName) : stat.consultant?.id,
+                  stat.count,
+                  stat.totalHours
+                ]));
+                const doc = new jsPDF();
+                doc.text('Thống kê tổng số ca & tổng số giờ làm việc', 14, 16);
+                doc.autoTable({
+                  head: [['Nhân sự', 'Số ca làm việc', 'Tổng số giờ']],
+                  body: rows,
+                  startY: 20
+                });
+                doc.save('thong_ke_lich.pdf');
+              }}>
+                Xuất PDF
+              </button>
+            </div>
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover">
+                <thead className="table-secondary text-center align-middle">
+                  <tr>
+                    <th>Nhân sự</th>
+                    <th>Số ca làm việc</th>
+                    <th>Tổng số giờ</th>
+                  </tr>
+                </thead>
+                <tbody className="align-middle">
+                  {(() => {
+                    // Gom nhóm schedules theo consultant.id
+                    const stats = {};
+                    schedules.forEach(s => {
+                      const consultantId = s.consultant?.id;
+                      if (!consultantId) return;
+                      if (!stats[consultantId]) {
+                        stats[consultantId] = { count: 0, totalHours: 0, consultant: s.consultant };
+                      }
+                      // Tính số giờ làm việc
+                      let hours = 0;
+                      if (s.startTime && s.endTime) {
+                        const [sh, sm] = s.startTime.split(":").map(Number);
+                        const [eh, em] = s.endTime.split(":").map(Number);
+                        hours = (eh + em/60) - (sh + sm/60);
+                        if (hours < 0) hours += 24;
+                        hours = Math.round(hours * 10) / 10;
+                      }
+                      stats[consultantId].count += 1;
+                      stats[consultantId].totalHours += hours;
+                    });
+                    const rows = Object.values(stats);
+                    if (rows.length === 0) {
+                      return (
+                        <tr>
+                          <td colSpan={3} className="text-center text-gray-400 py-3">Không có dữ liệu thống kê.</td>
+                        </tr>
+                      );
+                    }
+                    return rows.map((stat, idx) => (
+                      <tr key={stat.consultant?.id || idx}>
+                        <td>
+                          {stat.consultant
+                            ? (stat.consultant.firstName + ' ' + stat.consultant.lastName)
+                            : stat.consultant?.id}
+                        </td>
+                        <td className="text-center">{stat.count}</td>
+                        <td className="text-center">{stat.totalHours}h</td>
+                      </tr>
+                    ));
+                  })()}
+                </tbody>
+              </table>
+            </div>
+          </div>
         {toast.show && (
           <div className={`fixed top-8 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded shadow text-sm font-semibold transition-all ${toast.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
             {toast.message}
           </div>
         )}
       </div>
+      )}
+    </div>
     </>
   );
 }
 
-
 export default ScheduleManager;
-

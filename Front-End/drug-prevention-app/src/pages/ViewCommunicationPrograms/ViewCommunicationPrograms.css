@@ -1,13 +1,14 @@
-/* ViewCommunicationPrograms.css - Scoped with .vcp- prefix */
-body.vcp-body {
+/* ViewCommunicationPrograms.css - Light Theme */
+body {
   font-family: 'Arial', sans-serif;
-  background-color: #ffffff;
-  color: #1e293b;
+  background-color: #ffffff; /* light background */
+  color: #1e293b; /* dark text */
   margin: 0;
   padding: 0;
 }
 
-.vcp-title {
+/* Title styling */
+h2 {
   font-weight: 700;
   border-bottom: 2px solid #0dcaf0;
   padding-bottom: 15px;
@@ -15,30 +16,33 @@ body.vcp-body {
   color: #0f172a;
 }
 
-.vcp-event-card {
+/* Event Card */
+.event-card {
   width: 100%;
   max-width: 340px;
   min-height: 520px;
-  background-color: #f8fafc;
+  background-color: #f8fafc; /* light gray */
   border-radius: 16px;
   transition: all 0.3s ease;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.vcp-event-card:hover {
+.event-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 12px 24px rgba(13, 202, 240, 0.15);
 }
 
-.vcp-event-image {
+/* Event image */
+.event-image {
   height: 200px;
   object-fit: cover;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
 }
 
-.vcp-icon-text {
+/* Text + Icon inline */
+.icon-text {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -47,21 +51,24 @@ body.vcp-body {
   font-size: 0.95rem;
 }
 
-.vcp-badge {
+/* Badge styling */
+.badge {
   font-size: 0.75rem;
   padding: 0.35em 0.6em;
   background-color: #e0f7fa;
   color: #0f172a;
 }
 
-.vcp-modal-image {
+/* Modal image */
+.modal-body img {
   max-height: 320px;
   object-fit: cover;
   width: 100%;
   border-radius: 10px;
 }
 
-.vcp-list-group-item {
+/* List Group */
+.list-group-item {
   background-color: #ffffff;
   border: none;
   border-left: 4px solid #0dcaf0;
@@ -71,19 +78,21 @@ body.vcp-body {
   color: #1e293b;
 }
 
-.vcp-rating-stars i {
-  color: #f59e0b;
+/* Rating stars */
+.rating-stars i {
+  color: #f59e0b; /* amber */
   margin-right: 2px;
 }
 
-.vcp-form-label {
+/* Form control */
+form label {
   font-weight: 600;
   color: #1e293b;
 }
 
-.vcp-button,
-button.vcp-button,
-.btn.vcp-button {
+/* Buttons */
+button,
+.btn {
   border-radius: 8px;
   font-weight: 600;
   background-color: #0dcaf0;
@@ -91,35 +100,34 @@ button.vcp-button,
   border: none;
 }
 
-.vcp-button:hover,
-button.vcp-button:hover,
-.btn.vcp-button:hover {
+button:hover,
+.btn:hover {
   background-color: #0aaac8;
 }
 
-/* Responsive Layouts */
+/* Responsive layout */
 @media (max-width: 768px) {
-  .vcp-event-card {
+  .event-card {
     max-width: 95%;
   }
 
-  .vcp-title {
+  h2 {
     font-size: 1.8rem;
   }
 
-  .vcp-modal-image {
+  .modal-body img {
     max-height: 200px;
   }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-  .vcp-event-card {
+  .event-card {
     max-width: 47%;
   }
 }
 
 @media (min-width: 1025px) {
-  .vcp-event-card {
+  .event-card {
     max-width: 300px;
   }
 }
