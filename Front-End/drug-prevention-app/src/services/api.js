@@ -379,10 +379,11 @@ export const registerForEvent = async (memberId, eventId) => {
     const headers = { 'Content-Type': 'application/json' };
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    const registration = { memberId, eventId };
+    // Gửi đúng DTO backend: { memberId, eventId } (cả hai là số)
+    const registration = { memberId: Number(memberId), eventId: Number(eventId) };
     const response = await fetch(`${API_BASE_URL}/registrations`, {
       method: 'POST',
-      headers, // <-- dùng biến headers đã có Authorization
+      headers,
       body: JSON.stringify(registration)
     });
     if (!response.ok) {
@@ -530,7 +531,7 @@ export const approveRegistration = async (id) => {
   const token = userData?.accessToken;
   const headers = { 'Content-Type': 'application/json' };
   if (token) headers['Authorization'] = `Bearer ${token}`;
-  const response = await fetch(`${API_BASE_URL}/registrations/${id}/approve`, {
+  const response = await fetch(`${API_BASE_URL}/registrations/approve/${id}`, {
     method: 'PUT',
     headers
   });
@@ -538,7 +539,7 @@ export const approveRegistration = async (id) => {
     const error = await response.text();
     throw new Error(`Failed to approve registration: ${error}`);
   }
-  return response;
+  return response.json();
 };
 
 export const rejectRegistration = async (id) => {
@@ -546,7 +547,7 @@ export const rejectRegistration = async (id) => {
   const token = userData?.accessToken;
   const headers = { 'Content-Type': 'application/json' };
   if (token) headers['Authorization'] = `Bearer ${token}`;
-  const response = await fetch(`${API_BASE_URL}/registrations/${id}/reject`, {
+  const response = await fetch(`${API_BASE_URL}/registrations/reject/${id}`, {
     method: 'PUT',
     headers
   });
@@ -554,6 +555,22 @@ export const rejectRegistration = async (id) => {
     const error = await response.text();
     throw new Error(`Failed to reject registration: ${error}`);
   }
-  return response;
+  return response.json();
+};
+
+export const getRegistrationsByStatus = async (status) => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const response = await fetch(
+    `${API_BASE_URL}/registrations/search-by-status?status=${status}`,
+    { method: 'GET', headers }
+  );
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to fetch registrations: ${error}`);
+  }
+  return response.json();
 };
 
