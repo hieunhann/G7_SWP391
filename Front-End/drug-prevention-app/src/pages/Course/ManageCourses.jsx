@@ -14,6 +14,41 @@ const ManageCourses = () => {
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
+  //quiz
+  const [showQuizModal, setShowQuizModal] = useState(false);
+  const [quizData, setQuizData] = useState({
+    questionText: "",
+    courseId: null,
+    answers: [
+      { answerText: "", correct: false },
+      { answerText: "", correct: false },
+      { answerText: "", correct: false },
+      { answerText: "", correct: false },
+    ],
+  });
+  const handleCreateQuiz = () => {
+    setQuizData({
+      questionText: "",
+      courseId: courses[0]?.id || null, // mặc định lấy khóa học đầu tiên
+      answers: [
+        { answerText: "", correct: false },
+        { answerText: "", correct: false },
+        { answerText: "", correct: false },
+        { answerText: "", correct: false },
+      ],
+    });
+    setShowQuizModal(true);
+  };
+  const handleSaveQuiz = async () => {
+    try {
+      await api.post("/online-courses/create-question", quizData);
+      toast.success("Đã thêm câu hỏi thành công");
+      setShowQuizModal(false);
+    } catch (error) {
+      console.error("❌ Lỗi khi thêm câu hỏi:", error);
+      toast.error("Thêm câu hỏi thất bại");
+    }
+  };
 
   // Danh sách nhóm tuổi (tĩnh)
   const ageGroups = [
@@ -72,7 +107,7 @@ const ManageCourses = () => {
     }
   };
 
-  const handleCreate = () => {
+  const handleCreateCourse = () => {
     setFormData({
       name: "",
       description: "",
@@ -168,29 +203,49 @@ const ManageCourses = () => {
       <Header />
       <div className="container mt-4">
         <ToastContainer />
-<h2 className="text-4xl font-extrabold text-left text-[#004b8d] mb-8 border-b-4 border-[#0070cc] pb-2">
-           Quản lý khóa học
-          </h2>        <input
+        <h2 className="text-4xl font-extrabold text-left text-[#004b8d] mb-8 border-b-4 border-[#0070cc] pb-2">
+          Quản lý khóa học
+        </h2>{" "}
+        <input
           className="form-control mb-3"
           placeholder="Tìm kiếm theo tên khóa học, mô tả hoặc nhóm tuổi"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <p>Có {filteredCourses.length} khóa học</p>
-
-        <Button variant="primary" className="mb-3" onClick={handleCreate}>
+        <Button
+          variant="primary"
+          className="mb-3 me-2"
+          onClick={handleCreateCourse}
+        >
           + Thêm khóa học
         </Button>
-
+        <Button variant="primary" className="mb-3" onClick={handleCreateQuiz}>
+          + Thêm câu hỏi
+        </Button>
         <Table striped bordered hover responsive>
           <thead className="table-primary">
             <tr>
               <th>ID</th>
               <th>Tên khóa học</th>
               <th>Mô tả</th>
-              <th style={{ minWidth: "85px", whiteSpace: "nowrap" , textAlign: "center"}}>Thời gian</th>
+              <th
+                style={{
+                  minWidth: "85px",
+                  whiteSpace: "nowrap",
+                  textAlign: "center",
+                }}
+              >
+                Thời gian
+              </th>
               <th>Ngày tạo</th>
-              <th style={{ minWidth: "120px", whiteSpace: "nowrap" , textAlign: "center"}}>
+              <th
+                style={{
+                  minWidth: "120px",
+                  whiteSpace: "nowrap",
+                  textAlign: "center",
+                }}
+              >
                 Ngày cập nhật
               </th>
               <th>Nhóm tuổi</th>
@@ -205,7 +260,9 @@ const ManageCourses = () => {
                 <td>{course.id}</td>
                 <td>{course.name}</td>
                 <td>{course.description.slice(0, 40)}...</td>
-                <td style={{ whiteSpace: "nowrap", textAlign: "center" }}>{course.duration} phút</td>
+                <td style={{ whiteSpace: "nowrap", textAlign: "center" }}>
+                  {course.duration} phút
+                </td>
 
                 <td style={{ whiteSpace: "nowrap" }}>
                   {new Date(course.createdAt).toISOString().split("T")[0]}
@@ -254,7 +311,6 @@ const ManageCourses = () => {
             ))}
           </tbody>
         </Table>
-
         {/* Pagination */}
         <div className="d-flex justify-content-center gap-2 mt-3 flex-wrap">
           {Array.from({ length: totalPages }, (_, i) => (
@@ -267,7 +323,6 @@ const ManageCourses = () => {
             </Button>
           ))}
         </div>
-
         {/* Modal chỉnh sửa */}
         <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
           <Modal.Header closeButton>
@@ -354,7 +409,6 @@ const ManageCourses = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-
         {/* Modal xác nhận xóa */}
         <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
           <Modal.Header closeButton>
@@ -375,7 +429,6 @@ const ManageCourses = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-
         {/* Modal xem chi tiết */}
         <Modal show={showViewModal} onHide={() => setShowViewModal(false)}>
           <Modal.Header closeButton>
@@ -437,6 +490,82 @@ const ManageCourses = () => {
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowViewModal(false)}>
               Đóng
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal show={showQuizModal} onHide={() => setShowQuizModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Thêm câu hỏi</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group>
+                <Form.Label>Khóa học</Form.Label>
+                <Form.Select
+                  value={quizData.courseId}
+                  onChange={(e) =>
+                    setQuizData((prev) => ({
+                      ...prev,
+                      courseId: parseInt(e.target.value),
+                    }))
+                  }
+                >
+                  {courses.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+
+              <Form.Group className="mt-3">
+                <Form.Label>Nội dung câu hỏi</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  value={quizData.questionText}
+                  onChange={(e) =>
+                    setQuizData((prev) => ({
+                      ...prev,
+                      questionText: e.target.value,
+                    }))
+                  }
+                />
+              </Form.Group>
+
+              {quizData.answers.map((ans, idx) => (
+                <div key={idx} className="mt-3">
+                  <Form.Label>Đáp án {idx + 1}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={ans.answerText}
+                    onChange={(e) => {
+                      const updated = [...quizData.answers];
+                      updated[idx].answerText = e.target.value;
+                      setQuizData((prev) => ({ ...prev, answers: updated }));
+                    }}
+                  />
+                  <Form.Check
+                    type="radio"
+                    label="Đáp án đúng"
+                    checked={ans.correct}
+                    onChange={() => {
+                      const updated = quizData.answers.map((a, i) => ({
+                        ...a,
+                        correct: i === idx,
+                      }));
+                      setQuizData((prev) => ({ ...prev, answers: updated }));
+                    }}
+                  />
+                </div>
+              ))}
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowQuizModal(false)}>
+              Hủy
+            </Button>
+            <Button variant="primary" onClick={handleSaveQuiz}>
+              Lưu câu hỏi
             </Button>
           </Modal.Footer>
         </Modal>

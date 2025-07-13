@@ -5,7 +5,6 @@ import api from "../../Axios/Axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { Login } from "../../redux/features/userSlice";
-
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -29,35 +28,13 @@ const LoginPage = () => {
       localStorage.setItem("user", JSON.stringify({ ...user, accessToken }));
       toast.success("Đăng nhập thành công!");
       if (user.role === "ADMIN") {
-      navigate("/admin/users");
-    } else {
-      navigate("/");
-    }
-      
+        navigate("/admin/users");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setErrorMsg("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
       toast.error("Sai tài khoản hoặc mật khẩu!");
-    }
-  };
-
-  const handleGoogleSuccess = async (credentialResponse) => {
-    try {
-      const token = credentialResponse.credential;
-      if (!token) throw new Error("Google token is missing");
-
-      const res = await api.post("/auth/google", { token });
-      const { user, accessToken } = res.data.data;
-
-      dispatch(Login({ user, accessToken }));
-      localStorage.setItem("user", JSON.stringify({ ...user, accessToken }));
-      toast.success("Đăng nhập bằng Google thành công!");
-      if (user.role === "ADMIN") {
-      navigate("/admin/users");
-    } else {
-      navigate("/");
-    }
-    } catch (err) {
-      toast.error("Lỗi đăng nhập Google");
     }
   };
 
@@ -68,7 +45,9 @@ const LoginPage = () => {
           Đăng nhập hệ thống
         </h2>
 
-        {message && <div className="mb-4 text-red-600 text-center">{message}</div>}
+        {message && (
+          <div className="mb-4 text-red-600 text-center">{message}</div>
+        )}
 
         <form
           onSubmit={handleSubmit}
@@ -125,14 +104,15 @@ const LoginPage = () => {
         </form>
 
         {/* Google */}
-        <div className="my-6 text-center text-gray-700">Hoặc</div>
-        <div className="flex justify-center">
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={() => toast.error("Lỗi đăng nhập Google")}
-            locale="vi"
-          />
-        </div>
+        {/* <button
+          onClick={() =>
+            (window.location.href =
+              "http://localhost:8080/oauth2/authorization/google")
+          }
+          className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-semibold shadow"
+        >
+          Đăng nhập bằng Google
+        </button> */}
 
         {/* Đăng ký */}
         <p className="text-center text-lg mt-6">
