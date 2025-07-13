@@ -78,7 +78,8 @@ const EventDetail = () => {
     const confirmed = window.confirm("Bạn có chắc chắn muốn đăng ký tham gia chương trình này không?");
     if (!confirmed) return;
     try {
-      await registerForEvent(memberId, event.id);
+      // Đảm bảo truyền đúng kiểu dữ liệu: memberId, eventId là số
+      await registerForEvent(Number(memberId), Number(event.id));
       setRegistrationMessage("✅ Bạn đã đăng ký tham gia chương trình thành công!");
       setTimeout(() => setRegistrationMessage("") , 3000);
     } catch (err) {

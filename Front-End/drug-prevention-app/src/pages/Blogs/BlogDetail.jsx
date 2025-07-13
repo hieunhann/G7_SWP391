@@ -272,7 +272,13 @@ const BlogDetail = () => {
                       </div>
                       <div className="flex-1">
                         <div className="flex justify-between mb-1">
-                          <span className="font-medium">{comment.createdBy ? `Người dùng ${comment.createdBy}` : 'Người dùng'}</span>
+                          <span className="font-medium">
+                            {comment.user
+                              ? (comment.user.firstName && comment.user.lastName
+                                  ? `${comment.user.firstName} ${comment.user.lastName}`
+                                  : comment.user.username)
+                              : (comment.createdBy ? `Người dùng ${comment.createdBy}` : 'Người dùng')}
+                          </span>
                           <span className="text-sm text-gray-500">
                             {comment.createdAt ? new Date(comment.createdAt).toLocaleDateString('vi-VN') : ''}
                           </span>

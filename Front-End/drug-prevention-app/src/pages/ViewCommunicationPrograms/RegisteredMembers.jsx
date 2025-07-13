@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
-import { getRegistrations, getEvents, getMemberById } from "../../services/api";
+import { getRegistrations, getEvents, getMemberById, approveRegistration, rejectRegistration, getRegistrationsByStatus } from "../../services/api";
 import { FaUserCircle, FaSearch, FaExclamationTriangle } from 'react-icons/fa';
 
 const RegisteredMembers = () => {
@@ -15,13 +15,19 @@ const RegisteredMembers = () => {
   const [search, setSearch] = useState("");
   const [eventFilter, setEventFilter] = useState("");
   const [memberCache, setMemberCache] = useState({}); // cache member info for search/filter
+  const [statusFilter, setStatusFilter] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         setError("");
-        const registrationsData = await getRegistrations();
+        let registrationsData;
+        if (statusFilter) {
+          registrationsData = await getRegistrationsByStatus(statusFilter);
+        } else {
+          registrationsData = await getRegistrations();
+        }
         const eventsData = await getEvents();
         // Đảm bảo luôn là mảng
         setRegistrations(Array.isArray(registrationsData) ? registrationsData : registrationsData.data || []);
@@ -33,7 +39,7 @@ const RegisteredMembers = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [statusFilter]);
 
   // Lấy thông tin member cho tất cả registrations (dùng cho search/filter)
   useEffect(() => {
@@ -102,6 +108,20 @@ const RegisteredMembers = () => {
     }
   };
 
+  const handleApprove = async (id) => {
+    const updated = await approveRegistration(id);
+    setRegistrations(registrations.map(r =>
+      r.id === id ? { ...r, status: updated.status } : r
+    ));
+  };
+
+  const handleReject = async (id) => {
+    const updated = await rejectRegistration(id);
+    setRegistrations(registrations.map(r =>
+      r.id === id ? { ...r, status: updated.status } : r
+    ));
+  };
+
   const closeModal = () => {
     setShowModal(false);
     setSelectedMember(null);
@@ -114,6 +134,12 @@ const RegisteredMembers = () => {
   if (error) {
     return <div className="flex flex-col items-center justify-center py-8 text-red-500"><FaExclamationTriangle className="text-3xl mb-2" />{error}</div>;
   }
+
+  const statusText = {
+    PENDING: 'Chờ duyệt',
+    APPROVED: 'Đã duyệt',
+    REJECTED: 'Từ chối'
+  };
 
   return (
     <>
@@ -141,6 +167,16 @@ const RegisteredMembers = () => {
             {events.map(ev => (
               <option key={ev.id} value={ev.id}>{ev.title}</option>
             ))}
+          </select>
+          <select
+            className="border px-4 py-2 rounded-lg w-full md:w-1/4 focus:ring-2 focus:ring-blue-400 shadow-sm"
+            value={statusFilter}
+            onChange={e => setStatusFilter(e.target.value)}
+          >
+            <option value="">Tất cả trạng thái</option>
+            <option value="PENDING">Chờ duyệt</option>
+            <option value="APPROVED">Đã duyệt</option>
+            <option value="REJECTED">Từ chối</option>
           </select>
         </div>
         <div className="overflow-x-auto rounded-lg shadow-lg">
@@ -171,6 +207,19 @@ const RegisteredMembers = () => {
                       <FaUserCircle className="text-lg" />
                       Xem chi tiết
                     </button>
+                    {reg.status === 'PENDING' && (
+                      <div className="flex gap-2 mt-2 justify-center">
+                        <button
+                          className="bg-green-500 hover:bg-green-700 text-white py-1 px-2 rounded"
+                          onClick={() => handleApprove(reg.id)}
+                        >Duyệt</button>
+                        <button
+                          className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded"
+                          onClick={() => handleReject(reg.id)}
+                        >Từ chối</button>
+                      </div>
+                    )}
+                    <div className="mt-1 text-xs text-gray-500">{statusText[reg.status]}</div>
                   </td>
                 </tr>
               ))}
