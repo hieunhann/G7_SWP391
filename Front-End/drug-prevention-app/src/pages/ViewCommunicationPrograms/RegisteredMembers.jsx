@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
-import { getRegistrations, getEvents, getMemberById } from "../../services/api";
+import { getRegistrations, getEvents, getMemberById, approveRegistration, rejectRegistration } from "../../services/api";
 import { FaUserCircle, FaSearch, FaExclamationTriangle } from 'react-icons/fa';
 
 const RegisteredMembers = () => {
@@ -102,6 +102,20 @@ const RegisteredMembers = () => {
     }
   };
 
+  const handleApprove = async (id) => {
+    await approveRegistration(id);
+    setRegistrations(registrations.map(r =>
+      r.id === id ? { ...r, status: 1 } : r
+    ));
+  };
+
+  const handleReject = async (id) => {
+    await rejectRegistration(id);
+    setRegistrations(registrations.map(r =>
+      r.id === id ? { ...r, status: 2 } : r
+    ));
+  };
+
   const closeModal = () => {
     setShowModal(false);
     setSelectedMember(null);
@@ -114,6 +128,12 @@ const RegisteredMembers = () => {
   if (error) {
     return <div className="flex flex-col items-center justify-center py-8 text-red-500"><FaExclamationTriangle className="text-3xl mb-2" />{error}</div>;
   }
+
+  const statusText = {
+    0: 'Chờ duyệt',
+    1: 'Đã duyệt',
+    2: 'Từ chối'
+  };
 
   return (
     <>
@@ -171,6 +191,19 @@ const RegisteredMembers = () => {
                       <FaUserCircle className="text-lg" />
                       Xem chi tiết
                     </button>
+                    {reg.status === 0 && (
+                      <div className="flex gap-2 mt-2 justify-center">
+                        <button
+                          className="bg-green-500 hover:bg-green-700 text-white py-1 px-2 rounded"
+                          onClick={() => handleApprove(reg.id)}
+                        >Duyệt</button>
+                        <button
+                          className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded"
+                          onClick={() => handleReject(reg.id)}
+                        >Từ chối</button>
+                      </div>
+                    )}
+                    <div className="mt-1 text-xs text-gray-500">{statusText[reg.status]}</div>
                   </td>
                 </tr>
               ))}
