@@ -26,15 +26,15 @@ const Header = () => {
   };
 
   const navItems = [
-    { to: "/", label: "Trang Chủ" },
-    { to: "/courses", label: "Khóa Học" },
-    { to: "/Surveys", label: "Khảo Sát" },
-    { to: "/booking", label: "Đặt Lịch" },
-    { to: "/booked", label: "Lịch Của Tôi" },
-    { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" },
-    { to: "/ScheduleManager", label: "Quản Lý Lịch" },
-    { to: "/blogs", label: "Bài Viết" },
-    { to: "/manage-courses", label: "Quản Lý Khóa Học" }, 
+    { to: "/", label: "Trang Chủ", roles:["manager", "consultant", "member", "staff"]},
+    { to: "/courses", label: "Khóa Học" , roles:["manager", "consultant", "member", "staff"]},
+    { to: "/Surveys", label: "Khảo Sát" , roles:["manager", "consultant", "member"]},
+    { to: "/booking", label: "Đặt Lịch" , roles:["manager", "consultant", "member", "staff"]},
+    { to: "/booked", label: "Lịch Của Tôi" , roles:["manager", "consultant", "member", "staff"]},
+    { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" , roles:["manager", "consultant", "member", "staff"]},
+    { to: "/ScheduleManager", label: "Quản Lý Lịch" , roles:["manager"]},
+    { to: "/blogs", label: "Bài Viết" , roles:["manager", "consultant", "member", "staff"]},
+    { to: "/manage-courses", label: "Quản Lý Khóa Học" , roles:["manager"]},
   ];
 
   return (

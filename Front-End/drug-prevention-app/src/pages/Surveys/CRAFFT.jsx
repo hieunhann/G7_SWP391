@@ -202,7 +202,7 @@ const CRAFFT = () => {
 
     const payload = {
       memberId: userId,
-      testId: 6, // ID của bài test CRAFFT
+      testId: 1, // ID của bài test CRAFFT
       answers,
     };
 

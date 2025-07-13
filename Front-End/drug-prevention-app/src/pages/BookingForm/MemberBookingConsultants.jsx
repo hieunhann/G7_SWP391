@@ -68,7 +68,7 @@ const MemberBookingConsultants = () => {
         const formatted = unique.map((c) => ({
           id: c.consultantId,
           fullName: `${c.firstName} ${c.lastName} `,
-          avatar: `http://localhost:8080/storage/avatars/${c.avatar}`
+          avatar: `http://localhost:8080/storage/avatars/${c.avatar}`,
         }));
         setConsultants(formatted);
       } catch {
