@@ -5,7 +5,7 @@ const roleMap = {
   ADMIN: "Admin",
   CONSULTANT: "Tư vấn viên",
   MANAGER: "Quản lý",
-  USER: "Người dùng",
+  MEMBER: "Thành viên",
 };
 
 const UserTable = ({ users, onEditRole, onDelete }) => (
