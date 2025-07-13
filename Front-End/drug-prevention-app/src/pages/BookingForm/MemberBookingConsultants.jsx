@@ -42,7 +42,7 @@ const MemberBookingConsultants = () => {
   const [workingSlots, setWorkingSlots] = useState([]);
   const [bookedSlots, setBookedSlots] = useState([]);
   const [selectedTime, setSelectedTime] = useState("");
-  const [notes, setNotes] = useState("");
+  const [note, setNote] = useState("");
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
 
@@ -136,7 +136,7 @@ const MemberBookingConsultants = () => {
       memberId: userId,
       consultantId: selectedConsultant,
       bookingTime: new Date(`${selectedDate}T${selectedTime}:00`).toISOString(),
-      notes,
+      note,
       status: "Chờ xác nhận",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -148,7 +148,7 @@ const MemberBookingConsultants = () => {
       setSelectedDate("");
       setSelectedConsultant(null);
       setSelectedTime("");
-      setNotes("");
+      setNote("");
     } catch {
       toast.error("Đặt lịch thất bại");
     }
@@ -323,8 +323,8 @@ const MemberBookingConsultants = () => {
                   <textarea
                     rows="3"
                     placeholder="Nhập ghi chú..."
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
                     className="w-full border border-blue-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                   />
                 </div>
@@ -347,7 +347,7 @@ const MemberBookingConsultants = () => {
                     <strong>Khung giờ:</strong> {selectedTime}
                   </p>
                   <p>
-                    <strong>Ghi chú:</strong> {notes || "Không có"}
+                    <strong>Ghi chú:</strong> {note || "Không có"}
                   </p>
                 </div>
               )}

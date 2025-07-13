@@ -5,7 +5,6 @@ import NotifyLogin from "../../components/Notify/NotifyLogin";
 import api from "../../Axios/Axios";
 import bookingServices from "../../apis/BookingAPIs";
 import { getBookingDate } from "../../utils/Date";
-import { style } from "framer-motion/client";
 
 const statusOptions = [
   "Tất cả",
@@ -32,6 +31,7 @@ const BookedView = () => {
       "Email",
       "Số điện thoại",
       "Thời gian hẹn",
+      "Ghi chú của thành viên",
       "Trạng thái",
       "Thao tác",
     ],
@@ -49,6 +49,7 @@ const BookedView = () => {
         name: "bookingTime",
         value: (booking) => getBookingDate(booking.bookingTime),
       },
+      { name: "note", value: "note" },
       { name: "status", value: "status" },
       {
         name: "actions",
@@ -112,6 +113,7 @@ const BookedView = () => {
       "Email",
       "Số điện thoại",
       "Thời gian hẹn",
+      "Ghi chú",
       "Trạng thái",
       "Thao tác",
     ],
@@ -132,6 +134,7 @@ const BookedView = () => {
           textAlign: "right",
         },
       },
+      { name: "note", value: "note" },
       { name: "status", value: "status" },
       {
         name: "actions",
