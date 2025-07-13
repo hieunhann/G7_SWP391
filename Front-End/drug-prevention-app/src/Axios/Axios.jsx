@@ -1,13 +1,12 @@
 import axios from "axios";
-
+import { store } from "../redux/store";
+import { Login, logout } from "../redux/features/userSlice";
 const api = axios.create({
   baseURL: "http://localhost:8080/api/v1",
-  // headers: {
-  //   "Content-Type": "application/json",
-  // },
+  withCredentials: true, // Cần thiết để gửi cookie chứa refresh_token
 });
 
-// Gắn accessToken từ localStorage vào mỗi request
+// ✅ Gắn accessToken từ localStorage vào mỗi request
 api.interceptors.request.use(
   (config) => {
     try {
@@ -17,43 +16,53 @@ api.interceptors.request.use(
         config.headers["Authorization"] = `Bearer ${token}`;
       }
     } catch (error) {
-      console.error("Lỗi khi lấy token:", error);
+      console.error("Lỗi khi lấy token từ localStorage:", error);
     }
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// Response interceptor: Tự động làm mới access token nếu 401
+// ✅ Tự động refresh accessToken nếu hết hạn (401)
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // Nếu bị 401 và chưa từng thử refresh
+    // Nếu bị 401 và chưa thử refresh
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
-        const res = await axios.get("http://localhost:8080/api/v1/auth/refresh", {
-          withCredentials: true, // Để gửi cookie chứa refresh_token
-        });
+        const res = await axios.get(
+          "http://localhost:8080/api/v1/auth/refresh",
+          {
+            withCredentials: true, // Gửi cookie
+          }
+        );
 
-        const newAccessToken = res.data.accessToken;
+        const { user, accessToken } = res.data;
+
+        // ✅ Lưu mới vào localStorage
         const updatedUser = {
-          ...JSON.parse(localStorage.getItem("user")),
-          accessToken: newAccessToken,
+          ...user,
+          accessToken: accessToken,
         };
-
         localStorage.setItem("user", JSON.stringify(updatedUser));
 
-        // Gắn token mới và gửi lại request cũ
-        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        // ✅ Nếu có Redux, cập nhật lại store
+        store.dispatch(Login({ user, accessToken }));
+
+        // ✅ Gửi lại request cũ với token mới
+        originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
         return api(originalRequest);
       } catch (refreshError) {
         console.error("Refresh token thất bại:", refreshError);
+
+        // ✅ Xóa local và quay về login
         localStorage.removeItem("user");
-        window.location.href = "/login"; // hoặc navigate nếu dùng React Router
+        store.dispatch(logout());
+        window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }

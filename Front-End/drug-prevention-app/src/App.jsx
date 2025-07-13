@@ -35,7 +35,10 @@ import CreateBlog from "./pages/Blogs/CreateBlog";
 import UserManagementPage from "./pages/Admin/UserManagementPage";
 import SystemSettings from "./pages/Admin/SystemSettings"
 import ManageCourses from "./pages/Course/ManageCourses";
+// import OAuth2RedirectHandler from "./Axios/OAuth2RedirectHandler";
+
 // import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
+
 
 // Router configuration
 const router = createBrowserRouter([
@@ -66,12 +69,13 @@ const router = createBrowserRouter([
   { path : "/admin/settings" , element : <SystemSettings/>},
   { path: "/manage-courses", element: <ManageCourses /> },
     // { path: "/ViewCommunicationPrograms", element: <ViewCommunicationPrograms /> },
+  // { path: "/oauth2/redirect", element: <OAuth2RedirectHandler /> },
 
 ]);
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="632195046938-srur4gsnmg8cnc7rt0hmt1gvaibdij7g.apps.googleusercontent.com">
+    // <GoogleOAuthProvider clientId="925835497850-475sa7rbsg914h2srqpflmg5gl2s35nt.apps.googleusercontent.com">
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <div className="App">
@@ -92,7 +96,7 @@ function App() {
           </div>
         </PersistGate>
       </Provider>
-    </GoogleOAuthProvider>
+    // </GoogleOAuthProvider>
   );
 }
 
