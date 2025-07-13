@@ -287,68 +287,66 @@ export const getBlogsByType = async (type) => {
 };
 
 // BLOG: Create blog
-export const createBlog = async (blog) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/blogs`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(blog)
-    });
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Failed to create blog: ${error}`);
-    }
-    return response.json();
-  } catch (error) {
-    console.error('Error creating blog:', error);
-    throw error;
+export const createBlog = async (blogData) => {
+  const userData = JSON.parse(localStorage.getItem('user'));
+  const token = userData?.accessToken; // Đúng với các API khác
+
+  const response = await fetch('http://localhost:8080/api/blogs', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(blogData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`Failed to create blog: ${JSON.stringify(errorData)}`);
   }
+  return response.json();
 };
 
 // BLOG: Update blog
 export const updateBlog = async (id, blog) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/blogs/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(blog)
-    });
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Failed to update blog: ${error}`);
-    }
-    return response.json();
-  } catch (error) {
-    console.error('Error updating blog:', error);
-    throw error;
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const response = await fetch(`${API_BASE_URL}/blogs/${id}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(blog)
+  });
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to update blog: ${error}`);
   }
+  return response.json();
 };
 
 // BLOG: Delete blog
 export const deleteBlog = async (id) => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const response = await fetch(`${API_BASE_URL}/blogs/${id}`, {
+    method: 'DELETE',
+    headers
+  });
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to delete blog: ${error}`);
+  }
+  // Nếu status 204 (No Content), không cần parse json
+  if (response.status === 204) return;
+  // Nếu có body, parse json
   try {
-    const response = await fetch(`${API_BASE_URL}/blogs/${id}`, {
-      method: 'DELETE',
-    });
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Failed to delete blog: ${error}`);
-    }
-    // Nếu status 204 (No Content), không cần parse json
-    if (response.status === 204) return;
-    // Nếu có body, parse json
-    try {
-      return await response.json();
-    } catch {
-      return;
-    }
-  } catch (error) {
-    console.error('Error deleting blog:', error);
-    throw error;
+    return await response.json();
+  } catch {
+    return;
   }
 };
 
@@ -376,11 +374,16 @@ export const deleteComment = async (id) => {
 
 export const registerForEvent = async (memberId, eventId) => {
   try {
-    // Gửi member là object
-    const registration = { member: { id: memberId }, eventId };
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const token = userData?.accessToken;
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    // Gửi đúng DTO backend: { memberId, eventId } (cả hai là số)
+    const registration = { memberId: Number(memberId), eventId: Number(eventId) };
     const response = await fetch(`${API_BASE_URL}/registrations`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify(registration)
     });
     if (!response.ok) {
@@ -521,5 +524,53 @@ export const deleteEvent = async (id) => {
     throw new Error(`Failed to delete event: ${error}`);
   }
   return response;
+};
+
+export const approveRegistration = async (id) => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const response = await fetch(`${API_BASE_URL}/registrations/approve/${id}`, {
+    method: 'PUT',
+    headers
+  });
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to approve registration: ${error}`);
+  }
+  return response.json();
+};
+
+export const rejectRegistration = async (id) => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const response = await fetch(`${API_BASE_URL}/registrations/reject/${id}`, {
+    method: 'PUT',
+    headers
+  });
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to reject registration: ${error}`);
+  }
+  return response.json();
+};
+
+export const getRegistrationsByStatus = async (status) => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const response = await fetch(
+    `${API_BASE_URL}/registrations/search-by-status?status=${status}`,
+    { method: 'GET', headers }
+  );
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to fetch registrations: ${error}`);
+  }
+  return response.json();
 };
 

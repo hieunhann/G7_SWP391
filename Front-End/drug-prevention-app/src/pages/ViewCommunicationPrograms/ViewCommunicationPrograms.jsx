@@ -85,7 +85,7 @@ const ViewCommunicationPrograms = () => {
     }
     const registration = {
       member: { id: memberId },
-      eventId: selectedEvent.id
+      eventId: Number(selectedEvent.id)
     };
     try {
       await createRegistration(registration);
