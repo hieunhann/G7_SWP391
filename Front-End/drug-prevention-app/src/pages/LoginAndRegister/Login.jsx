@@ -62,13 +62,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center px-4"
-      style={{
-        backgroundImage:
-          "url('https://png.pngtree.com/thumb_back/fw800/background/20231226/pngtree-elegant-light-green-cannabis-leaf-floral-texture-design-in-a-seamless-image_13909796.png')",
-      }}
-    >
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center px-4">
       <div className="w-full max-w-xl bg-white/30 border border-white/30 shadow-2xl rounded-3xl p-10 text-gray-800">
         <h2 className="text-3xl font-bold text-center text-[#004b8d] mb-8">
           Đăng nhập hệ thống

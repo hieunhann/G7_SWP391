@@ -39,9 +39,7 @@ const BookedView = () => {
       {
         name: "memberName",
         value: (booking) =>
-          `${booking.member?.lastName || ""} ${
-            booking.member?.firstName || ""
-          }`,
+          `${booking.member?.firstName || ""} ${booking.member?.lastName || ""}`,
       },
       { name: "memberEmail", value: "member.email" },
       { name: "memberPhone", value: "member.phoneNumber" },
@@ -80,25 +78,26 @@ const BookedView = () => {
                     </button>
                   </>
                 )}
-                {booking.status === "Đã xác nhận" && booking.consultant.googleMeetLink && (
-                  <>
-                    <button
-                      className="btn btn-success btn-sm me-2"
-                      style={{ backgroundColor: "#2DD84E", border : "none" }}
-                      onClick={() =>
-                        window.open(booking.consultant.googleMeetLink)
-                      }
-                    >
-                      Link
-                    </button>
-                    <button
-                      className="btn btn-warning btn-sm"
-                      onClick={() => handleDone(booking.id)}
-                    >
-                      Xác nhận hoàn thành
-                    </button>
-                  </>
-                )}
+                {booking.status === "Đã xác nhận" &&
+                  booking.consultant.googleMeetLink && (
+                    <>
+                      <button
+                        className="btn btn-success btn-sm me-2"
+                        style={{ backgroundColor: "#2DD84E", border: "none" }}
+                        onClick={() =>
+                          window.open(booking.consultant.googleMeetLink)
+                        }
+                      >
+                        Link
+                      </button>
+                      <button
+                        className="btn btn-warning btn-sm"
+                        onClick={() => handleDone(booking.id)}
+                      >
+                        Xác nhận hoàn thành
+                      </button>
+                    </>
+                  )}
               </div>
             </>
           );
@@ -121,8 +120,8 @@ const BookedView = () => {
       {
         name: "consultantName",
         value: (booking) =>
-          `${booking.consultant?.lastName || ""} ${
-            booking.consultant?.firstName || ""
+          `${booking.consultant?.firstName || ""} ${
+            booking.consultant?.lastName || ""
           }`,
       },
       { name: "consultantEmail", value: "consultant.email" },
@@ -227,11 +226,11 @@ const BookedView = () => {
     if (!window.confirm("Bạn có chắc chắn muốn xác nhận lịch hẹn này?")) return;
     try {
       const response = await api.put(
-        `/bookings/confirmBookingById/${bookingId}`,
-        
+        `/bookings/confirmBookingById/${bookingId}`
       );
       console.log("Confirm booking response:", response.data); // Thêm dòng này để kiểm tra phản hồi
-      if (response.data.message !== "CALL API SUCCESS") throw new Error("Xác nhận không thành công");
+      if (response.data.message !== "CALL API SUCCESS")
+        throw new Error("Xác nhận không thành công");
       setBookings((prev) =>
         prev.map((b) =>
           b.id === bookingId ? { ...b, status: "Đã xác nhận" } : b
@@ -260,11 +259,9 @@ const BookedView = () => {
   const handleDone = async (bookingId) => {
     if (!window.confirm("Xác nhận đã hoàn thành tư vấn?")) return;
     try {
-      const res = await api.get(
-        `/bookings/afterConsultation/${bookingId}`
-     
-      );
-      if (res.data.message  !== "CALL API SUCCESS") throw new Error("Cập nhật không thành công");
+      const res = await api.get(`/bookings/afterConsultation/${bookingId}`);
+      if (res.data.message !== "CALL API SUCCESS")
+        throw new Error("Cập nhật không thành công");
       setBookings((prev) =>
         prev.map((b) =>
           b.id === bookingId ? { ...b, status: "Hoàn thành" } : b
@@ -311,7 +308,8 @@ const BookedView = () => {
               alignItems: "flex-start",
             }}
           >
-            <h2 className="mb-4" style={{ color: "#004b8d", fontWeight: 700 }}>
+            
+            <h2 className="text-4xl font-extrabold text-left text-[#004b8d] mb-8 border-b-4 border-[#0070cc] pb-2">
               {user.role?.toLowerCase() !== "consultant"
                 ? "Danh sách lịch hẹn với chuyên gia tư vấn"
                 : "Danh sách thành viên đã đặt lịch với bạn"}

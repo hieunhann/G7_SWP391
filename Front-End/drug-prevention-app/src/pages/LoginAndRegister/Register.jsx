@@ -99,13 +99,7 @@ const Register = () => {
   );
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center relative px-4"
-      style={{
-        backgroundImage:
-          "url('https://png.pngtree.com/thumb_back/fw800/background/20231226/pngtree-elegant-light-green-cannabis-leaf-floral-texture-design-in-a-seamless-image_13909796.png')",
-      }}
-    >
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center relative px-4">
       <div className="relative z-10 w-full max-w-2xl bg-white/40 backdrop-blur-xxs border border-white/30 shadow-2xl rounded-3xl p-10">
         <h2 className="text-3xl font-bold text-center text-[black] mb-8 drop-shadow">
           Đăng ký tài khoản

@@ -34,6 +34,7 @@ import EditEvent from "./pages/ViewCommunicationPrograms/EditEvent";
 import CreateBlog from "./pages/Blogs/CreateBlog";
 import UserManagementPage from "./pages/Admin/UserManagementPage";
 import SystemSettings from "./pages/Admin/SystemSettings"
+import ManageCourses from "./pages/Course/ManageCourses";
 // import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 
 // Router configuration
@@ -62,7 +63,8 @@ const router = createBrowserRouter([
   { path: "/edit-event/:id", element: <EditEvent /> },
   { path : "/create-blog" , element: <CreateBlog /> },
   { path : "/admin/users" , element: <UserManagementPage /> },
-  { path : "/admin/settings" , element : <SystemSettings/>}
+  { path : "/admin/settings" , element : <SystemSettings/>},
+  { path: "/manage-courses", element: <ManageCourses /> },
     // { path: "/ViewCommunicationPrograms", element: <ViewCommunicationPrograms /> },
 
 ]);
@@ -78,7 +80,7 @@ function App() {
             <>
               <ToastContainer
                 position="top-right"
-                autoClose={4000}
+                autoClose={3000}
                 hideProgressBar={false}
                 newestOnTop
                 closeOnClick

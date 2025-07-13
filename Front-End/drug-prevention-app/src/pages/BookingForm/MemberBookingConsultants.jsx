@@ -11,18 +11,21 @@ import Header from "../../components/Header/Header";
 import NotifyLogin from "../../components/Notify/NotifyLogin";
 import api from "../../Axios/Axios";
 import { toast } from "react-toastify";
-
+import NotifyBooking from "../../components/Notify/NotifyBooked";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const MORNING_SLOTS = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30"];
 const AFTERNOON_SLOTS = ["13:00", "13:30", "14:00", "14:30", "15:00", "15:30"];
 const TIME_SLOTS = [...MORNING_SLOTS, ...AFTERNOON_SLOTS];
 
-
 const toMinutes = (t) => {
   const [h, m] = t.split(":").map(Number);
   return h * 60 + m;
 };
-
 
 const stepLabels = [
   { icon: CalendarDays, label: "Chọn ngày" },
@@ -31,7 +34,6 @@ const stepLabels = [
   { icon: StickyNote, label: "Ghi chú" },
   { icon: CheckCircle, label: "Xác nhận" },
 ];
-
 
 const MemberBookingConsultants = () => {
   const navigate = useNavigate();
@@ -44,17 +46,15 @@ const MemberBookingConsultants = () => {
   const [selectedTime, setSelectedTime] = useState("");
   const [note, setNote] = useState("");
   const [showLoginPopup, setShowLoginPopup] = useState(false);
-
+  const [showNotifyBooking, setShowNotifyBooking] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user") || "null");
   const userId = user?.id;
   const today = new Date().toISOString().split("T")[0];
 
-
   useEffect(() => {
     if (!userId) setShowLoginPopup(true);
   }, [userId]);
-
 
   useEffect(() => {
     const fetchConsultants = async () => {
@@ -67,10 +67,8 @@ const MemberBookingConsultants = () => {
         );
         const formatted = unique.map((c) => ({
           id: c.consultantId,
-          fullName: `${c.lastName} ${c.firstName}`,
-          avatar:
-            c.avatar ||
-            "https://th.bing.com/th/id/OIP.docqTxMiIrutR7inz9A_RgHaLH?w=121&h=181&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3",
+          fullName: `${c.firstName} ${c.lastName} `,
+          avatar: `http://localhost:8080/storage/avatars/${c.avatar}`
         }));
         setConsultants(formatted);
       } catch {
@@ -85,22 +83,37 @@ const MemberBookingConsultants = () => {
     fetchConsultants();
   }, [selectedDate]);
 
-
   useEffect(() => {
     const fetchSlots = async () => {
       if (!selectedConsultant || !selectedDate) return;
+
       try {
+        // 🔹 Lấy tất cả bookings
         const bookings = await api.get("/bookings/findAllBookings");
-        const booked = bookings.data.data
-          .filter(
-            (b) =>
-              b.consultantId === selectedConsultant &&
-              b.bookingTime.startsWith(selectedDate)
-          )
-          .map((b) => b.bookingTime.substring(11, 16));
-        setBookedSlots(booked);
+        const allBookings = bookings.data.data;
 
+        const booked = allBookings
+          .filter((b) => {
+            const bookingDateVN = dayjs(b.bookingTime)
+              .tz("Asia/Ho_Chi_Minh")
+              .format("YYYY-MM-DD");
 
+            return (
+              parseInt(b.consultant?.id) === parseInt(selectedConsultant) &&
+              bookingDateVN === selectedDate &&
+              ["Chờ xác nhận", "Đã xác nhận", "Hoàn thành"].includes(b.status)
+            );
+          })
+          .map((b) =>
+            dayjs(b.bookingTime).tz("Asia/Ho_Chi_Minh").format("HH:mm").trim()
+          );
+
+        const uniqueBooked = Array.from(new Set(booked));
+        setBookedSlots(uniqueBooked);
+
+        // console.log("📛 Booked slots:", uniqueBooked);
+
+        // 🔹 Lấy lịch làm việc
         const res = await api.get(
           `/getScheduleByConsultantId/${selectedConsultant}`
         );
@@ -108,27 +121,29 @@ const MemberBookingConsultants = () => {
           (s) => s.day.slice(0, 10) === selectedDate
         );
 
-
         let slotSet = new Set();
         schedules.forEach(({ startTime, endTime }) => {
           TIME_SLOTS.forEach((t) => {
             const mins = toMinutes(t);
-            if (mins >= toMinutes(startTime) && mins <= toMinutes(endTime))
+            if (mins >= toMinutes(startTime) && mins <= toMinutes(endTime)) {
               slotSet.add(t);
+            }
           });
         });
 
-
-        setWorkingSlots([...slotSet]);
-      } catch {
+        const working = [...slotSet];
+        setWorkingSlots(working);
+        // console.log("✅ Working slots:", working);
+      } catch (err) {
+        // console.error("❌ Lỗi khi tải slots:", err);
         toast.error("Lỗi tải slot");
         setBookedSlots([]);
         setWorkingSlots([]);
       }
     };
+
     fetchSlots();
   }, [selectedConsultant, selectedDate]);
-
 
   const handleBooking = async (e) => {
     e.preventDefault();
@@ -136,6 +151,9 @@ const MemberBookingConsultants = () => {
       memberId: userId,
       consultantId: selectedConsultant,
       bookingTime: new Date(`${selectedDate}T${selectedTime}:00`).toISOString(),
+      bookingTime: dayjs
+        .tz(`${selectedDate}T${selectedTime}`, "Asia/Ho_Chi_Minh")
+        .toISOString(),
       note,
       status: "Chờ xác nhận",
       createdAt: new Date().toISOString(),
@@ -149,19 +167,25 @@ const MemberBookingConsultants = () => {
       setSelectedConsultant(null);
       setSelectedTime("");
       setNote("");
+      setShowNotifyBooking(true);
     } catch {
       toast.error("Đặt lịch thất bại");
     }
   };
-
 
   const renderTimeSlots = (slots, title) => (
     <div className="mb-4">
       <h4 className="text-sm font-medium text-gray-700 mb-1">{title}</h4>
       <div className="flex flex-wrap gap-2">
         {slots.map((slot) => {
-          const isDisabled =
-            !workingSlots.includes(slot) || bookedSlots.includes(slot);
+          const isBooked = bookedSlots.includes(slot);
+          const isOutsideWorking = !workingSlots.includes(slot);
+          const isDisabled = isBooked || isOutsideWorking;
+          {
+            /* console.log(
+            `🔍 SLOT: ${slot} | Booked: ${isBooked} | In working: ${!isOutsideWorking} | Disabled: ${isDisabled}`
+          ); */
+          }
           return (
             <button
               key={slot}
@@ -183,7 +207,6 @@ const MemberBookingConsultants = () => {
       </div>
     </div>
   );
-
 
   const handleNextStep = () => {
     switch (step) {
@@ -218,7 +241,6 @@ const MemberBookingConsultants = () => {
     setStep(step + 1);
   };
 
-
   return (
     <>
       <Header />
@@ -237,7 +259,6 @@ const MemberBookingConsultants = () => {
               Đặt Lịch Tư Vấn
             </h2>
 
-
             {/* Step Indicator */}
             <div className="flex justify-between items-center mb-6 text-sm font-medium">
               {stepLabels.map(({ icon: Icon, label }, i) => (
@@ -255,7 +276,6 @@ const MemberBookingConsultants = () => {
               ))}
             </div>
 
-
             <form onSubmit={handleBooking} className="space-y-6">
               {step === 1 && (
                 <div>
@@ -271,7 +291,6 @@ const MemberBookingConsultants = () => {
                   />
                 </div>
               )}
-
 
               {step === 2 && (
                 <div>
@@ -303,7 +322,6 @@ const MemberBookingConsultants = () => {
                 </div>
               )}
 
-
               {step === 3 && (
                 <div>
                   <label className="block font-semibold text-[#004b8d] mb-2">
@@ -313,7 +331,6 @@ const MemberBookingConsultants = () => {
                   {renderTimeSlots(AFTERNOON_SLOTS, "Buổi chiều (13h - 15h30)")}
                 </div>
               )}
-
 
               {step === 4 && (
                 <div>
@@ -329,7 +346,6 @@ const MemberBookingConsultants = () => {
                   />
                 </div>
               )}
-
 
               {step === 5 && (
                 <div className="text-sm space-y-2">
@@ -351,7 +367,6 @@ const MemberBookingConsultants = () => {
                   </p>
                 </div>
               )}
-
 
               <div className="flex justify-between gap-4">
                 {step > 1 && (
@@ -385,12 +400,11 @@ const MemberBookingConsultants = () => {
           </div>
         </div>
       )}
+      {showNotifyBooking && (
+        <NotifyBooking onClose={() => setShowNotifyBooking(false)} />
+      )}
     </>
   );
 };
 
-
 export default MemberBookingConsultants;
-
-
-
