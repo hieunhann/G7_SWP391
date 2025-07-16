@@ -34,7 +34,6 @@ const Header = () => {
     { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" , roles:["manager", "consultant", "member", "staff"]},
     { to: "/ScheduleManager", label: "Quản Lý Lịch" , roles:["manager"]},
     { to: "/blogs", label: "Bài Viết" , roles:["manager", "consultant", "member", "staff"]},
-    { to: "/manage-courses", label: "Quản Lý Khóa Học" , roles:["manager"]},
   ];
 
   return (

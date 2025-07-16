@@ -15,6 +15,7 @@ import {
   FaSearch,
 } from "react-icons/fa";
 import { getBlogs, getEvents } from "../../services/api";
+import Chatbox from "../../components/Chatbox/Chatbox";
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
@@ -409,6 +410,7 @@ export default function HomePage() {
           </div>
         </section>
       </div>
+      <Chatbox />
     </>
   );
 }

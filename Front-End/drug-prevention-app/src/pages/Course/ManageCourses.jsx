@@ -4,7 +4,8 @@ import { Button, Modal, Form, Table } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
-import Header from "../../components/Header/Header";
+
+import Sidebar from '../../components/Sidebar/Sidebar';
 const ManageCourses = () => {
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
@@ -165,7 +166,7 @@ const ManageCourses = () => {
 
   return (
     <>
-      <Header />
+      <Sidebar />
       <div className="container mt-4">
         <ToastContainer />
 <h2 className="text-4xl font-extrabold text-left text-[#004b8d] mb-8 border-b-4 border-[#0070cc] pb-2">

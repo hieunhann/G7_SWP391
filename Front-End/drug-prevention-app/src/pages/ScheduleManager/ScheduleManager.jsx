@@ -333,7 +333,7 @@ function ScheduleManager() {
 
   return (
     <>
-      <Header />
+      
       <Sidebar />
       <div style={{ marginLeft: 220 }}>
       <NotifyLogin
@@ -347,7 +347,7 @@ function ScheduleManager() {
       {!showLoginPopup && (
         <div className="container pt-4 pb-5 mb-4">
           <h2 className="mb-4" style={{ color: "#004b8d", fontWeight: 700 }}>
-            Quản lý lịch làm việc chuyên viên và Nhân viên 
+            Quản lý lịch làm việc chuyên viên 
           </h2>
           <div className="mb-3 d-flex align-items-center gap-2" style={{ width: "100%", justifyContent: "flex-end" }}>
             <label htmlFor="userSearch" style={{ fontWeight: 500 }}>Tìm kiếm nhân sự:</label>

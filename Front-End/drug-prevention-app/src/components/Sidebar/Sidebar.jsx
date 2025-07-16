@@ -5,9 +5,10 @@ import './Sidebar.css';
 
 const menu = [
   { to: '/', label: 'Trang chủ', icon: <FaHome /> },
-  { to: '/schedule-manager', label: 'Quản lý lịch', icon: <FaCalendarAlt /> },
+  { to: '/ScheduleManager', label: 'Quản lý lịch', icon: <FaCalendarAlt /> },
   { to: '/user-manager', label: 'Quản lý nhân sự', icon: <FaUsers /> },
   { to: '/stats', label: 'Thống kê', icon: <FaChartBar /> },
+  { to: '/manage-courses', label: 'Quản Lý Khóa Học', icon: <FaChartBar /> }, // Placeholder for settings
 ];
 
 export default function Sidebar() {

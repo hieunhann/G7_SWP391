@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Modal, ListGroup, Form, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "./ViewCommunicationPrograms.css";
 import Header from "../../components/Header/Header";
 import { FaSearch, FaFilter, FaCalendar, FaMapMarkerAlt, FaUser, FaEye, FaStar, FaComment, FaUsers, FaPen } from 'react-icons/fa';
 import { Link } from "react-router-dom";
