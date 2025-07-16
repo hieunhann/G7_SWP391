@@ -220,13 +220,13 @@ const ManageCourses = () => {
         >
           + Thêm khóa học
         </Button>
-        <Button variant="primary" className="mb-3" onClick={handleCreateQuiz}>
+        {/* <Button variant="primary" className="mb-3" onClick={handleCreateQuiz}>
           + Thêm câu hỏi
-        </Button>
+        </Button> */}
         <Table striped bordered hover responsive>
           <thead className="table-primary">
             <tr>
-              <th>ID</th>
+              <th>#</th>
               <th>Tên khóa học</th>
               <th>Mô tả</th>
               <th

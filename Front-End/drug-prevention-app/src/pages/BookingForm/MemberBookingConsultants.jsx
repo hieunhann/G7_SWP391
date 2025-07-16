@@ -150,7 +150,7 @@ const MemberBookingConsultants = () => {
     const payload = {
       memberId: userId,
       consultantId: selectedConsultant,
-      bookingTime: new Date(`${selectedDate}T${selectedTime}:00`).toISOString(),
+      // bookingTime: new Date(`${selectedDate}T${selectedTime}:00`).toISOString(),
       bookingTime: dayjs
         .tz(`${selectedDate}T${selectedTime}`, "Asia/Ho_Chi_Minh")
         .toISOString(),

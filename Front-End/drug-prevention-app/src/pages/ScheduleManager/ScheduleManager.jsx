@@ -656,4 +656,8 @@ function ScheduleManager() {
   );
 }
 
+<<<<<<< HEAD
 export default ScheduleManager;
+=======
+export default ScheduleManager;
+>>>>>>> 31c10d1 (pull)
