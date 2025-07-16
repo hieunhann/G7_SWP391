@@ -6,7 +6,6 @@ import './Sidebar.css';
 const menu = [
   { to: '/', label: 'Trang chủ', icon: <FaHome /> },
   { to: '/ScheduleManager', label: 'Quản lý lịch', icon: <FaCalendarAlt /> },
-  { to: '/user-manager', label: 'Quản lý nhân sự', icon: <FaUsers /> },
   { to: '/stats', label: 'Thống kê', icon: <FaChartBar /> },
   { to: '/manage-courses', label: 'Quản Lý Khóa Học', icon: <FaGraduationCap /> }, // Placeholder for settings
 ];

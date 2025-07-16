@@ -32,7 +32,7 @@ const Header = () => {
     { to: "/booking", label: "Đặt Lịch" , roles:["manager", "consultant", "member", "staff"]},
     { to: "/booked", label: "Lịch Của Tôi" , roles:["manager", "consultant", "member", "staff"]},
     { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" , roles:["manager", "consultant", "member", "staff"]},
-    { to: "/ScheduleManager", label: "Quản Lý Lịch" , roles:["manager"]},
+    { to: "/ScheduleManager", label: "Quản Lý" , roles:["manager"]},
     { to: "/blogs", label: "Bài Viết" , roles:["manager", "consultant", "member", "staff"]},
   ];
 

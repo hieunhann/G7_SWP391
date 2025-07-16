@@ -15,6 +15,10 @@ const Courses = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
     const fetchCourses = async () => {
       setLoading(true);
       try {
@@ -132,12 +136,20 @@ const Courses = () => {
                         <div className="flex gap-2 mt-4 flex-wrap">
                           <button
                             className="w-fit bg-gradient-to-r from-[#004b8d] to-[#0070cc] text-white font-medium py-1.5 px-4 rounded-xl hover:opacity-90 text-sm shadow"
-                            onClick={() => {
+                            onClick={async () => {
                               const user = JSON.parse(
                                 localStorage.getItem("user") || "null"
                               );
                               if (!user?.id) return navigate("/login");
-                              navigate(`/Courses/lesson/${course.id}`);
+                              try {
+                                await api.post("/registration/create", {
+                                  memberId: user.id,
+                                  courseId: course.id,
+                                });
+                                navigate(`/Courses/lesson/${course.id}`);
+                              } catch (err) {
+                                alert("Đăng ký khóa học thất bại!");
+                              }
                             }}
                           >
                             ▶️ Xem video học

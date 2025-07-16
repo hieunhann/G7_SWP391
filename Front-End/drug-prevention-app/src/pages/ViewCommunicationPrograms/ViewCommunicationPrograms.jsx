@@ -43,6 +43,10 @@ const ViewCommunicationPrograms = () => {
     fetchEvents();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   // Xem chi tiết sự kiện + feedback
   const handleViewDetail = async (event) => {
     setSelectedEvent(event);
@@ -266,7 +270,7 @@ const ViewCommunicationPrograms = () => {
                     {event.description}
                   </p>
 
-                  <div className="mt-auto flex gap-2">
+                  <div className="mt-auto flex items-center justify-between mb-4">
                     <Link
                       to={`/event/${event.id}`}
                       className="w-full text-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
@@ -275,25 +279,23 @@ const ViewCommunicationPrograms = () => {
                       Xem chi tiết
                     </Link>
                     {isManager && (
-                      <>
+                      <div className="flex gap-2 items-center ml-2">
                         <Link
                           to={`/edit-event/${event.id}`}
-                          className="w-full text-center bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
+                          className="text-green-600 hover:underline text-sm flex items-center gap-1"
                           title="Chỉnh sửa chương trình"
                         >
-                          <FaPen />
-                          Chỉnh sửa
+                          <FaPen size={14} /> Sửa
                         </Link>
                         <button
                           onClick={() => handleDeleteEvent(event.id)}
-                          className="w-full text-center bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
+                          className="text-red-600 hover:underline text-sm flex items-center gap-1"
                           title="Xóa chương trình"
                           disabled={deleteLoading}
                         >
-                          <i className="bi bi-trash"></i>
-                          {deleteLoading ? "Đang xóa..." : "Xóa"}
+                          <i className="bi bi-trash"></i> Xóa
                         </button>
-                      </>
+                      </div>
                     )}
                   </div>
                 </div>

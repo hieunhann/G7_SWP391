@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import {
   FaArrowRight,
@@ -13,6 +13,7 @@ import {
   FaTwitter,
   FaYoutube,
   FaSearch,
+  FaArrowUp,
 } from "react-icons/fa";
 import { getBlogs, getEvents } from "../../services/api";
 import Chatbox from "../../components/Chatbox/Chatbox";
@@ -23,29 +24,51 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
+  const navigate = useNavigate();
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const trainingPrograms = [
     {
       title: "Học sinh",
+      ageGroup: "Trẻ em",
       description: "Khóa học thiết kế riêng cho học sinh nâng cao nhận thức.",
       img: "https://static.vecteezy.com/system/resources/previews/000/511/962/original/vector-student-glyph-black-icon.jpg",
     },
     {
       title: "Sinh viên",
+      ageGroup: "Thiếu niên",
       description: "Chương trình kỹ năng phòng tránh dành cho sinh viên.",
       img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
     },
     {
       title: "Phụ huynh",
+      ageGroup: "Phụ huynh",
       description: "Hỗ trợ phụ huynh tư vấn và bảo vệ con cái.",
       img: "https://png.pngtree.com/png-vector/20220727/ourlarge/pngtree-kid-girl-and-mother-using-laptop-together-vector-png-image_6089049.png",
     },
     {
       title: "Giáo viên",
+      ageGroup: "Giáo viên",
       description: "Tài liệu đào tạo giảng viên phòng chống ma túy.",
       img: "https://png.pngtree.com/element_origin_min_pic/17/01/01/f746eaac9809159f5d1c2f5149190263.jpg",
     },
   ];
+
+  const handleCourseFilter = (ageGroup) => {
+    navigate(`/Courses?ageGroup=${encodeURIComponent(ageGroup)}`);
+  };
 
   useEffect(() => {
     // Fetch blogs using the same API as BlogList
@@ -137,67 +160,26 @@ export default function HomePage() {
         </section>
 
         {/* Khóa học đào tạo */}
-        <section className="relative py-20 px-6 overflow-hidden bg-white">
-          {/* Hình nền  */}
+        <section className="relative py-20 px-6 overflow-hidden bg-gradient-to-br from-green-50 via-white to-green-100">
           <img
             src="https://images.saymedia-content.com/.image/t_share/MTc0NjQxODIwMDY2NjU0MTk4/amaado.jpg"
             alt="Education Background"
-            className="absolute inset-0 w-full h-full object-cover opacity-60"
+            className="absolute inset-0 w-full h-full object-cover opacity-40"
           />
-
-          {/* Lớp làm dịu chỉ nhẹ nhẹ */}
-          <div className="absolute inset-0 bg-white/20 backdrop-blur-[1px]" />
-
-          <div className="max-w-6xl mx-auto relative z-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-green-700 drop-shadow-lime-50">
-              Chương trình đào tạo trực tuyến
+          <div className="absolute inset-0 bg-white/30 backdrop-blur-[2px]" />
+          <div className="max-w-3xl mx-auto relative z-10 text-center p-10 rounded-3xl shadow-2xl border border-green-100 bg-white/80">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-green-700 drop-shadow-xl">
+              Khóa học phòng chống ma túy chuyên sâu
             </h2>
-            <p className="text-center text-black-500 mb-12 text-lg drop-shadow-sm">
-              Phù hợp cho từng nhóm đối tượng
+            <p className="text-lg text-gray-700 mb-10">
+              Nâng cao kiến thức, kỹ năng phòng tránh và hỗ trợ cộng đồng với các khóa học chất lượng quốc tế. Khám phá hàng trăm khóa học miễn phí và có chứng chỉ.
             </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-              {filteredTrainingPrograms.length > 0 ? (
-                filteredTrainingPrograms.map(
-                  ({ title, description, img }, index) => (
-                    <motion.div
-                      key={title}
-                      className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-md flex flex-col items-center text-center border border-white/40 hover:shadow-xl transition"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.2 }}
-                    >
-                      <motion.img
-                        src={img}
-                        alt={title}
-                        className="w-20 h-20 mb-4 rounded-full shadow-md object-cover"
-                        initial={{ scale: 0.8, rotate: -10 }}
-                        animate={{ scale: 1, rotate: 0 }}
-                        whileHover={{ scale: 1.15, rotate: 5 }}
-                        transition={{
-                          duration: 0.5,
-                          type: "spring",
-                          stiffness: 200,
-                        }}
-                      />
-                      <h3 className="text-lg font-semibold mb-2 text-gray-800">
-                        {title}
-                      </h3>
-                      <p className="text-gray-700 text-sm mb-4">
-                        {description}
-                      </p>
-                      <button className="bg-green-600 hover:bg-green-700 text-white py-2 px-5 rounded-full font-semibold transition transform hover:scale-105 shadow-md">
-                        Xem chi tiết
-                      </button>
-                    </motion.div>
-                  )
-                )
-              ) : (
-                <p className="col-span-full text-center text-white drop-shadow">
-                  Không tìm thấy khóa học phù hợp.
-                </p>
-              )}
-            </div>
+            <Link
+              to="/Courses"
+              className="inline-block px-10 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white text-xl font-bold rounded-full shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 uppercase tracking-wide"
+            >
+              Khám phá khóa học
+            </Link>
           </div>
         </section>
 
@@ -215,7 +197,7 @@ export default function HomePage() {
             <div className="text-center">Đang tải...</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-              {blogs.map((blog, index) => (
+              {blogs.slice(0, 3).map((blog, index) => (
                 <motion.div
                   key={blog.id}
                   className="relative rounded-3xl overflow-hidden shadow-xl bg-white border border-gray-200 cursor-pointer flex flex-col"
@@ -225,7 +207,7 @@ export default function HomePage() {
                     delay: index * 0.15,
                     duration: 0.5,
                     type: "spring",
-                    stiffness: 120,
+                    stiffness: 120, 
                   }}
                   viewport={{ once: true }}
                   whileHover={{
@@ -270,60 +252,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 📝 Tự đánh giá nguy cơ */}
-        <section className="py-24 px-6 max-w-6xl mx-auto text-center bg-white">
-          <h2 className="text-4xl font-bold text-yellow-600 mb-4 drop-shadow-md">
-            Tự đánh giá nguy cơ
-          </h2>
-          <p className="text-lg text-gray-700 mb-12 max-w-2xl mx-auto">
-          Hãy chọn bài khảo sát phù hợp để nhận đánh giá sơ bộ về mức độ nguy cơ
-          và lời khuyên hành động.
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-10">
-            {/* ASSIST */}
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              className="bg-yellow-100 hover:bg-yellow-200 rounded-2xl shadow-xl p-6 flex flex-col items-center text-yellow-900 transition"
-            >
-              <FaClipboardList size={40} className="mb-4 text-yellow-700" />
-              <h3 className="text-2xl font-semibold mb-2">Khảo sát ASSIST</h3>
-              <p className="text-sm text-gray-800 mb-6">
-                Công cụ sàng lọc được WHO khuyến nghị nhằm phát hiện mức độ sử
-                dụng các chất gây nghiện.
-              </p>
-              <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-6 py-2 rounded-full transition">
-                Bắt đầu khảo sát
-              </button>
-            </motion.div>
-
-            {/* CRAFFT */}
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              className="bg-yellow-100 hover:bg-yellow-200 rounded-2xl shadow-xl p-6 flex flex-col items-center text-yellow-900 transition"
-            >
-              <FaClipboardList size={40} className="mb-4 text-yellow-700" />
-              <h3 className="text-2xl font-semibold mb-2">Khảo sát CRAFFT</h3>
-              <p className="text-sm text-gray-800 mb-6">
-                Công cụ dành cho thanh thiếu niên nhằm đánh giá nguy cơ lạm dụng
-                rượu, thuốc và chất kích thích.
-              </p>
-              <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-6 py-2 rounded-full transition">
-                Bắt đầu khảo sát
-              </button>
-            </motion.div>
-          </div>
-
-          {/* CTA bổ sung */}
-          <div className="mt-16">
-            <motion.button
-              className="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-full font-semibold shadow-md inline-flex items-center gap-3 transition-all"
-              whileHover={{ scale: 1.05 }}
-            >
-              <FaPoll size={18} /> Xem kết quả khảo sát gần đây
-            </motion.button>
-          </div>
-        </section>
+        
 
         {/* 📅 Gặp chuyên viên tư vấn */}
         <section className="relative bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-700 py-24 px-6 text-center rounded-3xl max-w-6xl mx-auto shadow-2xl overflow-hidden">
@@ -349,6 +278,7 @@ export default function HomePage() {
           <motion.button
             className="inline-flex items-center justify-center gap-3 bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-full font-semibold shadow-xl transition"
             whileHover={{ scale: 1.05 }}
+            onClick={() => navigate('/booking')}
           >
             <FaCalendarAlt size={20} /> Đặt lịch ngay
           </motion.button>
@@ -410,6 +340,16 @@ export default function HomePage() {
           </div>
         </section>
       </div>
+      {/* Nút scroll to top */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-[104px] right-6 z-50 bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-lg transition-all duration-200 flex items-center justify-center"
+          aria-label="Lên đầu trang"
+        >
+          <FaArrowUp size={24} />
+        </button>
+      )}
       <Chatbox />
     </>
   );

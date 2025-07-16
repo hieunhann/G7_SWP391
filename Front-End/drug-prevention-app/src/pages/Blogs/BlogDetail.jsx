@@ -62,6 +62,10 @@ const BlogDetail = () => {
     fetchData();
   }, [id]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]);
+
   // Đồng bộ likedBlogs với localStorage
   useEffect(() => {
     if (!blog) return;
