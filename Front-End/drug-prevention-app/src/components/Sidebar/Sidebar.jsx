@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaCalendarAlt, FaUsers, FaChartBar, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaCalendarAlt, FaUsers, FaChartBar, FaSignOutAlt ,FaGraduationCap  } from 'react-icons/fa';
 import './Sidebar.css';
 
 const menu = [
@@ -8,7 +8,7 @@ const menu = [
   { to: '/ScheduleManager', label: 'Quản lý lịch', icon: <FaCalendarAlt /> },
   { to: '/user-manager', label: 'Quản lý nhân sự', icon: <FaUsers /> },
   { to: '/stats', label: 'Thống kê', icon: <FaChartBar /> },
-  { to: '/manage-courses', label: 'Quản Lý Khóa Học', icon: <FaChartBar /> }, // Placeholder for settings
+  { to: '/manage-courses', label: 'Quản Lý Khóa Học', icon: <FaGraduationCap /> }, // Placeholder for settings
 ];
 
 export default function Sidebar() {
