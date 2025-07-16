@@ -142,18 +142,7 @@ const Courses = () => {
                           >
                             ▶️ Xem video học
                           </button>
-                          <button
-                            className="w-fit bg-white border border-[#004b8d] text-[#004b8d] font-medium py-1.5 px-4 rounded-xl  text-sm shadow"
-                            onClick={() => {
-                              const user = JSON.parse(
-                                localStorage.getItem("user") || "null"
-                              );
-                              if (!user?.id) return navigate("/login");
-                              navigate(`/Courses/lesson/${course.id}/feedback`);
-                            }}
-                          >
-                            💬 Đánh giá khóa học
-                          </button>
+                          
                         </div>
                       </div>
                     </div>
