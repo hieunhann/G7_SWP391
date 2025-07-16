@@ -17,7 +17,6 @@ import UserProfile from "./pages/UserProfile/UserProfile";
 import Courses from "./pages/Course/Courses";
 import DetailsCourse from "./pages/Course/DetailsCourse";
 import BookedView from "./pages/BookingForm/BookedView";
-import FeedbackCourse from "./pages/Course/FeedbackCourse";
 import BlogList from "./pages/Blogs/BlogList";
 import BlogDetail from "./pages/Blogs/BlogDetail";
 import EditBlog from "./pages/Blogs/EditBlog";
@@ -50,7 +49,6 @@ const router = createBrowserRouter([
   { path: "/Courses", element: <Courses /> },
   { path: "/Courses/lesson/:id", element: <DetailsCourse /> },
   { path: "/booked", element: <BookedView /> },
-  { path: "/Courses/lesson/:id/feedback", element: <FeedbackCourse /> },
   { path: "/blogs", element: <BlogList /> },
   { path: "/blog/:id", element: <BlogDetail /> },
   { path: "/edit-blog/:id", element: <EditBlog /> },
