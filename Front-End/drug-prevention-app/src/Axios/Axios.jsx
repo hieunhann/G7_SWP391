@@ -3,7 +3,7 @@ import { store } from "../redux/store";
 import { Login, logout } from "../redux/features/userSlice";
 const api = axios.create({
   baseURL: "https://backend-drug-prevention.onrender.com/api/v1",
-  withCredentials: true, 
+  withCredentials: true,
 });
 
 api.interceptors.request.use(
@@ -34,13 +34,12 @@ api.interceptors.response.use(
         const res = await axios.get(
           "https://backend-drug-prevention.onrender.com/api/v1/auth/refresh",
           {
-            withCredentials: true, 
+            withCredentials: true,
           }
         );
 
         const { user, accessToken } = res.data;
 
-        // ✅ Lưu mới vào localStorage
         const updatedUser = {
           ...user,
           accessToken: accessToken,
