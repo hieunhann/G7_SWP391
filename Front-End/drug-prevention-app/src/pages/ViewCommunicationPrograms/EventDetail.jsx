@@ -44,6 +44,10 @@ const EventDetail = () => {
       .catch((err) => setFeedbacks([]));
   }, [id]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   const handleSubmitFeedback = async () => {
     if (!memberId) {
       navigate("/login", { state: { message: "Bạn cần đăng nhập để bình luận" } });

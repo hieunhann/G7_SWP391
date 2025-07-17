@@ -22,6 +22,10 @@ const BlogList = () => {
   });
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
     const fetchBlogs = async () => {
       try {
         setLoading(true);

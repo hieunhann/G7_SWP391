@@ -61,6 +61,10 @@ const ViewCommunicationPrograms = () => {
     fetchEvents();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   // Xem chi tiết sự kiện + feedback
   const handleViewDetail = async (event) => {
     setSelectedEvent(event);

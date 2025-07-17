@@ -260,6 +260,9 @@ const MemberBookingConsultants = () => {
     }
     setStep(step + 1);
   };
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
 
   return (
