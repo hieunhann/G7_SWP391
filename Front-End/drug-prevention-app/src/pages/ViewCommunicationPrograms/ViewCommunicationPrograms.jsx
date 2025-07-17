@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Modal, ListGroup, Form, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Sidebar from '../../components/Sidebar/Sidebar';
+import Header from "../../components/Header/Header";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import { FaSearch, FaFilter, FaCalendar, FaMapMarkerAlt, FaUser, FaEye, FaStar, FaComment, FaUsers, FaPen } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { getEvents, getEventFeedbacks, createEventFeedback, createRegistration, deleteEvent } from "../../services/api";
@@ -167,7 +168,9 @@ const ViewCommunicationPrograms = () => {
 
   return (
     <>
-      <Sidebar />
+      <Header user={user} />
+      <div className="flex">
+  <Sidebar />
       
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
@@ -310,7 +313,9 @@ const ViewCommunicationPrograms = () => {
           </div>
         )}
       </div>
+      </div>
     </>
+
   );
 };
 
