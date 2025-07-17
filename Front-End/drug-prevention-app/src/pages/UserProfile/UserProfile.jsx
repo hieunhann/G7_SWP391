@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { Login } from "../../redux/features/userSlice";
 import { Modal, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Sidebar from '../../components/Sidebar/Sidebar';
 
 const iconColor = "#004b8d";
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
@@ -204,6 +205,7 @@ const UserProfile = () => {
   return (
     <>
       <Header />
+      <Sidebar />
       <div className="container my-5">
         <div className="card shadow mx-auto" style={{ maxWidth: "600px" }}>
           <div className="card-body">

@@ -5,6 +5,7 @@ import NotifyLogin from "../../components/Notify/NotifyLogin";
 import api from "../../Axios/Axios";
 import bookingServices from "../../apis/BookingAPIs";
 import { getBookingDate } from "../../utils/Date";
+import Sidebar from '../../components/Sidebar/Sidebar';
 
 const statusOptions = [
   "Tất cả",
@@ -165,7 +166,7 @@ const BookedView = () => {
                 }
               >
                 Link
-              </button>
+              </button> 
             )}
           </div>
         ),
@@ -222,56 +223,7 @@ const BookedView = () => {
       }
     }
   };
-  const handleConfirm = async (bookingId) => {
-    if (!window.confirm("Bạn có chắc chắn muốn xác nhận lịch hẹn này?")) return;
-    try {
-      const response = await api.put(
-        `/bookings/confirmBookingById/${bookingId}`
-      );
-      console.log("Confirm booking response:", response.data); // Thêm dòng này để kiểm tra phản hồi
-      if (response.data.message !== "CALL API SUCCESS")
-        throw new Error("Xác nhận không thành công");
-      setBookings((prev) =>
-        prev.map((b) =>
-          b.id === bookingId ? { ...b, status: "Đã xác nhận" } : b
-        )
-      );
-    } catch (error) {
-      throw new Error("Xác nhận không thành công");
-    }
-  };
-
-  const handleCancel = async (bookingId) => {
-    console.log("handleCancel bookingId:", bookingId); // Thêm dòng này để kiểm tra bookingId
-    if (!window.confirm("Bạn có chắc chắn muốn hủy lịch hẹn này không?"))
-      return;
-    try {
-      var response = await api.put(`/bookings/cancelBookingById/${bookingId}`);
-      var data = response.data?.data || response.data; // Lấy data từ phản hồi
-      data.id = bookingId; // Đảm bảo data có id để cập nhật đúng booking
-      console.log("Cancel booking response:", data); // Thêm dòng này để kiểm tra phản hồi
-      setBookings((prev) => prev.map((b) => (b.id === data.id ? data : b)));
-    } catch (error) {
-      console.error(error);
-      alert("Hủy thất bại!");
-    }
-  };
-  const handleDone = async (bookingId) => {
-    if (!window.confirm("Xác nhận đã hoàn thành tư vấn?")) return;
-    try {
-      const res = await api.get(`/bookings/afterConsultation/${bookingId}`);
-      if (res.data.message !== "CALL API SUCCESS")
-        throw new Error("Cập nhật không thành công");
-      setBookings((prev) =>
-        prev.map((b) =>
-          b.id === bookingId ? { ...b, status: "Hoàn thành" } : b
-        )
-      );
-    } catch (error) {
-      console.error(error);
-      alert("Cập nhật thất bại!");
-    }
-  };
+ 
   const filteredBookings =
     statusFilter === "Tất cả"
       ? bookings
@@ -290,8 +242,7 @@ const BookedView = () => {
 
   return (
     <>
-      <Header />
-      <NotifyLogin
+    <NotifyLogin
         show={showLoginPopup}
         onCancel={() => navigate("/")}
         message="Hãy đăng nhập để có thể xem lịch tư vấn nhé!!!"
@@ -299,11 +250,16 @@ const BookedView = () => {
         confirmText="Tiếp tục"
         redirectTo="/login"
       />
-      {error !== "Hãy đăng nhập để xem lịch hẹn của bạn nhé!!!" && (
-        <div className="container pt-4 pb-5 mb-4">
-          <div
-            style={{
-              display: "flex",
+      <div className="flex">
+  <Sidebar />
+  <div className="flex-1 ml-[220px]">
+    <Header />
+    <main className="pt-4 pb-5 mb-4 container">
+        {error !== "Hãy đăng nhập để xem lịch hẹn của bạn nhé!!!" && (
+          <div className="container pt-4 pb-5 mb-4 ">
+            <div
+              style={{
+                display: "flex",
               flexDirection: "column",
               alignItems: "flex-start",
             }}
@@ -379,6 +335,9 @@ const BookedView = () => {
           )}
         </div>
       )}
+    </main>
+  </div>
+</div>
     </>
   );
 };

@@ -12,28 +12,30 @@ const Header = () => {
 
   const currentUser = useSelector((state) => state.user?.user);
 
+  if (!currentUser || currentUser.role !== "MEMBER") {
+    return null;
+  }
+
   const handleLogout = async () => {
-    dispatch(logout()); // reset Redux
-    await persistor.purge(); // xóa persisted state
-    localStorage.clear(); // xóa toàn bộ localStorage
-    navigate("/");
+    dispatch(logout()); 
+    await persistor.purge(); 
+    localStorage.clear(); 
+    navigate("/login");
   };
 
   const renderUserName = () => {
-    if (!currentUser) return null;
     const { firstName = "", lastName = "" } = currentUser;
-    return `${firstName} ${lastName}`.trim() || "User";
+    return `${firstName} ${lastName}`.trim() || "Thành viên";
   };
 
   const navItems = [
-    { to: "/", label: "Trang Chủ", roles:["manager", "consultant", "member", "staff"]},
-    { to: "/courses", label: "Khóa Học" , roles:["manager", "consultant", "member", "staff"]},
-    { to: "/Surveys", label: "Khảo Sát" , roles:["manager", "consultant", "member"]},
-    { to: "/booking", label: "Đặt Lịch" , roles:["manager", "consultant", "member", "staff"]},
-    { to: "/booked", label: "Lịch Của Tôi" , roles:["manager", "consultant", "member", "staff"]},
-    { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" , roles:["manager", "consultant", "member", "staff"]},
-    { to: "/ScheduleManager", label: "Quản Lý Lịch" , roles:["manager"]},
-    { to: "/blogs", label: "Bài Viết" , roles:["manager", "consultant", "member", "staff"]},
+    { to: "/", label: "Trang Chủ" },
+    { to: "/courses", label: "Khóa Học" },
+    { to: "/Surveys", label: "Khảo Sát" },
+    { to: "/booking", label: "Đặt Lịch" },
+    { to: "/booked", label: "Lịch Của Tôi" },
+    { to: "/ViewCommunicationPrograms", label: "Chương Trình Truyền Thông" },
+    { to: "/blogs", label: "Bài Viết" },
   ];
 
   return (
@@ -68,48 +70,24 @@ const Header = () => {
           </NavLink>
         ))}
 
-        {currentUser ? (
-          <>
-            <NavLink
-              to="/UserProfile"
-              className="nav-items user-name"
-              onClick={() => setMenuOpen(false)}
-              style={{ textDecoration: "none", cursor: "pointer" }}
-            >
-              Xin chào, {renderUserName()}
-            </NavLink>
-            <button
-              className="nav-items logout-button"
-              onClick={() => {
-                handleLogout();
-                setMenuOpen(false);
-              }}
-            >
-              Đăng Xuất
-            </button>
-          </>
-        ) : (
-          <>
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                `nav-items${isActive ? " active-item" : ""}`
-              }
-              onClick={() => setMenuOpen(false)}
-            >
-              Đăng Nhập
-            </NavLink>
-            <NavLink
-              to="/register"
-              className={({ isActive }) =>
-                `nav-items${isActive ? " active-item" : ""}`
-              }
-              onClick={() => setMenuOpen(false)}
-            >
-              Đăng Ký
-            </NavLink>
-          </>
-        )}
+        <NavLink
+          to="/UserProfile"
+          className="nav-items user-name"
+          onClick={() => setMenuOpen(false)}
+          style={{ textDecoration: "none", cursor: "pointer" }}
+        >
+          Xin chào, {renderUserName()}
+        </NavLink>
+
+        <button
+          className="nav-items logout-button"
+          onClick={() => {
+            handleLogout();
+            setMenuOpen(false);
+          }}
+        >
+          Đăng Xuất
+        </button>
       </nav>
     </div>
   );

@@ -12,6 +12,8 @@ const UserManagementPage = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showRoleModal, setShowRoleModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10;
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -47,7 +49,10 @@ const UserManagementPage = () => {
 
   const handleRoleChange = async (userId, newRole) => {
     try {
-      const res = await axios.put(`http://localhost:8080/api/v1/users/${userId}/role`, { role: newRole });
+      const res = await axios.put(
+        `http://localhost:8080/api/v1/users/${userId}/role`,
+        { role: newRole }
+      );
       toast.success(res.data.message || "Cập nhật quyền thành công!");
       fetchUsers();
     } catch (err) {
@@ -72,6 +77,30 @@ const UserManagementPage = () => {
     navigate("/login");
   };
 
+  const rolePriority = {
+    ADMIN: 1,
+    MANAGER: 2,
+    STAFF: 3,
+    MEMBER: 4,
+    CONSULTANT: 5,
+  };
+
+  const sortedUsers = [...users].sort((a, b) => {
+    const pa = rolePriority[a.role] || 99;
+    const pb = rolePriority[b.role] || 99;
+    return pa - pb;
+  });
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = sortedUsers.slice(indexOfFirstUser, indexOfLastUser);
+
+  const totalPages = Math.ceil(users.length / usersPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   if (location.pathname === "/admin/settings") {
     return (
       <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
@@ -88,13 +117,34 @@ const UserManagementPage = () => {
       <AdminSidebar onLogout={handleLogout} />
       <main className="flex-1 ml-64">
         <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-8 mt-8">
-          <h1 className="text-3xl font-extrabold text-blue-700 mb-2 text-center tracking-tight">Quản lý phân quyền User</h1>
-          <p className="text-gray-500 mb-8 text-center">Quản lý, phân quyền và xóa tài khoản người dùng trong hệ thống.</p>
+          <h1 className="text-3xl font-extrabold text-blue-700 mb-2 text-center tracking-tight">
+            Quản lý phân quyền User
+          </h1>
+          <p className="text-gray-500 mb-8 text-center">
+            Quản lý, phân quyền và xóa tài khoản người dùng trong hệ thống.
+          </p>
           <UserTable
-            users={users}
+            users={currentUsers}
             onEditRole={handleOpenRoleModal}
             onDelete={handleDeleteUser}
           />
+          {/* Pagination controls */}
+          <div className="flex justify-center mt-6 space-x-2">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                className={`px-3 py-1 rounded ${
+                  currentPage === i + 1
+                    ? "bg-blue-500 text-white"
+                    : "bg-blue-100 text-blue-700"
+                }`}
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+          {/* End Pagination */}
           {showRoleModal && selectedUser && (
             <UserRoleModal
               user={selectedUser}

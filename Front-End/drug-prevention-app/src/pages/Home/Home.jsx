@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import {
   FaArrowRight,
   FaClipboardList,
@@ -98,6 +99,7 @@ export default function HomePage() {
   return (
     <>
       <Header />
+      <Sidebar />
 
       <div className="min-h-screen bg-white text-black">
         {/* Hero Section */}

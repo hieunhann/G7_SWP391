@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaSearch, FaFilter, FaEdit, FaPen, FaBookOpen, FaEye, FaTrash } from 'react-icons/fa';
 import Header from '../../components/Header/Header';
 import { getBlogs, deleteBlog } from '../../services/api';
-
+import Sidebar from '../../components/Sidebar/Sidebar';
 const BlogList = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const isManager = user?.role === 'MANAGER';
@@ -97,6 +97,9 @@ const BlogList = () => {
   return (
     <>
       <Header user={user} />
+      <div className="flex">
+  <Sidebar />
+  <div className="flex-1 ml-[220px]">
       <div className="container mx-auto px-4 py-8">
         {/* Tiêu đề lớn + icon + thanh công cụ */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
@@ -215,6 +218,8 @@ const BlogList = () => {
             ))}
           </div>
         )}
+      </div>
+      </div>
       </div>
     </>
   );

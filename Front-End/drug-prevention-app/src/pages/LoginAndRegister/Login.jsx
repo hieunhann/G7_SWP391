@@ -29,11 +29,12 @@ const LoginPage = () => {
       localStorage.setItem("user", JSON.stringify({ ...user, accessToken }));
       toast.success("Đăng nhập thành công!");
       if (user.role === "ADMIN") {
-      navigate("/admin/users");
-    } else {
-      navigate("/");
-    }
-      
+        navigate("/admin/users");
+      } else if (user.role === "CONSULTANT") {
+        navigate("/booked");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setErrorMsg("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
       toast.error("Sai tài khoản hoặc mật khẩu!");

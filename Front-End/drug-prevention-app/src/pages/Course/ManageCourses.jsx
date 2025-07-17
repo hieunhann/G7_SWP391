@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import Sidebar from '../../components/Sidebar/Sidebar';
+import Sidebar from "../../components/Sidebar/Sidebar";
 const ManageCourses = () => {
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
@@ -166,32 +166,47 @@ const ManageCourses = () => {
 
   return (
     <>
-      <Sidebar />
-      <div className="container mt-4">
-        <ToastContainer />
-<h2 className="text-4xl font-extrabold text-left text-[#004b8d] mb-8 border-b-4 border-[#0070cc] pb-2">
-           Quản lý khóa học
-          </h2>        <input
+     <div className="flex">
+  <Sidebar />
+  <div className="flex-1 ml-[220px]">
+    <div className="pt-4 pb-5 mb-4 container">
+      <ToastContainer />
+      <h2 className="text-4xl font-extrabold text-left text-[#004b8d] mb-8 border-b-4 border-[#0070cc] pb-2">
+        Quản lý khóa học
+      </h2>{" "}
+      <input
           className="form-control mb-3"
           placeholder="Tìm kiếm theo tên khóa học, mô tả hoặc nhóm tuổi"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <p>Có {filteredCourses.length} khóa học</p>
-
         <Button variant="primary" className="mb-3" onClick={handleCreate}>
           + Thêm khóa học
         </Button>
-
         <Table striped bordered hover responsive>
           <thead className="table-primary">
             <tr>
               <th>ID</th>
               <th>Tên khóa học</th>
               <th>Mô tả</th>
-              <th style={{ minWidth: "85px", whiteSpace: "nowrap" , textAlign: "center"}}>Thời gian</th>
+              <th
+                style={{
+                  minWidth: "85px",
+                  whiteSpace: "nowrap",
+                  textAlign: "center",
+                }}
+              >
+                Thời gian
+              </th>
               <th>Ngày tạo</th>
-              <th style={{ minWidth: "120px", whiteSpace: "nowrap" , textAlign: "center"}}>
+              <th
+                style={{
+                  minWidth: "120px",
+                  whiteSpace: "nowrap",
+                  textAlign: "center",
+                }}
+              >
                 Ngày cập nhật
               </th>
               <th>Nhóm tuổi</th>
@@ -206,7 +221,9 @@ const ManageCourses = () => {
                 <td>{course.id}</td>
                 <td>{course.name}</td>
                 <td>{course.description.slice(0, 40)}...</td>
-                <td style={{ whiteSpace: "nowrap", textAlign: "center" }}>{course.duration} phút</td>
+                <td style={{ whiteSpace: "nowrap", textAlign: "center" }}>
+                  {course.duration} phút
+                </td>
 
                 <td style={{ whiteSpace: "nowrap" }}>
                   {new Date(course.createdAt).toISOString().split("T")[0]}
@@ -227,7 +244,8 @@ const ManageCourses = () => {
                   <Button
                     size="sm"
                     variant="info"
-                    className="me-2 text-white"
+                    className="me-2 text-mb-3"
+                    style={{ backgroundColor: "#0070cc", borderColor: "#0070cc", color: "#fff" }}
                     onClick={() => {
                       setSelectedCourse(course);
                       setShowViewModal(true);
@@ -255,7 +273,6 @@ const ManageCourses = () => {
             ))}
           </tbody>
         </Table>
-
         {/* Pagination */}
         <div className="d-flex justify-content-center gap-2 mt-3 flex-wrap">
           {Array.from({ length: totalPages }, (_, i) => (
@@ -268,7 +285,6 @@ const ManageCourses = () => {
             </Button>
           ))}
         </div>
-
         {/* Modal chỉnh sửa */}
         <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
           <Modal.Header closeButton>
@@ -355,7 +371,6 @@ const ManageCourses = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-
         {/* Modal xác nhận xóa */}
         <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
           <Modal.Header closeButton>
@@ -376,7 +391,6 @@ const ManageCourses = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-
         {/* Modal xem chi tiết */}
         <Modal show={showViewModal} onHide={() => setShowViewModal(false)}>
           <Modal.Header closeButton>
@@ -442,6 +456,8 @@ const ManageCourses = () => {
           </Modal.Footer>
         </Modal>
       </div>
+    </div>
+  </div>
     </>
   );
 };
