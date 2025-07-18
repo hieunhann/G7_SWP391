@@ -3,8 +3,11 @@ import { FaFacebookF, FaInstagram, FaTwitter, FaMapMarkerAlt, FaPhone, FaEnvelop
 
 const Footer = () => {
   return (
-   <footer className="bg-white text-gray-700 py-12 px-6 border-t border-gray-200 w-full lg:ml-[70px]">
-  <div className="max-w-7xl mx-auto ">
+    <footer
+      className="bg-white text-gray-700 border-t border-gray-200 w-full"
+      style={{ minHeight: "320px", display: "flex", flexDirection: "column", padding: "10px" }} // Giảm chiều cao tối thiểu
+    >
+      <div className="max-w-7xl mx-auto flex-1 flex flex-col">
         {/* Main Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Column 1 - About */}
