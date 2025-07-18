@@ -258,9 +258,7 @@ const BookedView = () => {
         <Sidebar />
         <div className="flex-1 ml-[90px]">
           <main
-            className="pt-4 pb-5 mb-4 container d-flex flex-column align-items-center justify-content-center"
-            style={{ minHeight: "80vh" }}
-          >
+            className="pt-4 pb-5 mb-4 container d-flex flex-column align-items-center justify-content-center"          >
             {" "}
             {error !== "Hãy đăng nhập để xem lịch hẹn của bạn nhé!!!" && (
               <div className="container pt-4 pb-5 mb-4 ">

@@ -99,7 +99,7 @@ const DetailsCourse = () => {
     const submissions = Object.entries(answers).map(
       ([questionId, selectedAnswerId]) => ({
         questionId: parseInt(questionId, 10),
-        selectedAnswerId: parseInt(selectedAnswerId, 10), // ← cần parse thêm dòng này
+        selectedAnswerId: parseInt(selectedAnswerId, 10), 
       })
     );
 
