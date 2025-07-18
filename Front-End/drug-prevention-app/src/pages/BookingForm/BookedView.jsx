@@ -16,6 +16,53 @@ const statusOptions = [
 ];
 
 const BookedView = () => {
+  // Xử lý xác nhận lịch hẹn
+  const handleConfirm = async (bookingId) => {
+    if (!window.confirm("Bạn có chắc chắn muốn xác nhận lịch hẹn này?")) return;
+    try {
+      const response = await api.put(`/bookings/setStatusConsultation/${bookingId}/Đã xác nhận`);
+      if (!response.data) throw new Error("Xác nhận không thành công");
+      setBookings((prev) =>
+        prev.map((b) =>
+          b.id === bookingId ? { ...b, status: "Đã xác nhận" } : b
+        )
+      );
+    } catch (error) {
+      alert("Xác nhận không thành công!");
+    }
+  };
+
+  // Xử lý hủy lịch hẹn
+  const handleCancel = async (bookingId) => {
+    if (!window.confirm("Bạn có chắc chắn muốn hủy lịch hẹn này không?")) return;
+    try {
+      const response = await api.put(`/bookings/setStatusConsultation/${bookingId}/Đã hủy`);
+      if (!response.data) throw new Error("Hủy thất bại!");
+      setBookings((prev) =>
+        prev.map((b) =>
+          b.id === bookingId ? { ...b, status: "Đã hủy" } : b
+        )
+      );
+    } catch (error) {
+      alert("Hủy thất bại!");
+    }
+  };
+
+  // Xử lý hoàn thành tư vấn
+  const handleDone = async (bookingId) => {
+    if (!window.confirm("Xác nhận đã hoàn thành tư vấn?")) return;
+    try {
+      const response = await api.put(`/bookings/setStatusConsultation/${bookingId}/Hoàn thành`);
+      if (!response.data) throw new Error("Cập nhật không thành công");
+      setBookings((prev) =>
+        prev.map((b) =>
+          b.id === bookingId ? { ...b, status: "Hoàn thành" } : b
+        )
+      );
+    } catch (error) {
+      alert("Cập nhật thất bại!");
+    }
+  };
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -252,14 +299,18 @@ const BookedView = () => {
         confirmText="Tiếp tục"
         redirectTo="/login"
       />
-      <Header />
-
-      <div className="flex" style={{ overflowX: "hidden !important" }}>
+      <div className="flex">
         <Sidebar />
+<<<<<<< HEAD
         <div className="flex-1 ml-[90px]">
           <main
             className="pt-4 pb-5 mb-4 container d-flex flex-column align-items-center justify-content-center"          >
             {" "}
+=======
+        <div className="flex-1 ml-[220px]">
+          <Header />
+          <main className="pt-4 pb-5 mb-4 container">
+>>>>>>> 4c29bb7dcab4c0b6f1aba101652759ec2da7dcfd
             {error !== "Hãy đăng nhập để xem lịch hẹn của bạn nhé!!!" && (
               <div className="container pt-4 pb-5 mb-4 ">
                 <div
@@ -274,26 +325,56 @@ const BookedView = () => {
                       ? "Danh sách lịch hẹn với chuyên gia tư vấn"
                       : "Danh sách thành viên đã đặt lịch với bạn"}
                   </h2>
-                  <div
-                    className="mb-3 d-flex align-items-center gap-2"
-                    style={{ width: "100%", "justify-content": "flex-end" }}
-                  >
-                    <label htmlFor="statusFilter" style={{ fontWeight: 500 }}>
-                      Lọc theo trạng thái:
-                    </label>
-                    <select
-                      id="statusFilter"
-                      className="form-select"
-                      style={{ maxWidth: 200 }}
-                      value={statusFilter}
-                      onChange={(e) => setStatusFilter(e.target.value)}
-                    >
-                      {statusOptions.map((opt) => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
+                  {/* Ô đếm trạng thái và bộ lọc nằm cùng hàng */}
+                  <div className="mb-4 w-100 d-flex gap-3 align-items-center" style={{ justifyContent: "flex-start", flexWrap: "wrap" }}>
+                    {(() => {
+                      const statusCounts = {
+                        "Chờ xác nhận": 0,
+                        "Đã xác nhận": 0,
+                        "Hoàn thành": 0,
+                        "Đã hủy": 0,
+                      };
+                      const statusColors = {
+                        "Chờ xác nhận": "#0070cc", // xanh
+                        "Đã xác nhận": "#ffc107", // vàng
+                        "Hoàn thành": "#2DD84E", // xanh lục
+                        "Đã hủy": "#dc3545", // đỏ
+                      };
+                      bookings.forEach((b) => {
+                        if (statusCounts.hasOwnProperty(b.status)) {
+                          statusCounts[b.status]++;
+                        }
+                      });
+                      return Object.entries(statusCounts).map(([status, count]) => (
+                        <div
+                          key={status}
+                          className="px-3 py-2 rounded shadow-sm border"
+                          style={{ background: "#f8f9fa", minWidth: 120, textAlign: "center", borderColor: statusColors[status], marginBottom: 8 }}
+                        >
+                          <div style={{ fontWeight: 600, color: statusColors[status] }}>{status}</div>
+                          <div style={{ fontSize: 22, fontWeight: 700, color: statusColors[status] }}>{count}</div>
+                        </div>
+                      ));
+                    })()}
+                    {/* Bộ lọc trạng thái nằm cùng hàng */}
+                    <div className="d-flex align-items-center gap-2" style={{ marginLeft: 16 }}>
+                      <label htmlFor="statusFilter" style={{ fontWeight: 500 }}>
+                        Lọc theo trạng thái:
+                      </label>
+                      <select
+                        id="statusFilter"
+                        className="form-select"
+                        style={{ maxWidth: 200 }}
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                      >
+                        {statusOptions.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
                 {loading ? (
@@ -310,29 +391,33 @@ const BookedView = () => {
                         <tr>
                           <th>#</th>
                           {tableConfig &&
-                            tableConfig.headers.map((header) => (
-                              <th key={header}>{header}</th>
-                            ))}
+                            tableConfig.headers
+                              .filter(
+                                (header) =>
+                                  !(user.role?.toLowerCase() !== "consultant" && header === "Ghi chú của thành viên")
+                              )
+                              .map((header, idx) => <th key={header}>{header}</th>)}
                         </tr>
                       </thead>
                       <tbody className="align-middle">
                         {sortedBookings.map((booking, idx) => {
-                          console.log("booking row:", booking); // Thêm dòng này để kiểm tra từng booking
-                          const bookingId = booking.id;
+                          // ...existing code...
                           return (
                             <tr key={booking.id || idx}>
                               <td>{idx + 1}</td>
                               {tableConfig &&
-                                tableConfig.fields.map((field) => (
-                                  <td
-                                    key={field.name}
-                                    style={field.style || {}}
-                                  >
-                                    {typeof field.value === "string"
-                                      ? getValueByPath(booking, field.value)
-                                      : field.value(booking)}
-                                  </td>
-                                ))}
+                                tableConfig.fields
+                                  .filter(
+                                    (field) =>
+                                      !(user.role?.toLowerCase() !== "consultant" && field.name === "note" && tableConfig.headers.includes("Ghi chú của thành viên"))
+                                  )
+                                  .map((field) => (
+                                    <td key={field.name} style={field.style || {}}>
+                                      {typeof field.value === "string"
+                                        ? getValueByPath(booking, field.value)
+                                        : field.value(booking)}
+                                    </td>
+                                  ))}
                             </tr>
                           );
                         })}
