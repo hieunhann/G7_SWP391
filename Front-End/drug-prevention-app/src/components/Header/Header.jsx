@@ -5,29 +5,35 @@ import { logout } from "../../redux/features/userSlice";
 import { persistor } from "../../redux/store";
 import "./Header.css";
 
+
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   const currentUser = useSelector((state) => state.user?.user);
+
 
   if (currentUser && (currentUser.role === "MANAGER" || currentUser.role === "CONSULTANT")) {
     return null;
   }
 
+
   const handleLogout = async () => {
-    dispatch(logout()); 
-    await persistor.purge(); 
-    localStorage.clear(); 
+    dispatch(logout());
+    await persistor.purge();
+    localStorage.clear();
     navigate("/");
   };
+
 
   const renderUserName = () => {
     if (!currentUser) return "Khách";
     const { firstName = "", lastName = "" } = currentUser;
     return `${firstName} ${lastName}`.trim() || "Thành viên";
   };
+
 
   const navItems = [
     { to: "/", label: "Trang Chủ" },
@@ -39,12 +45,14 @@ const Header = () => {
     { to: "/blogs", label: "Bài Viết" },
   ];
 
+
   return (
     <div className="header-container">
       <div className="title">
         <div>Drug Use Prevention</div>
         <div className="subtitle">Support System</div>
       </div>
+
 
       <button
         className={`hamburger${menuOpen ? " active" : ""}`}
@@ -56,6 +64,7 @@ const Header = () => {
         <span />
         <span />
       </button>
+
 
       <nav className={`nav-links${menuOpen ? " show" : ""}`}>
         {navItems.map(({ to, label }) => (
@@ -70,6 +79,7 @@ const Header = () => {
             {label}
           </NavLink>
         ))}
+
 
         {!currentUser ? (
           <>
@@ -116,4 +126,8 @@ const Header = () => {
   );
 };
 
+
 export default Header;
+
+
+

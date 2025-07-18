@@ -299,7 +299,6 @@ const BookedView = () => {
         confirmText="Tiếp tục"
         redirectTo="/login"
       />
-<<<<<<< HEAD
       <div className="flex">
         <Sidebar />
         <div className="flex-1 ml-[220px]">
