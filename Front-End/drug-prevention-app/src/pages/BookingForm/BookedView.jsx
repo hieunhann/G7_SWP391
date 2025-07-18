@@ -5,7 +5,7 @@ import NotifyLogin from "../../components/Notify/NotifyLogin";
 import api from "../../Axios/Axios";
 import bookingServices from "../../apis/BookingAPIs";
 import { getBookingDate } from "../../utils/Date";
-import Sidebar from '../../components/Sidebar/Sidebar';
+import Sidebar from "../../components/Sidebar/Sidebar";
 
 const statusOptions = [
   "Tất cả",
@@ -87,7 +87,9 @@ const BookedView = () => {
       {
         name: "memberName",
         value: (booking) =>
-          `${booking.member?.firstName || ""} ${booking.member?.lastName || ""}`,
+          `${booking.member?.firstName || ""} ${
+            booking.member?.lastName || ""
+          }`,
       },
       { name: "memberEmail", value: "member.email" },
       { name: "memberPhone", value: "member.phoneNumber" },
@@ -150,7 +152,7 @@ const BookedView = () => {
             </>
           );
         },
-      }, // Thao tác sẽ được xử lý riêng trong render
+      },
     ],
   };
 
@@ -213,11 +215,11 @@ const BookedView = () => {
                 }
               >
                 Link
-              </button> 
+              </button>
             )}
           </div>
         ),
-      }, // Thao tác sẽ được xử lý riêng trong render
+      },
     ],
   };
 
@@ -270,7 +272,7 @@ const BookedView = () => {
       }
     }
   };
- 
+
   const filteredBookings =
     statusFilter === "Tất cả"
       ? bookings
@@ -297,6 +299,7 @@ const BookedView = () => {
         confirmText="Tiếp tục"
         redirectTo="/login"
       />
+<<<<<<< HEAD
       <div className="flex">
         <Sidebar />
         <div className="flex-1 ml-[220px]">

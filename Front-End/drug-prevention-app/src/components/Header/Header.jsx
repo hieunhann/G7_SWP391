@@ -12,7 +12,7 @@ const Header = () => {
 
   const currentUser = useSelector((state) => state.user?.user);
 
-  if (!currentUser || currentUser.role !== "MEMBER") {
+  if (currentUser && (currentUser.role === "MANAGER" || currentUser.role === "CONSULTANT")) {
     return null;
   }
 
@@ -20,10 +20,11 @@ const Header = () => {
     dispatch(logout()); 
     await persistor.purge(); 
     localStorage.clear(); 
-    navigate("/login");
+    navigate("/");
   };
 
   const renderUserName = () => {
+    if (!currentUser) return "Khách";
     const { firstName = "", lastName = "" } = currentUser;
     return `${firstName} ${lastName}`.trim() || "Thành viên";
   };
@@ -70,24 +71,46 @@ const Header = () => {
           </NavLink>
         ))}
 
-        <NavLink
-          to="/UserProfile"
-          className="nav-items user-name"
-          onClick={() => setMenuOpen(false)}
-          style={{ textDecoration: "none", cursor: "pointer" }}
-        >
-          Xin chào, {renderUserName()}
-        </NavLink>
-
-        <button
-          className="nav-items logout-button"
-          onClick={() => {
-            handleLogout();
-            setMenuOpen(false);
-          }}
-        >
-          Đăng Xuất
-        </button>
+        {!currentUser ? (
+          <>
+            <NavLink
+              to="/login"
+              className="nav-items"
+              onClick={() => setMenuOpen(false)}
+              style={{ textDecoration: "none", cursor: "pointer" }}
+            >
+              Đăng nhập
+            </NavLink>
+            <NavLink
+              to="/register"
+              className="nav-items"
+              onClick={() => setMenuOpen(false)}
+              style={{ textDecoration: "none", cursor: "pointer" }}
+            >
+              Đăng ký
+            </NavLink>
+          </>
+        ) : (
+          <>
+            <NavLink
+              to="/UserProfile"
+              className="nav-items user-name"
+              onClick={() => setMenuOpen(false)}
+              style={{ textDecoration: "none", cursor: "pointer" }}
+            >
+              Xin chào, {renderUserName()}
+            </NavLink>
+            <button
+              className="nav-items logout-button"
+              onClick={() => {
+                handleLogout();
+                setMenuOpen(false);
+              }}
+            >
+              Đăng Xuất
+            </button>
+          </>
+        )}
       </nav>
     </div>
   );
