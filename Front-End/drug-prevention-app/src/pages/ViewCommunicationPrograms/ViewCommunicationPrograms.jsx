@@ -219,26 +219,6 @@ const ViewCommunicationPrograms = () => {
                 )}
               </div>
             </div>
-<<<<<<< HEAD
-=======
-          </div>
-          <div className="w-full md:w-64">
-            <div className="relative">
-              <select
-                value={selectedLocation}
-                onChange={(e) => setSelectedLocation(e.target.value)}
-                className="w-full px-6 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Tất cả địa điểm</option>
-                {locations.map(location => (
-                  <option key={location} value={location}>{location}</option>
-                ))}
-              </select>
-              <FaFilter className="absolute left-3 top-3 text-gray-400" />
-            </div>
-          </div>
-        </div>
->>>>>>> 4c29bb7dcab4c0b6f1aba101652759ec2da7dcfd
 
             {/* Search and Filter Section */}
             <div className="flex flex-col md:flex-row gap-4 mb-8">

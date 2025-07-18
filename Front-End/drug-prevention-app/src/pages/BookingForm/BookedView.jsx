@@ -291,6 +291,7 @@ const BookedView = () => {
 
   return (
     <>
+    <Header />
       <NotifyLogin
         show={showLoginPopup}
         onCancel={() => navigate("/")}
@@ -301,16 +302,8 @@ const BookedView = () => {
       />
       <div className="flex">
         <Sidebar />
-<<<<<<< HEAD
-        <div className="flex-1 ml-[90px]">
-          <main
-            className="pt-4 pb-5 mb-4 container d-flex flex-column align-items-center justify-content-center"          >
-            {" "}
-=======
-        <div className="flex-1 ml-[220px]">
-          <Header />
+        <div className="flex-1 ml-[150px]">
           <main className="pt-4 pb-5 mb-4 container">
->>>>>>> 4c29bb7dcab4c0b6f1aba101652759ec2da7dcfd
             {error !== "Hãy đăng nhập để xem lịch hẹn của bạn nhé!!!" && (
               <div className="container pt-4 pb-5 mb-4 ">
                 <div
