@@ -171,7 +171,7 @@ const ViewCommunicationPrograms = () => {
       <Header user={user} />
       <div className="flex">
   <Sidebar />
-      
+      <div className="flex-1 ml-[150px]">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           <h2 className="text-3xl font-bold text-center md:text-left text-darkblue-800 drop-shadow-lg">
@@ -314,6 +314,8 @@ const ViewCommunicationPrograms = () => {
         )}
       </div>
       </div>
+      </div>
+
     </>
 
   );

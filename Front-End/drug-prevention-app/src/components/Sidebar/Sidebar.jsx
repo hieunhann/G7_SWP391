@@ -11,12 +11,18 @@ import {
   FaBlog,
   FaCogs,
 } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../redux/features/userSlice";
+import { persistor } from "../../redux/store";
 import "./Sidebar.css";
 
 export default function Sidebar() {
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user?.role;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const commonMenu = [
   ];
@@ -38,6 +44,14 @@ export default function Sidebar() {
     { to: "/UserProfile", label: "Hồ sơ cá nhân", icon: <FaUser /> },
 
   ];
+
+  const handleLogout = async () => {
+    dispatch(logout());
+    await persistor.purge();
+    localStorage.clear();
+    navigate("/");
+    window.location.reload();
+  };
 
   let menu = [...commonMenu];
   if (role === "CONSULTANT") {
@@ -67,10 +81,7 @@ export default function Sidebar() {
         <li>
           <button
             className="sidebar-logout"
-            onClick={() => {
-              localStorage.removeItem("user");
-              window.location.href = "/login";
-            }}
+            onClick={handleLogout}
           >
             <span className="sidebar-icon">
               <FaSignOutAlt />

@@ -5,7 +5,7 @@ import NotifyLogin from "../../components/Notify/NotifyLogin";
 import api from "../../Axios/Axios";
 import bookingServices from "../../apis/BookingAPIs";
 import { getBookingDate } from "../../utils/Date";
-import Sidebar from '../../components/Sidebar/Sidebar';
+import Sidebar from "../../components/Sidebar/Sidebar";
 
 const statusOptions = [
   "Tất cả",
@@ -40,7 +40,9 @@ const BookedView = () => {
       {
         name: "memberName",
         value: (booking) =>
-          `${booking.member?.firstName || ""} ${booking.member?.lastName || ""}`,
+          `${booking.member?.firstName || ""} ${
+            booking.member?.lastName || ""
+          }`,
       },
       { name: "memberEmail", value: "member.email" },
       { name: "memberPhone", value: "member.phoneNumber" },
@@ -103,7 +105,7 @@ const BookedView = () => {
             </>
           );
         },
-      }, // Thao tác sẽ được xử lý riêng trong render
+      },
     ],
   };
 
@@ -166,11 +168,11 @@ const BookedView = () => {
                 }
               >
                 Link
-              </button> 
+              </button>
             )}
           </div>
         ),
-      }, // Thao tác sẽ được xử lý riêng trong render
+      },
     ],
   };
 
@@ -223,7 +225,7 @@ const BookedView = () => {
       }
     }
   };
- 
+
   const filteredBookings =
     statusFilter === "Tất cả"
       ? bookings
@@ -242,7 +244,7 @@ const BookedView = () => {
 
   return (
     <>
-    <NotifyLogin
+      <NotifyLogin
         show={showLoginPopup}
         onCancel={() => navigate("/")}
         message="Hãy đăng nhập để có thể xem lịch tư vấn nhé!!!"
@@ -250,94 +252,101 @@ const BookedView = () => {
         confirmText="Tiếp tục"
         redirectTo="/login"
       />
-      <div className="flex">
-  <Sidebar />
-  <div className="flex-1 ml-[220px]">
-    <Header />
-    <main className="pt-4 pb-5 mb-4 container">
-        {error !== "Hãy đăng nhập để xem lịch hẹn của bạn nhé!!!" && (
-          <div className="container pt-4 pb-5 mb-4 ">
-            <div
-              style={{
-                display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-            }}
+      <Header />
+
+      <div className="flex" style={{ overflowX: "hidden !important" }}>
+        <Sidebar />
+        <div className="flex-1 ml-[90px]">
+          <main
+            className="pt-4 pb-5 mb-4 container d-flex flex-column align-items-center justify-content-center"
+            style={{ minHeight: "80vh" }}
           >
-            
-            <h2 className="text-4xl font-extrabold text-left text-[#004b8d] mb-8 border-b-4 border-[#0070cc] pb-2">
-              {user.role?.toLowerCase() !== "consultant"
-                ? "Danh sách lịch hẹn với chuyên gia tư vấn"
-                : "Danh sách thành viên đã đặt lịch với bạn"}
-            </h2>
-            <div
-              className="mb-3 d-flex align-items-center gap-2"
-              style={{ width: "100%", "justify-content": "flex-end" }}
-            >
-              <label htmlFor="statusFilter" style={{ fontWeight: 500 }}>
-                Lọc theo trạng thái:
-              </label>
-              <select
-                id="statusFilter"
-                className="form-select"
-                style={{ maxWidth: 200 }}
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-              >
-                {statusOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          {loading ? (
-            <div>Đang tải dữ liệu...</div>
-          ) : error &&
-            error !== "Hãy đăng nhập để xem lịch hẹn của bạn nhé!!!" ? (
-            <div className="text-danger">{error}</div>
-          ) : sortedBookings.length === 0 ? (
-            <div>Bạn chưa có lịch hẹn nào.</div>
-          ) : (
-            <div className="table-responsive">
-              <table className="table table-bordered table-hover">
-                <thead className="table-primary text-center align-middle">
-                  <tr>
-                    <th>#</th>
-                    {tableConfig &&
-                      tableConfig.headers.map((header) => (
-                        <th key={header}>{header}</th>
+            {" "}
+            {error !== "Hãy đăng nhập để xem lịch hẹn của bạn nhé!!!" && (
+              <div className="container pt-4 pb-5 mb-4 ">
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <h2 className="text-4xl font-extrabold text-left text-[#004b8d] mb-8 border-b-4 border-[#0070cc] pb-2">
+                    {user.role?.toLowerCase() !== "consultant"
+                      ? "Danh sách lịch hẹn với chuyên gia tư vấn"
+                      : "Danh sách thành viên đã đặt lịch với bạn"}
+                  </h2>
+                  <div
+                    className="mb-3 d-flex align-items-center gap-2"
+                    style={{ width: "100%", "justify-content": "flex-end" }}
+                  >
+                    <label htmlFor="statusFilter" style={{ fontWeight: 500 }}>
+                      Lọc theo trạng thái:
+                    </label>
+                    <select
+                      id="statusFilter"
+                      className="form-select"
+                      style={{ maxWidth: 200 }}
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value)}
+                    >
+                      {statusOptions.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
                       ))}
-                  </tr>
-                </thead>
-                <tbody className="align-middle">
-                  {sortedBookings.map((booking, idx) => {
-                    console.log("booking row:", booking); // Thêm dòng này để kiểm tra từng booking
-                    const bookingId = booking.id;
-                    return (
-                      <tr key={booking.id || idx}>
-                        <td>{idx + 1}</td>
-                        {tableConfig &&
-                          tableConfig.fields.map((field) => (
-                            <td key={field.name} style={field.style || {}}>
-                              {typeof field.value === "string"
-                                ? getValueByPath(booking, field.value)
-                                : field.value(booking)}
-                            </td>
-                          ))}
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
+                    </select>
+                  </div>
+                </div>
+                {loading ? (
+                  <div>Đang tải dữ liệu...</div>
+                ) : error &&
+                  error !== "Hãy đăng nhập để xem lịch hẹn của bạn nhé!!!" ? (
+                  <div className="text-danger">{error}</div>
+                ) : sortedBookings.length === 0 ? (
+                  <div>Bạn chưa có lịch hẹn nào.</div>
+                ) : (
+                  <div className="table-responsive">
+                    <table className="table table-bordered table-hover">
+                      <thead className="table-primary text-center align-middle">
+                        <tr>
+                          <th>#</th>
+                          {tableConfig &&
+                            tableConfig.headers.map((header) => (
+                              <th key={header}>{header}</th>
+                            ))}
+                        </tr>
+                      </thead>
+                      <tbody className="align-middle">
+                        {sortedBookings.map((booking, idx) => {
+                          console.log("booking row:", booking); // Thêm dòng này để kiểm tra từng booking
+                          const bookingId = booking.id;
+                          return (
+                            <tr key={booking.id || idx}>
+                              <td>{idx + 1}</td>
+                              {tableConfig &&
+                                tableConfig.fields.map((field) => (
+                                  <td
+                                    key={field.name}
+                                    style={field.style || {}}
+                                  >
+                                    {typeof field.value === "string"
+                                      ? getValueByPath(booking, field.value)
+                                      : field.value(booking)}
+                                  </td>
+                                ))}
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            )}
+          </main>
         </div>
-      )}
-    </main>
-  </div>
-</div>
+      </div>
     </>
   );
 };
