@@ -7,9 +7,9 @@ import NotifyLogin from "../../components/Notify/NotifyLogin";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
-import "jspdf-autotable";
 import Sidebar from "../../components/Sidebar/Sidebar";
-
+import autoTable from "jspdf-autotable";
+  // import "../fonts/Roboto-Regular-normal";
 const API_URL = "http://localhost:8080";
 
 // Tạo options cho select giờ
@@ -714,11 +714,12 @@ function ScheduleManager() {
                   <button
                     className="btn btn-danger btn-sm"
                     onClick={() => {
-                      // Gom nhóm schedules theo consultant.id
                       const stats = {};
+
                       schedules.forEach((s) => {
                         const consultantId = s.consultant?.id;
                         if (!consultantId) return;
+
                         if (!stats[consultantId]) {
                           stats[consultantId] = {
                             count: 0,
@@ -726,6 +727,7 @@ function ScheduleManager() {
                             consultant: s.consultant,
                           };
                         }
+
                         let hours = 0;
                         if (s.startTime && s.endTime) {
                           const [sh, sm] = s.startTime.split(":").map(Number);
@@ -734,25 +736,27 @@ function ScheduleManager() {
                           if (hours < 0) hours += 24;
                           hours = Math.round(hours * 10) / 10;
                         }
+
                         stats[consultantId].count += 1;
                         stats[consultantId].totalHours += hours;
                       });
+
                       const rows = Object.values(stats).map((stat) => [
-                        stat.consultant
-                          ? stat.consultant.firstName +
-                            " " +
-                            stat.consultant.lastName
-                          : stat.consultant?.id,
+                        `${stat.consultant?.firstName || ""} ${
+                          stat.consultant?.lastName || ""
+                        }`,
                         stat.count,
-                        stat.totalHours,
+                        stat.totalHours.toFixed(1),
                       ]);
+
                       const doc = new jsPDF();
+                      doc.setFont("Roboto-Regular");
                       doc.text(
                         "Thống kê tổng số ca & tổng số giờ làm việc",
                         14,
                         16
                       );
-                      doc.autoTable({
+                      autoTable(doc, {
                         head: [["Nhân sự", "Số ca làm việc", "Tổng số giờ"]],
                         body: rows,
                         startY: 20,
