@@ -17,6 +17,7 @@ const EventDetail = () => {
   const [registrationMessage, setRegistrationMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const user = JSON.parse(localStorage.getItem('user'));
   const memberId = user?.id; // hoặc user.memberId
@@ -79,20 +80,20 @@ const EventDetail = () => {
       setTimeout(() => setRegistrationMessage("") , 3000);
       return;
     }
-    const confirmed = window.confirm("Bạn có chắc chắn muốn đăng ký tham gia chương trình này không?");
-    if (!confirmed) return;
+    setShowConfirm(true); // Mở popup xác nhận
+  };
+
+    const handleConfirmRegister = async () => {
+    setShowConfirm(false);
     try {
-      // Đảm bảo truyền đúng kiểu dữ liệu: memberId, eventId là số
       await registerForEvent(Number(memberId), Number(event.id));
       setRegistrationMessage("✅ Bạn đã đăng ký tham gia chương trình thành công!");
-      setTimeout(() => setRegistrationMessage("") , 3000);
     } catch (err) {
       if (err.message && err.message.includes("đã đăng ký sự kiện này")) {
         setRegistrationMessage("❌ Bạn đã đăng ký sự kiện này rồi.");
       } else {
         setRegistrationMessage("❌ Lỗi khi đăng ký chương trình.");
       }
-      setTimeout(() => setRegistrationMessage("") , 3000);
     }
   };
 
@@ -261,8 +262,28 @@ const EventDetail = () => {
           </div>
         </div>
       </div>
+
+      <Modal show={showConfirm} onHide={() => setShowConfirm(false)} centered>
+        <Modal.Body className="text-center">
+          <p>Bạn có chắc chắn muốn đăng ký tham gia chương trình này không?</p>
+        </Modal.Body>
+        <div className="pb-3 text-center">
+          <button
+            className="btn btn-secondary me-2"
+            onClick={() => setShowConfirm(false)}
+          >
+            Hủy
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={handleConfirmRegister}
+          >
+            Xác nhận
+          </button>
+        </div>
+      </Modal>
     </>
   );
 };
 
-export default EventDetail; 
+export default EventDetail;
