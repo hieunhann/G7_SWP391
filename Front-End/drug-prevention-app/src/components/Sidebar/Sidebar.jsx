@@ -39,7 +39,6 @@ export default function Sidebar() {
     { to: "/viewcommunicationprograms", label: "Quản lý chương trình", icon: <FaCogs /> },
     { to: "/manage-courses", label: "Quản lý khóa học", icon: <FaGraduationCap /> },
     { to: "/ScheduleManager", label: "Quản lý Lịch", icon: <FaCalendarAlt /> },
-    { to: "/user-manager", label: "Quản lý Nhân sự", icon: <FaUsers /> },
     { to: "/stats", label: "Thống kê", icon: <FaChartBar /> },
     { to: "/UserProfile", label: "Hồ sơ cá nhân", icon: <FaUser /> },
 

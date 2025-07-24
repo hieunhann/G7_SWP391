@@ -418,7 +418,7 @@ function ScheduleManager() {
     <>
       <div className="flex">
         <Sidebar />
-        <div className="flex-1 ml-[150px]">
+        <div className="flex-1 ml-[13vw]">
           <NotifyLogin
             show={showLoginPopup}
             onCancel={() => navigate("/")}
