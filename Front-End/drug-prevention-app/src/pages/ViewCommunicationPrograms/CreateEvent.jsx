@@ -57,7 +57,7 @@ const CreateEvent = () => {
       <Header />
       <div className="flex">
         <Sidebar />
-        <div className="flex-1 ml-[220px]"></div>
+        <div className="flex-1 ml-[15vw]"></div>
         <div className="container mx-auto px-4 py-8 max-w-xl">
           <h2 className="text-2xl font-bold mb-6 text-center">
             Tạo chương trình mới

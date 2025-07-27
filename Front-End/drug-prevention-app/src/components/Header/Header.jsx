@@ -15,7 +15,7 @@ const Header = () => {
   const currentUser = useSelector((state) => state.user?.user);
 
 
-  if (currentUser && (currentUser.role === "MANAGER" || currentUser.role === "CONSULTANT")) {
+  if (currentUser && (currentUser.role === "MANAGER" || currentUser.role === "CONSULTANT" || currentUser.role === "ADMIN")) {
     return null;
   }
 

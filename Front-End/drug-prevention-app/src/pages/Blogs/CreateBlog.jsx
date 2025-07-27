@@ -46,7 +46,7 @@ const CreateBlog = () => {
       <Header user={user} />
       <div className="flex">
         <Sidebar />
-        <div className="flex-1 ml-[220px]">
+        <div className="flex-1 ml-[15vw]">
           <div className="container mx-auto px-4 py-8 max-w-xl">
             <h2 className="text-2xl font-bold mb-6 text-darkblue-800 text-center">
               Tạo bài viết mới

@@ -29,6 +29,7 @@ export default function Sidebar() {
 
   const consultantMenu = [
     { to: "/booked", label: "Lịch hẹn", icon: <FaCalendarAlt /> },
+    { to: "/schedule", label: "Lịch làm việc", icon: <FaCalendarAlt /> },
     { to: "/UserProfile", label: "Hồ sơ cá nhân", icon: <FaUser /> },
 
   ];
@@ -39,7 +40,6 @@ export default function Sidebar() {
     { to: "/viewcommunicationprograms", label: "Quản lý chương trình", icon: <FaCogs /> },
     { to: "/manage-courses", label: "Quản lý khóa học", icon: <FaGraduationCap /> },
     { to: "/ScheduleManager", label: "Quản lý Lịch", icon: <FaCalendarAlt /> },
-    { to: "/user-manager", label: "Quản lý Nhân sự", icon: <FaUsers /> },
     { to: "/stats", label: "Thống kê", icon: <FaChartBar /> },
     { to: "/UserProfile", label: "Hồ sơ cá nhân", icon: <FaUser /> },
 
@@ -59,7 +59,7 @@ export default function Sidebar() {
   } else if (role === "MANAGER") {
     menu = [...menu, ...managerMenu];
   }
-  if (!user || role === "MEMBER") {
+  if (!user || role === "MEMBER" || role === "ADMIN") {
     return null;
   }
   return (

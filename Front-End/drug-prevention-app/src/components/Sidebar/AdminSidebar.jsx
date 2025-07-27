@@ -1,5 +1,5 @@
 import React from "react";
-import { FaUserCog, FaUsers, FaCogs, FaSignOutAlt } from "react-icons/fa";
+import { FaUserCog, FaUsers, FaCogs, FaSignOutAlt, FaUser } from "react-icons/fa";
 
 const getUserInfo = () => {
   try {
@@ -22,15 +22,26 @@ const getUserInfo = () => {
 const menu = [
   { label: "Quản lý phân quyền", icon: <FaUsers />, href: "/admin/users" },
   { label: "Cấu hình hệ thống", icon: <FaCogs />, href: "/admin/settings" },
+  { label: "Hồ sơ cá nhân", icon: <FaUser />, href: "/UserProfile" },
 ];
 
 const AdminSidebar = ({ onLogout }) => {
   const adminInfo = getUserInfo();
+
+  // ❌ Nếu không phải ADMIN, không render gì cả
+  if (adminInfo.role !== "ADMIN") {
+    return null;
+  }
+
   return (
     <aside className="h-screen w-64 bg-white shadow-xl flex flex-col fixed top-0 left-0 z-40">
       <div className="flex flex-col items-center py-8 border-b">
         {adminInfo.avatar ? (
-          <img src={adminInfo.avatar} alt="avatar" className="w-16 h-16 rounded-full object-cover mb-2" />
+          <img
+            src={adminInfo.avatar}
+            alt="avatar"
+            className="w-16 h-16 rounded-full object-cover mb-2"
+          />
         ) : (
           <FaUserCog className="w-16 h-16 text-blue-400 mb-2" />
         )}
@@ -64,4 +75,4 @@ const AdminSidebar = ({ onLogout }) => {
   );
 };
 
-export default AdminSidebar; 
+export default AdminSidebar;

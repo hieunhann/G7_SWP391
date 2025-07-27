@@ -174,7 +174,7 @@ const RegisteredMembers = () => {
       <Header />
       <div className="flex">
         <Sidebar />
-        <div className="flex-1 ml-[220px]">
+        <div className="flex-1 ml-[15vw]">
           <div className="container mx-auto px-4 py-8">
             <h2 className="text-3xl font-extrabold mb-8 text-center text-blue-700 tracking-wide drop-shadow">
               Danh sách đăng ký chương trình

@@ -193,7 +193,7 @@ export default function Stats() {
     <>
       <div className="flex">
         <Sidebar />
-        <div className="flex-1 ml-[220px]">
+        <div className="flex-1 ml-[15vw]">
           <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 py-6 sm:py-10 px-1 sm:px-4 md:px-8">
             <div className="max-w-7xl mx-auto">
               <h2 className="text-3xl sm:text-4xl font-extrabold mb-6 sm:mb-8 text-green-700 text-center drop-shadow-lg tracking-wide uppercase">

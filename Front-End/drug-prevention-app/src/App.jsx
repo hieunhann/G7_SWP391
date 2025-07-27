@@ -35,6 +35,7 @@ import UserManagementPage from "./pages/Admin/UserManagementPage";
 import SystemSettings from "./pages/Admin/SystemSettings"
 import ManageCourses from "./pages/Course/ManageCourses";
 import Stats from "./pages/Manager/Stats"
+import ScheduleOfConsultant from "./pages/ScheduleManager/ScheduleOfConsultant";
 // import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 
 // Router configuration
@@ -64,6 +65,7 @@ const router = createBrowserRouter([
   { path : "/admin/users" , element: <UserManagementPage /> },
   { path : "/admin/settings" , element : <SystemSettings/>},
   { path: "/manage-courses", element: <ManageCourses /> },
+  { path: "/schedule", element: <ScheduleOfConsultant />},
   {path : "/stats" , element : <Stats/>}
 
 ]);

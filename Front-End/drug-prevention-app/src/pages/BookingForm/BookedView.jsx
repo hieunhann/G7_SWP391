@@ -302,7 +302,7 @@ const BookedView = () => {
       />
       <div className="flex">
         <Sidebar />
-        <div className="flex-1 ml-[150px]">
+        <div className="flex-1 ml-[13vw]">
           <main className="pt-4 pb-5 mb-4 container">
             {error !== "Hãy đăng nhập để xem lịch hẹn của bạn nhé!!!" && (
               <div className="container pt-4 pb-5 mb-4 ">
