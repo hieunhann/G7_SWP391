@@ -320,35 +320,42 @@ const BookedView = () => {
                   </h2>
                   {/* Ô đếm trạng thái và bộ lọc nằm cùng hàng */}
                   <div className="mb-4 w-100 d-flex gap-3 align-items-center" style={{ justifyContent: "flex-start", flexWrap: "wrap" }}>
-                    {(() => {
-                      const statusCounts = {
-                        "Chờ xác nhận": 0,
-                        "Đã xác nhận": 0,
-                        "Hoàn thành": 0,
-                        "Đã hủy": 0,
-                      };
-                      const statusColors = {
-                        "Chờ xác nhận": "#0070cc", // xanh
-                        "Đã xác nhận": "#ffc107", // vàng
-                        "Hoàn thành": "#2DD84E", // xanh lục
-                        "Đã hủy": "#dc3545", // đỏ
-                      };
-                      bookings.forEach((b) => {
-                        if (statusCounts.hasOwnProperty(b.status)) {
-                          statusCounts[b.status]++;
-                        }
-                      });
-                      return Object.entries(statusCounts).map(([status, count]) => (
-                        <div
-                          key={status}
-                          className="px-3 py-2 rounded shadow-sm border"
-                          style={{ background: "#f8f9fa", minWidth: 120, textAlign: "center", borderColor: statusColors[status], marginBottom: 8 }}
-                        >
-                          <div style={{ fontWeight: 600, color: statusColors[status] }}>{status}</div>
-                          <div style={{ fontSize: 22, fontWeight: 700, color: statusColors[status] }}>{count}</div>
-                        </div>
-                      ));
-                    })()}
+                    {user.role?.toLowerCase() === "consultant" &&
+                      (() => {
+                        const statusCounts = {
+                          "Chờ xác nhận": 0,
+                          "Đã xác nhận": 0,
+                          "Hoàn thành": 0,
+                          "Đã hủy": 0,
+                        };
+                        const statusColors = {
+                          "Chờ xác nhận": "#0070cc",
+                          "Đã xác nhận": "#ffc107",
+                          "Hoàn thành": "#2DD84E",
+                          "Đã hủy": "#dc3545",
+                        };
+                        bookings.forEach((b) => {
+                          if (statusCounts.hasOwnProperty(b.status)) {
+                            statusCounts[b.status]++;
+                          }
+                        });
+                        return Object.entries(statusCounts).map(([status, count]) => (
+                          <div
+                            key={status}
+                            className="px-3 py-2 rounded shadow-sm border"
+                            style={{
+                              background: "#f8f9fa",
+                              minWidth: 120,
+                              textAlign: "center",
+                              borderColor: statusColors[status],
+                              marginBottom: 8,
+                            }}
+                          >
+                            <div style={{ fontWeight: 600, color: statusColors[status] }}>{status}</div>
+                            <div style={{ fontSize: 22, fontWeight: 700, color: statusColors[status] }}>{count}</div>
+                          </div>
+                        ));
+                      })()}
                     {/* Bộ lọc trạng thái nằm cùng hàng */}
                     <div className="d-flex align-items-center gap-2" style={{ marginLeft: 16 }}>
                       <label htmlFor="statusFilter" style={{ fontWeight: 500 }}>

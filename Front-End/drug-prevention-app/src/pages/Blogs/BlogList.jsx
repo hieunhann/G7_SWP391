@@ -103,7 +103,8 @@ const BlogList = () => {
       <Header user={user} />
       <div className="flex">
   <Sidebar />
-  <div className="flex-1 ml-[13vw]">
+
+  <div className="flex-1 ml-[14vw]">
       <div className="container mx-auto px-4 py-8">
         {/* Tiêu đề lớn + icon + thanh công cụ */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">

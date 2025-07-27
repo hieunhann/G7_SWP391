@@ -99,7 +99,8 @@ const CreateBlog = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-darkblue-500 text-white py-2 rounded hover:bg-darkblue-600 transition-colors font-semibold"
+               className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition-colors font-semibold"
+
               >
                 Tạo bài viết
               </button>

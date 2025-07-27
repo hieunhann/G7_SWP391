@@ -168,7 +168,7 @@ const ManageCourses = () => {
     <>
      <div className="flex">
   <Sidebar />
-  <div className="flex-1 ml-[13vw]">
+   <div className="flex-1 ml-[14vw]">
     <div className="pt-4 pb-5 mb-4 container">
       <ToastContainer />
       <h2 className="text-4xl font-extrabold text-left text-[#004b8d] mb-8 border-b-4 border-[#0070cc] pb-2">

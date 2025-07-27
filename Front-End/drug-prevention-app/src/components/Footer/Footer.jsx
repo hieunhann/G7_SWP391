@@ -6,7 +6,7 @@ const Footer = () => {
   
   return (
     <footer className="bg-white text-gray-700 py-10 px-0 border-t border-gray-200 w-full">
-      <div className="max-w-7xl mx-auto px-[90px]">
+      <div className="max-w-7xl mx-auto px-[150px]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           {/* About */}
           <div>
@@ -70,6 +70,7 @@ const Footer = () => {
     </footer>
   );
 };
+
 
 
 export default Footer;
