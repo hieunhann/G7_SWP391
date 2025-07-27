@@ -313,7 +313,7 @@ const ViewCommunicationPrograms = () => {
                       <div className="mt-auto flex items-center justify-between mb-4">
                         <Link
                           to={`/event/${event.id}`}
-                          className="w-full text-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+                          className="w-full text-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2 !no-underline"
                         >
                           <FaEye />
                           Xem chi tiết
@@ -322,7 +322,7 @@ const ViewCommunicationPrograms = () => {
                           <div className="flex gap-2 items-center ml-2">
                             <Link
                               to={`/edit-event/${event.id}`}
-                              className="text-green-600 hover:underline text-sm flex items-center gap-1"
+                              className=" !no-underline text-green-600 hover:underline text-sm flex items-center gap-1"
                               title="Chỉnh sửa chương trình"
                             >
                               <FaPen size={14} /> Sửa

@@ -196,7 +196,7 @@ const BlogList = () => {
                         <>
                           <Link
                             to={`/edit-blog/${blog.id}`}
-                            className="text-green-600 hover:underline text-sm flex items-center gap-1"
+                            className="text-green-600 hover:underline text-sm flex items-center gap-1 !no-underline"
                           >
                             <FaEdit size={14} /> Sửa
                           </Link>
@@ -213,7 +213,7 @@ const BlogList = () => {
                   </div>
                   <Link
                     to={`/blog/${blog.id}`}
-                    className="w-full text-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+                    className=" !no-underline w-full text-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
                   >
                     <FaEye />
                     Đọc thêm
