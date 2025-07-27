@@ -86,14 +86,12 @@ function ScheduleManager() {
     "Thứ 7",
   ];
 
-  // Chỉ cho phép MANAGER truy cập
   useEffect(() => {
     if (!user || user.role?.toUpperCase() !== "MANAGER") {
       setShowLoginPopup(true);
     }
   }, [user, navigate]);
 
-  // Fetch data từ API
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);

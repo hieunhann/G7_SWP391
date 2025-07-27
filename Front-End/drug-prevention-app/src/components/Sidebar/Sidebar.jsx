@@ -24,7 +24,8 @@ export default function Sidebar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const commonMenu = [
+ const commonMenu = [
+   
   ];
 
   const consultantMenu = [
@@ -33,6 +34,12 @@ export default function Sidebar() {
     { to: "/UserProfile", label: "Hồ sơ cá nhân", icon: <FaUser /> },
 
   ];
+
+  const staffMenu = [
+    { to: "/listevent", label: "Danh sách sự kiện", icon: <FaCalendarAlt /> },
+    { to: "/event-checkout/:id", label: "Check-out sự kiện", icon: <FaUsers /> },
+    { to: "/UserProfile", label: "Hồ sơ cá nhân", icon: <FaUser /> },
+  ]
 
   const managerMenu = [
     { to: "/", label: "Trang chủ", icon: <FaHome /> },
@@ -58,6 +65,8 @@ export default function Sidebar() {
     menu = [...menu, ...consultantMenu];
   } else if (role === "MANAGER") {
     menu = [...menu, ...managerMenu];
+  } else if (role === "STAFF") {
+    menu = [...menu, ...staffMenu];
   }
   if (!user || role === "MEMBER" || role === "ADMIN") {
     return null;
