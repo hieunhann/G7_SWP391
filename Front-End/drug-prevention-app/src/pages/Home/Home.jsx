@@ -151,7 +151,7 @@ export default function HomePage() {
             </p>
             <Link to="/Surveys" >
               <motion.button
-                className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-full transition-all shadow-lg"
+                className=" !no-underline inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-full transition-all shadow-lg"
                 style={{ backgroundColor: "#007bff" }}
                 whileHover={{ scale: 1.05 }}
               >
@@ -178,7 +178,7 @@ export default function HomePage() {
             </p>
             <Link
               to="/Courses"
-              className="inline-block px-10 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white text-xl font-bold rounded-full shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 uppercase tracking-wide"
+              className=" !no-underline inline-block px-10 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white text-xl font-bold rounded-full shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 uppercase tracking-wide"
             >
               Khám phá khóa học
             </Link>
@@ -232,7 +232,7 @@ export default function HomePage() {
                   <div className="p-6 flex flex-col flex-grow items-center justify-end">
                     <Link
                       to={`/blog/${blog.id}`}
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-3 rounded-full shadow-md transition-transform duration-300 ease-in-out hover:scale-105 focus:outline-none flex-shrink-0"
+                      className=" !no-underline inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-3 rounded-full shadow-md transition-transform duration-300 ease-in-out hover:scale-105 focus:outline-none flex-shrink-0"
                       aria-label={`Xem chi tiết bài viết: ${blog.title}`}
                     >
                       Xem chi tiết <FaArrowRight />
@@ -247,7 +247,7 @@ export default function HomePage() {
             <p className="mb-3 text-gray-600 text-base">Khám phá thêm nhiều bài viết hữu ích về phòng chống ma túy và sức khỏe cộng đồng.</p>
             <Link
               to="/blogs"
-              className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-all"
+              className=" !no-underline inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-all"
             >
               Xem tất cả bài viết <FaArrowRight />
             </Link>
@@ -320,7 +320,7 @@ export default function HomePage() {
                     <p className="text-gray-200 text-sm mb-4 line-clamp-3">{event.description}</p>
                     <Link
                       to={`/event/${event.id}`}
-                      className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-full shadow-md transition-transform duration-300 ease-in-out hover:scale-105 focus:outline-none flex-shrink-0 mt-auto"
+                      className=" !no-underline inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-full shadow-md transition-transform duration-300 ease-in-out hover:scale-105 focus:outline-none flex-shrink-0 mt-auto"
                       aria-label={`Xem chi tiết chương trình: ${event.title}`}
                     >
                       Xem chi tiết <FaArrowRight />
@@ -333,7 +333,7 @@ export default function HomePage() {
           {/* CTA */}
           <div className="mt-16 text-center">
             <motion.button
-              className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg inline-flex items-center gap-3 transition-all"
+              className=" !no-underline bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg inline-flex items-center gap-3 transition-all"
               whileHover={{ scale: 1.05 }}
               onClick={() => window.location.href = '/ViewCommunicationPrograms'}
             >
