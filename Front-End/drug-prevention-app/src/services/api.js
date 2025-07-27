@@ -184,6 +184,8 @@ export const getRegistrations = async () => {
   }
 };
 
+
+
 export const createRegistration = async (registration) => {
   try {
     const response = await fetch(`${API_BASE_URL}/registrations`, {
@@ -433,13 +435,30 @@ export const createEventFeedback = async (feedback) => {
   }
 };
 
-export const getUsers = async () => {
-  const res = await fetch(`${API_BASE_URL}/users`);
-  if (!res.ok) throw new Error(await res.text());
-  const result = await res.json();
-  // result.data là mảng user, result.total là tổng số lượng, ...
-  return result.data || [];
+
+
+export const checkOut = async (memberId, eventId, status) => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const token = userData?.accessToken;
+  const headers = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const url = `${API_BASE_URL}/registrations/checkOut/${memberId}/${eventId}/${status}`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers,
+  });
+console.log("Sending checkOut request:", memberId, eventId, status);
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Check out failed: ${error}`);
+  }
+
+  return response.json();
+
 };
+
 
 // Lấy event theo manager
 export const getEventsByManager = async (managerId) => {

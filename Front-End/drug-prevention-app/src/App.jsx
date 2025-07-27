@@ -36,6 +36,8 @@ import SystemSettings from "./pages/Admin/SystemSettings"
 import ManageCourses from "./pages/Course/ManageCourses";
 import Stats from "./pages/Manager/Stats"
 import ScheduleOfConsultant from "./pages/ScheduleManager/ScheduleOfConsultant";
+import EventCheckOutList from "./StaffRole/CheckoutEvent";
+import EventListForCheckOut from "./StaffRole/ListEvent";
 // import ViewCommunicationPrograms from "./pages/ViewCommunicationPrograms/ViewCommunicationPrograms";
 
 // Router configuration
@@ -66,8 +68,9 @@ const router = createBrowserRouter([
   { path : "/admin/settings" , element : <SystemSettings/>},
   { path: "/manage-courses", element: <ManageCourses /> },
   { path: "/schedule", element: <ScheduleOfConsultant />},
+  { path: "/listevent", element: <EventListForCheckOut /> },
+  { path: "/event-checkout/:id", element: <EventCheckOutList /> },
   {path : "/stats" , element : <Stats/>}
-
 ]);
 
 function App() {
